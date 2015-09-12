@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">JieShiBao</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="tab_stop_insure">停保险</string>
+    <string name="tab_buy_insure">买保险</string>
+    <string name="tab_me">我的</string>
+    <string name="shut_insure_str">暂停保费</string>
+    <string-array name="license_plate_number_array">
+        <item>川A88888888</item>
+        <item>粤A88888888</item>
+        <item>京A88888888</item>
+        <item>川A88888888</item>
+        <item>粤A88888888</item>
+        <item>京A88888888</item>
+        <item>川A88888888</item>
+        <item>粤A88888888</item>
+        <item>京A88888888</item>
+        <item>川A88888888</item>
+        <item>粤A88888888</item>
+        <item>京A88888888</item>
+    </string-array>
+</resources>
