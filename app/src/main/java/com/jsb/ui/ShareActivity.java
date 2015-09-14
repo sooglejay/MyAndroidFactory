@@ -1,0 +1,42 @@
+package com.jsb.ui;
+
+import android.os.Bundle;
+import android.view.View;
+
+import com.jsb.R;
+import com.jsb.widget.TitleBar;
+
+/**
+ * Created by Administrator on 2015/9/13.
+ */
+public class ShareActivity extends BaseActivity {
+
+    private TitleBar titleBar = null;
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_share);
+        setUp();
+    }
+    private void setUp() {
+        titleBar = (TitleBar) findViewById(R.id.title_bar);
+        titleBar.initTitleBarInfo("分享",R.drawable.back_arrow,-1,"","");
+
+        titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
+            @Override
+            public void onLeftButtonClick(View v) {
+                ShareActivity.this.finish();
+            }
+
+            @Override
+            public void onRightButtonClick(View v) {
+
+            }
+        });
+    }
+
+}

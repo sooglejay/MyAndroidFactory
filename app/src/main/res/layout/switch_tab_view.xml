@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/switch_double_tab_width"
+    android:layout_height="@dimen/switch_single_tab_height"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_moredarkgreen_oval"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/left_tv"
+        android:layout_width="@dimen/switch_single_tab_width"
+        android:layout_height="@dimen/switch_single_tab_height"
+        android:layout_gravity="center_vertical"
+        android:alpha="0.6"
+        android:gravity="center"
+        android:textColor="@color/white_color" />
+
+    <TextView
+        android:id="@+id/right_tv"
+        android:layout_width="@dimen/switch_single_tab_width"
+        android:layout_height="@dimen/switch_single_tab_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/switch_single_tab_width"
+        android:alpha="0.6"
+        android:gravity="center"
+        android:textColor="@color/white_color" />
+
+
+    <TextView
+        android:id="@+id/switch_btn"
+        android:layout_width="@dimen/switch_single_tab_width"
+        android:layout_height="@dimen/dimen_32dp"
+        android:background="@drawable/shape_darkgreen_oval"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/white_color" />
+
+    <TextView
+        android:id="@+id/show_left_tv"
+        android:layout_width="@dimen/switch_single_tab_width"
+        android:layout_height="@dimen/switch_single_tab_height"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:textColor="@color/white_color" />
+
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:layout_width="@dimen/switch_single_tab_width"
+        android:layout_height="@dimen/switch_single_tab_height"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/switch_single_tab_width"
+        >
+        <TextView
+            android:id="@+id/show_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/white_color" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_moredarkgreen_oval_line" />
+</FrameLayout>

@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/container"
-        android:background="@color/dark_green_color"
+        android:background="@color/gray_color"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:orientation="horizontal">

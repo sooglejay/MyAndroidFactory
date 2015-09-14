@@ -6,6 +6,29 @@
     <string name="tab_buy_insure">买保险</string>
     <string name="tab_me">我的</string>
     <string name="shut_insure_str">暂停保费</string>
+    <string name="title_activity_browser">BrowserActivity</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
+    <string name="car_insure">车险</string>
+    <string name="jiaban_insure">加班险</string>
+    <string name="driving_insure">驾驶险</string>
+    <string name="line_insure">排队险</string>
+
+
+    <string name="my_insure">我的保险</string>
+    <string name="my_history_sale">历史报价</string>
+    <string name="my_call_plice">我要报案</string>
+    <string name="my_money_packet">我的钱包</string>
+    <string name="my_share">分享给朋友</string>
+    <string name="my_modify_password">修改密码</string>
+    <string name="my_clear_cache">清空缓存</string>
+    <string name="my_logout">退出登录</string>
+
+    <string name="scan_code_make_money">扫一扫我，一起来赚钱</string>
+    <string name="share_qrcode">把二维码分享给朋友</string>
+
+
+
     <string-array name="license_plate_number_array">
         <item>川A88888888</item>
         <item>粤A88888888</item>
@@ -19,5 +42,15 @@
         <item>川A88888888</item>
         <item>粤A88888888</item>
         <item>京A88888888</item>
+    </string-array>
+
+    <string-array name="week_array">
+        <item>每周日</item>
+        <item>每周一</item>
+        <item>每周二</item>
+        <item>每周三</item>
+        <item>每周四</item>
+        <item>每周五</item>
+        <item>每周六</item>
     </string-array>
 </resources>

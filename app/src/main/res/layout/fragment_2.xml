@@ -3,16 +3,113 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
-    <com.jsb.widget.TitleBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </com.jsb.widget.TitleBar>
 
-    <TextView
+    <com.jsb.widget.TitleBar
+        android:id="@+id/title_bar"
         android:layout_width="wrap_content"
-        android:text="这个是第二个fragment"
-        android:textSize="30sp"
-        android:textColor="@color/green_color"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
+
+    <com.jsb.widget.BannerView
+        android:id="@+id/banner_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_color">
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:clickable="true"
+                android:background="@drawable/btn_select_white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:textSize="34sp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/car_insure" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color">
+            </View>
+
+            <TextView
+                android:clickable="true"
+                android:background="@drawable/btn_select_white"
+                android:textSize="34sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/jiaban_insure" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_color">
+
+        </View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/btn_select_white"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:clickable="true"
+                android:background="@drawable/btn_select_white"
+                android:layout_width="match_parent"
+                android:textSize="34sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/driving_insure" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color">
+
+            </View>
+
+            <TextView
+
+                android:textSize="34sp"
+                android:clickable="true"
+                android:background="@drawable/btn_select_white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/line_insure" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
+

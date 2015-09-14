@@ -18,14 +18,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jsb.R;
+import com.jsb.model.Banner;
+import com.jsb.util.ImageUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.umeng.analytics.MobclickAgent;
-import com.zhongbang.xuejiebang.R;
-import com.zhongbang.xuejiebang.events.IntEvent;
-import com.zhongbang.xuejiebang.model.Banner;
-import com.zhongbang.xuejiebang.utils.ImageUtils;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,21 +106,7 @@ public class BannerView extends FrameLayout {
             }
         });
 
-        viewPager.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                EventBus.getDefault().post(new IntEvent(IntEvent.MSG_DISABLE_TOUTH_BANNER));
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_UP:
-                        EventBus.getDefault().post(new IntEvent(IntEvent.MSG_TOUTH_BANNER));
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                        EventBus.getDefault().post(new IntEvent(IntEvent.MSG_TOUTH_BANNER));
-                        break;
-                }
-                return false;
-            }
-        });
+
 
         //计算图片高度，保持3:1比例
         height = getResources().getDisplayMetrics().widthPixels / 3;
@@ -241,9 +226,22 @@ public class BannerView extends FrameLayout {
                         if (trueImgs.contains(imageUri)) {
                             iv.setImageBitmap(loadedImage);
                         } else {
+                            new AsyncTask<Bitmap, Void, Long>() {
 
-                                        iv.setImageBitmap(loadedImage);
-                                        trueImgs.add(imageUri);
+                                @Override
+                                protected Long doInBackground(Bitmap... params) {
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Long value) {
+                                    super.onPostExecute(value);
+                                      iv.setImageBitmap(loadedImage);
+                                      trueImgs.add(imageUri);
+
+                                }
+                            }.execute(loadedImage);
                         }
 
                     }
