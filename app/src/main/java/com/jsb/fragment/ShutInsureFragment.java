@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +18,9 @@ import com.jsb.R;
 import com.jsb.model.Banner;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
+import com.jsb.ui.TimePickerActivity;
 import com.jsb.widget.BannerView;
+import com.jsb.widget.SwitchTabView;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -30,9 +33,11 @@ public class ShutInsureFragment extends BaseFragment {
     private TextView tvRule;
     private Spinner licensePlateNumberSpinner;
     private Spinner weekSpinner;
-    private Spinner dateSpinner;
     private BannerView bannerView;
     private List<Banner> bannerDatas = new ArrayList<>();
+    private SwitchTabView weekSwitchTabView;
+    private SwitchTabView dateSwitchTabView;
+    private LinearLayout datePickerLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +55,11 @@ public class ShutInsureFragment extends BaseFragment {
 
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, -1, StringConstant.empty, StringConstant.share);
+
+        datePickerLayout = (LinearLayout)view.findViewById(R.id.layout_date_picker);
+
+        weekSwitchTabView = (SwitchTabView) view.findViewById(R.id.week_switch_tab_view);
+        dateSwitchTabView = (SwitchTabView) view.findViewById(R.id.date_switch_tab_view);
 
 
         //选择车型
@@ -74,7 +84,6 @@ public class ShutInsureFragment extends BaseFragment {
         b2.setFile_location("http://img0.imgtn.bdimg.com/it/u=2217897727,3687268377&fm=21&gp=0.jpg");
         b3.setFile_location("http://img4.imgtn.bdimg.com/it/u=1704061436,275613074&fm=21&gp=0.jpg");
         b4.setFile_location("http://g.hiphotos.baidu.com/image/h%3D360/sign=caa2d267cfef7609230b9f991edca301/6d81800a19d8bc3e7763d030868ba61ea9d345e5.jpg");
-
         bannerDatas.add(b1);
         bannerDatas.add(b2);
         bannerDatas.add(b3);
@@ -98,11 +107,7 @@ public class ShutInsureFragment extends BaseFragment {
 
 
         //预约停保 Spinner
-        dateSpinner = (Spinner) view.findViewById(R.id.date_spinner);
-        ArrayAdapter<CharSequence> dateSpinnerAdapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.week_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dateSpinner.setAdapter(dateSpinnerAdapter);
+
 
         setLisenter();
     }
@@ -152,6 +157,41 @@ public class ShutInsureFragment extends BaseFragment {
                 BrowserActivity.startActivity(getActivity(), true);
             }
         });
+
+
+        //限行停保 滑动按钮
+        weekSwitchTabView.setOnTabSelectedListener(new SwitchTabView.OnTabSelectedListener() {
+            @Override
+            public void onLeftTabSelected() {
+
+            }
+
+            @Override
+            public void onRightTabSelected() {
+
+            }
+        });
+
+        //预约停保 滑动按钮
+        dateSwitchTabView.setOnTabSelectedListener(new SwitchTabView.OnTabSelectedListener() {
+            @Override
+            public void onLeftTabSelected() {
+
+            }
+
+            @Override
+            public void onRightTabSelected() {
+
+            }
+        });
+
+        datePickerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), TimePickerActivity.class));
+            }
+        });
+
     }
 
     @Override

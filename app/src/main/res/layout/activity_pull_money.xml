@@ -8,4 +8,40 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="转出领取到银行卡"
+        android:textColor="@color/black_gray_color"
+        android:textSize="@dimen/middle_textsize"></TextView>
+
+    <ListView
+        android:id="@+id/card_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="+添加新卡"
+            android:textColor="@color/black_gray_color"
+            android:textSize="@dimen/middle_textsize"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:textColor="@color/black_gray_color"
+            android:textSize="@dimen/middle_textsize"></TextView>
+
+
+    </LinearLayout>
+
 </LinearLayout>
