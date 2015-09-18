@@ -118,7 +118,7 @@
                 android:minWidth="128dp"
                 android:padding="8dp"
                 app:spn_label="限行停保"
-                app:v_styleId="@array/spinner_no_arrow" />
+                app:v_styleId="@array/spinner" />
 
             <Space
                 android:layout_width="0dp"
