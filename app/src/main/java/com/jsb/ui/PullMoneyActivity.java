@@ -47,7 +47,7 @@ public class PullMoneyActivity extends BaseActivity {
     private void setUp() {
         mListView = (ListView)findViewById(R.id.card_listview);
         titleBar = (TitleBar) findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo("取钱", R.drawable.back_arrow, -1, "", "取钱说明");
+        titleBar.initTitleBarInfo("取钱", R.drawable.arrow_left, -1, "", "取钱说明");
 
         mDatas.add("火热来咯阿萨克斯");
         mDatas.add("火热来咯阿萨克斯");

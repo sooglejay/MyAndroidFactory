@@ -1,5 +1,8 @@
 package com.jsb.widget.DatePicker.bizs.themes;
 
+
+import com.jsb.R;
+
 /**
  * 主题的默认实现类
  * 
@@ -20,7 +23,8 @@ public class DPBaseTheme extends DPTheme {
 
     @Override
     public int colorTitleBG() {
-        return 0xFFF37B7A;
+//        return 0xFFF37B7A;
+        return 0xFF50a165;
     }
 
     @Override

@@ -13,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.jsb.R;
-import com.jsb.event.BooleanEvent;
 import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.fragment.BuyInsureFragment;
 import com.jsb.fragment.MeFragment;
@@ -56,7 +55,7 @@ public class MainActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(10);
         viewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -151,7 +150,6 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         registerTabBarStatusReceiver();
-
     }
 
     @Override
@@ -161,6 +159,4 @@ public class MainActivity extends BaseActivity {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(tabBarStatusReceiver);
         }
     }
-
-
 }

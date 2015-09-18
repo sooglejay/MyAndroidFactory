@@ -46,7 +46,7 @@ public class BrowserActivity extends BaseActivity {
 
     private void setUp() {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo("", R.drawable.back_arrow, -1, "", "");
+        titleBar.initTitleBarInfo("", R.drawable.arrow_left, -1, "", "");
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {

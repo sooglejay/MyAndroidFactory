@@ -24,7 +24,7 @@ public class ShareActivity extends BaseActivity {
     }
     private void setUp() {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo("分享",R.drawable.back_arrow,-1,"","");
+        titleBar.initTitleBarInfo("分享",R.drawable.arrow_left,-1,"","");
 
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override

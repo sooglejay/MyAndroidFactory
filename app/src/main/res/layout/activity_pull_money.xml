@@ -10,38 +10,96 @@
         android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
 
     <TextView
+        android:layout_marginTop="@dimen/middle_padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="转出领取到银行卡"
+        android:layout_marginBottom="@dimen/middle_padding"
         android:textColor="@color/black_gray_color"
         android:textSize="@dimen/middle_textsize"></TextView>
 
     <ListView
         android:id="@+id/card_listview"
+        android:divider="@color/gray_color"
+        android:scrollbars="none"
+        android:dividerHeight="@dimen/listview_divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>
 
     <LinearLayout
+        android:clickable="true"
         android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_select_white"
         android:layout_height="wrap_content"
+        android:minHeight="64dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/middle_padding"
             android:text="+添加新卡"
             android:textColor="@color/black_gray_color"
-            android:textSize="@dimen/middle_textsize"></TextView>
+            android:textSize="@dimen/big_textsize"></TextView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/arrow_right"></ImageView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/light_gray_color"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=">"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/middle_padding"
+            android:text="金额(元)"
             android:textColor="@color/black_gray_color"
-            android:textSize="@dimen/middle_textsize"></TextView>
+            android:textSize="@dimen/big_textsize"></TextView>
 
+        <EditText
+            android:background="@null"
+            android:inputType="number"
+            android:layout_marginLeft="@dimen/more_big_padding"
+            android:layout_gravity="center_vertical"
+            android:hint="本次最多可转出领取276元"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"></EditText>
 
     </LinearLayout>
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="本月还可转出领取6次"
+        android:textColor="@color/black_gray_color"
+        android:textSize="@dimen/middle_textsize"></TextView>
+    <Button
+        android:id="@+id/btn_confirm_pull_money"
+        android:layout_gravity="center"
+        android:minHeight="48dp"
+        android:layout_marginTop="@dimen/middle_padding"
+        android:layout_marginRight="@dimen/middle_padding"
+        android:layout_marginLeft="@dimen/middle_padding"
+        android:background="@drawable/btn_select_gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定领取"
+        android:textColor="@color/black_gray_color"
+        android:textSize="@dimen/middle_textsize"></Button>
 
 </LinearLayout>
