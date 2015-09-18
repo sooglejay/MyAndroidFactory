@@ -81,9 +81,9 @@ public class ShutInsureFragment extends BaseFragment {
             public void onCheckedChanged(Switch aSwitch, boolean b) {
                 if(b)
                 {
-                    Toast.makeText(getActivity(),"开",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"开",Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(getActivity(),"关",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"关",Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -99,9 +99,9 @@ public class ShutInsureFragment extends BaseFragment {
             public void onCheckedChanged(Switch aSwitch, boolean b) {
                 if(b)
                 {
-                    Toast.makeText(getActivity(),"开",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"开",Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(getActivity(),"关",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"关",Toast.LENGTH_SHORT).show();
 
                 }
             }

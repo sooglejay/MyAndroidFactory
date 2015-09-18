@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -18,9 +19,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_color">
-
-    </View>
+        android:background="@color/gray_color"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,80 +32,72 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-
-            <TextView
-
-                android:clickable="true"
-                android:background="@drawable/btn_select_white"
-                android:layout_width="match_parent"
+            <com.rey.material.widget.Button
+                android:id="@+id/insure_car"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:textSize="34sp"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/car_insure" />
+                android:text="@string/car_insure"
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
-            </View>
-
-            <TextView
-                android:clickable="true"
-                android:background="@drawable/btn_select_white"
-                android:textSize="34sp"
-                android:layout_width="match_parent"
+                android:background="@color/gray_color"/>
+            <com.rey.material.widget.Button
+                android:id="@+id/insure_jiaban"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/jiaban_insure" />
+                android:text="@string/jiaban_insure"
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_color">
-
-        </View>
+            android:background="@color/gray_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/btn_select_white"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-
-            <TextView
-                android:clickable="true"
-                android:background="@drawable/btn_select_white"
-                android:layout_width="match_parent"
-                android:textSize="34sp"
+            <com.rey.material.widget.Button
+                android:id="@+id/insure_driving"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/driving_insure" />
-
+                android:text="@string/driving_insure"
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
-
-            </View>
-
-            <TextView
-
-                android:textSize="34sp"
-                android:clickable="true"
-                android:background="@drawable/btn_select_white"
-                android:layout_width="match_parent"
+                android:background="@color/gray_color"/>
+            <com.rey.material.widget.Button
+                android:id="@+id/insure_line"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/line_insure" />
+                android:text="@string/line_insure"
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
         </LinearLayout>
 
     </LinearLayout>

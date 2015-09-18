@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -7,9 +8,7 @@
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </com.jsb.widget.TitleBar>
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,20 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_select_white"
             android:orientation="horizontal">
 
-
-            <TextView
-                android:layout_width="match_parent"
+            <com.rey.material.widget.Button
+                android:id="@+id/my_insure"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_insure"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
 
             <View
                 android:layout_width="1dp"
@@ -42,18 +40,18 @@
                 android:background="@color/gray_color">
 
             </View>
-
-            <TextView
-
-                android:layout_width="match_parent"
+            <com.rey.material.widget.Button
+                android:id="@+id/my_history_sale"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_history_sale"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
+
 
             <View
                 android:layout_width="1dp"
@@ -61,138 +59,127 @@
                 android:background="@color/gray_color">
 
             </View>
-
-            <TextView
-
-                android:layout_width="match_parent"
+            <com.rey.material.widget.Button
+                android:id="@+id/my_call_plice"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_call_plice"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_color">
-
-        </View>
+            android:background="@color/gray_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_select_white"
             android:orientation="horizontal">
 
-
-            <TextView
-                android:layout_width="match_parent"
+            <com.rey.material.widget.Button
+                android:id="@+id/my_money_packet"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_money_packet"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
-
-            </View>
-
-            <TextView
-                android:id="@+id/tv_share"
-                android:layout_width="match_parent"
+                android:background="@color/gray_color"/>
+            <com.rey.material.widget.Button
+                android:id="@+id/my_share"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_share"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
+
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
-
-            </View>
-
-            <TextView
-                android:layout_width="match_parent"
+                android:background="@color/gray_color"/>
+            <com.rey.material.widget.Button
+                android:id="@+id/my_modify_password"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_modify_password"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_color">
-
-        </View>
+            android:background="@color/gray_color"/>
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-
-            <TextView
-
-                android:layout_width="match_parent"
+            <com.rey.material.widget.Button
+                android:id="@+id/my_clear_cache"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_clear_cache"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color"></View>
-
-            <TextView
-                android:layout_width="match_parent"
+                android:background="@color/gray_color"/>
+            <com.rey.material.widget.Button
+                android:id="@+id/my_logout"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:textSize="@dimen/huge_textsize"
                 android:layout_weight="1"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
                 android:gravity="center"
                 android:text="@string/my_logout"
-                android:textSize="@dimen/middle_textsize" />
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color"></View>
-
-            <TextView
-                android:layout_width="match_parent"
+                android:background="@color/gray_color"/>
+            <com.rey.material.widget.Button
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="34sp" />
+                android:textSize="@dimen/huge_textsize"
+                android:background="@null"
+                app:v_styleId="@array/button_flat"/>
         </LinearLayout>
 
     </LinearLayout>

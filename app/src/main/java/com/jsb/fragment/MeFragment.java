@@ -12,11 +12,12 @@ import com.jsb.constant.StringConstant;
 import com.jsb.R;
 import com.jsb.ui.ShareActivity;
 import com.jsb.widget.TitleBar;
+import com.rey.material.widget.Button;
 
 public class MeFragment extends BaseFragment {
 
     private TitleBar titleBar;
-    private TextView tvShare;
+    private Button tvShare;
 
 
 
@@ -34,7 +35,7 @@ public class MeFragment extends BaseFragment {
         titleBar = (TitleBar)view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.me,-1,-1,"","");
 
-        tvShare = (TextView)view.findViewById(R.id.tv_share);
+        tvShare = (Button)view.findViewById(R.id.my_share);
         tvShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
