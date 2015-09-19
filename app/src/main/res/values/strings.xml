@@ -23,6 +23,7 @@
     <string name="my_modify_password">修改密码</string>
     <string name="my_clear_cache">清空缓存</string>
     <string name="my_logout">退出登录</string>
+    <string name="next_step">下一步</string>
 
     <string name="scan_code_make_money">扫一扫我，一起来赚钱</string>
     <string name="share_qrcode">把二维码分享给朋友</string>
@@ -85,5 +86,13 @@
     <string name="rd_month_fourth">on every fourth %s</string>
     <string name="rd_event">event</string>
     <string name="rd_events">events</string>
+    <string name="AddCardActivity">AddCardActivity</string>
+    <string name="InsureCarActivity">InsureCarActivity</string>
+    <string name="InsureJiaBanDogActivity">InsureJiaBanDogActivity</string>
+    <string name="MyInsureActivity">MyInsureActivity</string>
+    <string name="MyHistoryInsureActivity">MyHistoryInsureActivity</string>
+    <string name="MyCallPoliceActivity">MyCallPoliceActivity</string>
+    <string name="MyPacketActivity">MyPacketActivity</string>
+    <string name="MyModifyPasswordActivity">MyModifyPasswordActivity</string>
 
 </resources>

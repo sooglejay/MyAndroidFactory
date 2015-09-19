@@ -1,5 +1,6 @@
 package com.jsb.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,8 +11,11 @@ import com.jsb.constant.StringConstant;
 import com.jsb.R;
 import com.jsb.model.Banner;
 import com.jsb.ui.BrowserActivity;
+import com.jsb.ui.InsureCarActivity;
+import com.jsb.ui.InsureJiaBanDogActivity;
 import com.jsb.widget.BannerView;
 import com.jsb.widget.TitleBar;
+import com.rey.material.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,10 @@ public class BuyInsureFragment extends BaseFragment {
     private List<Banner> bannerDatas = new ArrayList<>();
 
     private TitleBar titleBar;
+    private Button btnInsureCar;
+    private Button btnInsureJiaBan;
+    private Button btnInsureDriving;
+    private Button btnInsureOnLine;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_2, container, false);
@@ -62,6 +70,25 @@ public class BuyInsureFragment extends BaseFragment {
             @Override
             public void onBannerClick(int position) {
                 BrowserActivity.startActivity(getActivity(), bannerDatas.get(position).getUrl());
+            }
+        });
+
+        btnInsureCar = (Button)view.findViewById(R.id.insure_car);
+        btnInsureJiaBan = (Button)view.findViewById(R.id.insure_jiaban);
+        btnInsureDriving = (Button)view.findViewById(R.id.insure_driving);
+        btnInsureOnLine = (Button)view.findViewById(R.id.insure_line);
+        btnInsureCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), InsureCarActivity.class));
+            }
+        });
+
+        btnInsureJiaBan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), InsureJiaBanDogActivity.class));
+
             }
         });
 

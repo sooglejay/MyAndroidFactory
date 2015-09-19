@@ -27,7 +27,7 @@
     <dimen name="switch_single_tab_height">36dp</dimen>
     <dimen name="switch_double_tab_width">100dp</dimen>
     <dimen name="dimen_32dp">32dp</dimen>
-    <dimen name="listview_divider">2dp</dimen>
+    <dimen name="listview_divider">1dp</dimen>
 
 
 

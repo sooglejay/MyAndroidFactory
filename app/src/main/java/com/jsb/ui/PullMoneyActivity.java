@@ -1,7 +1,9 @@
 package com.jsb.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.jsb.R;
@@ -20,6 +22,7 @@ public class PullMoneyActivity extends BaseActivity {
     private ListView mListView;
     private CardListAdapter cardListAdapter;
     private List<String>mDatas = new ArrayList<>();
+    private LinearLayout layout_add_new_card;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class PullMoneyActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-
+              BrowserActivity.startActivity(PullMoneyActivity.this,true);
             }
         });
     }
@@ -56,6 +59,14 @@ public class PullMoneyActivity extends BaseActivity {
 
         cardListAdapter = new CardListAdapter(this,mDatas);
         mListView.setAdapter(cardListAdapter);
+
+        layout_add_new_card = (LinearLayout)findViewById(R.id.layout_add_new_card);
+        layout_add_new_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PullMoneyActivity.this,AddCardActivity.class));
+            }
+        });
 
     }
 }

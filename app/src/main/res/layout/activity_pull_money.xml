@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"></ListView>
 
     <LinearLayout
+        android:id="@+id/layout_add_new_card"
         android:clickable="true"
         android:layout_width="match_parent"
         android:layout_gravity="center"

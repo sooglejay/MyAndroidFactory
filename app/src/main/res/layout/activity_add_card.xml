@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_color"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <com.jsb.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/middle_padding"
+        android:layout_marginTop="@dimen/middle_padding"
+        android:textColor="@color/gray_color"
+        android:text="请绑定持卡人本人的银行卡"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.rey.material.widget.EditText
+        android:id="@+id/et_user_name"
+        android:layout_width="match_parent"
+        android:padding="@dimen/middle_padding"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="持卡人姓名："
+        app:et_inputId="@+id/textfield_et_label_input"
+        app:et_supportMode="none"
+        app:v_styleId="@array/edittext"/>
+    <FrameLayout
+        android:padding="@dimen/middle_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.rey.material.widget.EditText
+            android:id="@+id/et_card_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="卡号(可扫描)："
+            app:et_inputId="@+id/textfield_et_label_input"
+            app:et_supportMode="none"
+            app:v_styleId="@array/edittext"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/icon_choose_pic_small"
+            android:layout_height="24dp" />
+    </FrameLayout>
+
+
+    <com.rey.material.widget.Button
+        android:layout_marginTop="@dimen/middle_padding"
+        android:layout_width="match_parent"
+        android:id="@+id/btn_next_step"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/middle_padding"
+        android:layout_marginRight="@dimen/middle_padding"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/huge_textsize"
+        android:text="@string/next_step"
+        android:background="@drawable/btn_select_gray"
+        app:v_styleId="@array/button_flat"/>
+
+
+</LinearLayout>
