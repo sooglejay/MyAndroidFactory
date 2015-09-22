@@ -16,7 +16,7 @@
     <dimen name="little_middle_padding">10dp</dimen>
     <dimen name="middle_padding">12dp</dimen>
     <dimen name="big_padding">16dp</dimen>
-    <dimen name="more_big_padding">20dp</dimen>
+    <dimen name="more_big_padding">22dp</dimen>
     <dimen name="most_big_padding">24dp</dimen>
     <dimen name="huge_big_padding">32dp</dimen>
 
@@ -36,5 +36,11 @@
     <dimen name="drawer_text">20sp</dimen>
     <dimen name="title_text">16sp</dimen>
     <dimen name="bt_height">36dp</dimen>
+
+    <dimen name="tv_size_level_0">12sp</dimen>
+    <dimen name="tv_size_level_1">16sp</dimen>
+    <dimen name="tv_size_level_2">22sp</dimen>
+
+
 
 </resources>

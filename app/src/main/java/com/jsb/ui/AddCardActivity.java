@@ -5,16 +5,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.adapter.CardListAdapter;
 import com.jsb.widget.TitleBar;
-import com.rey.material.widget.Button;
-import com.rey.material.widget.EditText;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/9/18.
@@ -25,6 +21,7 @@ public class AddCardActivity extends BaseActivity {
     private EditText etUserName;
     private EditText etUserCardNumber;
     private Button btNextStep;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +54,20 @@ public class AddCardActivity extends BaseActivity {
         etUserCardNumber.addTextChangedListener(textWatcher);
 
         btNextStep = (Button)findViewById(R.id.btn_next_step);
+        btNextStep.setEnabled(false);
+        btNextStep.setClickable(true);
+        btNextStep.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+        btNextStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!btNextStep.isEnabled()) {
+                    Toast.makeText(AddCardActivity.this, "123！", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(AddCardActivity.this,"456！",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
     TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -66,11 +77,14 @@ public class AddCardActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(!TextUtils.isEmpty(etUserCardNumber.getText().toString())&&!TextUtils.isEmpty(etUserCardNumber.getText().toString()))
+            if(TextUtils.isEmpty(etUserCardNumber.getText())||TextUtils.isEmpty(etUserCardNumber.getText()))
             {
-                btNextStep.setEnabled(true);
-            }else {
                 btNextStep.setEnabled(false);
+                btNextStep.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+            }else {
+                btNextStep.setEnabled(true);
+                btNextStep.setTextColor(getResources().getColor(R.color.white_color));
+
             }
         }
 

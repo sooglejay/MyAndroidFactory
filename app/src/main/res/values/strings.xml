@@ -86,6 +86,8 @@
     <string name="rd_month_fourth">on every fourth %s</string>
     <string name="rd_event">event</string>
     <string name="rd_events">events</string>
+
+    <!-- activity labels -->
     <string name="AddCardActivity">AddCardActivity</string>
     <string name="InsureCarActivity">InsureCarActivity</string>
     <string name="InsureJiaBanDogActivity">InsureJiaBanDogActivity</string>
@@ -94,5 +96,6 @@
     <string name="MyCallPoliceActivity">MyCallPoliceActivity</string>
     <string name="MyPacketActivity">MyPacketActivity</string>
     <string name="MyModifyPasswordActivity">MyModifyPasswordActivity</string>
+    <string name="LoginActivity">LoginActivity</string>
 
 </resources>
