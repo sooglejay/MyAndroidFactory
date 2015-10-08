@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jsb.constant.StringConstant;
 import com.jsb.R;
@@ -21,16 +22,13 @@ import com.rey.material.widget.Button;
 public class MeFragment extends BaseFragment {
 
     private TitleBar titleBar;
-    private Button my_insure;
-    private Button my_history_sale;
-    private Button my_call_plice;
+    private TextView my_insure;
+    private TextView my_history_sale;
+    private TextView my_call_plice;
 
-    private Button my_money_packet;
-    private Button my_share;
-    private Button my_modify_password;
-
-    private Button my_clear_cache;
-    private Button my_logout;
+    private TextView my_money_packet;
+    private TextView my_share;
+    private TextView my_modify_password;
 
 
 
@@ -48,7 +46,7 @@ public class MeFragment extends BaseFragment {
         titleBar = (TitleBar)view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.me,-1,-1,"","");
 
-        my_share = (Button)view.findViewById(R.id.my_share);
+        my_share = (TextView)view.findViewById(R.id.my_share);
         my_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,35 +54,35 @@ public class MeFragment extends BaseFragment {
             }
         });
 
-        my_insure = (Button)view.findViewById(R.id.my_insure);
+        my_insure = (TextView)view.findViewById(R.id.my_insure);
         my_insure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyInsureActivity.class));
             }
         });
-        my_history_sale = (Button)view.findViewById(R.id.my_history_sale);
+        my_history_sale = (TextView)view.findViewById(R.id.my_history_sale);
         my_history_sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyHistorySaleActivity.class));
             }
         });
-        my_call_plice = (Button)view.findViewById(R.id.my_call_plice);
+        my_call_plice = (TextView)view.findViewById(R.id.my_call_plice);
         my_call_plice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyCallPoliceActivity.class));
             }
         });
-        my_money_packet = (Button)view.findViewById(R.id.my_money_packet);
+        my_money_packet = (TextView)view.findViewById(R.id.my_money_packet);
         my_money_packet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyMoneyPacketActivity.class));
             }
         });
-        my_modify_password = (Button)view.findViewById(R.id.my_modify_password);
+        my_modify_password = (TextView)view.findViewById(R.id.my_modify_password);
         my_modify_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

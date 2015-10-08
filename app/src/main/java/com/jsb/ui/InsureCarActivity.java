@@ -6,11 +6,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.jsb.R;
 import com.jsb.widget.TitleBar;
-import com.rey.material.widget.Button;
-import com.rey.material.widget.EditText;
+
 
 /**
  * Created by Administrator on 2015/9/18.
@@ -25,7 +26,7 @@ public class InsureCarActivity extends BaseActivity {
     private EditText etSignDate;
     private EditText etUserIdCardNumber;
     private EditText etStartInsureDate;
-    private Button btNextStep;
+    private TextView tvNextStep;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -34,7 +34,7 @@
         android:id="@+id/tv_add_new_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_screen"
+        android:background="@drawable/btn_select_bg_screen"
         android:gravity="left|center"
         android:paddingBottom="28dp"
         android:paddingLeft="@dimen/middle_padding"

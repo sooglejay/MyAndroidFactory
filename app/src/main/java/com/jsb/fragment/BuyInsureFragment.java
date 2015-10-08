@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jsb.constant.StringConstant;
 import com.jsb.R;
@@ -15,7 +16,6 @@ import com.jsb.ui.InsureCarActivity;
 import com.jsb.ui.InsureJiaBanDogActivity;
 import com.jsb.widget.BannerView;
 import com.jsb.widget.TitleBar;
-import com.rey.material.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,10 @@ public class BuyInsureFragment extends BaseFragment {
     private List<Banner> bannerDatas = new ArrayList<>();
 
     private TitleBar titleBar;
-    private Button btnInsureCar;
-    private Button btnInsureJiaBan;
-    private Button btnInsureDriving;
-    private Button btnInsureOnLine;
+    private TextView tv_insure_car;
+    private TextView tv_insure_jiaban;
+    private TextView tv_insure_driving;
+    private TextView tv_insure_line;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_2, container, false);
@@ -73,26 +73,37 @@ public class BuyInsureFragment extends BaseFragment {
             }
         });
 
-        btnInsureCar = (Button)view.findViewById(R.id.insure_car);
-        btnInsureJiaBan = (Button)view.findViewById(R.id.insure_jiaban);
-        btnInsureDriving = (Button)view.findViewById(R.id.insure_driving);
-        btnInsureOnLine = (Button)view.findViewById(R.id.insure_line);
-        btnInsureCar.setOnClickListener(new View.OnClickListener() {
+        tv_insure_car = (TextView)view.findViewById(R.id.tv_insure_car);
+        tv_insure_jiaban = (TextView)view.findViewById(R.id.tv_insure_jiaban);
+        tv_insure_driving = (TextView)view.findViewById(R.id.tv_insure_driving);
+        tv_insure_line = (TextView)view.findViewById(R.id.tv_insure_line);
+        tv_insure_car.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), InsureCarActivity.class));
             }
         });
 
-        btnInsureJiaBan.setOnClickListener(new View.OnClickListener() {
+        tv_insure_jiaban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), InsureJiaBanDogActivity.class));
 
             }
         });
+        tv_insure_driving.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), InsureJiaBanDogActivity.class));
 
-
+            }
+        });
+        tv_insure_line.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), InsureJiaBanDogActivity.class));
+            }
+        });
     }
 
     @Override

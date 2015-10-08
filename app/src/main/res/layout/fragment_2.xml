@@ -33,33 +33,38 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-            <com.rey.material.widget.Button
-                android:id="@+id/insure_car"
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color"/>
+            <TextView
+                android:id="@+id/tv_insure_car"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/huge_textsize"
+                android:textSize="@dimen/big_textsize"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/car_insure"
-                android:background="@null"
-                app:v_styleId="@array/button_flat"/>
+                android:background="@drawable/btn_select_white"/>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/gray_color"/>
-            <com.rey.material.widget.Button
-                android:id="@+id/insure_jiaban"
+            <TextView
+                android:id="@+id/tv_insure_jiaban"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/huge_textsize"
+                android:textSize="@dimen/big_textsize"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/jiaban_insure"
-                android:background="@null"
-                app:v_styleId="@array/button_flat"/>
+                android:background="@drawable/btn_select_white"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color"/>
+
         </LinearLayout>
 
         <View
@@ -72,35 +77,65 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-
-            <com.rey.material.widget.Button
-                android:id="@+id/insure_driving"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/huge_textsize"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/driving_insure"
-                android:background="@null"
-                app:v_styleId="@array/button_flat"/>
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/gray_color"/>
-            <com.rey.material.widget.Button
-                android:id="@+id/insure_line"
+
+            <TextView
+                android:id="@+id/tv_insure_driving"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/huge_textsize"
+                android:textSize="@dimen/big_textsize"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/driving_insure"
+                android:background="@drawable/btn_select_white"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color"/>
+            <TextView
+                android:id="@+id/tv_insure_line"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/big_textsize"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/line_insure"
-                android:background="@null"
-                app:v_styleId="@array/button_flat"/>
+                android:background="@drawable/btn_select_white"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/gray_color"></View>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/gray_color"></View>
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/bg_screen"
+            android:layout_weight="0.25"
+            android:layout_height="0dp"/>
     </LinearLayout>
 
 </LinearLayout>
