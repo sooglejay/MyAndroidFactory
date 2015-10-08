@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white_color"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,16 +14,20 @@
         <com.jsb.widget.TitleBar
             android:id="@+id/title_bar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
+            android:layout_height="wrap_content">
 
-        <com.rey.material.widget.Spinner
-            android:id="@+id/car_number_spinner"
-            android:layout_width="match_parent"
+        </com.jsb.widget.TitleBar>
+
+        <TextView
+            android:id="@+id/carNumberTv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="128dp"
-            android:padding="8dp"
-            app:spn_label="请选择车牌号"
-            app:v_styleId="@array/spinner" />
+            android:layout_gravity="left|center"
+            android:background="@drawable/btn_select_light_gray"
+            android:padding="@dimen/middle_padding"
+            android:text="川A8888"
+            android:textColor="@color/dark_black_color"
+            android:textSize="@dimen/big_textsize" />
 
         <com.jsb.widget.BannerView
             android:id="@+id/banner_view"
@@ -88,13 +92,15 @@
                     android:textSize="@dimen/most_big_textsize" />
             </LinearLayout>
 
-            <com.rey.material.widget.Button
+            <TextView
                 android:id="@+id/tv_pull_money"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/bt_height"
                 android:layout_weight="0.3"
-                android:text="BUTTON"
-                app:v_styleId="@array/button_raise_wave_color" />
+                android:background="@drawable/btn_select_base"
+                android:gravity="center"
+                android:textColor="@color/white_color"
+                android:text="提现" />
         </LinearLayout>
 
         <View
@@ -103,22 +109,49 @@
             android:layout_marginTop="@dimen/middle_padding"
             android:background="@color/light_gray_color" />
 
+        <TextView
+            android:id="@+id/layout_rule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:background="@drawable/btn_select_white"
+            android:padding="@dimen/middle_padding"
+            android:text="查看《停保规则》"
+            android:textColor="@color/light_red"
+            android:textSize="@dimen/middle_textsize" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:layout_marginRight="@dimen/middle_padding"
-            android:layout_marginTop="@dimen/middle_padding"
             android:orientation="horizontal">
 
-            <com.rey.material.widget.Spinner
-                android:id="@+id/week_spinner"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="128dp"
-                android:padding="8dp"
-                app:spn_label="限行停保"
-                app:v_styleId="@array/spinner" />
+                android:layout_marginLeft="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:text="限行停保"
+                    android:textColor="@color/dark_gray_color"
+                    android:textSize="@dimen/more_big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_choose_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:background="@drawable/btn_select_light_gray"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="每周三"
+                    android:textColor="@color/dark_black_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <Space
                 android:layout_width="0dp"
@@ -126,37 +159,42 @@
                 android:layout_weight="1" />
 
             <com.rey.material.widget.Switch
-                android:id="@+id/week_switch_tab_view"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="@dimen/most_big_padding"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:checked="true"
-                app:v_styleId="@array/switches" />
+            android:id="@+id/week_switch_tab_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/most_big_padding"
+            android:checked="true"
+            app:v_styleId="@array/switches" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="24dp"
             android:text="预约停保"
-            android:textSize="@dimen/big_textsize" />
+            android:textColor="@color/dark_gray_color"
+            android:textSize="@dimen/more_big_textsize" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginRight="@dimen/middle_padding"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_marginLeft="@dimen/middle_padding"
                 android:id="@+id/layout_date_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="@dimen/middle_padding"
                 android:background="@drawable/btn_select_gray"
                 android:clickable="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/middle_padding"
+                android:paddingBottom="@dimen/middle_padding"
+                android:paddingTop="@dimen/small_padding">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,55 +235,26 @@
                 <TextView
                     android:id="@+id/tv_date_interval"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="@dimen/middle_padding"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/middle_padding"
                     android:gravity="center_horizontal|bottom"
                     android:text="三天" />
             </LinearLayout>
-
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1" />
-
             <com.rey.material.widget.Switch
                 android:id="@+id/date_switch_tab_view"
                 android:layout_width="wrap_content"
-                android:layout_marginRight="@dimen/most_big_padding"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/most_big_padding"
                 android:checked="true"
                 app:v_styleId="@array/switches" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_rule"
-            android:layout_marginTop="@dimen/middle_padding"
-            android:padding="@dimen/middle_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_select_gray"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="停保一天可节省保费8元，查看《"
-                android:textSize="@dimen/middle_textsize" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="停保规则"
-                android:textColor="@color/light_red"
-                android:textSize="@dimen/middle_textsize" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="》"
-                android:textSize="@dimen/small_textsize" />
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
+

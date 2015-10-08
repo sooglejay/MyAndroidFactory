@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/9/16.
  */
-public class CardListAdapter extends BaseAdapter {
-    public CardListAdapter(Context mContext ,List<String>datas) {
+public class ChoosePopListViewAdapter extends BaseAdapter {
+    public ChoosePopListViewAdapter(Context mContext, List<String> datas) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
@@ -46,22 +46,19 @@ public class CardListAdapter extends BaseAdapter {
         holder = new ViewHolder();
         if(convertView==null)
         {
-            convertView = View.inflate(mContext, R.layout.item_card_list,null);
-            holder.tvCardName = (TextView)convertView.findViewById(R.id.tv_card_name);
-            holder.tv_card_end_number = (TextView)convertView.findViewById(R.id.tv_card_end_number);
+            convertView = View.inflate(mContext, R.layout.item_choose_popwindow,null);
+            holder.tvName = (TextView)convertView.findViewById(R.id.tv_name);
             convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.tvCardName.setText(mDatas.get(position)+"");
-        holder.tv_card_end_number.setText("尾号2547");
+        holder.tvName.setText(mDatas.get(position)+"");
 
         return convertView;
     }
     private class ViewHolder
     {
-        TextView tvCardName;
-        TextView tv_card_end_number;
+        TextView tvName;
     }
 }

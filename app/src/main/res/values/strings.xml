@@ -32,7 +32,7 @@
     <string name="title_activity_PullMoneyDescriptionActivity">PullMoneyDescriptionActivity</string>
 
 
-    <string-array name="license_plate_number_array">
+    <string-array name="carNumberArray">
         <item>川A88888888</item>
         <item>粤A88888888</item>
         <item>京A88888888</item>
@@ -47,7 +47,7 @@
         <item>京A88888888</item>
     </string-array>
 
-    <string-array name="week_array">
+    <string-array name="weekArray">
         <item>每周日</item>
         <item>每周一</item>
         <item>每周二</item>

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,13 +13,11 @@ import android.widget.Toast;
 import com.jsb.R;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
-import com.jsb.model.Banner;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
 import com.jsb.ui.TimePickerActivity;
-import com.jsb.widget.BannerView;
+import com.jsb.widget.ChoosePopWindowView;
 import com.jsb.widget.TitleBar;
-import com.rey.material.widget.Spinner;
 import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
@@ -32,15 +29,16 @@ public class ShutInsureFragment extends BaseFragment {
 
     private TitleBar titleBar;
     private TextView tvPullMoney;
-    private LinearLayout layoutRule;
+    private TextView layout_rule;
+    private TextView tvChooseCarNumber;
+    private TextView tvChooseWeekNumber;
     private TextView tv_start_date;
     private TextView tv_end_date;
     private TextView tv_date_interval;
-    private BannerView bannerView;
-    private List<Banner> bannerDatas = new ArrayList<>();
     private Switch weekSwitchTabView;
     private Switch dateSwitchTabView;
     private LinearLayout datePickerLayout;
+
 
 
     @Override
@@ -54,9 +52,22 @@ public class ShutInsureFragment extends BaseFragment {
     }
 
     private void setUp(View view, Bundle savedInstanceState) {
-        initTitleBar(view);
+        titleBar = (TitleBar) view.findViewById(R.id.title_bar);
+        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, -1, StringConstant.empty, StringConstant.share);
+        titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
+            @Override
+            public void onLeftButtonClick(View v) {
 
-        //提现
+            }
+
+            @Override
+            public void onRightButtonClick(View v) {
+                Toast.makeText(getActivity(), "hello,share", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //体现
         tvPullMoney = (TextView) view.findViewById(R.id.tv_pull_money);
         tvPullMoney.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,8 +76,10 @@ public class ShutInsureFragment extends BaseFragment {
             }
         });
 
-        layoutRule = (LinearLayout) view.findViewById(R.id.layout_rule);
-        layoutRule.setOnClickListener(new View.OnClickListener() {
+
+        //停保规则
+        layout_rule = (TextView) view.findViewById(R.id.layout_rule);
+        layout_rule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BrowserActivity.startActivity(getActivity(), true);
@@ -79,19 +92,18 @@ public class ShutInsureFragment extends BaseFragment {
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(Switch aSwitch, boolean b) {
-                if(b)
-                {
-                    Toast.makeText(getActivity(),"开",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getActivity(),"关",Toast.LENGTH_SHORT).show();
+                if (b) {
+                    Toast.makeText(getActivity(), "开", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "关", Toast.LENGTH_SHORT).show();
 
                 }
             }
         });
-        //预约停保
-        tv_start_date = (TextView)view.findViewById(R.id.tv_start_date);
-        tv_end_date = (TextView)view.findViewById(R.id.tv_end_date);
-        tv_date_interval = (TextView)view.findViewById(R.id.tv_date_interval);
+
+
+
+
         // 滑动按钮
         dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
@@ -107,101 +119,56 @@ public class ShutInsureFragment extends BaseFragment {
             }
         });
 
+
+
+        //预约停保  的textView
+        tv_start_date = (TextView)view.findViewById(R.id.tv_start_date);
+        tv_end_date = (TextView)view.findViewById(R.id.tv_end_date);
+        tv_date_interval = (TextView)view.findViewById(R.id.tv_date_interval);
+
+
+        //选择预约停保时间
         datePickerLayout = (LinearLayout)view.findViewById(R.id.layout_date_picker);
         datePickerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivityForResult(new Intent(getActivity(), TimePickerActivity.class),ACTION_TIME_STRING);
-            }
-        });
-
-        initBannerView(view);
-        initSpinner(view);
-
-    }
-
-    private void initTitleBar(View view) {
-        titleBar = (TitleBar) view.findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, -1, StringConstant.empty, StringConstant.share);
-        //titleBar 的点击事件
-        titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
-            @Override
-            public void onLeftButtonClick(View v) {
-
-            }
-
-            @Override
-            public void onRightButtonClick(View v) {
-                Toast.makeText(getActivity(), "hello,share", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-    /**
-     *
-     * @param view
-     */
-    public void initSpinner(View view)
-    {
-
-
-        //选择车型
-        Spinner carNumberSpinner = (Spinner)view.findViewById(R.id.car_number_spinner);
-        //每周停保 Spinner
-        Spinner weekAppointSpinner = (Spinner)view.findViewById(R.id.week_spinner);
-         List<String> carDataSet = new ArrayList<>(Arrays.asList(getActivity().getResources().getStringArray(R.array.license_plate_number_array)));
-         List<String> weekDataSet = new ArrayList<>(Arrays.asList(getActivity().getResources().getStringArray(R.array.week_array)));
-
-        ArrayAdapter<String> carNumberSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.aaaa_row_spn, carDataSet);
-        ArrayAdapter<String> weekAppointAdapter = new ArrayAdapter<>(getActivity(), R.layout.aaaa_row_spn, weekDataSet);
-        carNumberSpinnerAdapter.setDropDownViewResource(R.layout.aaaaaa_row_spn_dropdown);
-        weekAppointAdapter.setDropDownViewResource(R.layout.aaaaaa_row_spn_dropdown);
-        carNumberSpinner.setAdapter(carNumberSpinnerAdapter);
-        weekAppointSpinner.setAdapter(weekAppointAdapter);
-
-    }
-    public void initBannerView(View view)
-    {
-        //广告
-        Banner b1 = new Banner();
-        Banner b2 = new Banner();
-        Banner b3 = new Banner();
-        Banner b4 = new Banner();
-        b1.setUrl("http://img4.imgtn.bdimg.com/it/u=2297119962,3821452646&fm=21&gp=0.jpg");
-        b2.setUrl("http://img0.imgtn.bdimg.com/it/u=2217897727,3687268377&fm=21&gp=0.jpg");
-        b3.setUrl("http://img4.imgtn.bdimg.com/it/u=1704061436,275613074&fm=21&gp=0.jpg");
-        b4.setUrl("http://img4.imgtn.bdimg.com/it/u=2297119962,3821452646&fm=21&gp=0.jpg");
-
-        b1.setFile_location("http://img4.imgtn.bdimg.com/it/u=2297119962,3821452646&fm=21&gp=0.jpg");
-        b2.setFile_location("http://img0.imgtn.bdimg.com/it/u=2217897727,3687268377&fm=21&gp=0.jpg");
-        b3.setFile_location("http://img4.imgtn.bdimg.com/it/u=1704061436,275613074&fm=21&gp=0.jpg");
-        b4.setFile_location("http://g.hiphotos.baidu.com/image/h%3D360/sign=caa2d267cfef7609230b9f991edca301/6d81800a19d8bc3e7763d030868ba61ea9d345e5.jpg");
-        bannerDatas.add(b1);
-        bannerDatas.add(b2);
-        bannerDatas.add(b3);
-        bannerDatas.add(b4);
-        //init banner view
-        bannerView = (BannerView) view.findViewById(R.id.banner_view);
-        bannerView.initBannerAdapter(getActivity(), bannerDatas, new BannerView.OnBannerClickListener() {
-            @Override
-            public void onBannerClick(int position) {
-                BrowserActivity.startActivity(getActivity(), bannerDatas.get(position).getUrl());
+                getActivity().startActivityForResult(new Intent(getActivity(), TimePickerActivity.class), ACTION_TIME_STRING);
             }
         });
 
 
+        //选择 车牌号
+        List<String> carNumberDataList = new ArrayList<>(Arrays.asList(getActivity().getResources().getStringArray(R.array.carNumberArray)));
+        tvChooseCarNumber = (TextView)view.findViewById(R.id.carNumberTv);
+        final ChoosePopWindowView popWindowView = new ChoosePopWindowView(getActivity(),carNumberDataList,ChoosePopWindowView.CHOOSE_POP_CAR);
+        tvChooseCarNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWindowView.show(tvChooseCarNumber, tvChooseCarNumber);
+
+            }
+        });
+
+        //选择 限行停保的 周天
+        List<String> weekNumberDataList = new ArrayList<>(Arrays.asList(getActivity().getResources().getStringArray(R.array.weekArray)));
+        tvChooseWeekNumber = (TextView)view.findViewById(R.id.tv_choose_week);
+        final ChoosePopWindowView popWindowChooseWeekNumber = new ChoosePopWindowView(getActivity(),weekNumberDataList,ChoosePopWindowView.CHOOSE_POP_WEEK);
+        tvChooseWeekNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWindowChooseWeekNumber.show(tvChooseWeekNumber,tvChooseWeekNumber);
+            }
+        });
     }
+
+
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    /**
-     * EventBus
-     * @param event
-     */
     public void onEventMainThread(BusEvent event) {
         switch (event.getMsg()) {
             case BusEvent.MSG_INT_TIME:

@@ -1,36 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+  android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:minHeight="48dp"
-        android:background="@drawable/btn_select_gray"
-        android:orientation="horizontal">
-
+        android:background="@color/white_color"
+        android:paddingTop="@dimen/middle_padding"
+        android:paddingBottom="@dimen/middle_padding"
+        android:paddingLeft="28dp"
+        android:minHeight="72dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
         <TextView
+            android:textColor="@color/tv_black_color_level_1"
             android:id="@+id/tv_card_name"
-            android:layout_width="0dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:layout_weight="1"
             android:text="中国建设银行"
             android:textSize="@dimen/big_textsize" />
+        <TextView
 
-        <ImageView
-            android:layout_height="wrap_content"
+            android:textColor="@color/tv_gray_color_level_3"
+            android:id="@+id/tv_card_end_number"
             android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:scaleType="centerCrop"
-            android:src="@drawable/arrow_right" />
+            android:layout_height="wrap_content"
+            android:text="尾号2347"
+            android:textSize="@dimen/small_textsize" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_gray_color"></View>
 </LinearLayout>
