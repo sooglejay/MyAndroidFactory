@@ -27,22 +27,10 @@
                 <ImageView
                     android:id="@+id/iv_take_car_picture"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
+                    android:layout_height="280dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/test_beautiful_girl" />
+                    android:src="@drawable/test_beautiful_girl2" />
             </FrameLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_screen"
-                android:minHeight="36dp"
-                android:padding="@dimen/middle_padding"
-                android:text="本期商品数还剩7份"
-                android:textColor="#8e8e8e"
-                android:textSize="@dimen/middle_textsize" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,8 +44,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="加班就赚10元"
+                    android:padding="@dimen/middle_padding"
+                    android:text="自驾车意外事故、残疾10万元\n自驾车意外医疗2万元"
                     android:textSize="@dimen/big_textsize" />
 
                 <ImageView
@@ -85,7 +73,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2015-09-20"
+                    android:text="2015-09-11"
                     android:textColor="#585858" />
             </LinearLayout>
 
@@ -106,7 +94,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7天"
+                    android:text="365天"
                     android:textColor="#585858" />
             </LinearLayout>
 
@@ -146,7 +134,7 @@
 
                     android:minHeight="48dp"
                     android:padding="@dimen/middle_padding"
-                    android:text="1元/月" />
+                    android:text="100元/年" />
 
                 <TextView
                     android:id="@+id/tv_buy_insure"

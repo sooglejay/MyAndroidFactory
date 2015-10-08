@@ -13,7 +13,7 @@ import com.jsb.widget.TitleBar;
 /**
  * Created by Administrator on 2015/9/18.
  */
-public class InsureJiaBanDogActivity extends BaseActivity {
+public class InsureOnDrivingActivity extends BaseActivity {
     private TitleBar titleBar;
     private CheckBox cb_agree_license;
     private TextView tv_buy_insure;
@@ -21,7 +21,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insure_jiaban_dog);
+        setContentView(R.layout.activity_insure_on_driving_activity);
         setUp();
         setLisenter();
     }
@@ -30,7 +30,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                InsureJiaBanDogActivity.this.finish();
+                InsureOnDrivingActivity.this.finish();
             }
 
             @Override
@@ -48,11 +48,11 @@ public class InsureJiaBanDogActivity extends BaseActivity {
         tv_buy_insure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InsureJiaBanDogActivity.this, OrderCofirmJiaBanDogActivity.class));
+                startActivity(new Intent(InsureOnDrivingActivity.this, OrderCofirmOnDrivingActivity.class));
             }
         });
         titleBar = (TitleBar) findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo("加班狗", R.drawable.arrow_left, -1, "", "");
+        titleBar.initTitleBarInfo("驾驶险", R.drawable.arrow_left, -1, "", "");
         cb_agree_license = (CheckBox) findViewById(R.id.cb_agree_license);
         cb_agree_license.setChecked(true);
         cb_agree_license.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -14,6 +14,7 @@ import com.jsb.model.Banner;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.InsureCarActivity;
 import com.jsb.ui.InsureJiaBanDogActivity;
+import com.jsb.ui.InsureOnDrivingActivity;
 import com.jsb.widget.BannerView;
 import com.jsb.widget.TitleBar;
 
@@ -94,7 +95,7 @@ public class BuyInsureFragment extends BaseFragment {
         tv_insure_driving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), InsureJiaBanDogActivity.class));
+                getActivity().startActivity(new Intent(getActivity(), InsureOnDrivingActivity.class));
 
             }
         });

@@ -91,6 +91,7 @@
     <string name="AddCardActivity">AddCardActivity</string>
     <string name="InsureCarActivity">InsureCarActivity</string>
     <string name="InsureJiaBanDogActivity">InsureJiaBanDogActivity</string>
+    <string name="InsureOnDrivingActivity">InsureOnDrivingActivity</string>
     <string name="MyInsureActivity">MyInsureActivity</string>
     <string name="MyHistoryInsureActivity">MyHistoryInsureActivity</string>
     <string name="MyCallPoliceActivity">MyCallPoliceActivity</string>
