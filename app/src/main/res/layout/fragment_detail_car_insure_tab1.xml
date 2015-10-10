@@ -1,0 +1,584 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <com.jsb.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_screen"
+                android:paddingBottom="@dimen/little_padding"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingTop="@dimen/little_padding"
+                android:text="基本信息"
+                android:textColor="#8e8e8f"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="保险公司"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="太平保险"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="被保险人"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="张三"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="保险单号"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DZ8888888"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="保险期限"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2015-09-12起，2016-09-11止"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="发动机号"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="plc989332"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="车架号码"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LV7978123431"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingBottom="@dimen/small_padding"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="车牌号码"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="川A88888"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_screen"
+                android:paddingBottom="@dimen/little_padding"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingTop="@dimen/little_padding"
+                android:text="服务热线"
+                android:textColor="#8e8e8f"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingBottom="@dimen/small_padding"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="服务热线"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="87777777"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_call" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_screen"
+                android:paddingBottom="@dimen/little_padding"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingTop="@dimen/little_padding"
+                android:text="商业险"
+                android:textColor="#8e8e8f"
+                android:textSize="@dimen/small_textsize" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="车损险"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="20万"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/small_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$1260,00"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="三者险"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="30万"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/small_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$688,00"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="座位险"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text=""
+                    android:textColor="#888888"
+                    android:textSize="@dimen/small_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$230,00"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="不计免赔险"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:paddingBottom="@dimen/small_padding"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text=""
+                    android:textColor="#888888"
+                    android:textSize="@dimen/small_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$230,00"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_screen"
+                android:paddingBottom="@dimen/little_padding"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingTop="@dimen/little_padding"
+                android:text="强制险"
+                android:textColor="#8e8e8f"
+                android:textSize="@dimen/small_textsize" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="交强险"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text=""
+                    android:textColor="#888888"
+                    android:textSize="@dimen/small_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$960,00"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="车船税"
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/small_padding"
+                    android:text="12个月"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/small_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$360,00"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_screen"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/middle_padding">
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_screen"
+                    android:paddingBottom="@dimen/little_padding"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:paddingTop="@dimen/little_padding"
+                    android:text="合计金额："
+                    android:textColor="#8e8e8f"
+                    android:textSize="@dimen/small_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_screen"
+                    android:paddingBottom="@dimen/little_padding"
+                    android:paddingTop="@dimen/little_padding"
+                    android:text="$4598,00"
+                    android:textColor="#8e8e8f"
+                    android:textSize="@dimen/small_textsize" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_screen"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/middle_padding"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_agree" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="同意《约定保障条款》" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/middle_padding"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="分享"
+                        android:gravity="center"
+                        android:background="#82ba90"
+                        android:minHeight="48dp"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:background="#50a165"
+                        android:minHeight="48dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="我要续保"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+

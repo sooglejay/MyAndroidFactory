@@ -20,11 +20,11 @@ android {
         }
     }
 }
-//repositories {
-//    flatDir {
-//        dirs 'libs'
-//    }
-//}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //    compile 'cn.aigestudio.datepicker:DatePicker:2.0.2'
@@ -37,5 +37,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-//    compile(name:'card.io-5.1.0', ext:'aar')
+    compile(name:'card.io-5.1.0', ext:'aar')
 }

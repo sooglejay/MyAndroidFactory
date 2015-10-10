@@ -1,7 +1,5 @@
 package com.jsb.ui;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,7 +7,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.constant.ExtraConstants;
 import com.jsb.event.BusEvent;
 import com.jsb.widget.DatePicker.bizs.themes.DPCNTheme;
 import com.jsb.widget.DatePicker.bizs.themes.DPTManager;

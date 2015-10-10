@@ -115,10 +115,7 @@
             android:name=".ui.LoginActivity"
             android:label="@string/LoginActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <!-- Activities responsible for gathering payment info -->
@@ -130,5 +127,9 @@
         <activity android:name=".ui.OrderCofirmJiaBanDogActivity"></activity>
         <activity android:name=".ui.OrderCofirmOnDrivingActivity"></activity>
         <activity android:name=".ui.PayJiaBanDogInsureActivity"></activity>
+        <activity android:name=".test.PagerSlideTest"> <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
     </application>
 </manifest>

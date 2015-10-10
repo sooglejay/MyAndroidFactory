@@ -17,9 +17,6 @@ import io.card.payment.CreditCard;
  * Created by Administrator on 2015/10/8.
  */
 public class cardIOTest extends Activity {
-    // You MUST register with card.io to get an app token. Go to https://card.io/apps/new/
-    private static final String MY_CARDIO_APP_TOKEN = "3dad770cf9b44de5900e49622757e81a";
-
     final String TAG = getClass().getName();
 
     private Button scanButton;
@@ -27,15 +24,16 @@ public class cardIOTest extends Activity {
 
     private int MY_SCAN_REQUEST_CODE = 100; // arbitrary int
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aaaaaaa_card_io);
 
-        resultTextView = (TextView)findViewById(R.id.resultTextView);
-        scanButton = (Button)findViewById(R.id.scanButton);
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
+        scanButton = (Button) findViewById(R.id.scanButton);
 
         resultTextView.setText("card.io library version: " + CardIOActivity.sdkVersion() + "\nBuilt: " + CardIOActivity.sdkBuildDate());
     }
@@ -44,10 +42,9 @@ public class cardIOTest extends Activity {
     protected void onResume() {
         super.onResume();
 
-        if (CardIOActivity.canReadCardWithCamera(this)) {
+        if (CardIOActivity.canReadCardWithCamera()) {
             scanButton.setText("Scan a credit card with card.io");
-        }
-        else {
+        } else {
             scanButton.setText("Enter credit card information");
         }
     }
@@ -58,18 +55,17 @@ public class cardIOTest extends Activity {
 
         Intent scanIntent = new Intent(this, CardIOActivity.class);
 
-        // required for authentication with card.io
-        scanIntent.putExtra(CardIOActivity.EXTRA_APP_TOKEN, MY_CARDIO_APP_TOKEN);
-
         // customize these values to suit your needs.
-        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, false); // default: true
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true); // default: false
         scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false); // default: false
         scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false); // default: false
-        scanIntent.putExtra(CardIOActivity.EXTRA_LANGUAGE_OR_LOCALE, "zh-Hans");
-        scanIntent.putExtra(CardIOActivity.EXTRA_USE_CARDIO_LOGO, true);
+
         // hides the manual entry button
         // if set, developers should provide their own manual entry mechanism in the app
         scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, false); // default: false
+
+        // matches the theme of your application
+        scanIntent.putExtra(CardIOActivity.EXTRA_KEEP_APPLICATION_THEME, false); // default: false
 
         // MY_SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
         startActivityForResult(scanIntent, MY_SCAN_REQUEST_CODE);
@@ -84,7 +80,7 @@ public class cardIOTest extends Activity {
             CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
 
             // Never log a raw card number. Avoid displaying it, but if necessary use getFormattedCardNumber()
-            resultStr = "Card Number: " + scanResult.getFormattedCardNumber()+ "\n";
+            resultStr = "Card Number: " + scanResult.getRedactedCardNumber() + "\n";
 
             // Do something with the raw number, e.g.:
             // myService.setCardNumber( scanResult.cardNumber );
@@ -101,8 +97,7 @@ public class cardIOTest extends Activity {
             if (scanResult.postalCode != null) {
                 resultStr += "Postal Code: " + scanResult.postalCode + "\n";
             }
-        }
-        else {
+        } else {
             resultStr = "Scan was canceled.";
         }
         resultTextView.setText(resultStr);
