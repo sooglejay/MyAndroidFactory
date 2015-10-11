@@ -16,7 +16,9 @@ import com.jsb.constant.ExtraConstants;
 import com.jsb.R;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
-
+/**
+ *  浏览器工具类
+ */
 public class BrowserActivity extends BaseActivity {
     private String url = "";
     private WebView webView;

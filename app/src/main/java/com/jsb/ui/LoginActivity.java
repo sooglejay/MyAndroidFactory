@@ -15,7 +15,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/20.
+ * 登录界面
  */
 public class LoginActivity extends BaseActivity {
     private TitleBar titleBar;

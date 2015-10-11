@@ -18,7 +18,9 @@ import com.jsb.fragment.BuyInsureFragment;
 import com.jsb.fragment.MeFragment;
 import com.jsb.widget.ScrollableViewPager;
 import com.jsb.widget.TabBar;
-
+/**
+ * Main Activity
+ */
 public class MainActivity extends BaseActivity {
 
     public static final String ACTION_HOME_ACTIVITY_CONTROL = "action_scroll_switch_tab";

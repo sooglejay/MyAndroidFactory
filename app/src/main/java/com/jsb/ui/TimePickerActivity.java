@@ -20,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import de.greenrobot.event.EventBus;
-
+/**
+ * 首页-选择预约停保-时间选择器
+ */
 public class TimePickerActivity extends BaseActivity {
 
     private TitleBar mTitleBar;

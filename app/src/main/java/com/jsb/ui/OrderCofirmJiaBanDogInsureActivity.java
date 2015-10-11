@@ -14,9 +14,9 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * 买保险-加班狗-确认订单
  */
-public class OrderCofirmOnDrivingActivity extends BaseActivity {
+public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity {
     private boolean tvPayFlag = false;
     private TitleBar titleBar;
     private TextView tv_pay;
@@ -25,7 +25,7 @@ public class OrderCofirmOnDrivingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_confirm_on_driving_insure);
+        setContentView(R.layout.activity_order_confirm_jiaban_dog_insure);
         setUp();
         setLisenter();
     }
@@ -34,7 +34,7 @@ public class OrderCofirmOnDrivingActivity extends BaseActivity {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                OrderCofirmOnDrivingActivity.this.finish();
+                OrderCofirmJiaBanDogInsureActivity.this.finish();
             }
 
             @Override
@@ -57,9 +57,9 @@ public class OrderCofirmOnDrivingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (tvPayFlag) {
-                    startActivity(new Intent(OrderCofirmOnDrivingActivity.this, PayJiaBanDogInsureActivity.class));
+                    startActivity(new Intent(OrderCofirmJiaBanDogInsureActivity.this, PayJiaBanDogInsureActivity.class));
                 } else {
-                    Toast.makeText(OrderCofirmOnDrivingActivity.this, "请先完善以上信息！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderCofirmJiaBanDogInsureActivity.this, "请先完善以上信息！", Toast.LENGTH_SHORT).show();
                 }
             }
         });

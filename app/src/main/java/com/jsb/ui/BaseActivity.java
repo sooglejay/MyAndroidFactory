@@ -4,7 +4,9 @@ import android.support.v4.app.FragmentActivity;
 
 import de.greenrobot.event.EventBus;
 
-
+/**
+ *  activity 基类
+ */
 public class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

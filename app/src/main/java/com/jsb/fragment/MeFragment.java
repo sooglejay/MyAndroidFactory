@@ -18,7 +18,9 @@ import com.jsb.ui.MyMoneyPacketActivity;
 import com.jsb.ui.ShareActivity;
 import com.jsb.widget.TitleBar;
 import com.rey.material.widget.Button;
-
+/**
+ * 我的-主框架-tab3
+ */
 public class MeFragment extends BaseFragment {
 
     private TitleBar titleBar;

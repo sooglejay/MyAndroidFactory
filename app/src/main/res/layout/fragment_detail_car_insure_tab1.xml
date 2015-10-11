@@ -516,25 +516,16 @@
             android:background="@color/bg_screen"
             android:orientation="vertical">
 
-            <LinearLayout
+
+            <CheckBox
+                android:id="@+id/cb_agree_license"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/middle_padding"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_agree" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="同意《约定保障条款》" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:button="@drawable/icon_agree"
+                android:gravity="center_vertical"
+                android:text="同意《约定保障条款》"
+                android:textColor="#a7a7a7" />
 
 
             <LinearLayout
@@ -544,27 +535,28 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textColor="@color/white_color"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#82ba90"
                     android:gravity="center"
+                    android:textSize="@dimen/big_textsize"
                     android:minHeight="48dp"
                     android:text="分享" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/big_textsize"
                     android:layout_weight="1"
+                    android:textColor="@color/white_color"
                     android:background="#50a165"
                     android:gravity="center"
                     android:minHeight="48dp"
                     android:text="我要续保" />
             </LinearLayout>
-
         </LinearLayout>
-
-
     </LinearLayout>
 </ScrollView>
 

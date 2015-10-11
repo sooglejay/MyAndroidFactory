@@ -9,145 +9,125 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ScrollView
+    <ImageView
+        android:id="@+id/iv_take_car_picture"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_beautiful_girl2" />
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_select_white"
+        android:clickable="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="@dimen/middle_padding"
+            android:text="自驾车意外事故、残疾10万元\n自驾车意外医疗2万元"
+            android:textSize="@dimen/big_textsize" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/middle_padding"
+            android:src="@drawable/arrow_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingTop="@dimen/middle_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生效时间："
+            android:textColor="#585858" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2015-09-11"
+            android:textColor="#585858" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/middle_padding"
+        android:paddingLeft="@dimen/middle_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保障时间："
+            android:textColor="#585858" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="365天"
+            android:textColor="#585858" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/middle_padding"
+        android:background="@color/bg_screen">
+
+        <CheckBox
+            android:id="@+id/cb_agree_license"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/iv_take_car_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="280dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/test_beautiful_girl2" />
-            </FrameLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_select_white"
-                android:clickable="true"
-                android:minHeight="78dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:padding="@dimen/middle_padding"
-                    android:text="自驾车意外事故、残疾10万元\n自驾车意外医疗2万元"
-                    android:textSize="@dimen/big_textsize" />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_gravity="center"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="@dimen/middle_padding"
-                    android:src="@drawable/arrow_right" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_screen"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/middle_padding"
-                android:paddingTop="@dimen/middle_padding">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="生效时间："
-                    android:textColor="#585858" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2015-09-11"
-                    android:textColor="#585858" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_screen"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/middle_padding"
-                android:paddingLeft="@dimen/middle_padding">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="保障时间："
-                    android:textColor="#585858" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="365天"
-                    android:textColor="#585858" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_screen"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/cb_agree_license"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:gravity="center_vertical"
-                    android:text="同意《约定保障条款》"
-                    android:textColor="#a7a7a7" />
-            </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:checked="true"
+            android:gravity="center_vertical"
+            android:text="同意《约定保障条款》"
+            android:textColor="#a7a7a7" />
+    </LinearLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:background="@color/bg_screen" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#c2dcca"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="100元/年"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/big_textsize" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#c2dcca"
-                    android:gravity="center"
+        <TextView
+            android:id="@+id/tv_buy_insure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_select_base_shape_0"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="我要购买"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/big_textsize" />
+    </LinearLayout>
 
-                    android:minHeight="48dp"
-                    android:padding="@dimen/middle_padding"
-                    android:text="100元/年" />
-
-                <TextView
-                    android:id="@+id/tv_buy_insure"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_select_base"
-                    android:gravity="center"
-                    android:minHeight="48dp"
-                    android:text="我要购买" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

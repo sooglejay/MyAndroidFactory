@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/10/7.
+ * 首页-替代spinner 控件，但是好像，不太好看，而且设计也变了，还是换成spinner吧
  */
 public class ChoosePopWindowView {
 

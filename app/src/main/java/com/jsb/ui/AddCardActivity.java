@@ -13,7 +13,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * 主页面-取钱-添加新卡
  */
 public class AddCardActivity extends BaseActivity {
 

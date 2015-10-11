@@ -7,7 +7,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/19.
+ * 我的-修改密码
  */
 public class MyModifyPasswordActivity extends BaseActivity {
 

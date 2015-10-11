@@ -15,7 +15,10 @@ import com.jsb.adapter.DetailCarInsureTab3ServiceStationAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailCarInsureServiceStationFragment_Tab3 extends Fragment {
+/**
+ * 我的保险-车险-tab3
+ */
+public class CarInsureDetailServiceStationFragmentTab3 extends Fragment {
 
     private ListView listView;
     private List<Object> listData = new ArrayList<>();

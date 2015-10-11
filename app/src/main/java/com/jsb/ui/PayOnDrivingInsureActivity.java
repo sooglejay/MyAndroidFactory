@@ -9,7 +9,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * 买保险-驾驶险-确认支付信息
  */
 public class PayOnDrivingInsureActivity extends BaseActivity {
     private TitleBar titleBar;

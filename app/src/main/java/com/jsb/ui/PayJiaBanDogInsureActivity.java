@@ -9,7 +9,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * 买保险-加班狗-确认支付信息
  */
 public class PayJiaBanDogInsureActivity extends BaseActivity {
     private TitleBar titleBar;

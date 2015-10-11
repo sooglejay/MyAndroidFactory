@@ -10,7 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jsb.R;
-import com.jsb.ui.DetailCarInsureActivity;
+import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
+import com.jsb.ui.MyInsuresListJiaBanDogInsureDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/9/16.
  */
-public class MyInsureAdapter extends BaseAdapter {
-    public MyInsureAdapter(Context mContext, List<String> datas) {
+public class MyInsuresListAdapter extends BaseAdapter {
+    public MyInsuresListAdapter(Context mContext, List<String> datas) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
@@ -64,10 +65,18 @@ public class MyInsureAdapter extends BaseAdapter {
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0)
+                switch (position)
                 {
-                    mContext.startActivity(new Intent(mContext, DetailCarInsureActivity.class));
+                    case 0:
+                        mContext.startActivity(new Intent(mContext, MyInsuresListCarInsureDetailActivity.class));
+                        break;
+                    case 1:
+                        mContext.startActivity(new Intent(mContext, MyInsuresListJiaBanDogInsureDetailActivity.class));
+                        break;
+                    case 2:
+                        break;
                 }
+
             }
         });
 

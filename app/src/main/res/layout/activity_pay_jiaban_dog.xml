@@ -1,4 +1,4 @@
-\<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_gray_color_level_0"
         android:paddingBottom="@dimen/small_padding"
+        android:textSize="@dimen/small_textsize"
         android:paddingLeft="@dimen/middle_padding"
         android:paddingTop="@dimen/small_padding"
         android:text="选择支付方式"
@@ -63,7 +64,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen"/>
+        android:background="@color/bg_screen" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,17 +102,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已绑定的银行卡"
             android:layout_marginLeft="@dimen/middle_padding"
+            android:text="已绑定的银行卡"
             android:textColor="@color/tv_gray_color_level_1" />
     </LinearLayout>
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_confirm_pay"
             android:layout_width="match_parent"
@@ -118,8 +120,8 @@
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginRight="@dimen/middle_padding"
             android:layout_marginTop="@dimen/most_big_padding"
-            android:gravity="center"
             android:background="@drawable/btn_select_base"
+            android:gravity="center"
             android:paddingBottom="@dimen/middle_padding"
             android:paddingTop="@dimen/middle_padding"
             android:text="确认支付"

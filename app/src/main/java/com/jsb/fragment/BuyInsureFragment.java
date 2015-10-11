@@ -21,6 +21,10 @@ import com.jsb.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 买保险-主框架-tab2
+ */
 public class BuyInsureFragment extends BaseFragment {
     private BannerView bannerView;
     private List<Banner> bannerDatas = new ArrayList<>();

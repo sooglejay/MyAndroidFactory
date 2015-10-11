@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 
 import com.jsb.R;
 
-public class DetailCarInsureClaimPolicyFragment_Tab2 extends Fragment {
+/**
+ * 我的保险-车险-tab1
+ */
+public class CarInsureDetailContentFragmentTab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_detail_car_insure_tab2, container, false);
+        return inflater.inflate(R.layout.fragment_detail_car_insure_tab1, container, false);
     }
 
     @Override

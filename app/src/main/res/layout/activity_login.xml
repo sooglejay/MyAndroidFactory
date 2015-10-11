@@ -17,7 +17,8 @@
         android:paddingLeft="@dimen/middle_padding"
         android:paddingTop="@dimen/small_padding"
         android:text="手机验证"
-        android:textColor="@color/tv_gray_color_level_3" />
+        android:textColor="@color/tv_gray_color_level_3"
+        android:textSize="@dimen/small_textsize" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -117,8 +118,8 @@
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginRight="@dimen/middle_padding"
             android:layout_marginTop="@dimen/most_big_padding"
-            android:gravity="center"
             android:background="@drawable/btn_select_base"
+            android:gravity="center"
             android:paddingBottom="@dimen/middle_padding"
             android:paddingTop="@dimen/middle_padding"
             android:text="登录"

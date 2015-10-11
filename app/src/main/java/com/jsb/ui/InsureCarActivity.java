@@ -15,7 +15,7 @@ import com.jsb.widget.TitleBar;
 
 
 /**
- * Created by Administrator on 2015/9/18.
+ * 买保险-车险
  */
 public class InsureCarActivity extends BaseActivity {
 

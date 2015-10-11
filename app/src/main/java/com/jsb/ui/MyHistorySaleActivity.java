@@ -7,7 +7,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/19.
+ * 我的-我的历史记录
  */
 public class MyHistorySaleActivity extends BaseActivity {
 

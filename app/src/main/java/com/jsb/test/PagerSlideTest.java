@@ -1,12 +1,5 @@
 package com.jsb.test;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.TransitionDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -14,21 +7,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 
 import com.jsb.R;
-import com.jsb.fragment.BuyInsureFragment;
-import com.jsb.fragment.DetailCarInsureClaimPolicyFragment_Tab2;
-import com.jsb.fragment.DetailCarInsureContentFragment_Tab1;
-import com.jsb.fragment.DetailCarInsureServiceStationFragment_Tab3;
-import com.jsb.fragment.MeFragment;
-import com.jsb.fragment.ShutInsureFragment;
+import com.jsb.fragment.CarInsureDetailClaimPolicyFragmentTab2;
+import com.jsb.fragment.CarInsureDetailContentFragmentTab1;
+import com.jsb.fragment.CarInsureDetailServiceStationFragmentTab3;
 import com.jsb.widget.PagerSlidingTabStrip;
-import com.rey.material.widget.Spinner;
 
 public class PagerSlideTest extends FragmentActivity {
 
@@ -104,13 +88,13 @@ public class PagerSlideTest extends FragmentActivity {
 			Fragment fragment = null;
 			switch (position) {
 				case 0:
-					fragment = new DetailCarInsureContentFragment_Tab1();
+					fragment = new CarInsureDetailContentFragmentTab1();
 					break;
 				case 1:
-					fragment = new DetailCarInsureClaimPolicyFragment_Tab2();
+					fragment = new CarInsureDetailClaimPolicyFragmentTab2();
 					break;
 				case 2:
-					fragment = new DetailCarInsureServiceStationFragment_Tab3();
+					fragment = new CarInsureDetailServiceStationFragmentTab3();
 					break;
 				default:
 					break;

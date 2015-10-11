@@ -11,7 +11,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/18.
+ * 买保险-驾驶险
  */
 public class InsureOnDrivingActivity extends BaseActivity {
     private TitleBar titleBar;
@@ -43,12 +43,12 @@ public class InsureOnDrivingActivity extends BaseActivity {
     private void setUp() {
         tv_buy_insure = (TextView) findViewById(R.id.tv_buy_insure);
         tv_buy_insure.setEnabled(true);
-        tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base);
+        tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
         tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
         tv_buy_insure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InsureOnDrivingActivity.this, OrderCofirmOnDrivingActivity.class));
+                startActivity(new Intent(InsureOnDrivingActivity.this, OrderCofirmOnDrivingInsureActivity.class));
             }
         });
         titleBar = (TitleBar) findViewById(R.id.title_bar);
@@ -59,10 +59,12 @@ public class InsureOnDrivingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    cb_agree_license.setButtonDrawable(R.drawable.icon_agree);
                     tv_buy_insure.setEnabled(true);
-                    tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base);
+                    tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
                 } else {
+                    cb_agree_license.setButtonDrawable(R.drawable.icon_disagree);
                     tv_buy_insure.setEnabled(false);
                     tv_buy_insure.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));

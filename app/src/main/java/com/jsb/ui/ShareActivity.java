@@ -7,7 +7,7 @@ import com.jsb.R;
 import com.jsb.widget.TitleBar;
 
 /**
- * Created by Administrator on 2015/9/13.
+ * 首页-分享
  */
 public class ShareActivity extends BaseActivity {
 

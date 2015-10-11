@@ -5,22 +5,20 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.jsb.R;
-import com.jsb.adapter.MyInsureAdapter;
+import com.jsb.adapter.MyInsuresListAdapter;
 import com.jsb.widget.TitleBar;
-import com.rey.material.widget.Button;
-import com.rey.material.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/9/19.
+ * 我的-我的保险
  */
 public class MyInsureActivity extends BaseActivity {
 
     private TitleBar titleBar;
     private ListView mInsureList;
-    private MyInsureAdapter myInsureAdapter;
+    private MyInsuresListAdapter myInsuresListAdapter;
     private List<String> mInsureListDatas = new ArrayList<>();
 
     @Override
@@ -53,9 +51,9 @@ public class MyInsureActivity extends BaseActivity {
         mInsureListDatas.add("车险");
         mInsureListDatas.add("驾驶险");
         mInsureListDatas.add("加班狗");
-        myInsureAdapter = new MyInsureAdapter(this,mInsureListDatas);
+        myInsuresListAdapter = new MyInsuresListAdapter(this,mInsureListDatas);
         mInsureList = (ListView)findViewById(R.id.list_view);
-        mInsureList.setAdapter(myInsureAdapter);
+        mInsureList.setAdapter(myInsuresListAdapter);
 
     }
 }

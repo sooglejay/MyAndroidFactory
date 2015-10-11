@@ -23,7 +23,9 @@ import com.rey.material.widget.Switch;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * 停保险-主框架-tab1
+ */
 public class ShutInsureFragment extends BaseFragment {
    public static final int ACTION_TIME_STRING = 1000;
 
