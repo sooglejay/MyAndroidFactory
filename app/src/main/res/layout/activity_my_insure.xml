@@ -3,7 +3,6 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
-
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
@@ -20,8 +19,4 @@
         android:layout_height="wrap_content"
         android:divider="@color/very_light_gray_color"
         android:dividerHeight="1dp"/>
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/bg_screen"
-        android:layout_height="match_parent"/>
 </LinearLayout>

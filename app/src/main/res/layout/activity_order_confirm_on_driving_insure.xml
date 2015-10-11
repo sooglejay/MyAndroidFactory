@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingLeft="@dimen/middle_padding"
-            android:text="被保障人："
+            android:text="被保障人"
             android:textColor="#4f4f4f"
             android:textSize="@dimen/big_textsize" />
 
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingLeft="@dimen/middle_padding"
-            android:text="身份证号："
+            android:text="身份证号"
             android:textColor="#4f4f4f"
             android:textSize="@dimen/big_textsize" />
 
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
 
-            android:text="保险期限："
+            android:text="保险期限"
             android:textColor="#4f4f4f"
             android:textSize="@dimen/big_textsize" />
 
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="订单内容："
+                android:text="订单内容"
                 android:textSize="@dimen/big_textsize"  android:textColor="#4e4e4e"
                 android:layout_height="wrap_content" />
             <TextView
@@ -141,7 +141,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/big_textsize"    android:textColor="#4e4e4e"
-                android:text="订单金额："
+                android:text="订单金额"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_width="wrap_content"

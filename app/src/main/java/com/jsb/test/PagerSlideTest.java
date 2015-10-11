@@ -22,7 +22,9 @@ import android.widget.ArrayAdapter;
 
 import com.jsb.R;
 import com.jsb.fragment.BuyInsureFragment;
+import com.jsb.fragment.DetailCarInsureClaimPolicyFragment_Tab2;
 import com.jsb.fragment.DetailCarInsureContentFragment_Tab1;
+import com.jsb.fragment.DetailCarInsureServiceStationFragment_Tab3;
 import com.jsb.fragment.MeFragment;
 import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.widget.PagerSlidingTabStrip;
@@ -104,11 +106,11 @@ public class PagerSlideTest extends FragmentActivity {
 				case 0:
 					fragment = new DetailCarInsureContentFragment_Tab1();
 					break;
-				case 2:
-					fragment = new DetailCarInsureContentFragment_Tab1();
-					break;
 				case 1:
-					fragment = new MeFragment();
+					fragment = new DetailCarInsureClaimPolicyFragment_Tab2();
+					break;
+				case 2:
+					fragment = new DetailCarInsureServiceStationFragment_Tab3();
 					break;
 				default:
 					break;

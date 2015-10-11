@@ -1,13 +1,16 @@
 package com.jsb.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.ui.DetailCarInsureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class MyInsureAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         holder = new ViewHolder();
         if(convertView==null)
         {
@@ -51,12 +54,22 @@ public class MyInsureAdapter extends BaseAdapter {
             holder.tv_buy_insure_time = (TextView)convertView.findViewById(R.id.tv_buy_insure_time);
             holder.tv_insure_price = (TextView)convertView.findViewById(R.id.tv_insure_price);
             holder.tv_buy_insure_agent = (TextView)convertView.findViewById(R.id.tv_buy_insure_agent);
+            holder.item = (LinearLayout)convertView.findViewById(R.id.item);
             convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder)convertView.getTag();
         }
         holder.tv_insure_name.setText(mDatas.get(position) + "");
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0)
+                {
+                    mContext.startActivity(new Intent(mContext, DetailCarInsureActivity.class));
+                }
+            }
+        });
 
         return convertView;
     }
@@ -66,5 +79,6 @@ public class MyInsureAdapter extends BaseAdapter {
         TextView tv_buy_insure_time;
         TextView tv_insure_price;
         TextView tv_buy_insure_agent;
+        LinearLayout item;
     }
 }

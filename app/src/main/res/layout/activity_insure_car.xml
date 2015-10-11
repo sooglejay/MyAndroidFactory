@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="车主姓名："
+                    android:text="车主姓名"
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
 
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="车牌号码："
+                    android:text="车牌号码"
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
 
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="车架号码："
+                    android:text="车架号码"
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
                 <EditText
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="发动机号："
+                    android:text="发动机号"
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
                 <EditText
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="登记日期："
+                    android:text="登记日期"
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
 
@@ -223,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="身份证号(可扫描)："
+                    android:text="身份证号(可扫描)"
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
                 <EditText
@@ -265,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingLeft="@dimen/middle_padding"
-                android:text="起保日期："
+                android:text="起保日期"
                 android:textColor="@color/tv_black_color_level_0"
                 android:textSize="@dimen/big_textsize" />
             <EditText

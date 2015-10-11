@@ -77,7 +77,7 @@ public class ChoosePopWindowView {
 
     public  void show(View view,TextView tvShowText)
     {
-        popupWindow.showAsDropDown(view,(int)UIUtils.dp2px(mContext,12), -(int)UIUtils.dp2px(mContext,12));
+        popupWindow.showAsDropDown(view,(int)UIUtils.dp2px(mContext,0), -(int)UIUtils.dp2px(mContext,12));
         this.tvShowText = tvShowText;
     }
 }
