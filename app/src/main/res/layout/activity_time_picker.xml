@@ -7,6 +7,7 @@
 
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
+        android:background="@color/base_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
 
@@ -60,7 +61,7 @@
         android:weightSum="1.0"
         android:gravity="center">
 
-        <com.rey.material.widget.Button
+        <Button
             android:id="@+id/btn_cancel_picker_time"
             android:layout_width="0dp"
             android:layout_height="@dimen/bt_height"
@@ -73,7 +74,7 @@
             android:layout_height="1dp"
             android:layout_weight="0.1"/>
 
-        <com.rey.material.widget.Button
+        <Button
             android:id="@+id/btn_confirm_picker_time"
             android:layout_width="0dp"
             android:layout_height="@dimen/bt_height"
