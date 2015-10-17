@@ -1,47 +1,48 @@
 package com.jsb.ui;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.event.BusEvent;
-import com.jsb.widget.DatePicker.bizs.themes.DPCNTheme;
-import com.jsb.widget.DatePicker.bizs.themes.DPTManager;
-import com.jsb.widget.DatePicker.cons.DPMode;
-import com.jsb.widget.DatePicker.views.DatePicker;
+import com.jsb.constant.PreferenceConstant;
+import com.jsb.util.PreferenceUtil;
+import com.jsb.widget.TimePicker.MyCalendar;
 import com.jsb.widget.TitleBar;
-//import com.rey.material.widget.Button;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import de.greenrobot.event.EventBus;
 /**
  * 首页-选择预约停保-时间选择器
  */
-public class TimePickerActivity extends BaseActivity {
-
+public class TimePickerActivity extends BaseActivity implements MyCalendar.OnDaySelectListener {
     private TitleBar mTitleBar;
-    private TextView mTvStartTime;
-    private TextView mTvEndTime;
 
-    private Button btnConfirmTime, btnCancelTime;
 
-    private int count = 0, intervalDays;
-    private String timeStartStr = "";
-    private String timeEndStr = "";
-    private Calendar nowDate = Calendar.getInstance();
+    LinearLayout dateLayout;
+    MyCalendar myCalendar;
+    Date date;
+    String nowdayString;
+    long milliSecondsInADay = 1000 * 24L * 60L * 60L;//一天的毫秒数
+    SimpleDateFormat simpleDateFormat, sd_year, sd_day;
+
+
+    private String inday, outday, startDayFromSharedXml, endDayFromSharedXml;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_picker);
-        Toast.makeText(TimePickerActivity.this, "请选择开始时间！", Toast.LENGTH_SHORT).show();
         setUpView();
         setUpLisenter();
     }
@@ -60,181 +61,179 @@ public class TimePickerActivity extends BaseActivity {
     }
 
     private void setUpView() {
-        mTvStartTime = (TextView) findViewById(R.id.tv_start_time);
-        mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
-
         mTitleBar = (TitleBar) findViewById(R.id.title_bar);
-        mTitleBar.initTitleBarInfo("选择预约停保时间", R.drawable.arrow_left, -1, "", "");
-        //时间控件的配置
-        DPTManager.getInstance().initCalendar(new DPCNTheme());
+        mTitleBar.initTitleBarInfo("选择开始结束时间", R.drawable.arrow_left, -1, "", "");
 
-        DatePicker picker = (DatePicker) findViewById(R.id.date_picker);
-        picker.setDate(nowDate.get(Calendar.YEAR), nowDate.get(Calendar.MONTH) + 1);
-        picker.setMode(DPMode.SINGLE);
-        picker.setOnDatePickedListener(new DatePicker.OnDatePickedListener() {
-            @Override
-            public void onDatePicked(String date) {
-
-                switch (validStartTime(date)) {
-                    case -100:
-                        Toast.makeText(TimePickerActivity.this, "日期不能与今天间隔超过一年！", Toast.LENGTH_SHORT).show();
-                        return;
-                    case -1:
-                        Toast.makeText(TimePickerActivity.this, "日期不能选择过去！", Toast.LENGTH_SHORT).show();
-                        return;
-                }
-                if (count == 0) {
-                    timeStartStr = date;
-                    mTvStartTime.setText(date);
-                } else {
-                    timeEndStr = date;
-                }
-                count++;
-                if (count < 2) {
-                    Toast.makeText(TimePickerActivity.this, "请再选择结束时间！", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                intervalDays = daysBetween(timeStartStr, timeEndStr);
-                switch (validEndTime(timeStartStr, timeEndStr)) {
-                    case -100:
-                        Toast.makeText(TimePickerActivity.this, "时间间隔不能超过一年！", Toast.LENGTH_SHORT).show();
-                        mTvEndTime.setText("");
-                        break;
-                    case 0:
-                        Toast.makeText(TimePickerActivity.this, "时间间隔必须大于0！", Toast.LENGTH_SHORT).show();
-                        mTvEndTime.setText("");
-                        break;
-                    case -1:
-                        Toast.makeText(TimePickerActivity.this, "时间间隔必须大于0！", Toast.LENGTH_SHORT).show();
-                        mTvEndTime.setText("");
-                        break;
-                    case 1:
-                        mTvEndTime.setText(date);
-                        break;
-                    default:
-                        mTvEndTime.setText("");
-                        break;
-                }
-            }
-        });
-
-        btnConfirmTime = (Button) findViewById(R.id.btn_confirm_picker_time);
-        btnConfirmTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(mTvEndTime.getText().toString())) {
-                    Toast.makeText(TimePickerActivity.this, "你必须要选择结束时间！", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                BusEvent newEvent = new BusEvent(BusEvent.MSG_INT_TIME);
-                newEvent.setStart_time(timeStartStr);
-                newEvent.setEnd_time(timeEndStr);
-                newEvent.setInterval_time("共" + intervalDays + "天");
-                EventBus.getDefault().post(newEvent);
-                TimePickerActivity.this.finish();
-            }
-        });
-        btnCancelTime = (Button) findViewById(R.id.btn_cancel_picker_time);
-        btnCancelTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                count = 0;
-                timeEndStr = "";
-                mTvStartTime.setText("");
-                mTvEndTime.setText("");
-                timeStartStr = "";
-                nowDate = Calendar.getInstance();
-            }
-        });
+        initCalenderView();
     }
 
-    /**
-     * @param startTimeStr
-     * @param endTimeStr
-     * @return -1
-     */
-    public int validEndTime(String startTimeStr, String endTimeStr) {
-        String startTimeArray[] = startTimeStr.split("-");
-        String endTimeArray[] = endTimeStr.split("-");
+    private void initCalenderView() {
+         //本地保存
+        startDayFromSharedXml = PreferenceUtil.load(this, PreferenceConstant.TimePickerDateStart, "");
+        endDayFromSharedXml = PreferenceUtil.load(this, PreferenceConstant.TimePickerDateEnd, "");
 
-        int start_y = Integer.parseInt(startTimeArray[0]);
-        int start_m = Integer.parseInt(startTimeArray[1]);
-        int start_d = Integer.parseInt(startTimeArray[2]);
 
-        int end_y = Integer.parseInt(endTimeArray[0]);
-        int end_m = Integer.parseInt(endTimeArray[1]);
-        int end_d = Integer.parseInt(endTimeArray[2]);
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        nowdayString = simpleDateFormat.format(new Date());
+        sd_year = new SimpleDateFormat("yyyy");
+        sd_day = new SimpleDateFormat("dd");
+        dateLayout = (LinearLayout) findViewById(R.id.layout_calender);
 
-        if (end_y == start_y) {
-            if (end_m == start_m) {
-                if (end_d == start_d) {
-                    return 0;//时间相同
-                } else if (end_d > start_d) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            } else if (end_m > start_m) {
-                return 1;
-            } else {
-                return -1;
+        List<String> listDate = getDateList();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        for (int i = 0; i < listDate.size(); i++) {
+            myCalendar = new MyCalendar(this);
+            myCalendar.setLayoutParams(params);
+            Date date = null;
+            try {
+                date = simpleDateFormat.parse(listDate.get(i));
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        } else {
-            return -100;//时间间隔不能超过一年
+            if (!"".equals(startDayFromSharedXml)) {
+                myCalendar.setInDay(startDayFromSharedXml);
+            }
+            if (!"".equals(endDayFromSharedXml)) {
+                myCalendar.setOutDay(endDayFromSharedXml);
+            }
+            myCalendar.setTheDay(date);
+            myCalendar.setOnDaySelectListener(this);
+            dateLayout.addView(myCalendar);
         }
     }
 
-    public int validStartTime(String startTime) {
-        String startTimeArray[] = startTime.split("-");
-
-        int start_y = Integer.parseInt(startTimeArray[0]);
-        int start_m = Integer.parseInt(startTimeArray[1]);
-        int start_d = Integer.parseInt(startTimeArray[2]);
-
-        int now_y = nowDate.get(Calendar.YEAR);
-        int now_m = nowDate.get(Calendar.MONTH) + 1;
-        int now_d = nowDate.get(Calendar.DATE);
-
-        if (start_y == now_y) {
-            if (start_m == now_m) {
-                if (start_d == now_d) {
-                    return 0;//时间相同
-                } else if (now_d > start_d) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (now_m > start_m) {
-                return -1;
-            } else {
-                return 1;
-            }
-        } else {
-            return -100;//时间间隔不能超过一年
-        }
-    }
-
-    /**
-     * 字符串的日期格式的计算
-     */
-    public static int daysBetween(String smdate, String bdate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal = Calendar.getInstance();
+    @Override
+    public void onDaySelectListener(View viewSelected, String dateSelected) {
+        //若日历日期小于当前日期，或日历日期-当前日期超过三个月，则不能点击
         try {
-            cal.setTime(sdf.parse(smdate));
+            if (simpleDateFormat.parse(dateSelected).getTime() < simpleDateFormat.parse(nowdayString).getTime()) {
+                Toast.makeText(TimePickerActivity.this, "日期无效", Toast.LENGTH_SHORT).show();
+                return;
+            }
+//            long dayxc = (simpleDateFormat.parse(dateSelected).getTime() - simpleDateFormat.parse(nowdayString).getTime()) / milliSecondsInADay;
+//            if (dayxc > 90) {
+//                Toast.makeText(TimePickerActivity.this, "日期无效", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long time1 = cal.getTimeInMillis();
-        try {
-            cal.setTime(sdf.parse(bdate));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        //若以前已经选择了日期，则在进入日历后会显示以选择的日期，该部分作用则是重新点击日历时，清空以前选择的数据（包括背景图案）
+        if (!"".equals(startDayFromSharedXml)) {
+            myCalendar.inView.setBackgroundColor(Color.WHITE);
+            ((TextView) myCalendar.inView.findViewById(R.id.tv_up)).setTextColor(getResources().getColor(R.color.tv_black_color_level_1));
+            ((TextView) myCalendar.inView.findViewById(R.id.tv_bottom)).setText("");
         }
-        long time2 = cal.getTimeInMillis();
-        long between_days = (time2 - time1) / (1000 * 3600 * 24);
-        return Integer.parseInt(String.valueOf(between_days));
+        if (!"".equals(endDayFromSharedXml)) {
+            myCalendar.outView.setBackgroundColor(Color.WHITE);
+            ((TextView) myCalendar.outView.findViewById(R.id.tv_up)).setTextColor(getResources().getColor(R.color.tv_black_color_level_1));
+            ((TextView) myCalendar.outView.findViewById(R.id.tv_bottom)).setText("");
+        }
+
+        String dayStringInDateSelected = dateSelected.split("-")[2];
+        if (Integer.parseInt(dayStringInDateSelected) < 10) {
+            dayStringInDateSelected = dateSelected.split("-")[2].replace("0", "");
+        }
+        TextView tv_up = (TextView) viewSelected.findViewById(R.id.tv_up);
+        TextView tv_bottom = (TextView) viewSelected.findViewById(R.id.tv_bottom);
+
+        //设置选中的时间的背景色
+        viewSelected.setBackgroundColor(getResources().getColor(R.color.base_color));
+        tv_up.setTextColor(Color.WHITE);
+
+        //第一次点击gridView
+        if (null == inday || inday.equals("")) {
+            tv_up.setText(dayStringInDateSelected);
+            tv_bottom.setText("入住");
+            inday = dateSelected;
+        }
+
+        //非第一次点击
+        else {
+
+            if (inday.equals(dateSelected)) {
+
+                tv_up.setText(dayStringInDateSelected);
+                tv_up.setTextColor(getResources().getColor(R.color.tv_black_color_level_1));//如果同一个View连续点击两次，就取消选中状态
+                viewSelected.setBackgroundColor(Color.WHITE);
+                tv_bottom.setText("");
+                inday = "";
+            } else {
+                try {
+                    if (simpleDateFormat.parse(dateSelected).getTime() < simpleDateFormat.parse(inday).getTime()) {
+                        viewSelected.setBackgroundColor(Color.WHITE);
+                        tv_up.setTextColor(getResources().getColor(R.color.tv_black_color_level_1));
+                        Toast.makeText(TimePickerActivity.this, "离开日期不能小于入住日期", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                tv_up.setText(dayStringInDateSelected);
+                tv_bottom.setText("离开");
+                outday = dateSelected;
+                PreferenceUtil.save(this, PreferenceConstant.TimePickerDateStart, inday);
+                PreferenceUtil.save(this, PreferenceConstant.TimePickerDateEnd, outday);
+                finish();
+            }
+        }
     }
 
+    //根据当前日期，向后数三个月（若当前day不是1号，为满足至少90天，则需要向后数4个月）
+    @SuppressLint("SimpleDateFormat")
+    public List<String> getDateList() {
+        List<String> list = new ArrayList<String>();
+        Date date = new Date();
+        int nowMon = date.getMonth() + 1;
+        String yyyy = sd_year.format(date);
+        String dd = sd_day.format(date);
+        if (nowMon == 9) {
+            list.add(simpleDateFormat.format(date));
+            list.add(yyyy + "-10-" + dd);
+            list.add(yyyy + "-11-" + dd);
+            if (!dd.equals("01")) {
+                list.add(yyyy + "-12-" + dd);
+            }
+        } else if (nowMon == 10) {
+            list.add(yyyy + "-10-" + dd);
+            list.add(yyyy + "-11-" + dd);
+            list.add(yyyy + "-12-" + dd);
+            if (!dd.equals("01")) {
+                list.add((Integer.parseInt(yyyy) + 1) + "-01-" + dd);
+            }
+        } else if (nowMon == 11) {
+            list.add(yyyy + "-11-" + dd);
+            list.add(yyyy + "-12-" + dd);
+            list.add((Integer.parseInt(yyyy) + 1) + "-01-" + dd);
+            if (!dd.equals("01")) {
+                list.add((Integer.parseInt(yyyy) + 1) + "-02-" + dd);
+            }
+        } else if (nowMon == 12) {
+            list.add(yyyy + "-12-" + dd);
+            list.add((Integer.parseInt(yyyy) + 1) + "-01-" + dd);
+            list.add((Integer.parseInt(yyyy) + 1) + "-02-" + dd);
+            if (!dd.equals("01")) {
+                list.add((Integer.parseInt(yyyy) + 1) + "-03-" + dd);
+            }
+        } else {
+            list.add(yyyy + "-" + getMon(nowMon) + "-" + dd);
+            list.add(yyyy + "-" + getMon((nowMon + 1)) + "-" + dd);
+            list.add(yyyy + "-" + getMon((nowMon + 2)) + "-" + dd);
+            if (!dd.equals("01")) {
+                list.add(yyyy + "-" + getMon((nowMon + 3)) + "-" + dd);
+            }
+        }
+        return list;
+    }
+
+    public String getMon(int mon) {
+        String month = "";
+        if (mon < 10) {
+            month = "0" + mon;
+        } else {
+            month = "" + mon;
+        }
+        return month;
+    }
 
 }

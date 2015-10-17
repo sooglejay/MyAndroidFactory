@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -7,81 +6,93 @@
 
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/small_padding"
         android:background="@color/base_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
-
-    <com.jsb.widget.DatePicker.views.DatePicker
-        android:id="@+id/date_picker"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"></com.jsb.widget.DatePicker.views.DatePicker>
-    <LinearLayout
-        android:layout_marginLeft="@dimen/middle_padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="@dimen/little_padding"
-            android:text="投保开始时间：" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="日"
+            android:textColor="@color/light_red"
+            android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="一"
+            android:textColor="@color/white_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="二"
+            android:textColor="@color/white_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="三"
+            android:textColor="@color/white_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="四"
+            android:textColor="@color/white_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="五"
+            android:textColor="@color/white_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="六"
+            android:textColor="@color/light_red"
+            android:textSize="13sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginLeft="@dimen/middle_padding"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_end_time_des"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_calender"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="@dimen/little_padding"
-            android:text="投保结束时间：" />
+            android:background="@color/white_color"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btn_cancel_picker_time"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/bt_height"
-            android:layout_weight="0.4"
-            android:text="重置"
-            app:v_styleId="@array/button_raise"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="0.1"/>
-
-        <Button
-            android:id="@+id/btn_confirm_picker_time"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/bt_height"
-            android:layout_weight="0.4"
-            android:text="确定"
-            app:v_styleId="@array/button_raise_color"/>
-
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

@@ -134,4 +134,22 @@
     <color name="tv_black_color_level_1">#464646</color>
 
 
+
+    <!-- 日历 控件的颜色 集合-->
+    <color name="o">#ddeeee</color>
+    <color name="o1">#ffffdd</color>
+    <color name="gray">#d5d4d4</color>
+    <color name="blue">#0000ff</color>
+    <color name="calendar_color_green">#60c677</color>
+    <color name="calendar_color_orange">#fc6c00</color>
+    <color name="calendar_color_black">#666666</color>
+    <color name="calendar_color_gray">#cccccc</color>
+    <color name="calendar_color_month_title">#526276</color>
+    <color name="calendar_color_week">#339900</color>
+    <color name="calendar_color_today">#FF6600</color>
+    <color name="calendar_color_inDay">#33B5E5</color>
+
+
+
+
 </resources>
