@@ -114,6 +114,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".test.TestDecoViewActivity"
+            android:label="@string/LoginActivity"
+            android:screenOrientation="portrait">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
 
         <!-- Activities responsible for gathering payment info -->
         <activity android:name=".ui.OrderCofirmJiaBanDogInsureActivity"></activity>

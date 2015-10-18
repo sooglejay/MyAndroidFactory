@@ -1,12 +1,15 @@
 package com.jsb.fragment;
 
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -17,6 +20,9 @@ import com.jsb.R;
 import com.jsb.adapter.SpinnerDropDownAdapter;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
+import com.jsb.third_party.hookedonplay.decoviewlib.DecoView;
+import com.jsb.third_party.hookedonplay.decoviewlib.charts.SeriesItem;
+import com.jsb.third_party.hookedonplay.decoviewlib.events.DecoEvent;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
 import com.jsb.ui.TimePickerActivity;
@@ -29,7 +35,7 @@ import java.util.List;
 /**
  * 停保险-主框架-tab1
  */
-public class ShutInsureFragment extends BaseFragment {
+public class ShutInsureFragment extends DecoViewBaseFragment {
    public static final int ACTION_TIME_STRING = 1000;
 
     private TitleBar titleBar;
@@ -46,6 +52,14 @@ public class ShutInsureFragment extends BaseFragment {
     private Switch weekSwitchTabView;
     private Switch dateSwitchTabView;
     private LinearLayout datePickerLayout;
+
+    
+    //圆形动画
+    private String mProgress;//  进度条
+    private int mBigCircleSeriesIndex;//外围大环序列号
+    private int mSmallCircleSeriesIndex;//内 部小圆环序列号
+    private TextView tv_follow_decoView;//TextView 显示进度
+
 
 
     private RightControlFragment rightControlFragment;
@@ -64,6 +78,9 @@ public class ShutInsureFragment extends BaseFragment {
         rightControlFragment = new RightControlFragment();//涉及到权限操作时，需要临时输入密码并验证
 
 
+        //圆形动画 文本跟随器
+        tv_follow_decoView = (TextView) view.findViewById(R.id.tv_follow_decoView);
+
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, -1, StringConstant.empty, StringConstant.share);
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
@@ -77,6 +94,9 @@ public class ShutInsureFragment extends BaseFragment {
                 Toast.makeText(getActivity(), "hello,share", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
 
 
         //提现
@@ -164,12 +184,129 @@ public class ShutInsureFragment extends BaseFragment {
         week_number_spinner.setAdapter(new SpinnerDropDownAdapter(this.getActivity(),mWeekNumbersStringList));
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    protected void createTracks() {
+        setDemoFinished(false);
+        final View view = getView();
+        final DecoView decoView = getDecoView();
+        if (view == null || decoView == null) {
+            return;
+        }
+
+//        view.setBackgroundColor(Color.argb(255, 196, 196, 128));
+
+        decoView.executeReset();
+        decoView.deleteAll();
+
+        final float mSeriesMax = 100f;
+
+        SeriesItem seriesBack1Item = new SeriesItem.Builder(COLOR_BACK)
+                .setRange(0, mSeriesMax, mSeriesMax)
+                .setLineWidth(getDimension(6))
+                .build();
+
+        decoView.addSeries(seriesBack1Item);
+
+        SeriesItem series1Item = new SeriesItem.Builder(COLOR_BIG_CIRCLE)
+                .setRange(0, 1000f, 0)
+                .setInitialVisibility(false)
+                .setLineWidth(getDimension(6))
+                .setCapRounded(true)
+//                .addEdgeDetail(new EdgeDetail(EdgeDetail.EdgeType.EDGE_INNER, COLOR_EDGE, 0.3f))
+                .setShowPointWhenEmpty(true)
+                .build();
+        mBigCircleSeriesIndex = decoView.addSeries(series1Item);
+
+
+
+        float inset =  getDimension(8);
+        SeriesItem smallCircle = new SeriesItem.Builder(COLOR_SMALL_CIRCLE)
+                .setRange(0, 1000f, 0)
+                .setInitialVisibility(false)
+                .setInset(new PointF(inset, inset))
+                .setLineWidth(getDimension(2))
+                .setCapRounded(true)
+                .setShowPointWhenEmpty(true)
+                .build();
+        mBigCircleSeriesIndex = decoView.addSeries(series1Item);
+        mSmallCircleSeriesIndex = decoView.addSeries(smallCircle);
+
+        addFitListener(series1Item, tv_follow_decoView);
+    }
+
+
+    private void addAnimation(final DecoView arcView,
+                              int series, float moveTo, int delay,
+                              final ImageView imageView, final int imageId,
+                              final String format, final int color, final boolean restart) {
+
+        DecoEvent.ExecuteEventListener listener = new DecoEvent.ExecuteEventListener() {
+            @Override
+            public void onEventStart(DecoEvent event) {
+                mProgress = format;
+            }
+
+            @Override
+            public void onEventEnd(DecoEvent event) {
+                if (restart) {
+                    setupEvents();
+                }
+            }
+        };
+
+        arcView.addEvent(new DecoEvent.Builder(moveTo)
+                .setIndex(series)
+                .setDelay(delay)
+                .setDuration(5000)
+                .setListener(listener)
+                .setColor(color)
+                .build());
+    }
+
 
 
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+    protected void setupEvents() {
+        final DecoView arcView = getDecoView();
+        final View view = getView();
+        if (view == null || arcView == null || arcView.isEmpty()) {
+            return;
+        }
+        addAnimation(arcView, mBigCircleSeriesIndex,869.2f, 1500, null, -1, "$ %.2f", COLOR_BIG_CIRCLE, false);
+        addAnimation(arcView, mSmallCircleSeriesIndex, 1000f, 1000, null, -1, "$ %.2f", COLOR_SMALL_CIRCLE, false);
+
+      }
+
+    /**
+     * 圆形控件动画的 跟随监听器
+     *@param seriesItem
+     * @param view
+     */
+    private void addFitListener(@NonNull final SeriesItem seriesItem, @NonNull final TextView view) {
+        seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
+
+            @Override
+            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
+                if (mProgress != null) {
+                    if (mProgress.contains("%%")) {
+                        view.setText(String.format(mProgress, (1.0f - (currentPosition / seriesItem.getMaxValue())) * 1000f));
+                    } else {
+                        view.setText(String.format(mProgress, currentPosition));
+                    }
+                }
+            }
+
+            @Override
+            public void onSeriesItemDisplayProgress(float percentComplete) {
+
+            }
+        });
     }
 
     /**

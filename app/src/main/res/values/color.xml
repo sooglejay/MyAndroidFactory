@@ -13,6 +13,7 @@
 
 
 
+
     <color name="red_color">#FF0000</color>
     <color name="pink_color">#f36c60</color>
     <color name="blue_color">#20a0fa</color>
@@ -62,6 +63,7 @@
     <color name="gray_bg_color">#ecebf1</color>
     <color name="gray_tv_color">#ecebf1</color>
     <color name="red_tv_color">#e70118</color>
+
 
     <!--引用的资源-->
 
@@ -114,6 +116,8 @@
     <color name="et_divider_focused">@color/colorControlActivated</color>
     <color name="et_divider_not_focused">#FF6D6D6D</color>
     <color name="et_divider_disable">#FFC1C1C1</color>
+
+
 
 
     <!--分割线颜色值-->
