@@ -6,18 +6,20 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.adapter.SpinnerDropDownAdapter;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
 import com.jsb.ui.TimePickerActivity;
-import com.jsb.widget.ChoosePopWindowView;
 import com.jsb.widget.TitleBar;
 
 
@@ -33,8 +35,11 @@ public class ShutInsureFragment extends BaseFragment {
     private TitleBar titleBar;
     private TextView tvPullMoney;
     private TextView layout_rule;
-    private TextView tvChooseCarNumber;
-    private TextView tvChooseWeekNumber;
+    private Spinner week_number_spinner;
+    private Spinner car_number_spinner;
+
+    private List<String> mCarNumbersStringList = new ArrayList<>();
+    private List<String> mWeekNumbersStringList = new ArrayList<>();
     private TextView tv_start_date;
     private TextView tv_end_date;
     private TextView tv_date_interval;
@@ -94,14 +99,15 @@ public class ShutInsureFragment extends BaseFragment {
         weekSwitchTabView = (Switch) view.findViewById(R.id.week_switch_tab_view);
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(Switch aSwitch, boolean b) {
-                if (b) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
                     Toast.makeText(getActivity(), "开", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "关", Toast.LENGTH_SHORT).show();
 
                 }
             }
+
         });
 
 
@@ -111,15 +117,15 @@ public class ShutInsureFragment extends BaseFragment {
         dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(Switch aSwitch, boolean b) {
-                if(b)
-                {
-                    Toast.makeText(getActivity(),"开",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getActivity(),"关",Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(getActivity(), "开", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "关", Toast.LENGTH_SHORT).show();
 
                 }
             }
+
         });
 
 
@@ -140,28 +146,15 @@ public class ShutInsureFragment extends BaseFragment {
         });
 
 
-        //选择 车牌号
-        List<String> carNumberDataList = new ArrayList<>(Arrays.asList(getActivity().getResources().getStringArray(R.array.carNumberArray)));
-        tvChooseCarNumber = (TextView)view.findViewById(R.id.carNumberTv);
-        final ChoosePopWindowView popWindowView = new ChoosePopWindowView(getActivity(),carNumberDataList,ChoosePopWindowView.CHOOSE_POP_CAR);
-        tvChooseCarNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popWindowView.show(tvChooseCarNumber, tvChooseCarNumber);
+        //车牌号Spinner
+        car_number_spinner = (Spinner)view.findViewById(R.id.car_number_spinner);
+        mCarNumbersStringList = Arrays.asList(getResources().getStringArray(R.array.carNumberArray));
+        car_number_spinner.setAdapter(new SpinnerDropDownAdapter(this.getActivity(),mCarNumbersStringList));
 
-            }
-        });
-
-        //选择 限行停保的 周天
-        List<String> weekNumberDataList = new ArrayList<>(Arrays.asList(getActivity().getResources().getStringArray(R.array.weekArray)));
-        tvChooseWeekNumber = (TextView)view.findViewById(R.id.tv_choose_week);
-        final ChoosePopWindowView popWindowChooseWeekNumber = new ChoosePopWindowView(getActivity(),weekNumberDataList,ChoosePopWindowView.CHOOSE_POP_WEEK);
-        tvChooseWeekNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popWindowChooseWeekNumber.show(tvChooseWeekNumber,tvChooseWeekNumber);
-            }
-        });
+        //周Spinner
+        week_number_spinner = (Spinner)view.findViewById(R.id.week_number_spinner);
+        mWeekNumbersStringList = Arrays.asList(getResources().getStringArray(R.array.weekArray));
+        week_number_spinner.setAdapter(new SpinnerDropDownAdapter(this.getActivity(),mWeekNumbersStringList));
     }
 
 

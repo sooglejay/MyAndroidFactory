@@ -16,7 +16,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.rey.material.app.ThemeManager;
+
 
 
 import java.util.List;
@@ -61,7 +61,6 @@ public class JieShiBaoApplication extends Application {
         //cat crash and the logs
         CarNetCrashHandler mCustomCrashHandler = CarNetCrashHandler.getInstance();
         mCustomCrashHandler.setCustomCrashHanler(getApplicationContext());
-        ThemeManager.init(this, 2, 0, null);
         initImageLoader(getApplicationContext());
 
 

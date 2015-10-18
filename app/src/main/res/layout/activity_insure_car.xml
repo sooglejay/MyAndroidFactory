@@ -5,92 +5,265 @@
     android:orientation="vertical">
 
 
-        <com.jsb.widget.TitleBar
-            android:id="@+id/title_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <com.jsb.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="124dp"
-            android:background="@color/gray_color"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:weightSum="1.0">
+            android:layout_height="match_parent"
 
-            <ImageView
-                android:id="@+id/iv_take_car_picture"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="0.6"
-                android:src="@drawable/icon_choose_pic_small" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="0.4"
-                android:text="请扫描行驶证正本\n信息将自动读取录入" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/small_padding"
-            android:background="@color/bg_screen" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--车主姓名-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white_color"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/iv_take_car_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_insure_car_describe" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/small_padding"
+                android:background="@color/bg_screen" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--车主姓名-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/middle_padding"
+                        android:text="车主姓名"
+                        android:textColor="@color/tv_black_color_level_0"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <EditText
+                        android:id="@+id/et_user_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请扫描或输入姓名"
+                        android:inputType="text"
+                        android:padding="@dimen/middle_padding"
+                        android:textColorHint="@color/tv_gray_color_level_1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg_screen" />
+
+
+                <!--车牌号码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/middle_padding"
+                        android:text="车牌号码"
+                        android:textColor="@color/tv_black_color_level_0"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <EditText
+                        android:id="@+id/et_car_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请扫描或输入车牌号码"
+                        android:inputType="text"
+                        android:padding="@dimen/middle_padding"
+                        android:textColorHint="@color/tv_gray_color_level_1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg_screen" />
+                <!--车架号码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/middle_padding"
+                        android:text="车架号码"
+                        android:textColor="@color/tv_black_color_level_0"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <EditText
+                        android:id="@+id/et_car_jia_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请扫描或输入车架号码"
+                        android:inputType="text"
+                        android:padding="@dimen/middle_padding"
+                        android:textColorHint="@color/tv_gray_color_level_1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg_screen" />
+                <!--发动机号-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/middle_padding"
+                        android:text="发动机号"
+                        android:textColor="@color/tv_black_color_level_0"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <EditText
+                        android:id="@+id/et_car_fadongji_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请扫描或输入发动机号"
+                        android:inputType="text"
+                        android:padding="@dimen/middle_padding"
+                        android:textColorHint="@color/tv_gray_color_level_1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg_screen" />
+                <!--登记日期-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/middle_padding"
+                        android:text="登记日期"
+                        android:textColor="@color/tv_black_color_level_0"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <EditText
+                        android:id="@+id/et_sign_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请扫描或输入登记日期"
+                        android:inputType="text"
+                        android:padding="@dimen/middle_padding"
+                        android:textColorHint="@color/tv_gray_color_level_1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/small_padding"
+                    android:background="@color/bg_screen" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color">
+
+                <!--身份证号码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/middle_padding"
+                        android:text="身份证号(可扫描)"
+                        android:textColor="@color/tv_black_color_level_0"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <EditText
+                        android:id="@+id/et_user_id_card_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入身份证号"
+                        android:inputType="text"
+                        android:padding="@dimen/middle_padding"
+                        android:textColorHint="@color/tv_gray_color_level_1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_scan_id_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="车主姓名"
-                    android:textColor="@color/tv_black_color_level_0"
-                    android:textSize="@dimen/big_textsize" />
+                    android:layout_gravity="right|center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/middle_padding">
 
-                <EditText
-                    android:id="@+id/et_user_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="请扫描或输入姓名"
-                    android:inputType="text"
-                    android:padding="@dimen/middle_padding"
-                    android:textColorHint="@color/tv_gray_color_level_1" />
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_choose_pic_small" />
+                </LinearLayout>
+            </FrameLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/bg_screen" />
 
-
-            <!--车牌号码-->
             <LinearLayout
-                android:background="@color/white_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white_color"
                 android:orientation="horizontal">
 
                 <TextView
@@ -98,102 +271,12 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="车牌号码"
+                    android:text="起保日期"
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
 
                 <EditText
-                    android:id="@+id/et_car_number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="请扫描或输入车牌号码"
-                    android:inputType="text"
-                    android:padding="@dimen/middle_padding"
-                    android:textColorHint="@color/tv_gray_color_level_1" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_screen" />
-            <!--车架号码-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:background="@color/white_color"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="车架号码"
-                    android:textColor="@color/tv_black_color_level_0"
-                    android:textSize="@dimen/big_textsize" />
-                <EditText
-                    android:id="@+id/et_car_jia_number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="请扫描或输入车架号码"
-                    android:inputType="text"
-                    android:padding="@dimen/middle_padding"
-                    android:textColorHint="@color/tv_gray_color_level_1" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_screen" />
-            <!--发动机号-->
-            <LinearLayout
-                android:background="@color/white_color"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="发动机号"
-                    android:textColor="@color/tv_black_color_level_0"
-                    android:textSize="@dimen/big_textsize" />
-                <EditText
-                    android:id="@+id/et_car_fadongji_number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="请扫描或输入发动机号"
-                    android:inputType="text"
-                    android:padding="@dimen/middle_padding"
-                    android:textColorHint="@color/tv_gray_color_level_1" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_screen" />
-            <!--登记日期-->
-            <LinearLayout
-                android:background="@color/white_color"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="登记日期"
-                    android:textColor="@color/tv_black_color_level_0"
-                    android:textSize="@dimen/big_textsize" />
-
-                <EditText
-                    android:id="@+id/et_sign_date"
+                    android:id="@+id/et_insure_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -203,108 +286,34 @@
                     android:padding="@dimen/middle_padding"
                     android:textColorHint="@color/tv_gray_color_level_1" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/small_padding"
                 android:background="@color/bg_screen" />
-        </LinearLayout>
-        <FrameLayout
-            android:background="@color/white_color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <!--身份证号码-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/bg_screen"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_enquiry"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/most_big_padding"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_marginRight="@dimen/middle_padding"
+                    android:layout_marginTop="@dimen/middle_padding"
+                    android:background="@drawable/btn_select_base"
                     android:gravity="center"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="身份证号(可扫描)"
-                    android:textColor="@color/tv_black_color_level_0"
-                    android:textSize="@dimen/big_textsize" />
-                <EditText
-                    android:id="@+id/et_user_id_card_number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:inputType="text"
-                    android:padding="@dimen/middle_padding"
-                    android:hint="请输入身份证号"
-                    android:textColorHint="@color/tv_gray_color_level_1" />
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="去精准报价"
+                    android:textColor="@color/white_color"
+                    android:textSize="@dimen/tv_size_level_1" />
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layout_scan_id_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:orientation="horizontal"
-                android:paddingRight="@dimen/middle_padding">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/icon_choose_pic_small" />
-            </LinearLayout>
-        </FrameLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bg_screen" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_color"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/middle_padding"
-                android:text="起保日期"
-                android:textColor="@color/tv_black_color_level_0"
-                android:textSize="@dimen/big_textsize" />
-            <EditText
-                android:id="@+id/et_insure_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="请扫描或输入登记日期"
-                android:inputType="text"
-                android:padding="@dimen/middle_padding"
-                android:textColorHint="@color/tv_gray_color_level_1" />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/small_padding"
-            android:background="@color/bg_screen" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_screen"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_enquiry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
-                android:layout_marginRight="@dimen/middle_padding"
-                android:layout_marginTop="@dimen/middle_padding"
-                android:layout_marginBottom="@dimen/most_big_padding"
-                android:background="@drawable/btn_select_base"
-                android:gravity="center"
-                android:paddingBottom="@dimen/middle_padding"
-                android:paddingTop="@dimen/middle_padding"
-                android:text="去精准报价"
-                android:textColor="@color/white_color"
-                android:textSize="@dimen/tv_size_level_1" />
-        </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
