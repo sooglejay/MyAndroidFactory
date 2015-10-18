@@ -4,10 +4,10 @@ package com.jsb.event;
  * Created by Administrator on 2015/9/13.
  */
 public class BusEvent {
-    public static final int  MSG_INT_TIME = 1000;
-    private String start_time;
-    private String end_time;
-    private String interval_time;
+    public static final int  MSG_INT_TIME = 1000;//选择时间控件  投保开始和结束的时间
+    private String start_time;//开始时间
+    private String end_time;//结束时间
+    private String interval_time;//时间间隔
 
     private int msg=0;
 

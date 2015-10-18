@@ -48,6 +48,7 @@ public class ShutInsureFragment extends BaseFragment {
     private LinearLayout datePickerLayout;
 
 
+    private RightControlFragment rightControlFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +61,9 @@ public class ShutInsureFragment extends BaseFragment {
     }
 
     private void setUp(View view, Bundle savedInstanceState) {
+        rightControlFragment = new RightControlFragment();//涉及到权限操作时，需要临时输入密码并验证
+
+
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, -1, StringConstant.empty, StringConstant.share);
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
@@ -75,7 +79,7 @@ public class ShutInsureFragment extends BaseFragment {
         });
 
 
-        //体现
+        //提现
         tvPullMoney = (TextView) view.findViewById(R.id.tv_pull_money);
         tvPullMoney.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +101,7 @@ public class ShutInsureFragment extends BaseFragment {
 
         //限行停保 滑动按钮
         weekSwitchTabView = (Switch) view.findViewById(R.id.week_switch_tab_view);
+        weekSwitchTabView.setChecked(false);
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -113,16 +118,18 @@ public class ShutInsureFragment extends BaseFragment {
 
 
 
-        // 滑动按钮
+        // 滑动按钮-选择预约停保的时间
         dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
+        dateSwitchTabView.setChecked(false);//默认是关闭
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 if (isChecked) {
                     Toast.makeText(getActivity(), "开", Toast.LENGTH_SHORT).show();
-                } else {
+                    rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(),ShutInsureFragment.this.getFragmentManager(),RightControlFragment.Dialog_RightControl);
+                 } else {
                     Toast.makeText(getActivity(), "关", Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -130,7 +137,7 @@ public class ShutInsureFragment extends BaseFragment {
 
 
 
-        //预约停保  的textView
+        //预约停保  的textView，显示开始和结束的时间文本和时间间隔
         tv_start_date = (TextView)view.findViewById(R.id.tv_start_date);
         tv_end_date = (TextView)view.findViewById(R.id.tv_end_date);
         tv_date_interval = (TextView)view.findViewById(R.id.tv_date_interval);
@@ -165,6 +172,10 @@ public class ShutInsureFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
+    /**
+     * EventBus 广播
+     * @param event
+     */
     public void onEventMainThread(BusEvent event) {
         switch (event.getMsg()) {
             case BusEvent.MSG_INT_TIME:

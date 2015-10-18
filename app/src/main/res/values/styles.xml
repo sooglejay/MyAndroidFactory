@@ -29,6 +29,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--<style name="CustomDialog" parent="android:style/Theme.Dialog">-->
+    <style name="CustomDialog" parent= "Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/shape_4_white_color</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="customProgressBar" parent="@android:style/Widget.ProgressBar.Small">
         <item name="android:indeterminateDrawable">@drawable/custom_progress_bar</item>
         <item name="android:layout_width">36dp</item>
@@ -61,5 +67,10 @@
     <style name="home_bottom_bar_iv">
         <item name="android:layout_height">16dp</item>
         <item name="android:layout_width">16dp</item>
+    </style>
+
+    <style name="dialog_right_control_style">
+        <item name="android:windowEnterAnimation">@anim/enter_from_top</item>
+        <item name="android:windowExitAnimation">@anim/exit_to_bottom</item>
     </style>
 </resources>

@@ -246,18 +246,18 @@ public class MyCalendar extends LinearLayout {
                  	holder.tv_up.setText("今天");
                  }
                  if(!"".equals(inday)&&(date[0]+"-"+day).equals(inday)){
-                	 convertView.setBackgroundColor(context.getResources().getColor(R.color.calendar_color_inDay));
+                	 convertView.setBackgroundColor(context.getResources().getColor(R.color.base_color));
                 	 holder.tv_up.setTextColor(Color.WHITE);
                 	 holder.tv_up.setText(date[1]);
-                	 holder.tv_bottom.setText("入住");
+                	 holder.tv_bottom.setText("开始");
                 	 inView =convertView;//
                 	 positionInString =date[1];
                  }
                  if(!"".equals(outday)&&(date[0]+"-"+day).equals(outday)){
-                	 convertView.setBackgroundColor(context.getResources().getColor(R.color.calendar_color_inDay));
+                	 convertView.setBackgroundColor(context.getResources().getColor(R.color.base_color));
                 	 holder.tv_up.setTextColor(Color.WHITE);
                 	 holder.tv_up.setText(date[1]);
-                	 holder.tv_bottom.setText("离开");
+                	 holder.tv_bottom.setText("结束");
                 	 outView =convertView;
                 	 positionOutString =date[1];
                  }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.event.BusEvent;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.TimePicker.MyCalendar;
 import com.jsb.widget.TitleBar;
@@ -20,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 首页-选择预约停保-时间选择器
@@ -35,6 +38,7 @@ public class TimePickerActivity extends BaseActivity implements MyCalendar.OnDay
     long milliSecondsInADay = 1000 * 24L * 60L * 60L;//一天的毫秒数
     SimpleDateFormat simpleDateFormat, sd_year, sd_day;
 
+    private static SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
 
     private String inday, outday, startDayFromSharedXml, endDayFromSharedXml;
 
@@ -144,7 +148,7 @@ public class TimePickerActivity extends BaseActivity implements MyCalendar.OnDay
         //第一次点击gridView
         if (null == inday || inday.equals("")) {
             tv_up.setText(dayStringInDateSelected);
-            tv_bottom.setText("入住");
+            tv_bottom.setText("开始");
             inday = dateSelected;
         }
 
@@ -169,10 +173,22 @@ public class TimePickerActivity extends BaseActivity implements MyCalendar.OnDay
                     e.printStackTrace();
                 }
                 tv_up.setText(dayStringInDateSelected);
-                tv_bottom.setText("离开");
+                tv_bottom.setText("结束");
                 outday = dateSelected;
                 PreferenceUtil.save(this, PreferenceConstant.TimePickerDateStart, inday);
                 PreferenceUtil.save(this, PreferenceConstant.TimePickerDateEnd, outday);
+
+                long dayxc = 0;
+                try {
+                     dayxc = (dateFormat2.parse(outday).getTime() - dateFormat2.parse(inday).getTime()) / milliSecondsInADay;
+                }catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                BusEvent intEvent = new BusEvent(BusEvent.MSG_INT_TIME);
+                intEvent.setStart_time(inday);
+                intEvent.setEnd_time(outday);
+                intEvent.setInterval_time(dayxc + "天");
+                EventBus.getDefault().post(intEvent);
                 finish();
             }
         }
