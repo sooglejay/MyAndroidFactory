@@ -154,14 +154,13 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <com.rey.material.widget.Switch
+        <Switch
             android:id="@+id/week_switch_tab_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/most_big_padding"
-            android:checked="true"
-            app:v_styleId="@array/switches" />
+            android:checked="true"/>
 
     </LinearLayout>
 
@@ -243,14 +242,13 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <com.rey.material.widget.Switch
+        <Switch
             android:id="@+id/date_switch_tab_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/most_big_padding"
-            android:checked="true"
-            app:v_styleId="@array/switches" />
+            android:checked="true"/>
     </LinearLayout>
 
 

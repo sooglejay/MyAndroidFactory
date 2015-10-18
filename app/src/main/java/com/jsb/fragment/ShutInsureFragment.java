@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ import com.jsb.ui.PullMoneyActivity;
 import com.jsb.ui.TimePickerActivity;
 import com.jsb.widget.ChoosePopWindowView;
 import com.jsb.widget.TitleBar;
-import com.rey.material.widget.Switch;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;

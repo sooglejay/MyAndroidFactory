@@ -152,7 +152,6 @@ public class TimePickerActivity extends BaseActivity implements MyCalendar.OnDay
         else {
 
             if (inday.equals(dateSelected)) {
-
                 tv_up.setText(dayStringInDateSelected);
                 tv_up.setTextColor(getResources().getColor(R.color.tv_black_color_level_1));//如果同一个View连续点击两次，就取消选中状态
                 viewSelected.setBackgroundColor(Color.WHITE);

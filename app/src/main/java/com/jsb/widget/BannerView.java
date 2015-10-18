@@ -252,7 +252,7 @@ public class BannerView extends FrameLayout {
                     }
                 });
 
-                ImageLoader.getInstance().displayImage(currentUrl, iv, ImageUtils.getOptions(R.drawable.place_holder, R.drawable.place_holder, R.drawable.place_holder));
+                ImageLoader.getInstance().displayImage(currentUrl, iv, ImageUtils.getOptions(R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher));
                 iv.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {

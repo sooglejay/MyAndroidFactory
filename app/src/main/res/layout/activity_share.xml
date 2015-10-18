@@ -38,7 +38,7 @@
 
         <ImageView
             android:layout_width="fill_parent"
-            android:src="@drawable/share_2"
+            android:src="@drawable/icon_call"
             android:scaleType="fitXY"
             android:layout_height="wrap_content" />
 </LinearLayout>

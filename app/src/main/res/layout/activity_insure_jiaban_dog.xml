@@ -16,7 +16,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scaleType="centerCrop"
-        android:src="@drawable/test_beautiful_girl" />
+        android:src="@drawable/icon_insure_jiaban_dog_describe" />
 
 
     <TextView

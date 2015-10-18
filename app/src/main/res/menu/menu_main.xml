@@ -11,7 +11,6 @@
 
     <item
         android:id="@+id/action_contact"
-        android:icon="@drawable/ic_action_user"
         android:showAsAction="ifRoom"
         android:title="联系人" />
 </menu>
