@@ -111,7 +111,8 @@ public class RightControlFragment extends DialogFragment {
         et_5 = (EditText) convertView.findViewById(R.id.et_5);
         et_6 = (EditText) convertView.findViewById(R.id.et_6);
         et_1.requestFocus();
-        UIUtils.showSoftInput(mContext,et_1);
+        InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
 
         View.OnKeyListener onKeyListener = new View.OnKeyListener() {
             @Override

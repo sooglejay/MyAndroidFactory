@@ -107,6 +107,8 @@ public class UIUtils {
             mInputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
 
         }
+
+
     }
 
     public static boolean isAppForground(Context mContext) {
