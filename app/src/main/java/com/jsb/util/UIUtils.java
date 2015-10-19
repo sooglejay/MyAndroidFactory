@@ -17,9 +17,7 @@ import com.jsb.ui.MainActivity;
 
 import java.util.List;
 
-/**
- * Created by xuejiebang-android on 15/7/7.
- */
+
 public class UIUtils {
     /**
      * px转换为dp
@@ -67,17 +65,6 @@ public class UIUtils {
         context.getWindow().setAttributes(params);
     }
 
-    /**
-     * 控制主页viewpager是否可滑动，true为显示，false为关闭
-     *
-     * @param context
-     * @param isScroll
-     */
-    public static void handleHomeViewPagerScrollable(Context context, boolean isScroll) {
-        Intent intent = new Intent(MainActivity.ACTION_HOME_ACTIVITY_CONTROL);
-        intent.putExtra(MainActivity.EXTRA_VIEWPAGER_SCROLLABLE, isScroll);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }
 
     /**
      * Hide the soft input

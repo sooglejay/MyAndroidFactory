@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -62,7 +63,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
 
-    private RightControlFragment rightControlFragment;
+    private RightControlFragment rightControlFragment;//注意清除掉 mPasswordString 才能公用
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,10 +126,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), ShutInsureFragment.this.getFragmentManager(), RightControlFragment.Dialog_RightControl);
                 if (isChecked) {
-                    Toast.makeText(getActivity(), "开", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Toast.makeText(getActivity(), "关", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -144,16 +145,16 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), ShutInsureFragment.this.getFragmentManager(), RightControlFragment.Dialog_RightControl);
                 if (isChecked) {
                     Toast.makeText(getActivity(), "开", Toast.LENGTH_SHORT).show();
-                    rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(),ShutInsureFragment.this.getFragmentManager(),RightControlFragment.Dialog_RightControl);
-                 } else {
+                } else {
                     Toast.makeText(getActivity(), "关", Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
+
 
 
 
@@ -278,8 +279,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         if (view == null || arcView == null || arcView.isEmpty()) {
             return;
         }
-        addAnimation(arcView, mBigCircleSeriesIndex,869.2f, 1500, null, -1, "$ %.2f", COLOR_BIG_CIRCLE, false);
-        addAnimation(arcView, mSmallCircleSeriesIndex, 1000f, 1000, null, -1, "$ %.2f", COLOR_SMALL_CIRCLE, false);
+        addAnimation(arcView, mBigCircleSeriesIndex,869.2f, 500, null, -1, "$ %.2f", COLOR_BIG_CIRCLE, false);
+        addAnimation(arcView, mSmallCircleSeriesIndex, 1000f, 100, null, -1, "$ %.2f", COLOR_SMALL_CIRCLE, false);
 
       }
 
