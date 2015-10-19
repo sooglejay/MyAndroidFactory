@@ -1,8 +1,11 @@
 package com.jsb.fragment;
 
+import android.animation.Animator;
+import android.animation.TimeInterpolator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +20,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.third_party.nineoldandroids.animation.AnimatorSet;
 import com.jsb.util.UIUtils;
+
+import java.util.concurrent.Delayed;
 
 /**
  * Created by Administrator on 2015/10/18.
@@ -110,9 +116,6 @@ public class RightControlFragment extends DialogFragment {
         et_4 = (EditText) convertView.findViewById(R.id.et_4);
         et_5 = (EditText) convertView.findViewById(R.id.et_5);
         et_6 = (EditText) convertView.findViewById(R.id.et_6);
-        et_1.requestFocus();
-        InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
 
         View.OnKeyListener onKeyListener = new View.OnKeyListener() {
             @Override
@@ -184,7 +187,37 @@ public class RightControlFragment extends DialogFragment {
         Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.setContentView(convertView);
         dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
+       //当dialog 显示的时候，弹出键盘
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+
+                new AsyncTask<Integer, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Integer... params) {
+                        try {
+                            Thread.sleep(params[0]);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                    @Override
+                    protected void onPostExecute(Void value) {
+                        super.onPostExecute(value);
+                        if(et_1!=null)
+                        {
+                            et_1.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                        }
+
+                    }
+                }.execute(800);
+            }
+        });
         return dialog;
     }
+
 
 }
