@@ -222,33 +222,48 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
                                         {
                                             return;//不做处理
                                         }else {
-
-                                            for (int j = 0;j<mDatas.size();j++)
+                                            //开始和结束时间在同一个月，就不做全部的数据更新了
+                                            String [] endDateArray = bean.getDateStr().split("-");
+                                            String [] startDateArray = startDateString.split("-");
+                                            if(endDateArray[1].equals(startDateArray[1]))
                                             {
-                                                Object obj = mDatas.get(j);
-                                                if(obj instanceof String)
-                                                {
-                                                    continue;
-                                                }
-                                                else if(obj instanceof  aaa_MyYMCalenderListBean)
-                                                {
-                                                    aaa_MyYMCalenderListBean ymBean = (aaa_MyYMCalenderListBean)obj;
-                                                    List<aaa_MyDayCalenderListBean>dayBeanList = ymBean.getDaysList();
-                                                    for (aaa_MyDayCalenderListBean b : dayBeanList) {
-                                                        //如果时间在 开始和结束之间，则 设置状态量为 BETWEEN
-                                                        if(TextUtils.isEmpty(b.getDateStr()))
-                                                        {
-                                                            continue;
-                                                        }
-                                                        if(dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime()> dateFormat_yyyy_MM_dd.parse(startDateString).getTime()
-                                                                &&
-                                                                dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime()< dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime()
-                                                                )
-                                                        {
-                                                            b.setStatus(BETWEEN);
-                                                        }
+                                                for (aaa_MyDayCalenderListBean b : dayListBean) {
+                                                    //如果时间在 开始和结束之间，则 设置状态量为 BETWEEN
+                                                    if(TextUtils.isEmpty(b.getDateStr()))
+                                                    {
+                                                        continue;
                                                     }
+                                                    if(dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime()> dateFormat_yyyy_MM_dd.parse(startDateString).getTime()
+                                                            &&
+                                                            dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime()< dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime()
+                                                            )
+                                                    {
+                                                        b.setStatus(BETWEEN);
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                for (int j = 0; j < mDatas.size(); j++) {
+                                                    Object obj = mDatas.get(j);
+                                                    if (obj instanceof String) {
+                                                        continue;
+                                                    } else if (obj instanceof aaa_MyYMCalenderListBean) {
+                                                        aaa_MyYMCalenderListBean ymBean = (aaa_MyYMCalenderListBean) obj;
+                                                        List<aaa_MyDayCalenderListBean> dayBeanList = ymBean.getDaysList();
+                                                        for (aaa_MyDayCalenderListBean b : dayBeanList) {
+                                                            //如果时间在 开始和结束之间，则 设置状态量为 BETWEEN
+                                                            if (TextUtils.isEmpty(b.getDateStr())) {
+                                                                continue;
+                                                            }
+                                                            if (dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime() > dateFormat_yyyy_MM_dd.parse(startDateString).getTime()
+                                                                    &&
+                                                                    dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime() < dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime()
+                                                                    ) {
+                                                                b.setStatus(BETWEEN);
+                                                            }
+                                                        }
 
+                                                    }
                                                 }
                                             }
 
