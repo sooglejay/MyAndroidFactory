@@ -30,8 +30,6 @@ public class MeFragment extends BaseFragment {
 
     private TextView my_money_packet;
     private TextView my_share;
-    private TextView my_modify_password;
-
 
 
     @Override
@@ -84,14 +82,6 @@ public class MeFragment extends BaseFragment {
                 getActivity().startActivity(new Intent(getActivity(), MyMoneyPacketActivity.class));
             }
         });
-        my_modify_password = (TextView)view.findViewById(R.id.my_modify_password);
-        my_modify_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), MyModifyPasswordActivity.class));
-            }
-        });
-
 
 
     }
