@@ -183,7 +183,7 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
                             case R.id.item:
                                 try {
                                     if (dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime() < dateFormat_yyyy_MM_dd.parse(todayString_yyyy_m_d).getTime()) {
-                                        Toast.makeText(mContext, "时间无效！bean.getDataStr:"+bean.getDateStr()+" "+todayString_yyyy_m_d, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "过去的时间无效！", Toast.LENGTH_SHORT).show();
                                         return;
                                     } else if (clickCount<0) {//选择开始时间
                                         for(int i = 0;i<mDatas.size();i++)
