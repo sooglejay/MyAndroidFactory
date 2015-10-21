@@ -80,18 +80,10 @@
             android:textSize="13sp" />
     </LinearLayout>
 
-    <ScrollView
+    <ListView
+        android:id="@+id/list_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/layout_calender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_color"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-    </ScrollView>
+    </ListView>
 </LinearLayout>

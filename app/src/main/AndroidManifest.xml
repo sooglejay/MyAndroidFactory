@@ -60,10 +60,6 @@
             android:name=".ui.PullMoneyActivity"
             android:label="@string/title_activity_PullMoneyDescriptionActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.TimePickerActivity"
-            android:label="@string/title_activity_timePicker"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.AddCardActivity"
@@ -131,5 +127,6 @@
         <activity android:name=".test.PagerSlideTest"> </activity>
         <activity android:name=".ui.MyInsuresListCarInsureDetailActivity"> </activity>
         <activity android:name=".ui.MyInsuresListJiaBanDogInsureDetailActivity"> </activity>
+        <activity android:name=".ui.aaa_TimePickerActivity"/>
     </application>
 </manifest>

@@ -1,12 +1,12 @@
 package com.jsb.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.adapter.SpinnerDropDownAdapter;
+import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.third_party.hookedonplay.decoviewlib.DecoView;
@@ -26,7 +27,8 @@ import com.jsb.third_party.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.jsb.third_party.hookedonplay.decoviewlib.events.DecoEvent;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
-import com.jsb.ui.TimePickerActivity;
+import com.jsb.ui.aaa_TimePickerActivity;
+import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.TitleBar;
 
 
@@ -37,7 +39,7 @@ import java.util.List;
  * 停保险-主框架-tab1
  */
 public class ShutInsureFragment extends DecoViewBaseFragment {
-   public static final int ACTION_TIME_STRING = 1000;
+   public static final int ACTION_CHOOSE_TIME = 1000;
 
     private TitleBar titleBar;
     private TextView tvPullMoney;
@@ -54,6 +56,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private Switch dateSwitchTabView;
     private LinearLayout datePickerLayout;
 
+
+    private String startTimeStr;
+    private String endTimeStr;
+    private String timeIntvalStr;
     
     //圆形动画
     private String mProgress;//  进度条
@@ -159,20 +165,26 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
         //预约停保  的textView，显示开始和结束的时间文本和时间间隔
+        startTimeStr = PreferenceUtil.load(this.getActivity(),PreferenceConstant.TimePickerDateStart,"");
+        endTimeStr = PreferenceUtil.load(this.getActivity(),PreferenceConstant.TimePickerDateEnd,"");
+        timeIntvalStr = PreferenceUtil.load(this.getActivity(),PreferenceConstant.TimePickerDateInterval,"");
+
         tv_start_date = (TextView)view.findViewById(R.id.tv_start_date);
         tv_end_date = (TextView)view.findViewById(R.id.tv_end_date);
         tv_date_interval = (TextView)view.findViewById(R.id.tv_date_interval);
 
+        tv_start_date.setText(startTimeStr);
+        tv_end_date.setText(endTimeStr);
+        tv_date_interval.setText(timeIntvalStr);
 
         //选择预约停保时间
         datePickerLayout = (LinearLayout)view.findViewById(R.id.layout_date_picker);
         datePickerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivityForResult(new Intent(getActivity(), TimePickerActivity.class), ACTION_TIME_STRING);
+                getActivity().startActivityForResult(new Intent(getActivity(), aaa_TimePickerActivity.class), ACTION_CHOOSE_TIME);
             }
         });
-
 
         //车牌号Spinner
         car_number_spinner = (Spinner)view.findViewById(R.id.car_number_spinner);
@@ -317,12 +329,18 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     public void onEventMainThread(BusEvent event) {
         switch (event.getMsg()) {
             case BusEvent.MSG_INT_TIME:
-                String startTimeStr = event.getStart_time();
-                String endTimeStr = event.getEnd_time();
-                String timeIntvalStr = event.getInterval_time();
+                startTimeStr = event.getStart_time();
+                endTimeStr = event.getEnd_time();
+                timeIntvalStr = event.getInterval_time();
+
                 tv_start_date.setText(startTimeStr);
                 tv_end_date.setText(endTimeStr);
                 tv_date_interval.setText(timeIntvalStr);
+
+
+                PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateStart, startTimeStr);
+                PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateEnd,endTimeStr);
+                PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateInterval,timeIntvalStr);
                 break;
             default:
                 break;
