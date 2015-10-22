@@ -1,23 +1,17 @@
 package com.jsb.widget.TimePicker;
 
 import android.app.Activity;
-import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.constant.PreferenceConstant;
-import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
-import com.jsb.util.PreferenceUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +24,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by JammyQtheLab on 2015/10/20.
  */
-public class aaa_MyCalenderAdapter extends BaseAdapter {
+public class CalenderAdapter extends BaseAdapter {
 
     public final static int START = 0;
     public final static int END = 1;
@@ -53,13 +47,13 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
     private String startDateString = "";//这个变量的作用是，记住用户选择的开始时间，然后判断用户第二次选择的时间，如果是第一次选择的时间之前，那么，就认为用户是在调整开始时间，否则就是在选择结束时间
 
 
-    private aaa_MyDayCalenderListBean outerDayBean;//这个变量是记住上一次点击过的View，用来做背景色的变化
+    private SonBean outerDayBean;//这个变量是记住上一次点击过的View，用来做背景色的变化
     private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
     private String todayString_yyyy_m_d =new SimpleDateFormat("yyyy-MM-dd").format(new Date()) ;
 
 
 
-    public aaa_MyCalenderAdapter(Activity mContext, List<Object> mDatas) {
+    public CalenderAdapter(Activity mContext, List<Object> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         inflater = LayoutInflater.from(mContext);
@@ -125,8 +119,8 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
         if (type == Header) {//如果是标题栏
             String yyyymm = (String) obj;//比如 ：yyyymm 是 2015年3月
             holder.tvHeaderString.setText(yyyymm + "");
-        } else if (obj instanceof aaa_MyYMCalenderListBean) {//如果是数据
-            aaa_MyYMCalenderListBean bean = (aaa_MyYMCalenderListBean) obj;
+        } else if (obj instanceof FatherBean) {//如果是数据
+            FatherBean bean = (FatherBean) obj;
             holder.innerGridViewAdapter.setYmDatas(bean);
             holder.myGridView.setAdapter(holder.innerGridViewAdapter);
         }
@@ -140,7 +134,7 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
     }
 
     private class InnerGridViewAdapter extends BaseAdapter {
-        private List<aaa_MyDayCalenderListBean> dayListBean = new ArrayList<>();
+        private List<SonBean> dayListBean = new ArrayList<>();
 
         @Override
         public int getCount() {
@@ -159,7 +153,7 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
         @Override
         public void notifyDataSetChanged() {
             super.notifyDataSetChanged();
-            aaa_MyCalenderAdapter.this.notifyDataSetChanged();
+            CalenderAdapter.this.notifyDataSetChanged();
         }
 
         @Override
@@ -174,7 +168,7 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
                 innerGridViewHolder.onClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        aaa_MyDayCalenderListBean bean = (aaa_MyDayCalenderListBean) v.getTag();
+                        SonBean bean = (SonBean) v.getTag();
                         if(TextUtils.isEmpty(bean.getDateStr()))
                         {
                             return;//说明是该位置没有日期
@@ -193,11 +187,11 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
                                             {
                                                 continue;
                                             }
-                                            else if (obj instanceof aaa_MyYMCalenderListBean)
+                                            else if (obj instanceof FatherBean)
                                             {    //如果是数据
-                                                aaa_MyYMCalenderListBean ymBean = (aaa_MyYMCalenderListBean) obj;
-                                                List<aaa_MyDayCalenderListBean> dayBeanList = ymBean.getDaysList();
-                                                for (aaa_MyDayCalenderListBean b : dayBeanList) {
+                                                FatherBean ymBean = (FatherBean) obj;
+                                                List<SonBean> dayBeanList = ymBean.getDaysList();
+                                                for (SonBean b : dayBeanList) {
                                                     if (TextUtils.isEmpty(b.getDateStr()))
                                                         continue;
                                                     b.setStatus(OTHERS);
@@ -227,7 +221,7 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
                                             String [] startDateArray = startDateString.split("-");
                                             if(endDateArray[1].equals(startDateArray[1]))
                                             {
-                                                for (aaa_MyDayCalenderListBean b : dayListBean) {
+                                                for (SonBean b : dayListBean) {
                                                     //如果时间在 开始和结束之间，则 设置状态量为 BETWEEN
                                                     if(TextUtils.isEmpty(b.getDateStr()))
                                                     {
@@ -247,10 +241,10 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
                                                     Object obj = mDatas.get(j);
                                                     if (obj instanceof String) {
                                                         continue;
-                                                    } else if (obj instanceof aaa_MyYMCalenderListBean) {
-                                                        aaa_MyYMCalenderListBean ymBean = (aaa_MyYMCalenderListBean) obj;
-                                                        List<aaa_MyDayCalenderListBean> dayBeanList = ymBean.getDaysList();
-                                                        for (aaa_MyDayCalenderListBean b : dayBeanList) {
+                                                    } else if (obj instanceof FatherBean) {
+                                                        FatherBean ymBean = (FatherBean) obj;
+                                                        List<SonBean> dayBeanList = ymBean.getDaysList();
+                                                        for (SonBean b : dayBeanList) {
                                                             //如果时间在 开始和结束之间，则 设置状态量为 BETWEEN
                                                             if (TextUtils.isEmpty(b.getDateStr())) {
                                                                 continue;
@@ -346,7 +340,7 @@ public class aaa_MyCalenderAdapter extends BaseAdapter {
             return convertView;
         }
 
-        public void setYmDatas(aaa_MyYMCalenderListBean ymDatas) {
+        public void setYmDatas(FatherBean ymDatas) {
             this.dayListBean.clear();
             this.dayListBean.addAll(ymDatas.getDaysList());
         }

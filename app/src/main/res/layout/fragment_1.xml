@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -169,19 +170,6 @@
                         android:textColor="@color/dark_gray_color"
                         android:textSize="@dimen/more_big_textsize" />
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/tv_choose_week"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="left|center"-->
-                    <!--android:background="@drawable/btn_select_gray"-->
-                    <!--android:paddingBottom="@dimen/middle_padding"-->
-                    <!--android:paddingRight="28dp"-->
-                    <!--android:paddingTop="@dimen/middle_padding"-->
-                    <!--android:text="每周三"-->
-                    <!--android:textColor="@color/dark_black_color"-->
-                    <!--android:textSize="12sp" />-->
-
                     <Spinner
                         android:id="@+id/week_number_spinner"
                         android:layout_width="match_parent"
@@ -193,7 +181,7 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <Switch
+                <com.jsb.widget.CustomSwitch.SwitchButton
                     android:id="@+id/week_switch_tab_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -281,7 +269,7 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <Switch
+                <com.jsb.widget.CustomSwitch.SwitchButton
                     android:id="@+id/date_switch_tab_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

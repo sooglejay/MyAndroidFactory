@@ -1,24 +1,15 @@
 package com.jsb.ui;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.constant.PreferenceConstant;
-import com.jsb.event.BusEvent;
 import com.jsb.util.PreferenceUtil;
-import com.jsb.widget.TimePicker.MyCalendar;
-import com.jsb.widget.TimePicker.aaa_MyCalenderAdapter;
-import com.jsb.widget.TimePicker.aaa_MyDayCalenderListBean;
-import com.jsb.widget.TimePicker.aaa_MyYMCalenderListBean;
+import com.jsb.widget.TimePicker.CalenderAdapter;
+import com.jsb.widget.TimePicker.SonBean;
+import com.jsb.widget.TimePicker.FatherBean;
 import com.jsb.widget.TitleBar;
 
 import java.text.ParseException;
@@ -29,17 +20,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import de.greenrobot.event.EventBus;
-
 /**
  * 首页-选择预约停保-时间选择器
  */
-public class aaa_TimePickerActivity extends BaseActivity {
+public class TimePickerActivity extends BaseActivity {
     private TitleBar mTitleBar;
     private ListView listView;
 
     private List<Object> mDatas = new ArrayList<>();
-    private aaa_MyCalenderAdapter mAdapter;
+    private CalenderAdapter mAdapter;
     private Calendar calendar = Calendar.getInstance(Locale.CHINA);//全局日历对象
 
     private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
@@ -61,7 +50,7 @@ public class aaa_TimePickerActivity extends BaseActivity {
         mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                aaa_TimePickerActivity.this.finish();
+                TimePickerActivity.this.finish();
             }
 
             @Override
@@ -79,7 +68,7 @@ public class aaa_TimePickerActivity extends BaseActivity {
 
         listView = (ListView) findViewById(R.id.list_item);
         setmAdapterDatas(mDatas);
-        mAdapter = new aaa_MyCalenderAdapter(this, mDatas);
+        mAdapter = new CalenderAdapter(this, mDatas);
         listView.setAdapter(mAdapter);
 
     }
@@ -95,14 +84,14 @@ public class aaa_TimePickerActivity extends BaseActivity {
         for (int i = 0; i < 2; i++) {
             if (thisMonthNumber + i < 12) {//在一年以内
                 listData.add(thisYearNumber + "年" + (thisMonthNumber + i) + "月");
-                aaa_MyYMCalenderListBean calenderListBean = new aaa_MyYMCalenderListBean();
-                List<aaa_MyDayCalenderListBean> daysList = new ArrayList<>();//当月的天对象
+                FatherBean calenderListBean = new FatherBean();
+                List<SonBean> daysList = new ArrayList<>();//当月的天对象
 
                 calendar.set(Calendar.DATE, 1);//cal设置当前day为当前月第一天
                 int daysInTheMonth = calendar.getActualMaximum(Calendar.DATE);
                 int firstDay_NumberOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
                 for (int j = 0; j < firstDay_NumberOfWeek; j++) {
-                    aaa_MyDayCalenderListBean dayBean = new aaa_MyDayCalenderListBean();
+                    SonBean dayBean = new SonBean();
                     dayBean.setDateStr("");
                     daysList.add(dayBean);
                 }
@@ -111,7 +100,7 @@ public class aaa_TimePickerActivity extends BaseActivity {
                     if (k < 10) {
                         dayS = "0" + k;
                     }
-                    aaa_MyDayCalenderListBean dayBean = new aaa_MyDayCalenderListBean();
+                    SonBean dayBean = new SonBean();
                     dayBean.setDateStr(thisYearNumber + "-" + (thisMonthNumber + i) + "-" + dayS);
 
 
@@ -145,18 +134,18 @@ public class aaa_TimePickerActivity extends BaseActivity {
     public int genStatus(String startDateString, String endDateString, String dateString) {
         try {
             if (dateString.equals(startDateString)) {
-                return aaa_MyCalenderAdapter.START;
+                return CalenderAdapter.START;
 
             } else if (dateString.equals(endDateString)) {
-                return aaa_MyCalenderAdapter.END;
+                return CalenderAdapter.END;
             } else if (dateFormat_yyyy_MM_dd.parse(dateString).getTime() > dateFormat_yyyy_MM_dd.parse(startDateString).getTime()
                     && dateFormat_yyyy_MM_dd.parse(dateString).getTime() < dateFormat_yyyy_MM_dd.parse(endDateString).getTime()) {
-                return aaa_MyCalenderAdapter.BETWEEN;
-            } else return aaa_MyCalenderAdapter.OTHERS;
+                return CalenderAdapter.BETWEEN;
+            } else return CalenderAdapter.OTHERS;
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return aaa_MyCalenderAdapter.OTHERS;
+        return CalenderAdapter.OTHERS;
     }
 }

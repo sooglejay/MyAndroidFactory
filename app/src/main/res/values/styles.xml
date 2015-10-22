@@ -75,4 +75,18 @@
     </style>
 
 
+
+    <style name="MD">
+        <item name="kswAnimationVelocity">6</item>
+        <item name="kswInsetBottom">16dp</item>
+        <item name="kswInsetTop">16dp</item>
+        <item name="kswInsetLeft">16dp</item>
+        <item name="kswInsetRight">16dp</item>
+        <item name="kswMeasureFactor">1.4</item>
+        <item name="kswOffDrawable">@drawable/md_back_off</item>
+        <item name="kswOnDrawable">@drawable/md_back_on</item>
+        <item name="kswThumbDrawable">@drawable/md_thumb</item>
+        <item name="kswThumb_margin">-17dp</item>
+    </style>
+
 </resources>

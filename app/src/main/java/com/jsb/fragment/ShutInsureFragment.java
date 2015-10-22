@@ -1,6 +1,5 @@
 package com.jsb.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
@@ -27,8 +26,9 @@ import com.jsb.third_party.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.jsb.third_party.hookedonplay.decoviewlib.events.DecoEvent;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
-import com.jsb.ui.aaa_TimePickerActivity;
+import com.jsb.ui.TimePickerActivity;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.widget.CustomSwitch.SwitchButton;
 import com.jsb.widget.TitleBar;
 
 
@@ -52,8 +52,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private TextView tv_start_date;
     private TextView tv_end_date;
     private TextView tv_date_interval;
-    private Switch weekSwitchTabView;
-    private Switch dateSwitchTabView;
+    private SwitchButton weekSwitchTabView;
+    private SwitchButton dateSwitchTabView;
     private LinearLayout datePickerLayout;
 
 
@@ -127,7 +127,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
         //限行停保 滑动按钮
-        weekSwitchTabView = (Switch) view.findViewById(R.id.week_switch_tab_view);
+        weekSwitchTabView = (SwitchButton) view.findViewById(R.id.week_switch_tab_view);
         weekSwitchTabView.setChecked(false);
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
@@ -146,16 +146,14 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
         // 滑动按钮-选择预约停保的时间
-        dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
+        dateSwitchTabView = (SwitchButton) view.findViewById(R.id.date_switch_tab_view);
         dateSwitchTabView.setChecked(false);//默认是关闭
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), ShutInsureFragment.this.getFragmentManager(), RightControlFragment.Dialog_RightControl);
                 if (isChecked) {
-                    Toast.makeText(getActivity(), "开", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "关", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -182,7 +180,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         datePickerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivityForResult(new Intent(getActivity(), aaa_TimePickerActivity.class), ACTION_CHOOSE_TIME);
+                getActivity().startActivityForResult(new Intent(getActivity(), TimePickerActivity.class), ACTION_CHOOSE_TIME);
             }
         });
 
