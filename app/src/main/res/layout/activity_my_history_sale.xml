@@ -7,7 +7,7 @@
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="@dimen/title_bar_height"/>
 
     <ListView
         android:layout_below="@+id/title_bar"

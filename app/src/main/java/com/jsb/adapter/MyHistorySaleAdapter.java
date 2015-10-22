@@ -84,7 +84,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
         }
 
 
-        layoutParams.setMargins(0,0,0,0);
+        layoutParams.setMargins(0,(int)UIUtils.dp2px(mContext,56),0,0);
         listView.setLayoutParams(layoutParams);
         footerView.setVisibility(View.GONE);
         notifyDataSetChanged();
@@ -169,14 +169,14 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 {
 
                     footerView.setVisibility(View.GONE);
-                    layoutParams.setMargins(0,0,0,0);
+                    layoutParams.setMargins(0,(int)UIUtils.dp2px(mContext,56),0,0);
                     listView.setLayoutParams(layoutParams);
                     for (aaa_HistorySaleBean bean : mDatas) {
                         bean.setStatus(GONE_UNSELECTED);
                     }
                 } else {//否则，就设置为 ：显示+未选中 状态
                     footerView.setVisibility(View.VISIBLE);
-                    layoutParams.setMargins(0,0,0, (int)UIUtils.dp2px(mContext,48));
+                    layoutParams.setMargins(0,(int)UIUtils.dp2px(mContext,56),0, (int)UIUtils.dp2px(mContext,48));
                     listView.setLayoutParams(layoutParams);
                     for (aaa_HistorySaleBean bean : mDatas) {
                         bean.setStatus(VISIBLE_UNSELECTED);
