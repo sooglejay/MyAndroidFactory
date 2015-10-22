@@ -12,7 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.submitPhone;
 import com.jsb.widget.TitleBar;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * 登录界面
@@ -26,6 +33,10 @@ public class LoginActivity extends BaseActivity {
     private EditText et_phone_number;
     private EditText et_verify_code;
     private CountDownTimer mCountTimer;
+
+
+    private String phoneString= "";
+    private String verifyCodeString= "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +85,24 @@ public class LoginActivity extends BaseActivity {
         tv_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!loginTvFlag) {
+                if (false) {
                     Toast.makeText(LoginActivity.this, "请输入手机号码和验证码登录！", Toast.LENGTH_SHORT).show();
                 } else {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+
+                    phoneString = et_phone_number.getText().toString();
+                    UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<submitPhone>>(LoginActivity.this) {
+                        @Override
+                        public void onFailure(RetrofitError error) {
+                            Toast.makeText(LoginActivity.this,"失败！",Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void success(NetWorkResultBean<submitPhone> submitPhoneNetWorkResultBean, Response response) {
+                                Toast.makeText(LoginActivity.this,"成功！",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
@@ -129,7 +154,10 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (TextUtils.isEmpty(et_phone_number.getText()) || TextUtils.isEmpty(et_verify_code.getText())) {
+            phoneString = et_phone_number.getText().toString();
+            verifyCodeString = et_verify_code.getText().toString();
+
+            if (TextUtils.isEmpty(phoneString) || TextUtils.isEmpty(verifyCodeString)) {
                 loginTvFlag = false;
                 tv_login.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                 tv_login.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));

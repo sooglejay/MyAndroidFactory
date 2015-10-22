@@ -51,6 +51,14 @@
     <color name="gray_trans">#33111111</color>
 
 
+    <color name="light_base_color">#50a165</color>
+    <color name="light_base_color_clicked">#ff468c50</color>
+
+
+    <color name="light_blue_color">#ff89c49a</color>
+    <color name="light_blue_color_clicked">#ff79b484</color>
+
+
     <color name="light_green_color_trans">#32d094</color>
 
     <color name="base_color">#50a165</color>

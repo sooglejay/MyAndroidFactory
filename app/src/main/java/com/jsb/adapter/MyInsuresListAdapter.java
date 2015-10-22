@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.jsb.R;
 import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
+import com.jsb.ui.MyInsuresListDrivingInsureDetailActivity;
 import com.jsb.ui.MyInsuresListJiaBanDogInsureDetailActivity;
 
 import java.util.ArrayList;
@@ -71,9 +72,10 @@ public class MyInsuresListAdapter extends BaseAdapter {
                         mContext.startActivity(new Intent(mContext, MyInsuresListCarInsureDetailActivity.class));
                         break;
                     case 1:
-                        mContext.startActivity(new Intent(mContext, MyInsuresListJiaBanDogInsureDetailActivity.class));
+                        mContext.startActivity(new Intent(mContext, MyInsuresListDrivingInsureDetailActivity.class));
                         break;
                     case 2:
+                        mContext.startActivity(new Intent(mContext, MyInsuresListJiaBanDogInsureDetailActivity.class));
                         break;
                 }
 

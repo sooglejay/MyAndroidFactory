@@ -110,15 +110,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".test.TestDecoViewActivity"
-            android:label="@string/LoginActivity"
-            android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
 
         <!-- Activities responsible for gathering payment info -->
         <activity android:name=".ui.OrderCofirmJiaBanDogInsureActivity"></activity>
@@ -127,5 +118,6 @@
         <activity android:name=".ui.MyInsuresListCarInsureDetailActivity"> </activity>
         <activity android:name=".ui.MyInsuresListJiaBanDogInsureDetailActivity"> </activity>
         <activity android:name=".ui.TimePickerActivity"/>
+        <activity android:name=".ui.MyInsuresListDrivingInsureDetailActivity"/>
     </application>
 </manifest>

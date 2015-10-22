@@ -20,25 +20,13 @@ android {
         }
     }
 }
-
-//下面是引用带资源的 aar文件的方法
-//repositories {
-//    flatDir {
-//        dirs 'libs'
-//    }
-//}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.1'
-//    compile 'com.android.support:cardview-v7:22.2.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.okio:okio:1.5.0'
     compile 'com.android.support:design:22.2.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-//    compile 'com.kyleduo.switchbutton:library:1.2.10'
-//    compile(name:'card.io-5.1.0', ext:'aar')
-
-
 }
