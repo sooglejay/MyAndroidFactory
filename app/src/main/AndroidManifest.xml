@@ -124,7 +124,6 @@
         <activity android:name=".ui.OrderCofirmJiaBanDogInsureActivity"></activity>
         <activity android:name=".ui.OrderCofirmOnDrivingInsureActivity"></activity>
         <activity android:name=".ui.PayJiaBanDogInsureActivity"></activity>
-        <activity android:name=".test.PagerSlideTest"> </activity>
         <activity android:name=".ui.MyInsuresListCarInsureDetailActivity"> </activity>
         <activity android:name=".ui.MyInsuresListJiaBanDogInsureDetailActivity"> </activity>
         <activity android:name=".ui.TimePickerActivity"/>

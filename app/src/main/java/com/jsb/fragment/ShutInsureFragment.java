@@ -21,9 +21,9 @@ import com.jsb.adapter.SpinnerDropDownAdapter;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
-import com.jsb.third_party.hookedonplay.decoviewlib.DecoView;
-import com.jsb.third_party.hookedonplay.decoviewlib.charts.SeriesItem;
-import com.jsb.third_party.hookedonplay.decoviewlib.events.DecoEvent;
+import com.jsb.widget.DecoView.decoviewlib.DecoView;
+import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
+import com.jsb.widget.DecoView.decoviewlib.events.DecoEvent;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
 import com.jsb.ui.TimePickerActivity;
@@ -250,7 +250,18 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         addFitListener(series1Item, tv_follow_decoView);
     }
 
-
+    /**
+     * 圆形滚动动画
+     * @param arcView
+     * @param series
+     * @param moveTo
+     * @param delay
+     * @param imageView
+     * @param imageId
+     * @param format
+     * @param color
+     * @param restart
+     */
     private void addAnimation(final DecoView arcView,
                               int series, float moveTo, int delay,
                               final ImageView imageView, final int imageId,

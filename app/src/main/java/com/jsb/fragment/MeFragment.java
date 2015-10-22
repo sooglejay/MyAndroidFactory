@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jsb.constant.StringConstant;
@@ -24,9 +25,12 @@ import com.jsb.widget.TitleBar;
 public class MeFragment extends BaseFragment {
 
     private TitleBar titleBar;
-    private TextView my_insure;
-    private TextView my_history_sale;
-    private TextView my_call_plice;
+    private View layout_my_insure;
+    private View layout_my_history_sale;
+    private View layout_my_call_plice;
+    private View layout_my_money_packet;
+    private View layout_my_share;
+    private View layout_my_team;
 
     private TextView my_money_packet;
     private TextView my_share;
@@ -42,48 +46,42 @@ public class MeFragment extends BaseFragment {
         setUp(view, savedInstanceState);
     }
 
+
     private void setUp(View view, Bundle savedInstanceState) {
         titleBar = (TitleBar)view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.me,-1,-1,"","");
 
-        my_share = (TextView)view.findViewById(R.id.my_share);
-        my_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), ShareActivity.class));
-            }
-        });
-
-        my_insure = (TextView)view.findViewById(R.id.my_insure);
-        my_insure.setOnClickListener(new View.OnClickListener() {
+        //我的保险
+        view.findViewById(R.id.layout_my_insure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyInsureActivity.class));
             }
         });
-        my_history_sale = (TextView)view.findViewById(R.id.my_history_sale);
-        my_history_sale.setOnClickListener(new View.OnClickListener() {
+
+        //我的历史报价
+        view.findViewById(R.id.layout_my_history_sale).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyHistorySaleActivity.class));
             }
         });
-        my_call_plice = (TextView)view.findViewById(R.id.my_call_plice);
-        my_call_plice.setOnClickListener(new View.OnClickListener() {
+
+        //我的报案
+        view.findViewById(R.id.layout_my_call_plice).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyCallPoliceActivity.class));
             }
         });
-        my_money_packet = (TextView)view.findViewById(R.id.my_money_packet);
-        my_money_packet.setOnClickListener(new View.OnClickListener() {
+
+        //我的钱包
+        view.findViewById(R.id.layout_my_money_packet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyMoneyPacketActivity.class));
             }
         });
-
-
     }
 
     @Override

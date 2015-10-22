@@ -1,7 +1,5 @@
 package com.jsb.fragment;
 
-import android.animation.Animator;
-import android.animation.TimeInterpolator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,20 +8,14 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.third_party.nineoldandroids.animation.AnimatorSet;
-import com.jsb.util.UIUtils;
-
-import java.util.concurrent.Delayed;
 
 /**
  * Created by Administrator on 2015/10/18.

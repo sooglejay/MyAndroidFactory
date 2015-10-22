@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
 
-                <com.jsb.third_party.hookedonplay.decoviewlib.DecoView
+                <com.jsb.widget.DecoView.decoviewlib.DecoView
                     android:id="@+id/dynamicArcView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

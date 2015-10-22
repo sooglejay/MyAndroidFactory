@@ -18,7 +18,6 @@ package com.jsb.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -27,8 +26,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.jsb.R;
-import com.jsb.third_party.hookedonplay.decoviewlib.DecoView;
-import com.jsb.third_party.hookedonplay.decoviewlib.charts.SeriesItem;
+import com.jsb.widget.DecoView.decoviewlib.DecoView;
+import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
 
 abstract public class DecoViewBaseFragment extends BaseFragment {
     protected final String TAG = getClass().getSimpleName();

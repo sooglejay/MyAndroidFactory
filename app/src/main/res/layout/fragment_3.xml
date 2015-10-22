@@ -23,12 +23,12 @@
 
             <RelativeLayout
                 android:layout_width="0dp"
-
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/layout_my_insure"
                     android:layout_height="match_parent"
                     android:clickable="true"
                     android:layout_centerInParent="true"
@@ -71,6 +71,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/layout_my_history_sale"
                     android:clickable="true"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -109,6 +110,7 @@
                 android:layout_weight="1">
 
                 <LinearLayout
+                    android:id="@+id/layout_my_call_plice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
@@ -155,6 +157,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:id="@+id/layout_my_money_packet"
                     android:clickable="true"
                     android:layout_centerInParent="true"
                     android:background="@drawable/btn_select_white"
@@ -174,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/icon_my_money_packet"
                         android:gravity="center"
-                        android:text="@string/my_insure"
+                        android:text="@string/my_money_packet"
                         android:textSize="@dimen/big_textsize" />
                 </LinearLayout>
 
@@ -196,6 +199,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/layout_my_share"
                     android:layout_height="match_parent"
                     android:clickable="true"
                     android:layout_centerInParent="true"
@@ -235,6 +239,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/layout_my_team"
                     android:layout_height="match_parent"
                     android:clickable="true"
                     android:layout_centerInParent="true"
