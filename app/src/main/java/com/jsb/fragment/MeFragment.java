@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jsb.constant.StringConstant;
@@ -14,9 +13,7 @@ import com.jsb.R;
 import com.jsb.ui.MyCallPoliceActivity;
 import com.jsb.ui.MyHistorySaleActivity;
 import com.jsb.ui.MyInsureActivity;
-import com.jsb.ui.MyModifyPasswordActivity;
-import com.jsb.ui.MyMoneyPacketActivity;
-import com.jsb.ui.ShareActivity;
+import com.jsb.ui.MyMoneyPocketActivity;
 import com.jsb.widget.TitleBar;
 
 /**
@@ -79,7 +76,7 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_money_packet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), MyMoneyPacketActivity.class));
+                getActivity().startActivity(new Intent(getActivity(), MyMoneyPocketActivity.class));
             }
         });
     }

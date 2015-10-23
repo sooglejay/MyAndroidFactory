@@ -140,10 +140,12 @@
     <color name="tv_gray_color_level_1">#cecdd3</color>
     <color name="tv_gray_color_level_2">#cdcdd0</color>
     <color name="tv_gray_color_level_3">#999999</color>
+    <color name="tv_gray_color_level_4">#878787</color>
 
     <!-- 捷世保 正文的黑体文字的字体颜色-->
     <color name="tv_black_color_level_0">#505050</color>
     <color name="tv_black_color_level_1">#464646</color>
+    <color name="tv_black_color_level_2">#030303</color>
 
 
 

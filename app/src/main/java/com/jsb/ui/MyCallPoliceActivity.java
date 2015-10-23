@@ -1,8 +1,5 @@
 package com.jsb.ui;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +8,7 @@ import android.widget.ListView;
 import com.jsb.R;
 import com.jsb.adapter.MyCallPoliceListAdapter;
 import com.jsb.fragment.DialogFragmentCreater;
-import com.jsb.model.aaa_MyCallPoliceBean;
+import com.jsb.Bean.aaa_MyCallPoliceBean;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -82,7 +79,10 @@ public class MyCallPoliceActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_CALL)
         {
-           myCallPoliceListAdapter.setResultDialg();
+
+            //重新生成一个 DialogFragment
+          DialogFragmentCreater dialogFragmentCreater = new DialogFragmentCreater(this,getSupportFragmentManager());
+            myCallPoliceListAdapter.setResultDialg(dialogFragmentCreater);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

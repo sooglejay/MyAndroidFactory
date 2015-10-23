@@ -1,7 +1,6 @@
 package com.jsb.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.constant.StringConstant;
 import com.jsb.fragment.DialogFragmentCreater;
-import com.jsb.model.aaa_MyCallPoliceBean;
+import com.jsb.Bean.aaa_MyCallPoliceBean;
 import com.jsb.ui.MyCallPoliceActivity;
-import com.jsb.ui.MyHistorySaleActivity;
 import com.jsb.util.UIUtils;
 
 import java.util.ArrayList;
@@ -27,24 +26,22 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
     public static final int STATUS_CALLED = 1;
 
 
-
-
     private DialogFragmentCreater mCallPoliceFragment;
 
     private int textColorResId_called = -1;
     private int textColorResId_uncalled = -1;//dialog 按钮文字的颜色
 
 
-    private aaa_MyCallPoliceBean outerTagBean  = new aaa_MyCallPoliceBean();
+    private aaa_MyCallPoliceBean outerTagBean = new aaa_MyCallPoliceBean();
 
-    public MyCallPoliceListAdapter(final Activity mContext, List<aaa_MyCallPoliceBean> datas ,DialogFragmentCreater dialogFragmentCreater) {
+    public MyCallPoliceListAdapter(final Activity mContext, List<aaa_MyCallPoliceBean> datas, DialogFragmentCreater dialogFragmentCreater) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
         this.mCallPoliceFragment = dialogFragmentCreater;
 
-        textColorResId_called =mContext.getResources().getColor(R.color.gray_color);
-        textColorResId_uncalled =mContext.getResources().getColor(R.color.light_red);
+        textColorResId_called = mContext.getResources().getColor(R.color.gray_color);
+        textColorResId_uncalled = mContext.getResources().getColor(R.color.light_red);
 
     }
 
@@ -52,6 +49,7 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ViewHolder holder;
     private List<aaa_MyCallPoliceBean> mDatas = new ArrayList<aaa_MyCallPoliceBean>();
+
     @Override
     public int getCount() {
         return mDatas.size();
@@ -70,20 +68,19 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         holder = new ViewHolder();
-        if(convertView==null)
-        {
-            convertView = View.inflate(mContext, R.layout.item_my_call_police_list,null);
-            holder.tv_insure_name = (TextView)convertView.findViewById(R.id.tv_insure_name);
-            holder.tv_buy_insure_time = (TextView)convertView.findViewById(R.id.tv_buy_insure_time);
-            holder.tv_call_police = (TextView)convertView.findViewById(R.id.tv_call_police);
-            holder.tv_buy_insure_agent = (TextView)convertView.findViewById(R.id.tv_buy_insure_agent);
-            holder.item = (LinearLayout)convertView.findViewById(R.id.item);
+        if (convertView == null) {
+            convertView = View.inflate(mContext, R.layout.item_my_call_police_list, null);
+            holder.tv_insure_name = (TextView) convertView.findViewById(R.id.tv_insure_name);
+            holder.tv_buy_insure_time = (TextView) convertView.findViewById(R.id.tv_buy_insure_time);
+            holder.tv_call_police = (TextView) convertView.findViewById(R.id.tv_call_police);
+            holder.tv_buy_insure_agent = (TextView) convertView.findViewById(R.id.tv_buy_insure_agent);
+            holder.item = (LinearLayout) convertView.findViewById(R.id.item);
 
             holder.onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     outerTagBean = (aaa_MyCallPoliceBean) v.getTag();
-                    mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.Dialog_Call_Police);
+                    mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowCallPoliceDialog);
                     mCallPoliceFragment.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
                         public void viewClick(String tag) {
@@ -96,28 +93,27 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
                         }
 
                         @Override
-                        public void Others(View v) {
+                        public void controlView(View v) {
 
                         }
                     });
                 }
             };
             convertView.setTag(holder);
-        }
-        else {
-            holder = (ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         final aaa_MyCallPoliceBean bean = getItem(position);
         holder.tv_insure_name.setText(bean.getInsureNameStr() + "");
-        switch (bean.getStatus())
-        {
+        switch (bean.getStatus()) {
             case STATUS_Default:
                 holder.tv_call_police.setTextColor(textColorResId_uncalled);
                 break;
             case STATUS_CALLED:
                 holder.tv_call_police.setTextColor(textColorResId_called);
                 break;
-            default:break;
+            default:
+                break;
         }
         holder.item.setTag(bean);
         holder.item.setOnClickListener(holder.onClickListener);
@@ -125,18 +121,28 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
     }
 
     /**
-     *
+     * 成功报案后的弹出对话框
      */
-    public void setResultDialg() {
+    public void setResultDialg(DialogFragmentCreater mCallPoliceFragment) {
+        mCallPoliceFragment.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+            @Override
+            public void viewClick(String tag) {
 
-        new AlertDialog.Builder(mContext)
-                .setMessage("加班狗报案成功！\n小保将在后台为您处理报\n案信息。稍后将把加班补贴\n塞到您的钱包里...嘿嘿")
-                .setNegativeButton("我知道了", null)
-                .show();
+            }
+
+            @Override
+            public void controlView(View v) {
+                if (v instanceof TextView) {
+                    String text = outerTagBean.getInsureNameStr() + StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS;
+                    ((TextView) v).setText(text);
+                }
+            }
+        });
+        mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowAfterCallPoliceSuccessDialog);
+
     }
 
-    private class ViewHolder
-    {
+    private class ViewHolder {
         TextView tv_insure_name;
         TextView tv_buy_insure_time;
         TextView tv_call_police;

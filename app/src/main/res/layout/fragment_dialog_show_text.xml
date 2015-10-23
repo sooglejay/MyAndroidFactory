@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_explain"
+        android:gravity="center"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginLeft="30dp"
+        android:textColor="@color/tv_black_color_level_2"
+        android:layout_marginRight="30dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_color"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@drawable/btn_select_white"
+        android:id="@+id/tv_confirm"
+        android:text="我知道了"
+        android:gravity="center"
+        android:textColor="#0073f1"
+        android:layout_gravity="center"
+        android:layout_height="48dp" />
+
+</LinearLayout>

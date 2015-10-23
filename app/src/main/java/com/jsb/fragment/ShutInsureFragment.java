@@ -132,7 +132,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.Dialog_RightControl);
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
                 if (isChecked) {
 
                 } else {
@@ -151,7 +151,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.Dialog_RightControl);
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
                 if (isChecked) {
                 } else {
                 }

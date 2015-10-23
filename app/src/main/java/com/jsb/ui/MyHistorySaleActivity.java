@@ -1,16 +1,13 @@
 package com.jsb.ui;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.adapter.MyHistorySaleAdapter;
-import com.jsb.model.aaa_HistorySaleBean;
+import com.jsb.Bean.aaa_HistorySaleBean;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;

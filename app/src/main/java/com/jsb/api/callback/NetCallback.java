@@ -4,9 +4,7 @@ import android.content.Context;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
-/**
- * Created by xuejiebang-android on 15/7/8.
- */
+
 public abstract class NetCallback<T> implements Callback<T> {
     private Context context;
 

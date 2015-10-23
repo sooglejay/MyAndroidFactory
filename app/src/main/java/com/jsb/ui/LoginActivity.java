@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity {
                 } else {
 
 
-                    phoneString = "13678054215";
+                    phoneString = et_phone_number.getText().toString();
                     UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<submitPhone>>(LoginActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error) {

@@ -16,13 +16,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.constant.StringConstant;
 
 /**
  * Created by Administrator on 2015/10/18.
  */
 public class DialogFragmentCreater extends DialogFragment {
-    public static final int Dialog_RightControl = 10000;//权限控制，当特殊操作时，要求输入密码
-    public static final int Dialog_Call_Police = 10001;// 我要报案 -点击item弹出对话框
+    public static final int DialogShowRightControlDialog = 1000;//权限控制，当特殊操作时，要求输入密码
+    public static final int DialogShowCallPoliceDialog = 1001;// 我要报案 -点击item弹出对话框
+    public static final int DialogShowAfterCallPoliceSuccessDialog = 1002;// 成功报案后，需要弹出对话框 显示 一些文字
     public final static String dialog_fragment_key = "fragment_id";
     public final static String dialog_fragment_tag = "dialog";
     private Context mContext;
@@ -43,7 +45,8 @@ public class DialogFragmentCreater extends DialogFragment {
     public interface OnDialogClickLisenter {
         public void viewClick(String tag);
 
-        public void Others(View v);
+        //回调控制方法
+        public void controlView(View v);
     }
 
 
@@ -103,10 +106,12 @@ public class DialogFragmentCreater extends DialogFragment {
             int fragment_id = getArguments().getInt(dialog_fragment_key);
             switch (fragment_id) {
 
-                case Dialog_RightControl:
+                case DialogShowRightControlDialog:
                     return showRightControlDialog(mContext);
-                case Dialog_Call_Police:
+                case DialogShowCallPoliceDialog:
                     return showCallPoliceDialog(mContext);
+                case DialogShowAfterCallPoliceSuccessDialog:
+                    return showAfterCallPoliceSuccessDialog(mContext);
                 default:
                     break;
             }
@@ -270,32 +275,31 @@ public class DialogFragmentCreater extends DialogFragment {
 
 
 
-    private Dialog showTextDialog(final Context mContext) {
-        View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_call_police, null);
+    private Dialog showAfterCallPoliceSuccessDialog(final Context mContext) {
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_dialog_show_text, null);
         final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.tv_cancel:
-                        if (onDialogClickLisenter != null)
-                            onDialogClickLisenter.viewClick("tv_cancel");
-                        dismiss();
-                        break;
                     case R.id.tv_confirm:
-                        if (onDialogClickLisenter != null)
-                            onDialogClickLisenter.viewClick("tv_confirm");
+                        onDialogClickLisenter.viewClick("tv_confirm");
                         dismiss();
                         break;
-                    default:
-                        break;
+
                 }
             }
         };
-        TextView tv_cancel = (TextView) convertView.findViewById(R.id.tv_cancel);
         TextView tv_confirm = (TextView) convertView.findViewById(R.id.tv_confirm);
-        tv_cancel.setOnClickListener(listener);
+        TextView tv_explain = (TextView) convertView.findViewById(R.id.tv_explain);
+
+        tv_explain.setText(StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS);
+        if(onDialogClickLisenter!=null)
+        {
+            onDialogClickLisenter.controlView(tv_explain);
+        }
         tv_confirm.setOnClickListener(listener);
+
         dialog.setContentView(convertView);
         dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
         return dialog;

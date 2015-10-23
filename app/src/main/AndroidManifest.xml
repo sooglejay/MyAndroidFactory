@@ -94,7 +94,7 @@
             android:label="@string/MyCallPoliceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.MyMoneyPacketActivity"
+            android:name=".ui.MyMoneyPocketActivity"
             android:label="@string/MyPacketActivity"
             android:screenOrientation="portrait" />
         <activity

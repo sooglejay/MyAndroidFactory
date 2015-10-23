@@ -1,7 +1,6 @@
 package com.jsb.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.model.aaa_HistorySaleBean;
-import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
-import com.jsb.ui.MyInsuresListDrivingInsureDetailActivity;
-import com.jsb.ui.MyInsuresListJiaBanDogInsureDetailActivity;
+import com.jsb.Bean.aaa_HistorySaleBean;
 import com.jsb.util.UIUtils;
 
 import java.util.ArrayList;
