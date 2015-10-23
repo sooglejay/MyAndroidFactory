@@ -15,6 +15,7 @@ import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.loginVerifyPhoneAndCode;
 import com.jsb.model.submitPhone;
 import com.jsb.widget.TitleBar;
 
@@ -35,8 +36,10 @@ public class LoginActivity extends BaseActivity {
     private CountDownTimer mCountTimer;
 
 
-    private String phoneString= "";
-    private String verifyCodeString= "";
+    private String phoneString = "";
+    private String verifyCodeStringService = "";
+    private String verifyCodeStringUser = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,28 +84,31 @@ public class LoginActivity extends BaseActivity {
         });
 
 
-
         tv_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (false) {
-                    Toast.makeText(LoginActivity.this, "请输入手机号码和验证码登录！", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(verifyCodeStringService))
+                {
+                    Toast.makeText(LoginActivity.this, "请输入手机号获取验证码！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+               else if (! verifyCodeStringService.equals(verifyCodeStringUser)) {
+                    Toast.makeText(LoginActivity.this, "验证码不正确！请重新输入", Toast.LENGTH_SHORT).show();
                 } else {
 
-
-                    phoneString = et_phone_number.getText().toString();
-                    UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<submitPhone>>(LoginActivity.this) {
+                    UserRetrofitUtil.login(LoginActivity.this, phoneString, verifyCodeStringUser, new NetCallback<NetWorkResultBean<loginVerifyPhoneAndCode>>(LoginActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error) {
-                            Toast.makeText(LoginActivity.this,"失败！",Toast.LENGTH_SHORT).show();
 
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<submitPhone> submitPhoneNetWorkResultBean, Response response) {
-                                Toast.makeText(LoginActivity.this,"成功！",Toast.LENGTH_SHORT).show();
+                        public void success(NetWorkResultBean<loginVerifyPhoneAndCode> loginVerifyPhoneAndCodeNetWorkResultBean, Response response) {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            LoginActivity.this.finish();
                         }
                     });
+
                 }
             }
         });
@@ -113,7 +119,22 @@ public class LoginActivity extends BaseActivity {
                 if (!checkPhoneNumberValid(et_phone_number.getText().toString())) {
                     Toast.makeText(LoginActivity.this, "请输入正确的手机号码!", Toast.LENGTH_SHORT).show();
                 } else {
-                    mCountTimer = new CountDownTimer(6*1000, 1000) {
+                    phoneString = et_phone_number.getText().toString();
+                    UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<submitPhone>>(LoginActivity.this) {
+                        @Override
+                        public void onFailure(RetrofitError error) {
+                            Toast.makeText(LoginActivity.this, "失败！", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void success(NetWorkResultBean<submitPhone> submitPhoneNetWorkResultBean, Response response) {
+                            Toast.makeText(LoginActivity.this, "获取验证码成功！请输入验证码登录", Toast.LENGTH_SHORT).show();
+                            verifyCodeStringService = submitPhoneNetWorkResultBean.getData().getVerifyCode();
+                        }
+                    });
+
+                    mCountTimer = new CountDownTimer(60 * 1000, 1000) {
                         public void onTick(long millisUntilFinished) {
                             tv_obtain_verify_code.setText("" + millisUntilFinished / 1000 + "秒后重试");
                             tv_obtain_verify_code.setEnabled(false);
@@ -127,6 +148,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     };
                     mCountTimer.start();
+
                 }
             }
         });
@@ -135,12 +157,12 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 简单判断手机号码合法性
+     *
      * @param phoneNumber
      * @return
      */
-    private boolean checkPhoneNumberValid(String phoneNumber)
-    {
-        if(!TextUtils.isEmpty(phoneNumber)&&phoneNumber.length()==11)
+    private boolean checkPhoneNumberValid(String phoneNumber) {
+        if (!TextUtils.isEmpty(phoneNumber) && phoneNumber.length() == 11)
             return true;
         return false;
     }
@@ -155,9 +177,9 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             phoneString = et_phone_number.getText().toString();
-            verifyCodeString = et_verify_code.getText().toString();
+            verifyCodeStringUser = et_verify_code.getText().toString();
 
-            if (TextUtils.isEmpty(phoneString) || TextUtils.isEmpty(verifyCodeString)) {
+            if (TextUtils.isEmpty(phoneString) || TextUtils.isEmpty(verifyCodeStringUser)) {
                 loginTvFlag = false;
                 tv_login.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                 tv_login.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));

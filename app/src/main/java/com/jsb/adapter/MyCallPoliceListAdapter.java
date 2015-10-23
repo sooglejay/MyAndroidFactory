@@ -85,7 +85,7 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
                         @Override
                         public void viewClick(String tag) {
                             if (tag.equals("tv_confirm")) {
-                                UIUtils.takePhoneCall(mContext, "13678054215", MyCallPoliceActivity.REQUEST_CODE_CALL);
+                                UIUtils.takePhoneCall(mContext, "87778687", MyCallPoliceActivity.REQUEST_CODE_CALL);
                                 outerTagBean.setStatus(STATUS_CALLED);
                                 notifyDataSetChanged();
 

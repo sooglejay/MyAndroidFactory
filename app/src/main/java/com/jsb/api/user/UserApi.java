@@ -3,6 +3,7 @@ package com.jsb.api.user;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.constant.NetWorkConstant;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.loginVerifyPhoneAndCode;
 import com.jsb.model.submitPhone;
 
 import retrofit.http.Field;
@@ -20,5 +21,9 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/submitPhone/")
     public void obtainVerifyCode(@Field("param") String params ,NetCallback<NetWorkResultBean<submitPhone>> NetCallback);
+
+    @FormUrlEncoded
+    @POST("/submitPhone/")
+    public void login(@Field("param") String params ,NetCallback<NetWorkResultBean<loginVerifyPhoneAndCode>> NetCallback);
 
 }
