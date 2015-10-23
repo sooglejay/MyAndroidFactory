@@ -2,7 +2,6 @@ package com.jsb.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -14,17 +13,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.jsb.R;
 
 /**
  * Created by Administrator on 2015/10/18.
  */
-public class RightControlFragment extends DialogFragment {
+public class DialogFragmentCreater extends DialogFragment {
     public static final int Dialog_RightControl = 10000;//权限控制，当特殊操作时，要求输入密码
+    public static final int Dialog_Call_Police = 10001;// 我要报案 -点击item弹出对话框
     public final static String dialog_fragment_key = "fragment_id";
     public final static String dialog_fragment_tag = "dialog";
     private Context mContext;
+
+    private FragmentManager fragmentManager;
+
+    public DialogFragmentCreater(Context mContext, FragmentManager fragmentManager) {
+        this.mContext = mContext;
+        this.fragmentManager = fragmentManager;
+    }
+
+    private OnDialogClickLisenter onDialogClickLisenter;
+
+    public void setOnDialogClickLisenter(OnDialogClickLisenter onDialogClickLisenter) {
+        this.onDialogClickLisenter = onDialogClickLisenter;
+    }
+
+    public interface OnDialogClickLisenter {
+        public void viewClick(String tag);
+
+        public void Others(View v);
+    }
+
 
     private String mPasswordString = "";
     private EditText et_1;
@@ -37,7 +58,7 @@ public class RightControlFragment extends DialogFragment {
 
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(android.content.DialogInterface dialog) {
         super.onDismiss(dialog);
     }
 
@@ -49,17 +70,15 @@ public class RightControlFragment extends DialogFragment {
 
     /**
      * 调用Dialog的地方
-     *
-     * @param manager
-     * @param fragment_id
+     * * @param fragment_id
      */
-    public void showDialog(Context mContext, FragmentManager manager, int fragment_id) {
+    public void showDialog(Context mContext, int fragment_id) {
         this.mContext = mContext;
         try {
             Bundle args = new Bundle();
             args.putInt(dialog_fragment_key, fragment_id);
             this.setArguments(args);
-            this.show(manager, dialog_fragment_tag);
+            this.show(fragmentManager, dialog_fragment_tag);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,8 +102,11 @@ public class RightControlFragment extends DialogFragment {
         if (savedInstanceState == null) {
             int fragment_id = getArguments().getInt(dialog_fragment_key);
             switch (fragment_id) {
+
                 case Dialog_RightControl:
                     return showRightControlDialog(mContext);
+                case Dialog_Call_Police:
+                    return showCallPoliceDialog(mContext);
                 default:
                     break;
             }
@@ -114,12 +136,12 @@ public class RightControlFragment extends DialogFragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
                     int i = 5;
-                    while (i >=0) {
+                    while (i >= 0) {
                         mEditTexts[i].setText("");
                         mEditTexts[i].clearFocus();
                         i--;
                     }
-                    mPasswordString="";
+                    mPasswordString = "";
                     mEditTexts[0].requestFocus();
 
                     return true;
@@ -130,7 +152,6 @@ public class RightControlFragment extends DialogFragment {
         };
 
         mEditTexts = new EditText[]{et_1, et_2, et_3, et_4, et_5, et_6};
-
 
 
         TextWatcher textWatcher = new TextWatcher() {
@@ -144,13 +165,11 @@ public class RightControlFragment extends DialogFragment {
                 mPasswordString = mPasswordString + s;
                 if (mPasswordString.length() < 6) {
                     int index = mPasswordString.length();
-                    if (index >= 5)
-                    {
-                        index =5;
+                    if (index >= 5) {
+                        index = 5;
                     }
                     mEditTexts[index].requestFocus();
-                } else
-                {
+                } else {
 
                 }
             }
@@ -179,10 +198,10 @@ public class RightControlFragment extends DialogFragment {
         Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.setContentView(convertView);
         dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
-       //当dialog 显示的时候，弹出键盘
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        //当dialog 显示的时候，弹出键盘
+        dialog.setOnShowListener(new android.content.DialogInterface.OnShowListener() {
             @Override
-            public void onShow(DialogInterface dialog) {
+            public void onShow(android.content.DialogInterface dialog) {
 
                 new AsyncTask<Integer, Void, Void>() {
                     @Override
@@ -194,11 +213,11 @@ public class RightControlFragment extends DialogFragment {
                         }
                         return null;
                     }
+
                     @Override
                     protected void onPostExecute(Void value) {
                         super.onPostExecute(value);
-                        if(et_1!=null)
-                        {
+                        if (et_1 != null) {
                             et_1.requestFocus();
                             InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
@@ -208,6 +227,77 @@ public class RightControlFragment extends DialogFragment {
                 }.execute(800);
             }
         });
+        return dialog;
+    }
+
+
+    /**
+     * 我要报案=点击item 弹出对话框
+     *
+     * @param mContext
+     * @return
+     */
+    private Dialog showCallPoliceDialog(final Context mContext) {
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_call_police, null);
+        final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.tv_cancel:
+                        if (onDialogClickLisenter != null)
+                            onDialogClickLisenter.viewClick("tv_cancel");
+                        dismiss();
+                        break;
+                    case R.id.tv_confirm:
+                        if (onDialogClickLisenter != null)
+                            onDialogClickLisenter.viewClick("tv_confirm");
+                        dismiss();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        TextView tv_cancel = (TextView) convertView.findViewById(R.id.tv_cancel);
+        TextView tv_confirm = (TextView) convertView.findViewById(R.id.tv_confirm);
+        tv_cancel.setOnClickListener(listener);
+        tv_confirm.setOnClickListener(listener);
+        dialog.setContentView(convertView);
+        dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
+        return dialog;
+    }
+
+
+
+    private Dialog showTextDialog(final Context mContext) {
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_call_police, null);
+        final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.tv_cancel:
+                        if (onDialogClickLisenter != null)
+                            onDialogClickLisenter.viewClick("tv_cancel");
+                        dismiss();
+                        break;
+                    case R.id.tv_confirm:
+                        if (onDialogClickLisenter != null)
+                            onDialogClickLisenter.viewClick("tv_confirm");
+                        dismiss();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        TextView tv_cancel = (TextView) convertView.findViewById(R.id.tv_cancel);
+        TextView tv_confirm = (TextView) convertView.findViewById(R.id.tv_confirm);
+        tv_cancel.setOnClickListener(listener);
+        tv_confirm.setOnClickListener(listener);
+        dialog.setContentView(convertView);
+        dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
         return dialog;
     }
 

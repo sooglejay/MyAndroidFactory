@@ -7,6 +7,7 @@ import com.jsb.model.submitPhone;
 
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.Headers;
 import retrofit.http.POST;
 
 /**
@@ -18,9 +19,6 @@ public interface UserApi {
 
     @FormUrlEncoded
     @POST("/submitPhone/")
-    public void obtainVerifyCode(@Field(NetWorkConstant.PARAMS) String params ,NetCallback<NetWorkResultBean<submitPhone>> NetCallback);
-
-
-
+    public void obtainVerifyCode(@Field("param") String params ,NetCallback<NetWorkResultBean<submitPhone>> NetCallback);
 
 }

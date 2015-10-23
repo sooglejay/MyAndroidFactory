@@ -6,10 +6,8 @@ import com.jsb.constant.NetWorkConstant;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.client.Header;
 
-/**
- * Created by kcg on 15-7-9.
- */
 public class RetrofitUtil {
 
 

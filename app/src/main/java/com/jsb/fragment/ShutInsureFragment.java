@@ -69,7 +69,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
 
-    private RightControlFragment rightControlFragment;//注意清除掉 mPasswordString 才能公用
+    private DialogFragmentCreater rightControlFragment;//注意清除掉 mPasswordString 才能公用
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     }
 
     private void setUp(View view, Bundle savedInstanceState) {
-        rightControlFragment = new RightControlFragment();//涉及到权限操作时，需要临时输入密码并验证
+        rightControlFragment = new DialogFragmentCreater(getActivity(),getFragmentManager());//涉及到权限操作时，需要临时输入密码并验证
 
 
         //圆形动画 文本跟随器
@@ -132,7 +132,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), ShutInsureFragment.this.getFragmentManager(), RightControlFragment.Dialog_RightControl);
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.Dialog_RightControl);
                 if (isChecked) {
 
                 } else {
@@ -151,7 +151,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), ShutInsureFragment.this.getFragmentManager(), RightControlFragment.Dialog_RightControl);
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.Dialog_RightControl);
                 if (isChecked) {
                 } else {
                 }

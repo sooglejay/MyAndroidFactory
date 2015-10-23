@@ -5,23 +5,20 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
+import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
 import com.jsb.R;
-import com.jsb.ui.MainActivity;
-
 import java.util.List;
 
 
 public class UIUtils {
     /**
      * px转换为dp
-     *
      * @param context
      * @param dp
      * @return
@@ -32,7 +29,6 @@ public class UIUtils {
 
     /**
      * px转换为sp
-     *
      * @param context
      * @param sp
      * @return
@@ -44,7 +40,6 @@ public class UIUtils {
 
     /**
      * 初始化下拉刷新样式
-     *
      * @param swipeLayout
      */
     public static void initSwipeRefreshLayout(SwipeRefreshLayout swipeLayout) {
@@ -55,7 +50,6 @@ public class UIUtils {
 
     /**
      * 设置窗口的透明度
-     *
      * @param context
      * @param alpla
      */
@@ -107,8 +101,6 @@ public class UIUtils {
             mInputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
 
         }
-
-
     }
 
     public static boolean isAppForground(Context mContext) {
@@ -121,5 +113,19 @@ public class UIUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * 拨打电话
+     * @param context
+     * @param phoneNumberString
+     */
+    public static void takePhoneCall(Activity context,String phoneNumberString,int requestCode)
+    {
+        if(!TextUtils.isEmpty(phoneNumberString))
+        {
+            Intent phoneIntent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + phoneNumberString));
+            context.startActivityForResult(phoneIntent, requestCode);
+        }
     }
 }

@@ -32,10 +32,6 @@ import java.util.zip.CRC32;
 
 import de.greenrobot.event.EventBus;
 
-/**
- * Banner广告
- * Created by xuejiebang-android on 15/7/9.
- */
 public class BannerView extends FrameLayout {
 
     private static final int FLAG_SHOW_NEXT = 1;

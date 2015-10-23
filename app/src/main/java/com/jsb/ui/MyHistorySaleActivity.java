@@ -55,7 +55,6 @@ public class MyHistorySaleActivity extends BaseActivity {
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MyHistorySaleActivity.this,"金属大师",Toast.LENGTH_SHORT).show();
                 mAdapter.deleteItem(true);
             }
         });

@@ -21,9 +21,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.util.List;
 
-/**
- * Created by kcg on 15-5-27.
- */
+
 public class JieShiBaoApplication extends Application {
 
     private static String appVersion = "";

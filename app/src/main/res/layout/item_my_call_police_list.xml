@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/item"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_select_white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/small_padding"
+            android:paddingTop="@dimen/small_padding">
+
+            <TextView
+                android:id="@+id/tv_insure_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:text="车险（川A88888）"
+                android:textColor="@color/tv_black_color_level_0"
+                android:textSize="@dimen/big_textsize" />
+
+            <TextView
+                android:id="@+id/tv_buy_insure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:text="2015-09-12"
+                android:textColor="@color/tv_gray_color_level_2"
+                android:textSize="@dimen/middle_textsize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/small_padding"
+            android:paddingTop="@dimen/small_padding">
+
+            <TextView
+                android:id="@+id/tv_call_police"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:text="立即报案"
+                android:textColor="@color/light_red"
+                android:textSize="@dimen/big_textsize" />
+
+            <TextView
+                android:id="@+id/tv_buy_insure_agent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:text="太平保险"
+                android:textColor="@color/tv_gray_color_level_2"
+                android:textSize="@dimen/small_textsize" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:background="@drawable/arrow_right" />
+    </LinearLayout>
+</LinearLayout>
