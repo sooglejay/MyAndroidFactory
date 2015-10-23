@@ -14,6 +14,7 @@ import com.jsb.ui.MyCallPoliceActivity;
 import com.jsb.ui.MyHistorySaleActivity;
 import com.jsb.ui.MyInsureActivity;
 import com.jsb.ui.MyMoneyPocketActivity;
+import com.jsb.ui.ShareActivity;
 import com.jsb.widget.TitleBar;
 
 /**
@@ -77,6 +78,14 @@ public class MeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), MyMoneyPocketActivity.class));
+            }
+        });
+
+         //分享给朋友
+        view.findViewById(R.id.layout_my_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), ShareActivity.class));
             }
         });
     }

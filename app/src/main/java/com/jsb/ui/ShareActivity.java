@@ -13,9 +13,6 @@ public class ShareActivity extends BaseActivity {
 
     private TitleBar titleBar = null;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
