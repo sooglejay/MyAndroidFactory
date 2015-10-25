@@ -129,7 +129,7 @@ public class LoginActivity extends BaseActivity {
 
                         @Override
                         public void success(NetWorkResultBean<submitPhone> submitPhoneNetWorkResultBean, Response response) {
-                            Toast.makeText(LoginActivity.this, "获取验证码成功！请输入验证码登录", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
                             verifyCodeStringService = submitPhoneNetWorkResultBean.getData().getVerifyCode();
                         }
                     });

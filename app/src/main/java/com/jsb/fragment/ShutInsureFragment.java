@@ -64,7 +64,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     //圆形动画
     private String mProgress;//  进度条
     private int mBigCircleSeriesIndex;//外围大环序列号
-    private int mSmallCircleSeriesIndex;//内 部小圆环序列号
     private TextView tv_follow_decoView;//TextView 显示进度
 
 
@@ -220,8 +219,17 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 .setRange(0, mSeriesMax, mSeriesMax)
                 .setLineWidth(getDimension(6))
                 .build();
-
         decoView.addSeries(seriesBack1Item);
+
+        float inset =  getDimension(10);
+        SeriesItem smallCircle = new SeriesItem.Builder(COLOR_SMALL_CIRCLE)
+                .setRange(0, mSeriesMax, mSeriesMax)
+                .setInset(new PointF(inset, inset))
+                .setLineWidth(getDimension(2))
+                .setCapRounded(true)
+                .setShowPointWhenEmpty(true)
+                .build();
+        decoView.addSeries(smallCircle);
 
         SeriesItem series1Item = new SeriesItem.Builder(COLOR_BIG_CIRCLE)
                 .setRange(0, 1000f, 0)
@@ -232,21 +240,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 .setShowPointWhenEmpty(true)
                 .build();
         mBigCircleSeriesIndex = decoView.addSeries(series1Item);
-
-
-
-        float inset =  getDimension(8);
-        SeriesItem smallCircle = new SeriesItem.Builder(COLOR_SMALL_CIRCLE)
-                .setRange(0, 1000f, 0)
-                .setInitialVisibility(false)
-                .setInset(new PointF(inset, inset))
-                .setLineWidth(getDimension(2))
-                .setCapRounded(true)
-                .setShowPointWhenEmpty(true)
-                .build();
-        mBigCircleSeriesIndex = decoView.addSeries(series1Item);
-        mSmallCircleSeriesIndex = decoView.addSeries(smallCircle);
-
         addFitListener(series1Item, tv_follow_decoView);
     }
 
@@ -301,8 +294,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             return;
         }
         addAnimation(arcView, mBigCircleSeriesIndex,869.2f, 500, null, -1, "$ %.2f", COLOR_BIG_CIRCLE, false);
-        addAnimation(arcView, mSmallCircleSeriesIndex, 1000f, 100, null, -1, "$ %.2f", COLOR_SMALL_CIRCLE, false);
-
       }
 
     /**
