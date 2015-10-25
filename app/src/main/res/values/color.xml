@@ -126,6 +126,9 @@
     <color name="et_divider_disable">#FFC1C1C1</color>
 
 
+    <color name="light_bg_color">#fafafa</color>
+
+
 
 
     <!--分割线颜色值-->

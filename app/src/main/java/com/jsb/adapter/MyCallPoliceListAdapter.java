@@ -80,20 +80,29 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     outerTagBean = (aaa_MyCallPoliceBean) v.getTag();
-                    mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowCallPoliceDialog);
+                    mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                     mCallPoliceFragment.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
                         public void viewClick(String tag) {
                             if (tag.equals("tv_confirm")) {
-                                UIUtils.takePhoneCall(mContext, "87778687", MyCallPoliceActivity.REQUEST_CODE_CALL);
+                                UIUtils.takePhoneCall(mContext, StringConstant.CALL_POLICE_PHONE_NUMBER, MyCallPoliceActivity.REQUEST_CODE_CALL);
                                 outerTagBean.setStatus(STATUS_CALLED);
                                 notifyDataSetChanged();
-
                             }
                         }
 
                         @Override
-                        public void controlView(View v) {
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText(StringConstant.CALL_POLICE_PHONE_NUMBER);
+                            }
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("太平洋保险报案电话");
+                            }
+                            if (tv_confirm instanceof TextView) {
+                                ((TextView) tv_confirm).setText("拨打");
+                            }
+
 
                         }
                     });
@@ -131,14 +140,15 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
             }
 
             @Override
-            public void controlView(View v) {
-                if (v instanceof TextView) {
+            public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                if (tv_content instanceof TextView) {
                     String text = outerTagBean.getInsureNameStr() + StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS;
-                    ((TextView) v).setText(text);
+                    ((TextView) tv_content).setText(text);
                 }
             }
+
         });
-        mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowAfterCallPoliceSuccessDialog);
+        mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowSingleChoiceDialog);
 
     }
 

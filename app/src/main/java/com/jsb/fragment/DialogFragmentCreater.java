@@ -23,8 +23,8 @@ import com.jsb.constant.StringConstant;
  */
 public class DialogFragmentCreater extends DialogFragment {
     public static final int DialogShowRightControlDialog = 1000;//权限控制，当特殊操作时，要求输入密码
-    public static final int DialogShowCallPoliceDialog = 1001;// 我要报案 -点击item弹出对话框
-    public static final int DialogShowAfterCallPoliceSuccessDialog = 1002;// 成功报案后，需要弹出对话框 显示 一些文字
+    public static final int DialogShowConfirmOrCancelDialog = 1001;// 我要报案 -点击item弹出对话框
+    public static final int DialogShowSingleChoiceDialog = 1002;// 成功报案后，需要弹出对话框 显示 一些文字
     public final static String dialog_fragment_key = "fragment_id";
     public final static String dialog_fragment_tag = "dialog";
     private Context mContext;
@@ -45,8 +45,12 @@ public class DialogFragmentCreater extends DialogFragment {
     public interface OnDialogClickLisenter {
         public void viewClick(String tag);
 
-        //回调控制方法
-        public void controlView(View v);
+
+
+         //回调控制方法
+        public void controlView(View tv_confirm,View tv_cancel,View tv_title,View tv_content);
+
+
     }
 
 
@@ -108,10 +112,10 @@ public class DialogFragmentCreater extends DialogFragment {
 
                 case DialogShowRightControlDialog:
                     return showRightControlDialog(mContext);
-                case DialogShowCallPoliceDialog:
-                    return showCallPoliceDialog(mContext);
-                case DialogShowAfterCallPoliceSuccessDialog:
-                    return showAfterCallPoliceSuccessDialog(mContext);
+                case DialogShowConfirmOrCancelDialog:
+                    return showConfirmOrCancelDialog(mContext);
+                case DialogShowSingleChoiceDialog:
+                    return showSingleChoiceDialog(mContext);
                 default:
                     break;
             }
@@ -242,8 +246,8 @@ public class DialogFragmentCreater extends DialogFragment {
      * @param mContext
      * @return
      */
-    private Dialog showCallPoliceDialog(final Context mContext) {
-        View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_call_police, null);
+    private Dialog showConfirmOrCancelDialog(final Context mContext) {
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.dialog_double_choice, null);
         final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -266,6 +270,13 @@ public class DialogFragmentCreater extends DialogFragment {
         };
         TextView tv_cancel = (TextView) convertView.findViewById(R.id.tv_cancel);
         TextView tv_confirm = (TextView) convertView.findViewById(R.id.tv_confirm);
+        TextView tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+        TextView tv_content = (TextView) convertView.findViewById(R.id.tv_content);
+
+        if(onDialogClickLisenter!=null)
+        {
+            onDialogClickLisenter.controlView(tv_confirm,tv_cancel,tv_title,tv_content);
+        }
         tv_cancel.setOnClickListener(listener);
         tv_confirm.setOnClickListener(listener);
         dialog.setContentView(convertView);
@@ -275,8 +286,8 @@ public class DialogFragmentCreater extends DialogFragment {
 
 
 
-    private Dialog showAfterCallPoliceSuccessDialog(final Context mContext) {
-        View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_dialog_show_text, null);
+    private Dialog showSingleChoiceDialog(final Context mContext) {
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.dialog_single_choice, null);
         final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -286,7 +297,6 @@ public class DialogFragmentCreater extends DialogFragment {
                         onDialogClickLisenter.viewClick("tv_confirm");
                         dismiss();
                         break;
-
                 }
             }
         };
@@ -296,7 +306,7 @@ public class DialogFragmentCreater extends DialogFragment {
         tv_explain.setText(StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS);
         if(onDialogClickLisenter!=null)
         {
-            onDialogClickLisenter.controlView(tv_explain);
+            onDialogClickLisenter.controlView(tv_confirm,null,null,tv_explain);
         }
         tv_confirm.setOnClickListener(listener);
 

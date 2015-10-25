@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -22,14 +21,35 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/car_number_spinner"
+            <LinearLayout
+                android:id="@+id/layout_car_number_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_select_white"
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <Spinner
+                    android:id="@+id/car_number_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:clickable="false" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/little_padding"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_spinner_drop" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp">
+                android:layout_height="146dp">
 
                 <com.jsb.widget.DecoView.decoviewlib.DecoView
                     android:id="@+id/dynamicArcView"
@@ -68,7 +88,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="@dimen/middle_padding"
                 android:background="#ababab" />
 
             <View
@@ -122,6 +142,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:text="可提现金额"
                         android:textSize="@dimen/middle_textsize" />
 
@@ -152,22 +173,24 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="22dp"
+                android:layout_height="24dp"
                 android:background="#f5f5f6" />
 
             <LinearLayout
+                android:id="@+id/layout_xxtb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="24dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingLeft="22dp"
+                    android:paddingTop="@dimen/middle_padding">
 
                     <TextView
+                        android:id="@+id/tv_xxtb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center"
@@ -175,122 +198,212 @@
                         android:textColor="@color/dark_gray_color"
                         android:textSize="@dimen/more_big_textsize" />
 
-                    <Spinner
-                        android:id="@+id/week_number_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+                    <Switch
+                        android:id="@+id/week_switch_tab_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textOn="ON"
+                        android:textOff="OFF"
+                        android:thumb="@drawable/switch_text_appearance"
+                        android:layout_marginRight="@dimen/most_big_padding"
+                        android:checked="true"/>
                 </LinearLayout>
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
 
-                <com.jsb.widget.CustomSwitch.SwitchButton
-                    android:id="@+id/week_switch_tab_view"
+                <LinearLayout
+                    android:id="@+id/layout_week_number_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:kswOffColor="@color/very_light_gray_color"
-                    app:kswOnColor="@color/base_color"
-                    android:layout_marginRight="@dimen/most_big_padding"
-                    android:checked="true" />
+                    android:background="@drawable/btn_select_white"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/middle_padding">
+
+                    <Spinner
+                        android:id="@+id/week_number_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dp"
+                        android:background="@null"
+                        android:clickable="false" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/little_padding"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_spinner_drop" />
+                </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="24dp"
-                android:text="预约停保"
-                android:textColor="@color/dark_gray_color"
-                android:textSize="@dimen/more_big_textsize" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="#fafafa"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/more_big_padding"
+                android:paddingTop="@dimen/middle_padding">
 
-                <LinearLayout
-                    android:id="@+id/layout_date_picker"
+                <TextView
+                    android:id="@+id/tv_yytb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="@dimen/middle_padding"
-                    android:background="@drawable/btn_select_gray"
-                    android:clickable="true"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/middle_padding"
-                    android:paddingRight="@dimen/middle_padding"
-                    android:paddingTop="@dimen/small_padding">
+                    android:layout_gravity="left|center"
+                    android:layout_marginLeft="22dp"
+                    android:text="预约停保"
+                    android:textColor="@color/dark_gray_color"
+                    android:textSize="@dimen/more_big_textsize" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_start_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15-10-10" />
-
-                        <TextView
-                            android:id="@+id/tv_end_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15-10-12" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/middle_padding"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_start_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="00:00开始" />
-
-                        <TextView
-                            android:id="@+id/tv_end_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="24:00结束" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tv_date_interval"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/middle_padding"
-                        android:gravity="center_horizontal|bottom"
-                        android:text="三天" />
-                </LinearLayout>
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <com.jsb.widget.CustomSwitch.SwitchButton
+                <Switch
                     android:id="@+id/date_switch_tab_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:kswOffColor="@color/very_light_gray_color"
-                    app:kswOnColor="@color/base_color"
                     android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/most_big_padding"
-                    android:checked="true" />
+                    android:textOn="ON"
+                    android:textOff="OFF"
+                    android:thumb="@drawable/switch_text_appearance"
+                    android:checked="true"/>
+
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_date_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_select_light_bg_color"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingLeft="22dp"
+                android:paddingRight="@dimen/middle_padding">
+
+                <!-- 一共几天-->
+                <LinearLayout
+                    android:id="@+id/layout_total_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_date_interval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="三天"
+                        android:textSize="@dimen/small_textsize" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="bottom"
+                        android:src="@drawable/icon_spinner_drop" />
+                </LinearLayout>
+
+                <!--起-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_start_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="起" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3" />
+
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15-10-10" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5" />
+
+                    <TextView
+                        android:id="@+id/tv_00_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/middle_padding"
+                        android:text="00:00" />
+                </LinearLayout>
+
+                <!--止-->
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_end_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="止" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3" />
+
+                    <TextView
+                        android:id="@+id/tv_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15-10-12" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5" />
+
+                    <TextView
+                        android:id="@+id/tv_00_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/middle_padding"
+                        android:text="00:00" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eaeaea" />
 
             <TextView
                 android:id="@+id/layout_rule"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn_select_bg_screen"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/middle_padding"
+                android:paddingLeft="22dp"
+                android:paddingTop="@dimen/small_padding"
+                android:text="查看停保规则" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -5,9 +5,12 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +24,7 @@ import com.jsb.adapter.SpinnerDropDownAdapter;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
+import com.jsb.util.SpannableStringUtil;
 import com.jsb.widget.DecoView.decoviewlib.DecoView;
 import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
 import com.jsb.widget.DecoView.decoviewlib.events.DecoEvent;
@@ -32,14 +36,17 @@ import com.jsb.widget.CustomSwitch.SwitchButton;
 import com.jsb.widget.TitleBar;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
 /**
  * 停保险-主框架-tab1
  */
 public class ShutInsureFragment extends DecoViewBaseFragment {
-   public static final int ACTION_CHOOSE_TIME = 1000;
+    public static final int ACTION_CHOOSE_TIME = 1000;
 
     private TitleBar titleBar;
     private TextView tvPullMoney;
@@ -52,20 +59,31 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private TextView tv_start_date;
     private TextView tv_end_date;
     private TextView tv_date_interval;
-    private SwitchButton weekSwitchTabView;
-    private SwitchButton dateSwitchTabView;
+    private Switch weekSwitchTabView;
+    private Switch dateSwitchTabView;
     private LinearLayout datePickerLayout;
 
 
     private String startTimeStr;
     private String endTimeStr;
     private String timeIntvalStr;
-    
+
+
+    private String todayString_yyyy_m_d = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+
     //圆形动画
     private String mProgress;//  进度条
     private int mBigCircleSeriesIndex;//外围大环序列号
     private TextView tv_follow_decoView;//TextView 显示进度
 
+    private SpannableString unitSpanString;
+
+
+    private TextView tv_yytb;//
+    private TextView tv_xxtb;//
+    private LinearLayout layout_week_number_spinner;//
+    private LinearLayout layout_car_number_spinner;//
 
 
     private DialogFragmentCreater rightControlFragment;//注意清除掉 mPasswordString 才能公用
@@ -81,7 +99,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     }
 
     private void setUp(View view, Bundle savedInstanceState) {
-        rightControlFragment = new DialogFragmentCreater(getActivity(),getFragmentManager());//涉及到权限操作时，需要临时输入密码并验证
+        rightControlFragment = new DialogFragmentCreater(getActivity(), getFragmentManager());//涉及到权限操作时，需要临时输入密码并验证
+        unitSpanString = SpannableStringUtil.getSpannableString(getActivity(), "¥", 40);//单位
+
+        tv_yytb = (TextView) view.findViewById(R.id.tv_yytb);
+        tv_xxtb = (TextView) view.findViewById(R.id.tv_xxtb);
 
 
         //圆形动画 文本跟随器
@@ -100,9 +122,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 Toast.makeText(getActivity(), "hello,share", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
 
 
         //提现
@@ -125,57 +144,30 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         });
 
 
-        //限行停保 滑动按钮
-        weekSwitchTabView = (SwitchButton) view.findViewById(R.id.week_switch_tab_view);
-        weekSwitchTabView.setChecked(false);
-        weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
-                if (isChecked) {
-
-                } else {
-
-                }
-            }
-
-        });
-
-
-
-
-        // 滑动按钮-选择预约停保的时间
-        dateSwitchTabView = (SwitchButton) view.findViewById(R.id.date_switch_tab_view);
-        dateSwitchTabView.setChecked(false);//默认是关闭
-        dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
-                if (isChecked) {
-                } else {
-                }
-            }
-
-        });
-
-
-
-
         //预约停保  的textView，显示开始和结束的时间文本和时间间隔
-        startTimeStr = PreferenceUtil.load(this.getActivity(),PreferenceConstant.TimePickerDateStart,"");
-        endTimeStr = PreferenceUtil.load(this.getActivity(),PreferenceConstant.TimePickerDateEnd,"");
-        timeIntvalStr = PreferenceUtil.load(this.getActivity(),PreferenceConstant.TimePickerDateInterval,"");
+        startTimeStr = PreferenceUtil.load(this.getActivity(), PreferenceConstant.TimePickerDateStart, "");
+        endTimeStr = PreferenceUtil.load(this.getActivity(), PreferenceConstant.TimePickerDateEnd, "");
+        timeIntvalStr = PreferenceUtil.load(this.getActivity(), PreferenceConstant.TimePickerDateInterval, "");
 
-        tv_start_date = (TextView)view.findViewById(R.id.tv_start_date);
-        tv_end_date = (TextView)view.findViewById(R.id.tv_end_date);
-        tv_date_interval = (TextView)view.findViewById(R.id.tv_date_interval);
+        tv_start_date = (TextView) view.findViewById(R.id.tv_start_date);
+        tv_end_date = (TextView) view.findViewById(R.id.tv_end_date);
+        tv_date_interval = (TextView) view.findViewById(R.id.tv_date_interval);
 
         tv_start_date.setText(startTimeStr);
         tv_end_date.setText(endTimeStr);
         tv_date_interval.setText(timeIntvalStr);
 
+
+        //若果没有值
+        if (TextUtils.isEmpty(startTimeStr)) {
+            tv_start_date.setText(todayString_yyyy_m_d + "");
+            tv_end_date.setText(todayString_yyyy_m_d + "");
+            tv_date_interval.setText("共0天");
+        }
+
+
         //选择预约停保时间
-        datePickerLayout = (LinearLayout)view.findViewById(R.id.layout_date_picker);
+        datePickerLayout = (LinearLayout) view.findViewById(R.id.layout_date_picker);
         datePickerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,15 +175,86 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             }
         });
 
-        //车牌号Spinner
-        car_number_spinner = (Spinner)view.findViewById(R.id.car_number_spinner);
-        mCarNumbersStringList = Arrays.asList(getResources().getStringArray(R.array.carNumberArray));
-        car_number_spinner.setAdapter(new SpinnerDropDownAdapter(this.getActivity(),mCarNumbersStringList));
 
+        //车牌号Spinner 点击事件由父View 触发
+        layout_car_number_spinner = (LinearLayout) view.findViewById(R.id.layout_car_number_spinner);
+        layout_car_number_spinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                car_number_spinner.performClick();
+            }
+        });
+        //车牌号Spinner
+        car_number_spinner = (Spinner) view.findViewById(R.id.car_number_spinner);
+        mCarNumbersStringList = Arrays.asList(getResources().getStringArray(R.array.carNumberArray));
+        car_number_spinner.setAdapter(new SpinnerDropDownAdapter(getActivity(), mCarNumbersStringList));
+
+
+        //周Spinner 点击事件由父View 触发
+        layout_week_number_spinner = (LinearLayout) view.findViewById(R.id.layout_week_number_spinner);
+        layout_week_number_spinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                week_number_spinner.performClick();
+            }
+        });
         //周Spinner
-        week_number_spinner = (Spinner)view.findViewById(R.id.week_number_spinner);
+        week_number_spinner = (Spinner) view.findViewById(R.id.week_number_spinner);
         mWeekNumbersStringList = Arrays.asList(getResources().getStringArray(R.array.weekArray));
-        week_number_spinner.setAdapter(new SpinnerDropDownAdapter(this.getActivity(),mWeekNumbersStringList));
+        week_number_spinner.setAdapter(new SpinnerDropDownAdapter(getActivity(), mWeekNumbersStringList));
+
+
+        //限行停保 滑动按钮
+        weekSwitchTabView = (Switch) view.findViewById(R.id.week_switch_tab_view);
+        weekSwitchTabView.setChecked(false);
+        tv_xxtb.setAlpha(0.5f);
+        layout_week_number_spinner.setAlpha(0.5f);
+        layout_week_number_spinner.setClickable(false);
+        weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
+                if (isChecked) {
+                    tv_xxtb.setAlpha(1);
+                    layout_week_number_spinner.setAlpha(1);
+                    layout_week_number_spinner.setClickable(true);
+                    layout_week_number_spinner.setEnabled(true);
+                } else {
+                    tv_xxtb.setAlpha(0.5f);
+                    layout_week_number_spinner.setAlpha(0.5f);
+                    layout_week_number_spinner.setClickable(false);
+                    layout_week_number_spinner.setEnabled(false);
+                }
+            }
+
+        });
+
+
+        // 滑动按钮-选择预约停保的时间
+        dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
+        dateSwitchTabView.setChecked(false);//默认是关闭
+        tv_yytb.setAlpha(0.5f);
+        datePickerLayout.setAlpha(0.5f);
+        datePickerLayout.setClickable(false);
+        dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
+                if (isChecked) {
+                    tv_yytb.setAlpha(1);
+                    datePickerLayout.setAlpha(1);
+                    datePickerLayout.setClickable(true);
+                    datePickerLayout.setEnabled(true);
+                } else {
+                    tv_yytb.setAlpha(0.5f);
+                    datePickerLayout.setAlpha(0.5f);
+                    datePickerLayout.setClickable(false);
+                    datePickerLayout.setEnabled(false);
+                }
+            }
+
+        });
+
     }
 
     @Override
@@ -221,7 +284,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 .build();
         decoView.addSeries(seriesBack1Item);
 
-        float inset =  getDimension(10);
+        float inset = getDimension(10);
         SeriesItem smallCircle = new SeriesItem.Builder(COLOR_SMALL_CIRCLE)
                 .setRange(0, mSeriesMax, mSeriesMax)
                 .setInset(new PointF(inset, inset))
@@ -245,6 +308,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     /**
      * 圆形滚动动画
+     *
      * @param arcView
      * @param series
      * @param moveTo
@@ -284,8 +348,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     }
 
 
-
-
     @Override
     protected void setupEvents() {
         final DecoView arcView = getDecoView();
@@ -293,12 +355,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         if (view == null || arcView == null || arcView.isEmpty()) {
             return;
         }
-        addAnimation(arcView, mBigCircleSeriesIndex,869.2f, 500, null, -1, "$ %.2f", COLOR_BIG_CIRCLE, false);
-      }
+        addAnimation(arcView, mBigCircleSeriesIndex, 869.2f, 500, null, -1, "%.2f", COLOR_BIG_CIRCLE, false);
+    }
 
     /**
      * 圆形控件动画的 跟随监听器
-     *@param seriesItem
+     *
+     * @param seriesItem
      * @param view
      */
     private void addFitListener(@NonNull final SeriesItem seriesItem, @NonNull final TextView view) {
@@ -308,9 +371,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
                 if (mProgress != null) {
                     if (mProgress.contains("%%")) {
-                        view.setText(String.format(mProgress, (1.0f - (currentPosition / seriesItem.getMaxValue())) * 1000f));
+                        view.setText(unitSpanString + String.format(mProgress, (1.0f - (currentPosition / seriesItem.getMaxValue())) * 1000f).replace('.', ','));
                     } else {
-                        view.setText(String.format(mProgress, currentPosition));
+                        view.setText(unitSpanString + String.format(mProgress, currentPosition).replace('.', ','));
                     }
                 }
             }
@@ -324,6 +387,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     /**
      * EventBus 广播
+     *
      * @param event
      */
     public void onEventMainThread(BusEvent event) {
@@ -337,10 +401,15 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 tv_end_date.setText(endTimeStr);
                 tv_date_interval.setText(timeIntvalStr);
 
-
+                //若果没有值，就不显示
+                if (TextUtils.isEmpty(startTimeStr)) {
+                    tv_start_date.setText(todayString_yyyy_m_d + "");
+                    tv_end_date.setText(todayString_yyyy_m_d + "");
+                    tv_date_interval.setText("共0天");
+                }
                 PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateStart, startTimeStr);
-                PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateEnd,endTimeStr);
-                PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateInterval,timeIntvalStr);
+                PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateEnd, endTimeStr);
+                PreferenceUtil.save(this.getActivity(), PreferenceConstant.TimePickerDateInterval, timeIntvalStr);
                 break;
             default:
                 break;

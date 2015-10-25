@@ -12,17 +12,19 @@
         android:layout_marginRight="60dp"
         android:textIsSelectable="true"
         android:layout_marginTop="36dp"
-        android:text="太平洋保险报案电话"
+        android:text=""
         android:textColor="@color/tv_black_color_level_1"
         android:textSize="@dimen/big_textsize" />
 
     <TextView
-        android:id="@+id/tv_phone_number"
+        android:id="@+id/tv_content"
         android:layout_width="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginRight="30dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textIsSelectable="true"
-        android:text="87778687"
         android:textColor="@color/tv_black_color_level_1"
         android:textSize="@dimen/big_textsize" />
 
@@ -64,7 +66,7 @@
             android:minWidth="120dp"
             android:background="@drawable/right_bottom_corners_8_select_white_to_gray"
             android:gravity="center"
-            android:text="拨打"
+            android:text="确定"
             android:textColor="#3aa2ff"
             android:textSize="@dimen/big_textsize" />
     </LinearLayout>

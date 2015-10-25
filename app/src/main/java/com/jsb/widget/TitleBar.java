@@ -82,6 +82,10 @@ public class TitleBar extends FrameLayout {
     }
 
 
+    public ImageView getRightIv()
+    {
+        return rightIv;
+    }
     public void initTitleBarInfo(String title, int leftBtnImageId, int rightBtnImageId, String leftBtnText, String rightBtnText) {
 
         //设置标题
