@@ -1,5 +1,6 @@
 package com.jsb.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
@@ -20,10 +21,15 @@ import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.adapter.SpinnerDropDownAdapter;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.PauseData;
 import com.jsb.ui.MyModifyPasswordActivity;
+import com.jsb.util.DiditUtil;
 import com.jsb.util.SpannableStringUtil;
 import com.jsb.widget.DecoView.decoviewlib.DecoView;
 import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
@@ -41,6 +47,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * 停保险-主框架-tab1
  */
@@ -55,12 +64,20 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     private List<String> mCarNumbersStringList = new ArrayList<>();
     private List<String> mWeekNumbersStringList = new ArrayList<>();
+    private SpinnerDropDownAdapter mCarNumbersListAdapter;
+    private SpinnerDropDownAdapter mWeekNumbersListAdapter;
+
+    private List<PauseData> mPauseDataList = new ArrayList<>();
     private TextView tv_start_date;
     private TextView tv_end_date;
     private TextView tv_date_interval;
     private Switch weekSwitchTabView;
     private Switch dateSwitchTabView;
     private LinearLayout datePickerLayout;
+
+
+    private float maxNumber = 0;//动画的 数字最大值
+    private float realNumber = 0;//动画的 数字最大值
 
 
     private String startTimeStr;
@@ -81,8 +98,18 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     private TextView tv_yytb;//
     private TextView tv_xxtb;//
+
+
+
     private LinearLayout layout_week_number_spinner;//
     private LinearLayout layout_car_number_spinner;//
+
+
+
+
+    private TextView tv_pausePrice;//
+    private TextView tv_usefulPauseFee;//
+
 
 
     private String pwdString;//提现，开启/关闭滑动按钮等重要操作需要 输入密码
@@ -106,6 +133,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
         tv_yytb = (TextView) view.findViewById(R.id.tv_yytb);
         tv_xxtb = (TextView) view.findViewById(R.id.tv_xxtb);
+
+        tv_usefulPauseFee = (TextView) view.findViewById(R.id.tv_usefulPauseFee);
+        tv_pausePrice = (TextView) view.findViewById(R.id.tv_pausePrice);
+
 
 
         //圆形动画 文本跟随器
@@ -207,10 +238,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 car_number_spinner.performClick();
             }
         });
+
         //车牌号Spinner
         car_number_spinner = (Spinner) view.findViewById(R.id.car_number_spinner);
-        mCarNumbersStringList = Arrays.asList(getResources().getStringArray(R.array.carNumberArray));
-        car_number_spinner.setAdapter(new SpinnerDropDownAdapter(getActivity(), mCarNumbersStringList));
+        mCarNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mCarNumbersStringList);
+        car_number_spinner.setAdapter(mCarNumbersListAdapter);
 
 
         //周Spinner 点击事件由父View 触发
@@ -223,9 +255,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         });
         //周Spinner
         week_number_spinner = (Spinner) view.findViewById(R.id.week_number_spinner);
-        mWeekNumbersStringList = Arrays.asList(getResources().getStringArray(R.array.weekArray));
-        week_number_spinner.setAdapter(new SpinnerDropDownAdapter(getActivity(), mWeekNumbersStringList));
-
+        mWeekNumbersStringList = new ArrayList<>( Arrays.asList(getResources().getStringArray(R.array.weekArray)));
+        mWeekNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mWeekNumbersStringList);
+        week_number_spinner.setAdapter(mWeekNumbersListAdapter);
+        week_number_spinner.setSelection(6);
 
         //限行停保 滑动按钮
         weekSwitchTabView = (Switch) view.findViewById(R.id.week_switch_tab_view);
@@ -271,7 +304,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             }
 
         });
-
 
         // 滑动按钮-选择预约停保的时间
         dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
@@ -319,6 +351,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
         });
 
+
+        //获取停保信息
+        getPauseInfo(getActivity(), PreferenceUtil.load(getActivity(), PreferenceConstant.userid, -1));
+
     }
 
     @Override
@@ -359,7 +395,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         decoView.addSeries(smallCircle);
 
         SeriesItem series1Item = new SeriesItem.Builder(COLOR_BIG_CIRCLE)
-                .setRange(0, 1000f, 0)
+                .setRange(0, maxNumber, 0)
                 .setInitialVisibility(false)
                 .setLineWidth(getDimension(6))
                 .setCapRounded(true)
@@ -419,7 +455,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         if (view == null || arcView == null || arcView.isEmpty()) {
             return;
         }
-        addAnimation(arcView, mBigCircleSeriesIndex, 869.2f, 500, null, -1, "%.2f", COLOR_BIG_CIRCLE, false);
+        addAnimation(arcView, mBigCircleSeriesIndex, realNumber, 500, null, -1, "%.2f", COLOR_BIG_CIRCLE, false);
     }
 
     /**
@@ -480,4 +516,53 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         }
     }
 
+
+    private void getPauseInfo(final Context context, int userid) {
+        UserRetrofitUtil.getPauseInfo(context, 1, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
+            @Override
+            public void onFailure(RetrofitError error) {
+            }
+
+            @Override
+            public void success(NetWorkResultBean<List<PauseData>> objectNetWorkResultBean, Response response) {
+                mPauseDataList.clear();
+                mPauseDataList.addAll(objectNetWorkResultBean.getData());
+                mCarNumbersStringList.clear();
+                for (PauseData bean : mPauseDataList) {
+                    mCarNumbersStringList.add(bean.getLicenseplate());
+                }
+                mCarNumbersListAdapter.notifyDataSetChanged();
+
+                if (mPauseDataList!=null&&mPauseDataList.size() > 0) {
+                    PauseData bean = mPauseDataList.get(0);
+                    refreshData(bean);
+                }
+            }
+        });
+    }
+
+
+    public void refreshData(PauseData bean)
+    {
+        if(bean.getLimitday()!=null)
+        {
+            week_number_spinner.setSelection(bean.getLimitday());
+        }else {
+            week_number_spinner.setSelection(0);
+        }
+        if(bean.getPausePrice()!=null)
+        {
+            tv_pausePrice.setText("¥"+bean.getPausePrice()+"");
+        }
+
+        if(bean.getUsefulPauseFee()!=null)
+        {
+            tv_usefulPauseFee.setText("¥" + bean.getUsefulPauseFee() + "");
+        }
+
+        //开始动画
+        realNumber = bean.getTotalPauseFee();
+        maxNumber  = (float)DiditUtil.getMaxInteger(realNumber);
+        createAnimation();
+    }
 }

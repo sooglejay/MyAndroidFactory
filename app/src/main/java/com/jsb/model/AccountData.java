@@ -4,13 +4,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by JammyQtheLab on 2015/10/22.
+ * 5.1.2.账户信息对象AccountData
  */
-public class getLastAccountInfo implements Parcelable {
+public class AccountData implements Parcelable {
 
-    private String account;
-    private Integer type;
-    private String union;
+
+    private String account;//提现账号	Y
+    private Integer type;//提现账号的类型   0 银联   1 支付宝   2微信	Y
+    private String union;//提现银行名字，支付宝微信，值为支付宝微信	Y
+
+    @Override
+    public String toString() {
+        return "AccountData{" +
+                "account='" + account + '\'' +
+                ", type=" + type +
+                ", union='" + union + '\'' +
+                '}';
+    }
 
     public String getAccount() {
         return account;
@@ -48,22 +58,22 @@ public class getLastAccountInfo implements Parcelable {
         dest.writeString(this.union);
     }
 
-    public getLastAccountInfo() {
+    public AccountData() {
     }
 
-    protected getLastAccountInfo(Parcel in) {
+    protected AccountData(Parcel in) {
         this.account = in.readString();
         this.type = (Integer) in.readValue(Integer.class.getClassLoader());
         this.union = in.readString();
     }
 
-    public static final Parcelable.Creator<getLastAccountInfo> CREATOR = new Parcelable.Creator<getLastAccountInfo>() {
-        public getLastAccountInfo createFromParcel(Parcel source) {
-            return new getLastAccountInfo(source);
+    public static final Parcelable.Creator<AccountData> CREATOR = new Parcelable.Creator<AccountData>() {
+        public AccountData createFromParcel(Parcel source) {
+            return new AccountData(source);
         }
 
-        public getLastAccountInfo[] newArray(int size) {
-            return new getLastAccountInfo[size];
+        public AccountData[] newArray(int size) {
+            return new AccountData[size];
         }
     };
 }

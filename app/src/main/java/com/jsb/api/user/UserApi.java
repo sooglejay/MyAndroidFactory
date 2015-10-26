@@ -1,11 +1,15 @@
 package com.jsb.api.user;
 
 import com.jsb.api.callback.NetCallback;
+import com.jsb.model.CommData;
+import com.jsb.model.FreedomData;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.Overtimeinsurance;
+import com.jsb.model.PauseData;
 import com.jsb.model.ReportableInsurance;
-import com.jsb.model.getOvertimeInsuranceInfo;
-import com.jsb.model.loginVerifyPhoneAndCode;
-import com.jsb.model.submitPhone;
+import com.jsb.model.TeamData;
+
+import java.util.List;
 
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -25,7 +29,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/submitPhone/")
-    public void obtainVerifyCode(@Field("param") String params ,NetCallback<NetWorkResultBean<submitPhone>> NetCallback);
+    public void obtainVerifyCode(@Field("param") String params ,NetCallback<NetWorkResultBean<CommData>> NetCallback);
 
     /**
      * 登录
@@ -34,7 +38,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/loginVerifyPhoneAndCode/")
-    public void login(@Field("param") String params ,NetCallback<NetWorkResultBean<loginVerifyPhoneAndCode>> NetCallback);
+    public void login(@Field("param") String params ,NetCallback<NetWorkResultBean<CommData>> NetCallback);
 
     /**
      * 获取获取在售加班险信息
@@ -43,7 +47,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getOvertimeInsuranceInfo/")
-    public void getOvertimeInsuranceInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<getOvertimeInsuranceInfo>> NetCallback);
+    public void getOvertimeInsuranceInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<Overtimeinsurance>> NetCallback);
 
 
     /**
@@ -67,7 +71,46 @@ public interface UserApi {
     public void setWithdrawlPassword(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
 
 
+    /**
+     * 设置提现等 操作时候的 密码
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/saveOvertimeInsuranceOrder/")
+    public void saveOvertimeInsuranceOrder(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
 
+
+    /**
+     * 设置提现等 操作时候的 密码
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getPauseInfo/")
+    public void getPauseInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<List<PauseData>>> NetCallback);
+
+
+
+
+    /**
+     * 按团长名字，电话，团名搜索团信息
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/searchTeam/")
+    public void searchTeam(@Field("param") String params ,NetCallback<NetWorkResultBean<List<TeamData>>> NetCallback);
+
+
+    /**
+     * 加入团队时，给用户展示4个团队供选择
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getFourTeamInfo/")
+    public void getFourTeamInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<List<FreedomData>>> NetCallback);
 
 
 

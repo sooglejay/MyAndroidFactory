@@ -2,7 +2,6 @@ package com.jsb.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,7 +13,6 @@ import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Overtimeinsurance;
-import com.jsb.model.getOvertimeInsuranceInfo;
 import com.jsb.widget.TitleBar;
 
 import java.text.SimpleDateFormat;
@@ -98,27 +96,32 @@ public class InsureJiaBanDogActivity extends BaseActivity {
             }
         });
 
-        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<getOvertimeInsuranceInfo>>(this) {
+        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<Overtimeinsurance>>(InsureJiaBanDogActivity.this) {
             @Override
             public void onFailure(RetrofitError error) {
 
             }
 
             @Override
-            public void success(NetWorkResultBean<getOvertimeInsuranceInfo> getOvertimeInsuranceInfoNetWorkResultBean, Response response) {
-                Log.e("jwjw",getOvertimeInsuranceInfoNetWorkResultBean.getData().toString());
+            public void success(NetWorkResultBean<Overtimeinsurance> overtimeinsuranceNetWorkResultBean, Response response) {
 
-                getOvertimeInsuranceInfo info = getOvertimeInsuranceInfoNetWorkResultBean.getData();
-                Overtimeinsurance bean = info.getOvertimeinsurance();
+                Overtimeinsurance bean= overtimeinsuranceNetWorkResultBean.getData();
 
+                if(bean.getReleasetime()!=null) {
+                    //生效时间
+                    tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
+                }else {
+                    tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date()) + "");
 
-                //生效时间
-                tv_time_shengxiao.setText("生效时间："+df_yyyy_m_d.format(new Date(bean.getReleasetime()))+"");
-                tv_amount.setText("本期商品数还剩"+bean.getResidue()+"份");
+                }
+
+                if(bean.getResidue()!=null)
+                {
+                    tv_amount.setText("本期商品数还剩"+bean.getResidue()+"份");
+                }else {
+                    tv_amount.setText("本期商品数还剩"+0+"份");
+                }
             }
         });
-
     }
-
-
 }

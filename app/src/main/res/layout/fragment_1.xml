@@ -117,6 +117,7 @@
                         android:textSize="@dimen/middle_textsize" />
 
                     <TextView
+                        android:id="@+id/tv_pausePrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -147,6 +148,7 @@
                         android:textSize="@dimen/middle_textsize" />
 
                     <TextView
+                        android:id="@+id/tv_usefulPauseFee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

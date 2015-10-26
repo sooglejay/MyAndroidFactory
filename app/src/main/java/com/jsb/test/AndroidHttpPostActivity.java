@@ -9,9 +9,11 @@ import android.widget.TextView;
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.model.FreedomData;
 import com.jsb.model.NetWorkResultBean;
-import com.jsb.model.ReportableInsurance;
-import com.jsb.model.getOvertimeInsuranceInfo;
+import com.jsb.model.TeamData;
+
+import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -36,42 +38,22 @@ public class AndroidHttpPostActivity extends Activity {
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                getReportableInsurance();
             }
-
-
         });
 
-    }
-    private void getOvertimeInsuranceInfo() {
-        UserRetrofitUtil.getOvertimeInsuranceInfo(AndroidHttpPostActivity.this, new NetCallback<NetWorkResultBean<getOvertimeInsuranceInfo>>(AndroidHttpPostActivity.this) {
+
+        UserRetrofitUtil.getFourTeamInfo(this, new NetCallback<NetWorkResultBean<List<FreedomData>>>(this) {
             @Override
             public void onFailure(RetrofitError error) {
 
             }
 
             @Override
-            public void success(NetWorkResultBean<getOvertimeInsuranceInfo> getOvertimeInsuranceInfoNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<List<FreedomData>> listNetWorkResultBean, Response response) {
 
             }
         });
     }
-
-     private void getReportableInsurance() {
-        UserRetrofitUtil.getReportableInsurance(AndroidHttpPostActivity.this,7, new NetCallback<NetWorkResultBean<ReportableInsurance>>(AndroidHttpPostActivity.this) {
-            @Override
-            public void onFailure(RetrofitError error) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<ReportableInsurance> getOvertimeInsuranceInfoNetWorkResultBean, Response response) {
-
-            }
-        });
-    }
-
 
 
 }

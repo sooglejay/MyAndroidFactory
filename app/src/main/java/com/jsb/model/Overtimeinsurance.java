@@ -10,7 +10,7 @@ public class Overtimeinsurance implements Parcelable {
 
     private Integer id;//编号
     private Integer amount;//放险数量
-    private Integer residue;//剩余数量
+    private int residue;//剩余数量
     private Integer status;//在售与否  0 停售  1 在售
     private Long releasetime;//放险时间
 

@@ -9,20 +9,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
 
-    <com.jsb.widget.BannerView
-        android:id="@+id/banner_view"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="56dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_buy_insure_ads" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_color"/>
+        android:background="@color/gray_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <LinearLayout
@@ -31,88 +33,205 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/gray_color"/>
-            <TextView
-                android:id="@+id/tv_insure_car"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/big_textsize"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/car_insure"
-                android:background="@drawable/btn_select_white"/>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color"/>
-            <TextView
-                android:id="@+id/tv_insure_jiaban"
+                android:background="@color/gray_color" />
+
+            <LinearLayout
+                android:id="@+id/layout_insure_car"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/big_textsize"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/jiaban_insure"
-                android:background="@drawable/btn_select_white"/>
+                android:background="@drawable/btn_select_white"
+
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_car_insurance" />
+
+                <TextView
+                    android:id="@+id/tv_insure_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/car_insure"
+                    android:textSize="@dimen/big_textsize" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color"/>
+                android:background="@color/gray_color" />
+
+            <LinearLayout
+                android:id="@+id/layout_insure_jiaban"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_select_white"
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_driving_insurance" />
+
+                <TextView
+                    android:id="@+id/tv_insure_jiaban"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/jiaban_insure"
+                    android:textSize="@dimen/big_textsize" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_color"/>
+            android:background="@color/gray_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/gray_color"/>
-
-            <TextView
-                android:id="@+id/tv_insure_driving"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/big_textsize"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/driving_insure"
-                android:background="@drawable/btn_select_white"/>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color"/>
-            <TextView
-                android:id="@+id/tv_insure_line"
+                android:background="@color/gray_color" />
+
+            <LinearLayout
+                android:id="@+id/layout_insure_driving"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/big_textsize"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/line_insure"
-                android:background="@drawable/btn_select_white"/>
+                android:background="@drawable/btn_select_white"
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_jiaban_dog" />
+
+                <TextView
+                    android:id="@+id/tv_insure_driving"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/driving_insure"
+                    android:textSize="@dimen/big_textsize" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color"/>
+                android:background="@color/gray_color" />
+
+            <LinearLayout
+                android:id="@+id/layout_insure_line"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/btn_select_white"
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_jiaban_dog" />
+
+                <TextView
+                    android:id="@+id/tv_insure_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/line_insure"
+                    android:textSize="@dimen/big_textsize" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_color" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
@@ -128,12 +247,11 @@
         </LinearLayout>
 
 
-
         <View
             android:layout_width="match_parent"
-            android:background="@color/bg_screen"
+            android:layout_height="0dp"
             android:layout_weight="0.25"
-            android:layout_height="0dp"/>
+            android:background="@color/bg_screen" />
     </LinearLayout>
 
 </LinearLayout>

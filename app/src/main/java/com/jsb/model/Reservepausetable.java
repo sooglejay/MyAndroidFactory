@@ -6,19 +6,19 @@ import android.os.Parcelable;
 /**
  * Created by JammyQtheLab on 2015/10/22.
  */
-public class ReservehistoryBean implements Parcelable {
+public class Reservepausetable implements Parcelable {
 
 
-    private Integer id;
-    private Integer day;
-    private Integer status;
+    private Integer id;//停保编号	Y
+    private Integer day;//int	总共停的天数	Y
+    private Integer status;//是否有效  0  否  1是	Y
     private String reservedays;
-    private Integer userid;
-    private Integer totalfee;
-    private Integer dayprice;
-    private Integer orderid;
-    private Long starttime;
-    private Long endtime;
+    private Integer userid;//用户id(被保险人)	Y
+    private Integer totalfee;//float	产生的总费用	Y
+    private Integer dayprice;//float	每天的价格	Y
+    private Integer orderid;//对应保险单的编号	Y
+    private Long starttime;//起效时间	Y
+    private Long endtime;//结束时间	Y
 
     public Integer getId() {
         return id;
@@ -119,10 +119,10 @@ public class ReservehistoryBean implements Parcelable {
         dest.writeValue(this.endtime);
     }
 
-    public ReservehistoryBean() {
+    public Reservepausetable() {
     }
 
-    protected ReservehistoryBean(Parcel in) {
+    protected Reservepausetable(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.day = (Integer) in.readValue(Integer.class.getClassLoader());
         this.status = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -135,13 +135,13 @@ public class ReservehistoryBean implements Parcelable {
         this.endtime = (Long) in.readValue(Long.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<ReservehistoryBean> CREATOR = new Parcelable.Creator<ReservehistoryBean>() {
-        public ReservehistoryBean createFromParcel(Parcel source) {
-            return new ReservehistoryBean(source);
+    public static final Parcelable.Creator<Reservepausetable> CREATOR = new Parcelable.Creator<Reservepausetable>() {
+        public Reservepausetable createFromParcel(Parcel source) {
+            return new Reservepausetable(source);
         }
 
-        public ReservehistoryBean[] newArray(int size) {
-            return new ReservehistoryBean[size];
+        public Reservepausetable[] newArray(int size) {
+            return new Reservepausetable[size];
         }
     };
 }

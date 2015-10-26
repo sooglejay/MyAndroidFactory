@@ -4,26 +4,27 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by JammyQtheLab on 2015/10/25.
+ * 5.6.驾驶险
+ 5.6.1.驾驶险订单Driverordertable
  */
 public class Driverordertable implements Parcelable {
 
-    private Integer id;
-    private Integer userid;
-    private Integer payed;
-    private Integer chargeid;
-    private Integer compensated;
-    private Integer companyid;
-    private Integer operatorid;
-    private Integer refereeid;
-    private Integer deleted;
-    private String name;
-    private String idnumber;
-    private Float money;
-    private Long startdate;
-    private Long enddate;
-    private Long buydate;
-    private String contactaddress;
+    private Integer id;//驾驶险订单编号	Y
+    private Integer userid;//用户编号（被保险人）	Y
+    private Integer payed;//int	是否支付 0未付 1支付	Y
+    private Integer chargeid;//int	支付对象id
+    private Integer compensated;//int	是否赔付 0未赔 1已赔
+    private Integer companyid;//int	保险公司id	Y
+    private Integer operatorid;//int	操作人（经办人）id
+    private Integer refereeid;//int	推荐人id
+    private Integer deleted;//int	是否被用户删除 0未删 1已删
+    private String name;//string	姓名	Y
+    private String idnumber;//身份证号	Y
+    private Float money;//金额  	Y
+    private Long startdate;//起效时间	Y
+    private Long enddate;//结束时间	Y
+    private Long buydate;//下单日期	Y
+    private String contactaddress;//string	联系地址	Y
 
     @Override
     public String toString() {

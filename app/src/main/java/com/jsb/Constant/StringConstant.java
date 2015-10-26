@@ -17,4 +17,7 @@ public class StringConstant {
     public static final String tv_cancel = "tv_cancel";
     public static final String setPassword = "设置密码";
     public static final String modifyPassword = "修改密码";
+
+
+    public static final String hasPassword = "hasPassword";//是否设置过密码
 }

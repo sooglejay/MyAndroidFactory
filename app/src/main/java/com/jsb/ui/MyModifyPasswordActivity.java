@@ -17,8 +17,8 @@ import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
+import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
-import com.jsb.model.submitPhone;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
@@ -91,7 +91,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
                     Toast.makeText(MyModifyPasswordActivity.this, "请输入正确的手机号码!", Toast.LENGTH_SHORT).show();
                 } else {
                     phoneString = et_phone_number.getText().toString();
-                    UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, new NetCallback<NetWorkResultBean<submitPhone>>(MyModifyPasswordActivity.this) {
+                    UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, new NetCallback<NetWorkResultBean<CommData>>(MyModifyPasswordActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error) {
                             Toast.makeText(MyModifyPasswordActivity.this, "无法连接网络！", Toast.LENGTH_SHORT).show();
@@ -99,7 +99,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<submitPhone> submitPhoneNetWorkResultBean, Response response) {
+                        public void success(NetWorkResultBean<CommData> submitPhoneNetWorkResultBean, Response response) {
                             Toast.makeText(MyModifyPasswordActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
                             verifyCodeStringService = submitPhoneNetWorkResultBean.getData().getVerifyCode();
                         }

@@ -1,5 +1,7 @@
 package com.jsb.util;
 
+import java.util.List;
+
 /**
  * Created by JammyQtheLab on 2015/10/23.
  */
@@ -7,6 +9,20 @@ public class Base64Util {
     static  private String BaseString="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     static private char[] BaseChars=BaseString.toCharArray();
 
+//    static public byte[]getParams(List<String> arg_name,List<String>arg_value)
+//    {
+//        String params = "";
+//        int size = arg_name.size();
+//        for(int i = 0 ;i<size;i++)
+//        {
+//            params+=arg_name.get(i)+"="+arg_value.get(i);
+//            if(i<size-1)
+//            {
+//                params+="&";
+//            }
+//        }
+//        return params.getBytes();
+//    }
     static public String encode(byte[] source){
         StringBuffer ret=new StringBuffer("");
         int len=source.length;

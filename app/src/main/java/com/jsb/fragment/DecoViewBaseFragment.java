@@ -89,7 +89,6 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
         }
 
         seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
-
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
                 if (mUpdateListeners) {
@@ -109,7 +108,7 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
         });
     }
 
-    private boolean createAnimation() {
+    public boolean createAnimation() {
         if (mInitialized) {
             createTracks();
             if (super.getUserVisibleHint()) {
@@ -123,14 +122,14 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (getView() != null) {
-                setDemoFinished(false);
-                createAnimation();
-            }
-        } else {
-            stopFragment();
-        }
+//        if (isVisibleToUser) {
+//            if (getView() != null) {
+//                setDemoFinished(false);
+//                createAnimation();
+//            }
+//        } else {
+//            stopFragment();
+//        }
     }
 
     @Override
@@ -174,7 +173,7 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
                 }
             });
         }
-        createAnimation();
+//        createAnimation();
     }
 
     /**
@@ -203,13 +202,13 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        stopFragment();
+//        stopFragment();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        createAnimation();
+//        createAnimation();
     }
 
     protected void setDemoFinished(boolean finished) {
