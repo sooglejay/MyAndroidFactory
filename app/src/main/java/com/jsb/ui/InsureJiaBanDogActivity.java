@@ -2,13 +2,26 @@ package com.jsb.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.Overtimeinsurance;
+import com.jsb.model.getOvertimeInsuranceInfo;
 import com.jsb.widget.TitleBar;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * 买保险-加班狗
@@ -17,6 +30,13 @@ public class InsureJiaBanDogActivity extends BaseActivity {
     private TitleBar titleBar;
     private CheckBox cb_agree_license;
     private TextView tv_buy_insure;
+    private TextView tv_time_shengxiao;
+    private TextView tv_amount;
+
+
+    private boolean isAgreeWithLicence = true;
+    private SimpleDateFormat df_yyyy_m_d =new SimpleDateFormat("yyyy-MM-dd");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +61,8 @@ public class InsureJiaBanDogActivity extends BaseActivity {
     }
 
     private void setUp() {
+        tv_time_shengxiao = (TextView) findViewById(R.id.tv_time_shengxiao);
+        tv_amount = (TextView) findViewById(R.id.tv_amount);
         tv_buy_insure = (TextView) findViewById(R.id.tv_buy_insure);
         tv_buy_insure.setEnabled(true);
         tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
@@ -48,7 +70,11 @@ public class InsureJiaBanDogActivity extends BaseActivity {
         tv_buy_insure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InsureJiaBanDogActivity.this, OrderCofirmJiaBanDogInsureActivity.class));
+                if (isAgreeWithLicence) {
+                    startActivity(new Intent(InsureJiaBanDogActivity.this, OrderCofirmJiaBanDogInsureActivity.class));
+                } else {
+                    Toast.makeText(InsureJiaBanDogActivity.this, "请您勾选同意保障条款！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         titleBar = (TitleBar) findViewById(R.id.title_bar);
@@ -59,19 +85,40 @@ public class InsureJiaBanDogActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    isAgreeWithLicence = true;
                     cb_agree_license.setButtonDrawable(R.drawable.icon_agree);
-                    tv_buy_insure.setEnabled(true);
                     tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
                 } else {
                     cb_agree_license.setButtonDrawable(R.drawable.icon_disagree);
-                    tv_buy_insure.setEnabled(false);
+                    isAgreeWithLicence = false;
                     tv_buy_insure.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
                 }
             }
         });
 
+        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<getOvertimeInsuranceInfo>>(this) {
+            @Override
+            public void onFailure(RetrofitError error) {
+
+            }
+
+            @Override
+            public void success(NetWorkResultBean<getOvertimeInsuranceInfo> getOvertimeInsuranceInfoNetWorkResultBean, Response response) {
+                Log.e("jwjw",getOvertimeInsuranceInfoNetWorkResultBean.getData().toString());
+
+                getOvertimeInsuranceInfo info = getOvertimeInsuranceInfoNetWorkResultBean.getData();
+                Overtimeinsurance bean = info.getOvertimeinsurance();
+
+
+                //生效时间
+                tv_time_shengxiao.setText("生效时间："+df_yyyy_m_d.format(new Date(bean.getReleasetime()))+"");
+                tv_amount.setText("本期商品数还剩"+bean.getResidue()+"份");
+            }
+        });
+
     }
+
 
 }

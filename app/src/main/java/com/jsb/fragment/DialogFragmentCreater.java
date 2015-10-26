@@ -22,7 +22,7 @@ import com.jsb.constant.StringConstant;
  * Created by Administrator on 2015/10/18.
  */
 public class DialogFragmentCreater extends DialogFragment {
-    public static final int DialogShowRightControlDialog = 1000;//权限控制，当特殊操作时，要求输入密码
+    public static final int DialogShowInputPasswordDialog = 1000;//权限控制，当特殊操作时，要求输入密码
     public static final int DialogShowConfirmOrCancelDialog = 1001;// 我要报案 -点击item弹出对话框
     public static final int DialogShowSingleChoiceDialog = 1002;// 成功报案后，需要弹出对话框 显示 一些文字
     public final static String dialog_fragment_key = "fragment_id";
@@ -45,10 +45,8 @@ public class DialogFragmentCreater extends DialogFragment {
     public interface OnDialogClickLisenter {
         public void viewClick(String tag);
 
-
-
-         //回调控制方法
-        public void controlView(View tv_confirm,View tv_cancel,View tv_title,View tv_content);
+        //回调控制方法
+        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content);
 
 
     }
@@ -110,8 +108,8 @@ public class DialogFragmentCreater extends DialogFragment {
             int fragment_id = getArguments().getInt(dialog_fragment_key);
             switch (fragment_id) {
 
-                case DialogShowRightControlDialog:
-                    return showRightControlDialog(mContext);
+                case DialogShowInputPasswordDialog:
+                    return showInputPasswordDialog(mContext);
                 case DialogShowConfirmOrCancelDialog:
                     return showConfirmOrCancelDialog(mContext);
                 case DialogShowSingleChoiceDialog:
@@ -129,7 +127,7 @@ public class DialogFragmentCreater extends DialogFragment {
      * @param mContext
      * @return
      */
-    private Dialog showRightControlDialog(final Context mContext) {
+    private Dialog showInputPasswordDialog(final Context mContext) {
         View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_right_control, null);
         mPasswordString = "";
 
@@ -172,9 +170,9 @@ public class DialogFragmentCreater extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mPasswordString = mPasswordString + s;
-                if (mPasswordString.length() < 6) {
+                if (mPasswordString.length() <= 6) {
                     int index = mPasswordString.length();
-                    if (index >= 5) {
+                    if (index >= 6) {
                         index = 5;
                     }
                     mEditTexts[index].requestFocus();
@@ -255,12 +253,12 @@ public class DialogFragmentCreater extends DialogFragment {
                 switch (v.getId()) {
                     case R.id.tv_cancel:
                         if (onDialogClickLisenter != null)
-                            onDialogClickLisenter.viewClick("tv_cancel");
+                            onDialogClickLisenter.viewClick(StringConstant.tv_cancel);
                         dismiss();
                         break;
                     case R.id.tv_confirm:
                         if (onDialogClickLisenter != null)
-                            onDialogClickLisenter.viewClick("tv_confirm");
+                            onDialogClickLisenter.viewClick(StringConstant.tv_confirm);
                         dismiss();
                         break;
                     default:
@@ -273,9 +271,8 @@ public class DialogFragmentCreater extends DialogFragment {
         TextView tv_title = (TextView) convertView.findViewById(R.id.tv_title);
         TextView tv_content = (TextView) convertView.findViewById(R.id.tv_content);
 
-        if(onDialogClickLisenter!=null)
-        {
-            onDialogClickLisenter.controlView(tv_confirm,tv_cancel,tv_title,tv_content);
+        if (onDialogClickLisenter != null) {
+            onDialogClickLisenter.controlView(tv_confirm, tv_cancel, tv_title, tv_content);
         }
         tv_cancel.setOnClickListener(listener);
         tv_confirm.setOnClickListener(listener);
@@ -283,7 +280,6 @@ public class DialogFragmentCreater extends DialogFragment {
         dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
         return dialog;
     }
-
 
 
     private Dialog showSingleChoiceDialog(final Context mContext) {
@@ -304,9 +300,8 @@ public class DialogFragmentCreater extends DialogFragment {
         TextView tv_explain = (TextView) convertView.findViewById(R.id.tv_explain);
 
         tv_explain.setText(StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS);
-        if(onDialogClickLisenter!=null)
-        {
-            onDialogClickLisenter.controlView(tv_confirm,null,null,tv_explain);
+        if (onDialogClickLisenter != null) {
+            onDialogClickLisenter.controlView(tv_confirm, null, null, tv_explain);
         }
         tv_confirm.setOnClickListener(listener);
 

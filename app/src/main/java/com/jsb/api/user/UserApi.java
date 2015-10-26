@@ -2,6 +2,7 @@ package com.jsb.api.user;
 
 import com.jsb.api.callback.NetCallback;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.ReportableInsurance;
 import com.jsb.model.getOvertimeInsuranceInfo;
 import com.jsb.model.loginVerifyPhoneAndCode;
 import com.jsb.model.submitPhone;
@@ -52,7 +53,18 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getReportableInsurance/")
-    public void getReportableInsurance(@Field("param") String params ,NetCallback<NetWorkResultBean<getOvertimeInsuranceInfo>> NetCallback);
+    public void getReportableInsurance(@Field("param") String params ,NetCallback<NetWorkResultBean<ReportableInsurance>> NetCallback);
+
+
+
+    /**
+     * 设置提现等 操作时候的 密码
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/setWithdrawlPassword/")
+    public void setWithdrawlPassword(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
 
 
 

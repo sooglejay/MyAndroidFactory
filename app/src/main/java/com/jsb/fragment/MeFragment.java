@@ -121,7 +121,7 @@ public class MeFragment extends BaseFragment {
                     public void onClick(View v) {
                         switch (v.getId()) {
                             case R.id.layout_modify_password:
-                                startActivity(new Intent(MeFragment.this.getActivity(), MyModifyPasswordActivity.class));
+                                MyModifyPasswordActivity.startModifyPasswordActivity(MeFragment.this.getActivity());
                                 break;
                             case R.id.layout_login_out:
 

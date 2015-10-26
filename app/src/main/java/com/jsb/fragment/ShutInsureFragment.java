@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +23,7 @@ import com.jsb.adapter.SpinnerDropDownAdapter;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
+import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.util.SpannableStringUtil;
 import com.jsb.widget.DecoView.decoviewlib.DecoView;
 import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
@@ -32,7 +32,6 @@ import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.PullMoneyActivity;
 import com.jsb.ui.TimePickerActivity;
 import com.jsb.util.PreferenceUtil;
-import com.jsb.widget.CustomSwitch.SwitchButton;
 import com.jsb.widget.TitleBar;
 
 
@@ -86,7 +85,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private LinearLayout layout_car_number_spinner;//
 
 
-    private DialogFragmentCreater rightControlFragment;//注意清除掉 mPasswordString 才能公用
+    private String pwdString;//提现，开启/关闭滑动按钮等重要操作需要 输入密码
+
+    private DialogFragmentCreater dialogFragmentController;//注意清除掉 mPasswordString 才能公用
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,8 +100,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     }
 
     private void setUp(View view, Bundle savedInstanceState) {
-        rightControlFragment = new DialogFragmentCreater(getActivity(), getFragmentManager());//涉及到权限操作时，需要临时输入密码并验证
+        dialogFragmentController = new DialogFragmentCreater(getActivity(), getFragmentManager());//涉及到权限操作时，需要临时输入密码并验证
         unitSpanString = SpannableStringUtil.getSpannableString(getActivity(), "¥", 40);//单位
+        pwdString = PreferenceUtil.load(ShutInsureFragment.this.getActivity(), PreferenceConstant.pwd, "");//提现等操作密码
 
         tv_yytb = (TextView) view.findViewById(R.id.tv_yytb);
         tv_xxtb = (TextView) view.findViewById(R.id.tv_xxtb);
@@ -129,7 +131,28 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         tvPullMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), PullMoneyActivity.class));
+
+                if (TextUtils.isEmpty(pwdString)) {
+                    dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                MyModifyPasswordActivity.startModifyPasswordActivity(getActivity(), StringConstant.setPassword);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您还没有设置密码，是否现在去设置");
+                            }
+
+                        }
+                    });
+                    dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+                    getActivity().startActivity(new Intent(getActivity(), PullMoneyActivity.class));
+                }
             }
         });
 
@@ -213,17 +236,37 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
-                if (isChecked) {
-                    tv_xxtb.setAlpha(1);
-                    layout_week_number_spinner.setAlpha(1);
-                    layout_week_number_spinner.setClickable(true);
-                    layout_week_number_spinner.setEnabled(true);
+                if (TextUtils.isEmpty(pwdString)) {
+                    dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                MyModifyPasswordActivity.startModifyPasswordActivity(getActivity(), StringConstant.setPassword);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您还没有设置密码，是否现在去设置");
+                            }
+
+                        }
+                    });
+                    dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    tv_xxtb.setAlpha(0.5f);
-                    layout_week_number_spinner.setAlpha(0.5f);
-                    layout_week_number_spinner.setClickable(false);
-                    layout_week_number_spinner.setEnabled(false);
+                    dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
+                    if (isChecked) {
+                        tv_xxtb.setAlpha(1);//如果滑动开关 选中 要调整 UI 的透明度 和可点击
+                        layout_week_number_spinner.setAlpha(1);
+                        layout_week_number_spinner.setClickable(true);
+                        layout_week_number_spinner.setEnabled(true);
+                    } else {
+                        tv_xxtb.setAlpha(0.5f);
+                        layout_week_number_spinner.setAlpha(0.5f);
+                        layout_week_number_spinner.setClickable(false);
+                        layout_week_number_spinner.setEnabled(false);
+                    }
                 }
             }
 
@@ -239,17 +282,38 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                rightControlFragment.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowRightControlDialog);
-                if (isChecked) {
-                    tv_yytb.setAlpha(1);
-                    datePickerLayout.setAlpha(1);
-                    datePickerLayout.setClickable(true);
-                    datePickerLayout.setEnabled(true);
+                if (false) {
+                    dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                MyModifyPasswordActivity.startModifyPasswordActivity(getActivity(), StringConstant.setPassword);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您还没有设置密码，是否现在去设置");
+                            }
+
+                        }
+                    });
+                    dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    tv_yytb.setAlpha(0.5f);
-                    datePickerLayout.setAlpha(0.5f);
-                    datePickerLayout.setClickable(false);
-                    datePickerLayout.setEnabled(false);
+                    dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
+
+                    if (isChecked) {
+                        tv_yytb.setAlpha(1);
+                        datePickerLayout.setAlpha(1);
+                        datePickerLayout.setClickable(true);
+                        datePickerLayout.setEnabled(true);
+                    } else {
+                        tv_yytb.setAlpha(0.5f);
+                        datePickerLayout.setAlpha(0.5f);
+                        datePickerLayout.setClickable(false);
+                        datePickerLayout.setEnabled(false);
+                    }
                 }
             }
 

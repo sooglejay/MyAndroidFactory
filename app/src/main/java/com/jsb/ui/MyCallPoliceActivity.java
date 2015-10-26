@@ -9,6 +9,7 @@ import com.jsb.R;
 import com.jsb.adapter.MyCallPoliceListAdapter;
 import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.Bean.aaa_MyCallPoliceBean;
+import com.jsb.model.ReportableInsurance;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;

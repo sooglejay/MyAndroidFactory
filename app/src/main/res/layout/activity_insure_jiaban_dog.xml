@@ -20,6 +20,7 @@
 
 
     <TextView
+        android:id="@+id/tv_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_screen"
@@ -62,16 +63,10 @@
         android:paddingTop="@dimen/middle_padding">
 
         <TextView
+            android:id="@+id/tv_time_shengxiao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="生效时间："
-            android:textColor="#585858"
-            android:textSize="@dimen/big_textsize" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2015-09-20"
+            android:text=""
             android:textColor="#585858"
             android:textSize="@dimen/big_textsize" />
     </LinearLayout>

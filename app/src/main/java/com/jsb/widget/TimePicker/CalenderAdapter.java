@@ -288,6 +288,7 @@ public class CalenderAdapter extends BaseAdapter {
             }
 
 
+
             String dayNumberString = dayListBean.get(position).getDayNumberString();
             int status = dayListBean.get(position).getStatus();
             innerGridViewHolder.tv_up.setText(dayNumberString+ "");
@@ -321,10 +322,25 @@ public class CalenderAdapter extends BaseAdapter {
                 }
 
 
+
+            try {
+                if(dateFormat_yyyy_MM_dd.parse(dayListBean.get(position).getDateStr()).getTime() < dateFormat_yyyy_MM_dd.parse(todayString_yyyy_m_d).getTime())
+                {
+                    innerGridViewHolder.tv_up.setTextColor(mContext.getResources().getColor(R.color.light_gray_color));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+
+
             //如果是周末
             if((position+1)%7==0||(position)%7==0){
                 innerGridViewHolder.tv_up.setTextColor(mContext.getResources().getColor(R.color.red_color));
             }
+
+
 
 
             //如果是今天

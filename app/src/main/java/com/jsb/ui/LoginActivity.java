@@ -14,10 +14,15 @@ import android.widget.Toast;
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.loginVerifyPhoneAndCode;
 import com.jsb.model.submitPhone;
+import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
+
+import org.apache.commons.logging.Log;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -40,6 +45,8 @@ public class LoginActivity extends BaseActivity {
     private String verifyCodeStringService = "";
     private String verifyCodeStringUser = "";
 
+
+    private ProgressDialogUtil mProgressUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void setUp() {
+        mProgressUtil = new ProgressDialogUtil(this);
+
+
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("快捷登录", R.drawable.arrow_left, -1, "", "");
 
@@ -95,17 +105,28 @@ public class LoginActivity extends BaseActivity {
                else if (! verifyCodeStringService.equals(verifyCodeStringUser)) {
                     Toast.makeText(LoginActivity.this, "验证码不正确！请重新输入", Toast.LENGTH_SHORT).show();
                 } else {
-
+                    mProgressUtil.show("正在登录...");
                     UserRetrofitUtil.login(LoginActivity.this, phoneString, verifyCodeStringUser, new NetCallback<NetWorkResultBean<loginVerifyPhoneAndCode>>(LoginActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error) {
+                            mProgressUtil.hide();
 
                         }
 
                         @Override
                         public void success(NetWorkResultBean<loginVerifyPhoneAndCode> loginVerifyPhoneAndCodeNetWorkResultBean, Response response) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                            loginVerifyPhoneAndCode bean= loginVerifyPhoneAndCodeNetWorkResultBean.getData();
+
+
+                            //保存用户信息
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name,bean.getUserInfo().getName());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd,bean.getUserInfo().getPwd());
+
                             LoginActivity.this.finish();
+                            mProgressUtil.hide();
                         }
                     });
 
@@ -123,7 +144,7 @@ public class LoginActivity extends BaseActivity {
                     UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<submitPhone>>(LoginActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error) {
-                            Toast.makeText(LoginActivity.this, "失败！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "无法连接网络！", Toast.LENGTH_SHORT).show();
 
                         }
 

@@ -8,10 +8,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginLeft="@dimen/middle_padding"
+        android:layout_marginRight="@dimen/middle_padding"
         android:textIsSelectable="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="@dimen/more_big_padding"
         android:text=""
         android:textColor="@color/tv_black_color_level_1"
         android:textSize="@dimen/big_textsize" />
@@ -19,9 +19,9 @@
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="36dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginBottom="@dimen/middle_padding"
+        android:layout_marginLeft="@dimen/middle_padding"
+        android:layout_marginRight="@dimen/middle_padding"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textIsSelectable="true"
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray_color"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="@dimen/middle_padding" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:background="@drawable/left_bottom_corners_8_select_white_to_gray"
             android:layout_gravity="center"
-            android:minWidth="120dp"
+            android:padding="@dimen/middle_padding"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -60,10 +60,10 @@
         <TextView
             android:id="@+id/tv_confirm"
             android:layout_width="0dp"
+            android:padding="@dimen/middle_padding"
             android:layout_gravity="center"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:minWidth="120dp"
             android:background="@drawable/right_bottom_corners_8_select_white_to_gray"
             android:gravity="center"
             android:text="确定"

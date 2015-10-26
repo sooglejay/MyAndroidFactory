@@ -10,6 +10,7 @@ import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.ReportableInsurance;
 import com.jsb.model.getOvertimeInsuranceInfo;
 
 import retrofit.RetrofitError;
@@ -58,14 +59,14 @@ public class AndroidHttpPostActivity extends Activity {
     }
 
      private void getReportableInsurance() {
-        UserRetrofitUtil.getReportableInsurance(AndroidHttpPostActivity.this,7, new NetCallback<NetWorkResultBean<getOvertimeInsuranceInfo>>(AndroidHttpPostActivity.this) {
+        UserRetrofitUtil.getReportableInsurance(AndroidHttpPostActivity.this,7, new NetCallback<NetWorkResultBean<ReportableInsurance>>(AndroidHttpPostActivity.this) {
             @Override
             public void onFailure(RetrofitError error) {
 
             }
 
             @Override
-            public void success(NetWorkResultBean<getOvertimeInsuranceInfo> getOvertimeInsuranceInfoNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<ReportableInsurance> getOvertimeInsuranceInfoNetWorkResultBean, Response response) {
 
             }
         });

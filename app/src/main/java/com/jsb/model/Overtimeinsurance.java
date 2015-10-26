@@ -8,11 +8,11 @@ import android.os.Parcelable;
  */
 public class Overtimeinsurance implements Parcelable {
 
-    private Integer id;
-    private Integer amount;
-    private Integer residue;
-    private Integer status;
-    private Long releasetime;
+    private Integer id;//编号
+    private Integer amount;//放险数量
+    private Integer residue;//剩余数量
+    private Integer status;//在售与否  0 停售  1 在售
+    private Long releasetime;//放险时间
 
     public Integer getId() {
         return id;
@@ -88,4 +88,16 @@ public class Overtimeinsurance implements Parcelable {
             return new Overtimeinsurance[size];
         }
     };
+
+
+    @Override
+    public String toString() {
+        return "Overtimeinsurance{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", residue=" + residue +
+                ", status=" + status +
+                ", releasetime=" + releasetime +
+                '}';
+    }
 }

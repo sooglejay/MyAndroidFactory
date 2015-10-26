@@ -6,6 +6,7 @@ package com.jsb.util;
 public class Base64Util {
     static  private String BaseString="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     static private char[] BaseChars=BaseString.toCharArray();
+
     static public String encode(byte[] source){
         StringBuffer ret=new StringBuffer("");
         int len=source.length;

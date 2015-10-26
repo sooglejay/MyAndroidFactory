@@ -48,4 +48,11 @@ public class getOvertimeInsuranceInfo implements Parcelable {
             return new getOvertimeInsuranceInfo[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "getOvertimeInsuranceInfo{" +
+                "overtimeinsurance=" + overtimeinsurance +
+                '}';
+    }
 }

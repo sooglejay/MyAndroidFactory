@@ -13,4 +13,8 @@ public class StringConstant {
 
 
     public static final String CALL_POLICE_PHONE_NUMBER = "87778687";
+    public static final String tv_confirm = "tv_confirm";
+    public static final String tv_cancel = "tv_cancel";
+    public static final String setPassword = "设置密码";
+    public static final String modifyPassword = "修改密码";
 }
