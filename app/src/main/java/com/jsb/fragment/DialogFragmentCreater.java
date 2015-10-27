@@ -2,6 +2,7 @@ package com.jsb.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -16,7 +17,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.StringConstant;
+import com.jsb.model.NetWorkResultBean;
 
 /**
  * Created by Administrator on 2015/10/18.
@@ -38,6 +42,12 @@ public class DialogFragmentCreater extends DialogFragment {
 
     private OnDialogClickLisenter onDialogClickLisenter;
 
+    public void setOnPasswordDialogClickListener(OnPasswordDialogClickListener onPasswordDialogClickListener) {
+        this.onPasswordDialogClickListener = onPasswordDialogClickListener;
+    }
+
+    private OnPasswordDialogClickListener onPasswordDialogClickListener;//只为密码 设置的回调接口
+
     public void setOnDialogClickLisenter(OnDialogClickLisenter onDialogClickLisenter) {
         this.onDialogClickLisenter = onDialogClickLisenter;
     }
@@ -47,8 +57,11 @@ public class DialogFragmentCreater extends DialogFragment {
 
         //回调控制方法
         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content);
+    }
 
-
+    //专为密码  设置的回调
+    public interface OnPasswordDialogClickListener {
+        public void getPassword(View v1,View v2,View v3,View v4,View v5,View v6);
     }
 
 
@@ -142,13 +155,13 @@ public class DialogFragmentCreater extends DialogFragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    mPasswordString = "";
                     int i = 5;
                     while (i >= 0) {
                         mEditTexts[i].setText("");
                         mEditTexts[i].clearFocus();
                         i--;
                     }
-                    mPasswordString = "";
                     mEditTexts[0].requestFocus();
 
                     return true;
@@ -170,14 +183,15 @@ public class DialogFragmentCreater extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mPasswordString = mPasswordString + s;
-                if (mPasswordString.length() <= 6) {
+                if (mPasswordString.length() < 6) {
                     int index = mPasswordString.length();
-                    if (index >= 6) {
-                        index = 5;
-                    }
                     mEditTexts[index].requestFocus();
-                } else {
+                } else if(mPasswordString.length()==6) {
 
+                    if(onPasswordDialogClickListener!=null)
+                    {
+                        onPasswordDialogClickListener.getPassword(et_1,et_2,et_3,et_4,et_5,et_6);
+                    }
                 }
             }
 
@@ -203,7 +217,9 @@ public class DialogFragmentCreater extends DialogFragment {
 
 
         Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(convertView);
+
         dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
         //当dialog 显示的时候，弹出键盘
         dialog.setOnShowListener(new android.content.DialogInterface.OnShowListener() {
@@ -234,6 +250,7 @@ public class DialogFragmentCreater extends DialogFragment {
                 }.execute(800);
             }
         });
+
         return dialog;
     }
 

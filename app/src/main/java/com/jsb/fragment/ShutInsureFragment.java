@@ -11,7 +11,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -30,6 +32,7 @@ import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.PauseData;
 import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.util.DiditUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.SpannableStringUtil;
 import com.jsb.widget.DecoView.decoviewlib.DecoView;
 import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
@@ -100,16 +103,17 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private TextView tv_xxtb;//
 
 
-
     private LinearLayout layout_week_number_spinner;//
     private LinearLayout layout_car_number_spinner;//
-
-
 
 
     private TextView tv_pausePrice;//
     private TextView tv_usefulPauseFee;//
 
+
+    private ProgressDialogUtil progressDialogUtil;//阻塞用户操作
+
+    private boolean isSwitchTouchedOrTriggeredByUser = false;//Switch 的 状态位，标识用户操作还是代码操作
 
 
     private String pwdString;//提现，开启/关闭滑动按钮等重要操作需要 输入密码
@@ -131,12 +135,14 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         unitSpanString = SpannableStringUtil.getSpannableString(getActivity(), "¥", 40);//单位
         pwdString = PreferenceUtil.load(ShutInsureFragment.this.getActivity(), PreferenceConstant.pwd, "");//提现等操作密码
 
+
+        progressDialogUtil = new ProgressDialogUtil(getActivity());
+
         tv_yytb = (TextView) view.findViewById(R.id.tv_yytb);
         tv_xxtb = (TextView) view.findViewById(R.id.tv_xxtb);
 
         tv_usefulPauseFee = (TextView) view.findViewById(R.id.tv_usefulPauseFee);
         tv_pausePrice = (TextView) view.findViewById(R.id.tv_pausePrice);
-
 
 
         //圆形动画 文本跟随器
@@ -243,7 +249,23 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         car_number_spinner = (Spinner) view.findViewById(R.id.car_number_spinner);
         mCarNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mCarNumbersStringList);
         car_number_spinner.setAdapter(mCarNumbersListAdapter);
+        car_number_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String carNumberStr = mCarNumbersStringList.get(position);
+                for (PauseData bean : mPauseDataList) {
+                    if (carNumberStr.equals(bean.getLicenseplate())) {
+                        refreshData(bean);
+                        break;
+                    }
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //周Spinner 点击事件由父View 触发
         layout_week_number_spinner = (LinearLayout) view.findViewById(R.id.layout_week_number_spinner);
@@ -255,7 +277,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         });
         //周Spinner
         week_number_spinner = (Spinner) view.findViewById(R.id.week_number_spinner);
-        mWeekNumbersStringList = new ArrayList<>( Arrays.asList(getResources().getStringArray(R.array.weekArray)));
+        mWeekNumbersStringList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.weekArray)));
         mWeekNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mWeekNumbersStringList);
         week_number_spinner.setAdapter(mWeekNumbersListAdapter);
         week_number_spinner.setSelection(6);
@@ -269,6 +291,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         weekSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //如果不是人为按下的就不进入监听器
+                if (isSwitchTouchedOrTriggeredByUser) return;
+
                 if (TextUtils.isEmpty(pwdString)) {
                     dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
@@ -288,18 +313,120 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
+
+                    //否则进入
                     if (isChecked) {
-                        tv_xxtb.setAlpha(1);//如果滑动开关 选中 要调整 UI 的透明度 和可点击
-                        layout_week_number_spinner.setAlpha(1);
-                        layout_week_number_spinner.setClickable(true);
-                        layout_week_number_spinner.setEnabled(true);
+
+                        isSwitchTouchedOrTriggeredByUser = true;
+                        weekSwitchTabView.setChecked(false);
+                        isSwitchTouchedOrTriggeredByUser = false;
+
+                        dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
+                            @Override
+                            public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6) {
+                                progressDialogUtil.show("正在验证密码...");
+
+                                String p1 = ((EditText) v1).getText().toString();
+                                String p2 = ((EditText) v2).getText().toString();
+                                String p3 = ((EditText) v3).getText().toString();
+                                String p4 = ((EditText) v4).getText().toString();
+                                String p5 = ((EditText) v5).getText().toString();
+                                String p6 = ((EditText) v6).getText().toString();
+                                String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
+
+                                final Context context = ShutInsureFragment.this.getActivity();
+                                String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
+
+                                UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
+                                    @Override
+                                    public void onFailure(RetrofitError error) {
+                                        progressDialogUtil.hide();
+                                    }
+
+                                    @Override
+                                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                        progressDialogUtil.hide();
+                                        if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                            Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
+                                            dialogFragmentController.dismiss();
+                                            tv_xxtb.setAlpha(1);//如果滑动开关 选中 要调整 UI 的透明度 和可点击
+                                            layout_week_number_spinner.setAlpha(1);
+                                            layout_week_number_spinner.setClickable(true);
+                                            layout_week_number_spinner.setEnabled(true);
+
+                                            //如果密码验证成功才真正去打开
+                                            isSwitchTouchedOrTriggeredByUser = true;
+                                            weekSwitchTabView.setChecked(true);
+                                            isSwitchTouchedOrTriggeredByUser = false;
+
+                                        }
+
+                                    }
+                                });
+                            }
+                        });
+                        dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
+
                     } else {
-                        tv_xxtb.setAlpha(0.5f);
-                        layout_week_number_spinner.setAlpha(0.5f);
-                        layout_week_number_spinner.setClickable(false);
-                        layout_week_number_spinner.setEnabled(false);
+
+                        isSwitchTouchedOrTriggeredByUser = true;
+                        weekSwitchTabView.setChecked(true);
+                        isSwitchTouchedOrTriggeredByUser = false;
+
+
+                        dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
+                            @Override
+                            public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6) {
+                                progressDialogUtil.show("正在验证密码...");
+
+                                String p1 = ((EditText) v1).getText().toString();
+                                String p2 = ((EditText) v2).getText().toString();
+                                String p3 = ((EditText) v3).getText().toString();
+                                String p4 = ((EditText) v4).getText().toString();
+                                String p5 = ((EditText) v5).getText().toString();
+                                String p6 = ((EditText) v6).getText().toString();
+                                String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
+
+                                final Context context = ShutInsureFragment.this.getActivity();
+                                String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
+
+                                UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
+                                    @Override
+                                    public void onFailure(RetrofitError error) {
+                                        progressDialogUtil.hide();
+                                    }
+
+                                    @Override
+                                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                        progressDialogUtil.hide();
+                                        if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                            Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
+                                            dialogFragmentController.dismiss();
+
+                                            tv_xxtb.setAlpha(0.5f);
+                                            layout_week_number_spinner.setAlpha(0.5f);
+                                            layout_week_number_spinner.setClickable(false);
+                                            layout_week_number_spinner.setEnabled(false);
+
+                                            //如果密码验证成功才真正去关闭
+                                            isSwitchTouchedOrTriggeredByUser = true;
+                                            weekSwitchTabView.setChecked(false);
+                                            isSwitchTouchedOrTriggeredByUser = false;
+
+                                        }
+
+                                    }
+                                });
+                            }
+                        });
+                        dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
                     }
+
+
                 }
             }
 
@@ -314,7 +441,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         dateSwitchTabView.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (false) {
+                //如果不是人为按下的就不进入监听器
+                if (isSwitchTouchedOrTriggeredByUser) return;
+
+                //如果没有密码，则弹出让用户去设置密码
+                if (TextUtils.isEmpty(pwdString)) {
                     dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
                         public void viewClick(String tag) {
@@ -333,29 +464,131 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
 
+                    //否则进入密码验证
                     if (isChecked) {
-                        tv_yytb.setAlpha(1);
-                        datePickerLayout.setAlpha(1);
-                        datePickerLayout.setClickable(true);
-                        datePickerLayout.setEnabled(true);
+
+                        //先关闭，等待后面的网络请求
+                        isSwitchTouchedOrTriggeredByUser = true;
+                        dateSwitchTabView.setChecked(false);
+                        isSwitchTouchedOrTriggeredByUser = false;
+
+                        dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
+                            @Override
+                            public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6) {
+                                progressDialogUtil.show("正在验证密码...");
+
+                                String p1 = ((EditText) v1).getText().toString();
+                                String p2 = ((EditText) v2).getText().toString();
+                                String p3 = ((EditText) v3).getText().toString();
+                                String p4 = ((EditText) v4).getText().toString();
+                                String p5 = ((EditText) v5).getText().toString();
+                                String p6 = ((EditText) v6).getText().toString();
+                                String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
+
+                                final Context context = ShutInsureFragment.this.getActivity();
+                                String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
+
+                                UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
+                                    @Override
+                                    public void onFailure(RetrofitError error) {
+                                        progressDialogUtil.hide();
+                                    }
+
+                                    @Override
+                                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                        progressDialogUtil.hide();
+                                        if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                            Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            //如果密码验证成功才真正去打开
+                                            isSwitchTouchedOrTriggeredByUser = true;
+                                            dateSwitchTabView.setChecked(true);
+                                            isSwitchTouchedOrTriggeredByUser = false;
+
+                                            Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
+                                            dialogFragmentController.dismiss();
+                                            tv_yytb.setAlpha(1);
+                                            datePickerLayout.setAlpha(1);
+                                            datePickerLayout.setClickable(true);
+                                            datePickerLayout.setEnabled(true);
+
+                                        }
+
+                                    }
+                                });
+                            }
+                        });
+                        dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
+
                     } else {
-                        tv_yytb.setAlpha(0.5f);
-                        datePickerLayout.setAlpha(0.5f);
-                        datePickerLayout.setClickable(false);
-                        datePickerLayout.setEnabled(false);
+
+
+                        //先打开，等待后面的网络请求
+                        isSwitchTouchedOrTriggeredByUser = true;
+                        dateSwitchTabView.setChecked(true);
+                        isSwitchTouchedOrTriggeredByUser = false;
+
+                        dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
+                            @Override
+                            public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6) {
+                                progressDialogUtil.show("正在验证密码...");
+
+                                String p1 = ((EditText) v1).getText().toString();
+                                String p2 = ((EditText) v2).getText().toString();
+                                String p3 = ((EditText) v3).getText().toString();
+                                String p4 = ((EditText) v4).getText().toString();
+                                String p5 = ((EditText) v5).getText().toString();
+                                String p6 = ((EditText) v6).getText().toString();
+                                String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
+
+                                final Context context = ShutInsureFragment.this.getActivity();
+                                String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
+
+                                UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
+                                    @Override
+                                    public void onFailure(RetrofitError error) {
+                                        progressDialogUtil.hide();
+                                    }
+
+                                    @Override
+                                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                        progressDialogUtil.hide();
+                                        if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                            Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            //如果密码验证成功才真正去关闭
+                                            isSwitchTouchedOrTriggeredByUser = true;
+                                            dateSwitchTabView.setChecked(false);
+                                            isSwitchTouchedOrTriggeredByUser = false;
+
+                                            Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
+                                            dialogFragmentController.dismiss();
+
+                                            tv_yytb.setAlpha(0.5f);
+                                            datePickerLayout.setAlpha(0.5f);
+                                            datePickerLayout.setClickable(false);
+                                            datePickerLayout.setEnabled(false);
+                                        }
+
+                                    }
+                                });
+                            }
+                        });
+                        dialogFragmentController.showDialog(ShutInsureFragment.this.getActivity(), DialogFragmentCreater.DialogShowInputPasswordDialog);
                     }
+
+
                 }
             }
 
         });
 
-
         //获取停保信息
         getPauseInfo(getActivity(), PreferenceUtil.load(getActivity(), PreferenceConstant.userid, -1));
 
     }
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -533,7 +766,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 }
                 mCarNumbersListAdapter.notifyDataSetChanged();
 
-                if (mPauseDataList!=null&&mPauseDataList.size() > 0) {
+                if (mPauseDataList != null && mPauseDataList.size() > 0) {
                     PauseData bean = mPauseDataList.get(0);
                     refreshData(bean);
                 }
@@ -542,27 +775,23 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     }
 
 
-    public void refreshData(PauseData bean)
-    {
-        if(bean.getLimitday()!=null)
-        {
+    public void refreshData(PauseData bean) {
+        if (bean.getLimitday() != null) {
             week_number_spinner.setSelection(bean.getLimitday());
-        }else {
+        } else {
             week_number_spinner.setSelection(0);
         }
-        if(bean.getPausePrice()!=null)
-        {
-            tv_pausePrice.setText("¥"+bean.getPausePrice()+"");
+        if (bean.getPausePrice() != null) {
+            tv_pausePrice.setText("¥" + bean.getPausePrice() + "");
         }
 
-        if(bean.getUsefulPauseFee()!=null)
-        {
+        if (bean.getUsefulPauseFee() != null) {
             tv_usefulPauseFee.setText("¥" + bean.getUsefulPauseFee() + "");
         }
 
         //开始动画
         realNumber = bean.getTotalPauseFee();
-        maxNumber  = (float)DiditUtil.getMaxInteger(realNumber);
+        maxNumber = (float) DiditUtil.getMaxInteger(realNumber);
         createAnimation();
     }
 }

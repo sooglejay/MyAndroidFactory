@@ -178,4 +178,19 @@ public class UserRetrofitUtil extends RetrofitUtil {
         git.getFourTeamInfo("", callback);
     }
 
+    /**
+     * 停保滑动时，验证密码
+     * @param mContext
+     * @param callback
+     */
+    public static void verifyPwd(Context mContext,String phone,String pwd, NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String w = MD5Util.getMD5(pwd);
+        String k = "phone=" + phone+"&pwd="+w;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
+        git.verifyPwd(s, callback);
+    }
+
 }

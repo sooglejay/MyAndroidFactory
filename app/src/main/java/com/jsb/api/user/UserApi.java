@@ -113,5 +113,15 @@ public interface UserApi {
     public void getFourTeamInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<List<FreedomData>>> NetCallback);
 
 
+    /**
+     * 停保滑动时，验证密码
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/verifyPwd/")
+    public void verifyPwd(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
 
 }

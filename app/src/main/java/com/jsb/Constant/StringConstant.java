@@ -20,4 +20,7 @@ public class StringConstant {
 
 
     public static final String hasPassword = "hasPassword";//是否设置过密码
+
+    public static final String failure = "failure";//
+    public static final String success = "success";//
 }

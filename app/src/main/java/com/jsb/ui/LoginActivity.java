@@ -115,6 +115,7 @@ public class LoginActivity extends BaseActivity {
                             //保存用户信息
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserInfo().getName());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
                             mProgressUtil.hide();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
