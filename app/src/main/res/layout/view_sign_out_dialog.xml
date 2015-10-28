@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/shape_4_white_color"
+    android:padding="@dimen/middle_padding"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/small_padding"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_padding"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/big_padding"
+            android:text="退出"
+            android:textColor="@color/dark_gray_color"
+            android:textSize="@dimen/most_big_textsize" />
+        </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/middle_padding"
+        android:text="你真的要退出么？"
+        android:textColor="@color/dark_gray_color"
+        android:textSize="@dimen/middle_textsize" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/close_app"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/middle_padding"
+            android:layout_marginRight="@dimen/middle_padding"
+            android:layout_marginTop="@dimen/middle_padding"
+            android:gravity="center"
+            android:textSize="@dimen/middle_textsize"
+            android:background="@drawable/btn_select_gray"
+            android:text="退出"
+            android:textColor="@color/dark_gray_color_2"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/stay_here"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/middle_padding"
+            android:layout_marginTop="@dimen/middle_padding"
+            android:layout_marginRight="@dimen/middle_padding"
+            android:gravity="center"
+            android:background="@drawable/btn_select_base"
+            android:textSize="@dimen/middle_textsize"
+            android:text="留在这里"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

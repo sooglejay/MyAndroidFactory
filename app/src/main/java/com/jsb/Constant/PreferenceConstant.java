@@ -5,6 +5,7 @@ public class PreferenceConstant {
     public static final String TimePickerDateStart = "dateStart";
     public static final String TimePickerDateEnd = "dateEnd";
     public static final String TimePickerDateInterval = "dateInterval";
+    public static final String timeStringFroServer = "timeStringFroServer";
 
 
     //用户信息相关

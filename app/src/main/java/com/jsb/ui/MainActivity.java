@@ -11,10 +11,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.StringConstant;
+import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.fragment.BuyInsureFragment;
 import com.jsb.fragment.MeFragment;
@@ -45,6 +48,7 @@ public class MainActivity extends BaseActivity {
 
     private UpdateVersionUtil updateVersionUtil;
 
+    private DialogFragmentCreater dialogFragmentCreater ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,26 @@ public class MainActivity extends BaseActivity {
     private void setUp() {
         lineView = findViewById(R.id.line_view);
         tabBar = (TabBar) findViewById(R.id.home_bottomBar);
+        dialogFragmentCreater = new DialogFragmentCreater(this,this.getSupportFragmentManager());
+        dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+            @Override
+            public void viewClick(String tag) {
+                if(tag.equals(StringConstant.tv_confirm))
+                {
+                }else {
+                    MainActivity.this.finish();
+                }
+            }
+
+            @Override
+            public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+
+                    ((TextView)tv_confirm).setText("留在这里");
+                    ((TextView)tv_cancel).setText("离开");//颠倒一下
+                    ((TextView)tv_title).setText("你确定要离开这里么？");
+
+            }
+        });
         initViewPager();
         checkUpdate();
     }
@@ -194,4 +218,10 @@ public class MainActivity extends BaseActivity {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(tabBarStatusReceiver);
         }
     }
+    @Override
+    public void onBackPressed() {
+        dialogFragmentCreater.showDialog(this,DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+    }
+
 }
+

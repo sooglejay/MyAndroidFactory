@@ -12,6 +12,7 @@ import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.PauseData;
 import com.jsb.model.ReportableInsurance;
 import com.jsb.model.TeamData;
+import com.jsb.model.Userstable;
 import com.jsb.util.Base64Util;
 import com.jsb.util.MD5Util;
 import com.jsb.util.RetrofitUtil;
@@ -176,6 +177,37 @@ public class UserRetrofitUtil extends RetrofitUtil {
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
         git.saveLimitPauseInfo(s, callback);
+    }
+
+
+    /**
+     * 7.7.3.保存预约停保
+     参数说明
+     1、int userid ; //用户编号
+     2、int orderid ; //保单编号
+     3、float dayPrice ;// 暂停一天所得费用
+     4、string  reservedays;// 预约日期，年月日多个以豆号隔开如“2015-09-07，2015-09-12”,保单开始结束时间在7.7.1接口中已返回，手机端在选择日期时要判断，只能选择从当前日期之后的2个工作日开始选，且不能选超过结束日期。
+     * 发送时机	用户选择预约暂停时调用
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void saveReservePauseInfo(Context mContext,
+                                          int userid ,
+                                          int orderid ,
+                                          float dayPrice ,
+                                          String reservedays ,
+                                          NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "userid=" + userid+
+                "&orderid="+orderid+
+                "&dayPrice="+dayPrice+
+                "&reservedays="+reservedays;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
+        git.saveReservePauseInfo(s, callback);
     }
 
 
@@ -458,6 +490,66 @@ public class UserRetrofitUtil extends RetrofitUtil {
         git.checkUpdate("", callback);
     }
 
+
+
+
+    /**
+     * 7.4.5.保存订单信息
+     * 发送时机	提交订单时保存订单信息
+     *
+     参数说明
+     1、int userid； // 用户编号
+     2、String company；// 公司名
+     3、String  companyaddress; // 公司地址
+     4、String service; //服务介绍
+     * @param mContext
+     * @param callback
+     */
+    public static void modifySelfInfo(Context mContext,
+                                           int userid,
+                                           String company,
+                                           String companyaddress,
+                                           String service,
+
+                                           NetCallback<NetWorkResultBean<Userstable>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid+
+                "&company="+company+
+                "&companyaddress="+companyaddress+
+                "&service="+service
+                ;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
+        git.modifySelfInfo("", callback);
+    }
+
+    /**
+     * 7.7.4.取消停保
+     * 发送时机	用户选择取消暂停调用
+     *
+     参数说明
+     1、int userid ; //用户编号
+     2、int orderid ; //保单编号
+     3、int type ;//   0限行取消   1预约取消
+     * @param mContext
+     * @param callback
+     */
+    public static void cancelPause(Context mContext,
+                                           int userid,
+                                           int orderid,
+                                           int type,
+                                           NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid+
+                "&orderid="+orderid+
+                "&type="+type
+                ;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
+        git.cancelPause("", callback);
+    }
 
 
 

@@ -18,8 +18,8 @@ public class PauseData implements Parcelable {
     private Float usefulPauseFee;//可用停保费
     private Boolean limitPaused;//是否现行暂停过
     private Boolean reservepaused;//是否预约暂停过
-    private Long startdate;//暂停起效时间
-    private Long enddate;//暂停结束时间
+    private Long startdate;//保险的有效起始时间
+    private Long enddate;//保险的有效结束时间
 
     @Override
     public String toString() {

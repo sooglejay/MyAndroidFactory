@@ -2,6 +2,7 @@ package com.jsb.widget.TimePicker;
 
 import android.app.Activity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,13 +54,26 @@ public class CalenderAdapter extends BaseAdapter {
 
 
 
+    private String timeStringForServer = "";
+    private long orderStartTimeFromServer = 0;
+    private long orderEndTimeFromServer = 0;
+
+
+    public void setOrderStartTimeFromServer(long orderStartTimeFromServer) {
+        long today = new Date().getTime();
+        this.orderStartTimeFromServer = orderStartTimeFromServer<today?today:orderStartTimeFromServer;
+    }
+
+    public void setOrderEndTimeFromServer(long orderEndTimeFromServer) {
+        this.orderEndTimeFromServer = orderEndTimeFromServer;
+    }
+
     public CalenderAdapter(Activity mContext, List<Object> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         inflater = LayoutInflater.from(mContext);
         tvWhiteColorResId = mContext.getResources().getColor(R.color.white_color);
         tvBlackColorResId = mContext.getResources().getColor(R.color.black_color);
-
     }
 
 
@@ -176,8 +190,8 @@ public class CalenderAdapter extends BaseAdapter {
                         switch (v.getId()) {
                             case R.id.item:
                                 try {
-                                    if (dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime() < dateFormat_yyyy_MM_dd.parse(todayString_yyyy_m_d).getTime()) {
-                                        Toast.makeText(mContext, "过去的时间无效！", Toast.LENGTH_SHORT).show();
+                                    if (dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime() < orderStartTimeFromServer) {
+                                        Toast.makeText(mContext, "日期无效，请重新选择！", Toast.LENGTH_SHORT).show();
                                         return;
                                     } else if (clickCount<0) {//选择开始时间
                                         for(int i = 0;i<mDatas.size();i++)
@@ -199,6 +213,7 @@ public class CalenderAdapter extends BaseAdapter {
                                             }
                                         }
                                         bean.setStatus(START);
+                                        timeStringForServer=bean.getDateStr()+",";
                                         clickCount = 1;
                                         outerDayBean = bean;
                                         startDateString = bean.getDateStr();
@@ -210,12 +225,16 @@ public class CalenderAdapter extends BaseAdapter {
                                         {
                                             outerDayBean.setStatus(OTHERS);
                                             bean.setStatus(START);
+                                            timeStringForServer=bean.getDateStr()+",";
                                             outerDayBean = bean;
                                             startDateString = bean.getDateStr();
                                         }else if (minus==0)//点击的时间与上一次的一样，就认为是在调整开始时间
                                         {
                                             return;//不做处理
                                         }else {
+                                            //服务端需要的时间格式 “2015-10-22,2015-10-23 ,...，2015-10-26,2015-10-27”
+
+
                                             //开始和结束时间在同一个月，就不做全部的数据更新了
                                             String [] endDateArray = bean.getDateStr().split("-");
                                             String [] startDateArray = startDateString.split("-");
@@ -233,6 +252,7 @@ public class CalenderAdapter extends BaseAdapter {
                                                             )
                                                     {
                                                         b.setStatus(BETWEEN);
+                                                        timeStringForServer=timeStringForServer+b.getDateStr()+",";
                                                     }
                                                 }
                                             }
@@ -254,6 +274,7 @@ public class CalenderAdapter extends BaseAdapter {
                                                                     dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime() < dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime()
                                                                     ) {
                                                                 b.setStatus(BETWEEN);
+                                                                timeStringForServer=timeStringForServer+b.getDateStr()+",";
                                                             }
                                                         }
 
@@ -262,10 +283,12 @@ public class CalenderAdapter extends BaseAdapter {
                                             }
 
                                             bean.setStatus(END);
+                                            timeStringForServer = timeStringForServer+bean.getDateStr();
                                             int e_s = (int)((dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime() - dateFormat_yyyy_MM_dd.parse(startDateString).getTime())/milliSecondInADay);
                                             BusEvent intEvent = new BusEvent(BusEvent.MSG_INT_TIME);
                                             intEvent.setStart_time(startDateString);
                                             intEvent.setEnd_time(bean.getDateStr());
+                                            intEvent.setTimeStringFroServer(timeStringForServer);
                                             intEvent.setInterval_time(e_s + "天");
                                             EventBus.getDefault().post(intEvent);
                                             mContext.finish();
@@ -324,7 +347,7 @@ public class CalenderAdapter extends BaseAdapter {
 
 
             try {
-                if(dateFormat_yyyy_MM_dd.parse(dayListBean.get(position).getDateStr()).getTime() < dateFormat_yyyy_MM_dd.parse(todayString_yyyy_m_d).getTime())
+                if(dateFormat_yyyy_MM_dd.parse(dayListBean.get(position).getDateStr()).getTime() < orderStartTimeFromServer)
                 {
                     innerGridViewHolder.tv_up.setTextColor(mContext.getResources().getColor(R.color.light_gray_color));
                 }
@@ -339,8 +362,6 @@ public class CalenderAdapter extends BaseAdapter {
             if((position+1)%7==0||(position)%7==0){
                 innerGridViewHolder.tv_up.setTextColor(mContext.getResources().getColor(R.color.red_color));
             }
-
-
 
 
             //如果是今天

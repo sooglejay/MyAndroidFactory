@@ -23,4 +23,8 @@ public class StringConstant {
 
     public static final String failure = "failure";//
     public static final String success = "success";//
+
+    public static final String orderStartTimeFromServer = "orderStartTimeFromServer";//保单开始时间
+    public static final String orderEndTimeFromServer = "orderEndTimeFromServer";//保单结束时间
+
 }

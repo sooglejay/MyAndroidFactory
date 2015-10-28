@@ -327,5 +327,39 @@ public class DialogFragmentCreater extends DialogFragment {
         return dialog;
     }
 
+    private Dialog signOutDialog() {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.close_app:
+
+                        if (onDialogClickLisenter!=null)
+                            onDialogClickLisenter.viewClick(StringConstant.tv_confirm);
+                        dismiss();
+                        break;
+                    case R.id.stay_here:
+                        if (onDialogClickLisenter!=null)
+                            onDialogClickLisenter.viewClick(StringConstant.tv_cancel);
+                        dismiss();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        LayoutInflater mInflater = (LayoutInflater) mContext
+                .getSystemService("layout_inflater");
+        View convertView = mInflater.inflate(R.layout.view_sign_out_dialog, null);
+        TextView signOutButton = (TextView) convertView.findViewById(R.id.stay_here);
+        TextView closeAppButton = (TextView) convertView.findViewById(R.id.close_app);
+
+        signOutButton.setOnClickListener(listener);
+        closeAppButton.setOnClickListener(listener);
+        Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.setContentView(convertView);
+        dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
+        return dialog;
+    }
 
 }

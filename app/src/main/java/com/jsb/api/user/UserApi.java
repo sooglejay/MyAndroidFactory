@@ -9,6 +9,7 @@ import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.PauseData;
 import com.jsb.model.ReportableInsurance;
 import com.jsb.model.TeamData;
+import com.jsb.model.Userstable;
 
 import java.util.List;
 
@@ -202,6 +203,22 @@ public interface UserApi {
 
 
     /**
+     * 7.7.3.保存预约停保
+     * 发送时机	用户选择预约暂停时调用
+     * 参数说明	1、int userid ; //用户编号
+     2、int orderid ; //保单编号
+     3、float dayPrice ;// 暂停一天所得费用
+     4、string  reservedays;// 预约日期，年月日多个以豆号隔开如“2015-09-07，2015-09-12”,保单开始结束时间在7.7.1接口中已返回，手机端在选择日期时要判断，只能选择从当前日期之后的2个工作日开始选，且不能选超过结束日期。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/saveReservePauseInfo/")
+    public void saveReservePauseInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
      * 7.2.检测版本升级
      * 发送时机	启动页面，后台发送检测版本更新情况（用于比对本地和服务的版本）
      * @param params
@@ -210,6 +227,28 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/checkUpdate/")
     public void checkUpdate(@Field("param") String params ,NetCallback<NetWorkResultBean<CommData>> NetCallback);
+
+
+    /**
+     * 7.3.4 个人中心修改资料
+     * 发送时机	个人中心修改资料。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/modifySelfInfo/")
+    public void modifySelfInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<Userstable>> NetCallback);
+
+
+    /**
+     * 7.7.4.取消停保
+     * 发送时机	用户选择取消暂停调用
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/cancelPause/")
+    public void cancelPause(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
 
 
 

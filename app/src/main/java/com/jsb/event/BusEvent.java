@@ -8,6 +8,16 @@ public class BusEvent {
     private String end_time;//结束时间
     private String interval_time;//时间间隔
 
+    public String getTimeStringFroServer() {
+        return timeStringFroServer;
+    }
+
+    public void setTimeStringFroServer(String timeStringFroServer) {
+        this.timeStringFroServer = timeStringFroServer;
+    }
+
+    private String timeStringFroServer;//时间控件 选择时间，服务端要求的时间格式
+
     private int msg=0;
 
     public int getMsg() {

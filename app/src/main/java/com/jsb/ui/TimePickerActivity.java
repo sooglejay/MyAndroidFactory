@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import com.jsb.R;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.constant.StringConstant;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.TimePicker.CalenderAdapter;
 import com.jsb.widget.TimePicker.SonBean;
@@ -38,6 +39,10 @@ public class TimePickerActivity extends BaseActivity {
     private String startTimeStr;
     private String endTimeStr;
 
+
+    private long orderStartTimeFromServer = 0;
+    private long orderEndTimeFromServer = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,12 @@ public class TimePickerActivity extends BaseActivity {
     }
 
     private void setUpView() {
+
+        orderStartTimeFromServer = getIntent().getLongExtra(StringConstant.orderStartTimeFromServer,0);
+        orderEndTimeFromServer = getIntent().getLongExtra(StringConstant.orderEndTimeFromServer,0);
+
+
+
         mTitleBar = (TitleBar) findViewById(R.id.title_bar);
         mTitleBar.initTitleBarInfo("选择开始结束时间", R.drawable.arrow_left, -1, "", "");
 
@@ -69,6 +80,8 @@ public class TimePickerActivity extends BaseActivity {
         listView = (ListView) findViewById(R.id.list_item);
         setmAdapterDatas(mDatas);
         mAdapter = new CalenderAdapter(this, mDatas);
+        mAdapter.setOrderEndTimeFromServer(orderEndTimeFromServer);
+        mAdapter.setOrderStartTimeFromServer(orderStartTimeFromServer);
         listView.setAdapter(mAdapter);
 
     }
