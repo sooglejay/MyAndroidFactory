@@ -4,6 +4,7 @@ import com.jsb.api.callback.NetCallback;
 import com.jsb.model.CommData;
 import com.jsb.model.FreedomData;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.PauseData;
 import com.jsb.model.ReportableInsurance;
@@ -47,7 +48,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getOvertimeInsuranceInfo/")
-    public void getOvertimeInsuranceInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<Overtimeinsurance>> NetCallback);
+    public void getOvertimeInsuranceInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<OvertimeData>> NetCallback);
 
 
     /**
@@ -121,6 +122,94 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/verifyPwd/")
     public void verifyPwd(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+    /**
+     * 用户重置手机号，提交手机号和验证码。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/resetSubmitPhoneAndVerifycode/")
+    public void resetSubmitPhoneAndVerifycode(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     * 7.4.车险
+       7.4.1.保存车辆信息
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/saveVehicleInfo/")
+    public void saveVehicleInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<CommData>> NetCallback);
+
+    /**
+     * 保存报价信息
+     * 发送时机	查看各个保险公司报价页面切换时调用，或者点击提交时调用。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/saveOfferPrice/")
+    public void saveOfferPrice(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     * 7.4.3.选择报价方案
+     * 发送时机	提交订单时，用于确定选择的是何种报价。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/selectPlan/")
+    public void selectPlan(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     * 7.4.4.获取保险公司信息
+     * 发送时机	获取所有保险公司信息，如网点 、政策，电话
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getInsuranceCompanyInfo/")
+    public void getInsuranceCompanyInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<CommData>> NetCallback);
+
+
+    /**
+     * 7.4.5.保存订单信息
+     * 发送时机	提交订单时保存订单信息
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/confirmVehicleOrder/")
+    public void confirmVehicleOrder(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     * 7.7.2.保存限行停保
+     * 发送时机	用户点击限行暂停时调用
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/saveLimitPauseInfo/")
+    public void saveLimitPauseInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     * 7.2.检测版本升级
+     * 发送时机	启动页面，后台发送检测版本更新情况（用于比对本地和服务的版本）
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/checkUpdate/")
+    public void checkUpdate(@Field("param") String params ,NetCallback<NetWorkResultBean<CommData>> NetCallback);
 
 
 

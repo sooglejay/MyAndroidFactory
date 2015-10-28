@@ -7,21 +7,21 @@ import android.os.Parcelable;
  * 5.1.8.加班险信息对象OvertimeData
  */
 public class OvertimeData implements Parcelable {
-    private Overtimeinsurance overtimeInsurance;//加班险信息
+    private Overtimeinsurance overtimeinsurance;//加班险信息
 
     @Override
     public String toString() {
         return "OvertimeData{" +
-                "overtimeInsurance=" + overtimeInsurance +
+                "overtimeinsurance=" + overtimeinsurance +
                 '}';
     }
 
     public Overtimeinsurance getOvertimeInsurance() {
-        return overtimeInsurance;
+        return overtimeinsurance;
     }
 
     public void setOvertimeInsurance(Overtimeinsurance overtimeInsurance) {
-        this.overtimeInsurance = overtimeInsurance;
+        this.overtimeinsurance = overtimeInsurance;
     }
 
     @Override
@@ -31,14 +31,14 @@ public class OvertimeData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.overtimeInsurance, 0);
+        dest.writeParcelable(this.overtimeinsurance, 0);
     }
 
     public OvertimeData() {
     }
 
     protected OvertimeData(Parcel in) {
-        this.overtimeInsurance = in.readParcelable(Overtimeinsurance.class.getClassLoader());
+        this.overtimeinsurance = in.readParcelable(Overtimeinsurance.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<OvertimeData> CREATOR = new Parcelable.Creator<OvertimeData>() {

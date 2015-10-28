@@ -31,4 +31,13 @@ public class NetWorkResultBean<T> {
     public void setData(T data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "NetWorkResultBean{" +
+                "status=" + status +
+                ", message=" + message +
+                ", data=" + data +
+                '}';
+    }
 }

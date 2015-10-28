@@ -2,6 +2,7 @@ package com.jsb.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -12,6 +13,7 @@ import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
 import com.jsb.widget.TitleBar;
 
@@ -96,23 +98,20 @@ public class InsureJiaBanDogActivity extends BaseActivity {
             }
         });
 
-        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<Overtimeinsurance>>(InsureJiaBanDogActivity.this) {
+        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<OvertimeData>>(InsureJiaBanDogActivity.this) {
             @Override
             public void onFailure(RetrofitError error) {
 
             }
 
             @Override
-            public void success(NetWorkResultBean<Overtimeinsurance> overtimeinsuranceNetWorkResultBean, Response response) {
-
-                Overtimeinsurance bean= overtimeinsuranceNetWorkResultBean.getData();
-
+            public void success(NetWorkResultBean<OvertimeData> overtimeinsuranceNetWorkResultBean, Response response) {
+                Overtimeinsurance bean= overtimeinsuranceNetWorkResultBean.getData().getOvertimeInsurance();
                 if(bean.getReleasetime()!=null) {
                     //生效时间
                     tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
                 }else {
                     tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date()) + "");
-
                 }
 
                 if(bean.getResidue()!=null)

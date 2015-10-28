@@ -19,6 +19,7 @@ import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
+import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
 
 import retrofit.RetrofitError;
@@ -110,7 +111,6 @@ public class LoginActivity extends BaseActivity {
 
                         @Override
                         public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-
                             CommData bean = commDataNetWorkResultBean.getData();
                             //保存用户信息
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
@@ -119,7 +119,7 @@ public class LoginActivity extends BaseActivity {
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
                             mProgressUtil.hide();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
+                            LoginActivity.this.finish();
                         }
                     });
 
@@ -162,6 +162,11 @@ public class LoginActivity extends BaseActivity {
                         }
                     };
                     mCountTimer.start();
+
+
+                    //让验证码输入框获取焦点
+                   et_verify_code.requestFocus();
+
 
                 }
             }

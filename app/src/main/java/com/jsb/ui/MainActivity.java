@@ -13,11 +13,21 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.fragment.BuyInsureFragment;
 import com.jsb.fragment.MeFragment;
+import com.jsb.model.CommData;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.util.CheckNetWorkUtil;
+import com.jsb.util.UpdateVersionUtil;
 import com.jsb.widget.ScrollableViewPager;
 import com.jsb.widget.TabBar;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Main Activity
  */
@@ -33,6 +43,8 @@ public class MainActivity extends BaseActivity {
     private int currentPos = 0;
     private BroadcastReceiver tabBarStatusReceiver;
 
+    private UpdateVersionUtil updateVersionUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +56,27 @@ public class MainActivity extends BaseActivity {
         lineView = findViewById(R.id.line_view);
         tabBar = (TabBar) findViewById(R.id.home_bottomBar);
         initViewPager();
+        checkUpdate();
+    }
+
+    /**
+     * 检查版本更新
+     */
+    private void checkUpdate() {
+        UserRetrofitUtil.checkUpdate(this, new NetCallback<NetWorkResultBean<CommData>>(this) {
+            @Override
+            public void onFailure(RetrofitError error) {
+
+            }
+
+            @Override
+            public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
+                String versionCode = commDataNetWorkResultBean.getData().getVersion();
+                String downLoadURL = commDataNetWorkResultBean.getData().getDownLoadUrl();
+                updateVersionUtil = new UpdateVersionUtil(MainActivity.this, downLoadURL, versionCode);
+                updateVersionUtil.checkVerisonUpdate();
+            }
+        });
     }
 
     /**

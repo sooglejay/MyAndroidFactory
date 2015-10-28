@@ -11,23 +11,10 @@ public class CommData implements Parcelable {
     private String verifyCode;//手机验证码
     private Integer userid;//会员编号
     private Integer orderid;//车险订单编号
-    private Integer downLoadUrl;//下载路径
+    private String downLoadUrl;//下载路径
     private UserInfo userInfo;//参见5.3用户信息对象
 
     private InsuranceCompanyInfo insurancecompanyInfo;//保险公司信息集合参见5.4.2
-
-    @Override
-    public String toString() {
-        return "CommData{" +
-                "version='" + version + '\'' +
-                ", verifyCode='" + verifyCode + '\'' +
-                ", userid=" + userid +
-                ", orderid=" + orderid +
-                ", downLoadUrl=" + downLoadUrl +
-                ", userInfo=" + userInfo +
-                ", insurancecompanyInfo=" + insurancecompanyInfo +
-                '}';
-    }
 
     public String getVersion() {
         return version;
@@ -61,13 +48,6 @@ public class CommData implements Parcelable {
         this.orderid = orderid;
     }
 
-    public Integer getDownLoadUrl() {
-        return downLoadUrl;
-    }
-
-    public void setDownLoadUrl(Integer downLoadUrl) {
-        this.downLoadUrl = downLoadUrl;
-    }
 
     public UserInfo getUserInfo() {
         return userInfo;
@@ -85,6 +65,34 @@ public class CommData implements Parcelable {
         this.insurancecompanyInfo = insurancecompanyInfo;
     }
 
+    public CommData() {
+    }
+
+    @Override
+    public String toString() {
+        return "CommData{" +
+                "version='" + version + '\'' +
+                ", verifyCode='" + verifyCode + '\'' +
+                ", userid=" + userid +
+                ", orderid=" + orderid +
+                ", downLoadUrl='" + downLoadUrl + '\'' +
+                ", userInfo=" + userInfo +
+                ", insurancecompanyInfo=" + insurancecompanyInfo +
+                '}';
+    }
+
+    public String getDownLoadUrl() {
+        return downLoadUrl;
+    }
+
+    public void setDownLoadUrl(String downLoadUrl) {
+        this.downLoadUrl = downLoadUrl;
+    }
+
+    public static Creator<CommData> getCREATOR() {
+        return CREATOR;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -96,12 +104,9 @@ public class CommData implements Parcelable {
         dest.writeString(this.verifyCode);
         dest.writeValue(this.userid);
         dest.writeValue(this.orderid);
-        dest.writeValue(this.downLoadUrl);
+        dest.writeString(this.downLoadUrl);
         dest.writeParcelable(this.userInfo, 0);
         dest.writeParcelable(this.insurancecompanyInfo, 0);
-    }
-
-    public CommData() {
     }
 
     protected CommData(Parcel in) {
@@ -109,12 +114,12 @@ public class CommData implements Parcelable {
         this.verifyCode = in.readString();
         this.userid = (Integer) in.readValue(Integer.class.getClassLoader());
         this.orderid = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.downLoadUrl = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.downLoadUrl = in.readString();
         this.userInfo = in.readParcelable(UserInfo.class.getClassLoader());
         this.insurancecompanyInfo = in.readParcelable(InsuranceCompanyInfo.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<CommData> CREATOR = new Parcelable.Creator<CommData>() {
+    public static final Creator<CommData> CREATOR = new Creator<CommData>() {
         public CommData createFromParcel(Parcel source) {
             return new CommData(source);
         }
