@@ -55,7 +55,8 @@ public class MyCallPoliceActivity extends BaseActivity {
         titleBar.initTitleBarInfo("我的报案", R.drawable.arrow_left, -1, "", "");
 
 
-        dialogFragmentCreater = new DialogFragmentCreater(this,getSupportFragmentManager());
+        dialogFragmentCreater = new DialogFragmentCreater();
+        dialogFragmentCreater.setDialogContext(this, getSupportFragmentManager());
 
         aaa_MyCallPoliceBean bean1 = new aaa_MyCallPoliceBean();
         aaa_MyCallPoliceBean bean2 = new aaa_MyCallPoliceBean();
@@ -71,18 +72,18 @@ public class MyCallPoliceActivity extends BaseActivity {
         mListDatas.add(bean3);
 
 
-        myCallPoliceListAdapter = new MyCallPoliceListAdapter(this, mListDatas,dialogFragmentCreater);
-        mInsureList = (ListView)findViewById(R.id.list_view);
+        myCallPoliceListAdapter = new MyCallPoliceListAdapter(this, mListDatas, dialogFragmentCreater);
+        mInsureList = (ListView) findViewById(R.id.list_view);
         mInsureList.setAdapter(myCallPoliceListAdapter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE_CALL)
-        {
+        if (requestCode == REQUEST_CODE_CALL) {
 
             //重新生成一个 DialogFragment
-          DialogFragmentCreater dialogFragmentCreater = new DialogFragmentCreater(this,getSupportFragmentManager());
+            DialogFragmentCreater dialogFragmentCreater = new DialogFragmentCreater();
+            dialogFragmentCreater.setDialogContext(this, getSupportFragmentManager());
             myCallPoliceListAdapter.setResultDialg(dialogFragmentCreater);
         }
         super.onActivityResult(requestCode, resultCode, data);

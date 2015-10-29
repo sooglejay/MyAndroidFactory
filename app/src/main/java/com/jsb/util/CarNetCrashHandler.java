@@ -26,8 +26,7 @@ public class CarNetCrashHandler implements UncaughtExceptionHandler {
     private Context mContext;
     private static final String SDCARD_ROOT = Environment.getExternalStorageDirectory().toString();
     private static CarNetCrashHandler mInstance = new CarNetCrashHandler();
-    private static final String FILE_CONTENT = "00TimaLog/crash";
-//    UserManager mUserManager = null;
+    private static final String FILE_CONTENT = "安心车险/crash";
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {

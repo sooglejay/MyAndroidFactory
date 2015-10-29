@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.constant.StringConstant;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,7 +38,7 @@ import java.net.URL;
 public class UpdateVersionUtil
 {
     private  static final String packageName = "com.jsb";
-    private  static final String appName = "anxin";
+    private  static final String apkName = StringConstant.app_name+File.pathSeparator+"anxin.apk";
     private  String apkUrl = "";
     private  String versionCodeFromServer ="";
 
@@ -231,7 +232,7 @@ public class UpdateVersionUtil
                     {
                         file.mkdir();
                     }
-                    File apkFile = new File(mSavePath, "anxin.apk");
+                    File apkFile = new File(mSavePath,apkName);
                     FileOutputStream fos = new FileOutputStream(apkFile);
                     int count = 0;
                     // 缓存
@@ -276,7 +277,7 @@ public class UpdateVersionUtil
      */
     private void installApk()
     {
-        File apkfile = new File(mSavePath,"anxin.apk");
+        File apkfile = new File(mSavePath,apkName);
         if (!apkfile.exists())
         {
             return;

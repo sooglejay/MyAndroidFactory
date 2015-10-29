@@ -119,18 +119,18 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
         return false;
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-//            if (getView() != null) {
-//                setDemoFinished(false);
-//                createAnimation();
-//            }
-//        } else {
-//            stopFragment();
-//        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+////        if (isVisibleToUser) {
+////            if (getView() != null) {
+////                setDemoFinished(false);
+////                createAnimation();
+////            }
+////        } else {
+////            stopFragment();
+////        }
+//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

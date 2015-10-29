@@ -31,6 +31,7 @@ import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.PauseData;
+import com.jsb.ui.LoginActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.util.DiditUtil;
 import com.jsb.util.ProgressDialogUtil;
@@ -141,19 +142,14 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         setUp(view, savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        context = ShutInsureFragment.this.getActivity();
-        outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
-    }
 
     private void setUp(View view, Bundle savedInstanceState) {
         context = ShutInsureFragment.this.getActivity();
 
 
         //作为Dialog的生成器
-        dialogFragmentController = new DialogFragmentCreater(getActivity(), getFragmentManager());//涉及到权限操作时，需要临时输入密码并验证
+        dialogFragmentController = new DialogFragmentCreater();//涉及到权限操作时，需要临时输入密码并验证
+        dialogFragmentController.setDialogContext(getActivity(), getFragmentManager());
         //人民币单位的字符
         unitSpanString = SpannableStringUtil.getSpannableString(getActivity(), "¥", 40);//单位
         //用户的密码字符串
@@ -196,7 +192,27 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         tvPullMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(outerPwdString)) {
+
+                //通过userid来判断用户是否登录，-1就是未登录状态
+                if (outerUserId < 0) {
+                    dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能提现哦！\n是否现在就去登录？");
+                            }
+
+                        }
+                    });
+                    dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else if (TextUtils.isEmpty(outerPwdString)) {
                     dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
                         public void viewClick(String tag) {
@@ -215,7 +231,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    getActivity().startActivity(new Intent(getActivity(), PullMoneyActivity.class));
+                    context.startActivity(new Intent(context, PullMoneyActivity.class));
                 }
             }
         });
@@ -263,20 +279,41 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         datePickerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TimePickerActivity.class);
-                long startTime = 0;
-                long endTime = 0;
-                if (outerPauseBean != null) {
-                    if (outerPauseBean.getStartdate() != null) {
-                        startTime = outerPauseBean.getStartdate();
+                //通过userid来判断用户是否登录，-1就是未登录状态
+                if (outerUserId < 0) {
+                    dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+
+                        }
+                    });
+                    dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+                    Intent intent = new Intent(getActivity(), TimePickerActivity.class);
+                    long startTime = 0;
+                    long endTime = 0;
+                    if (outerPauseBean != null) {
+                        if (outerPauseBean.getStartdate() != null) {
+                            startTime = outerPauseBean.getStartdate();
+                        }
+                        if (outerPauseBean.getEnddate() != null) {
+                            endTime = outerPauseBean.getEnddate();
+                        }
                     }
-                    if (outerPauseBean.getEnddate() != null) {
-                        endTime = outerPauseBean.getEnddate();
-                    }
+                    intent.putExtra(StringConstant.orderStartTimeFromServer, startTime);
+                    intent.putExtra(StringConstant.orderEndTimeFromServer, endTime);
+                    getActivity().startActivityForResult(intent, ACTION_CHOOSE_TIME);
                 }
-                intent.putExtra(StringConstant.orderStartTimeFromServer, startTime);
-                intent.putExtra(StringConstant.orderEndTimeFromServer, endTime);
-                getActivity().startActivityForResult(intent, ACTION_CHOOSE_TIME);
             }
         });
 
@@ -298,13 +335,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //如果用户点击切换了车牌号，则刷新主界面
-                String carNumberStr = mCarNumbersStringList.get(position);
-                for (PauseData bean : mPauseDataList) {
-                    if (carNumberStr.equals(bean.getLicenseplate())) {
-                        refreshData(bean);
-                        break;
+                    String carNumberStr = mCarNumbersStringList.get(position);
+                    for (PauseData bean : mPauseDataList) {
+                        if (carNumberStr.equals(bean.getLicenseplate())) {
+                            refreshData(bean);
+                            break;
+                        }
                     }
-                }
             }
 
             @Override
@@ -363,7 +400,39 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 //如果不是人为按下的就不进入监听器
                 if (isSwitchTouchedOrTriggeredByCode) return;
 
-                if (TextUtils.isEmpty(outerPwdString)) {
+                //通过userid来判断用户是否登录，-1就是未登录状态,弹出登录对话框
+                if (outerUserId < 0) {
+                    if (isChecked) {
+                        //实际上，不打开
+                        isSwitchTouchedOrTriggeredByCode = true;
+                        weekSwitchTabView.setChecked(false);
+                        isSwitchTouchedOrTriggeredByCode = false;
+                    } else {
+                        //实际上，不打开
+                        isSwitchTouchedOrTriggeredByCode = true;
+                        weekSwitchTabView.setChecked(true);
+                        isSwitchTouchedOrTriggeredByCode = false;
+                    }
+                    dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+
+                        }
+                    });
+                    dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                }
+                //如果没有设置过密码
+               else if (TextUtils.isEmpty(outerPwdString)) {
 
                     if (isChecked) {
                         //实际上，不打开
@@ -394,7 +463,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         }
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
-                } else {
+                }
+
+                else {
 
                     //否则进入
                     if (isChecked) {
@@ -528,8 +599,39 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 //如果不是人为按下的就不进入监听器
                 if (isSwitchTouchedOrTriggeredByCode) return;
 
+                //通过userid来判断用户是否登录，-1就是未登录状态,弹出登录对话框
+                if (outerUserId < 0) {
+                    if (isChecked) {
+                        //实际上，不打开
+                        isSwitchTouchedOrTriggeredByCode = true;
+                        dateSwitchTabView.setChecked(false);
+                        isSwitchTouchedOrTriggeredByCode = false;
+                    }else {
+                        //实际上，不打开
+                        isSwitchTouchedOrTriggeredByCode = true;
+                        dateSwitchTabView.setChecked(true);
+                        isSwitchTouchedOrTriggeredByCode = false;
+                    }
+                    dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+
+                        }
+                    });
+                    dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                }
                 //如果没有密码，则弹出让用户去设置密码
-                if (TextUtils.isEmpty(outerPwdString)) {
+                else if (TextUtils.isEmpty(outerPwdString)) {
                     if (isChecked) {
                         //实际上，不打开
                         isSwitchTouchedOrTriggeredByCode = true;
@@ -637,10 +739,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                 String p5 = ((EditText) v5).getText().toString();
                                 String p6 = ((EditText) v6).getText().toString();
                                 String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
-
-
                                 String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
-
                                 UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
                                     @Override
                                     public void onFailure(RetrofitError error) {
@@ -676,16 +775,19 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         });
                         dialogFragmentController.showDialog(context, DialogFragmentCreater.DialogShowInputPasswordDialog);
                     }
-
-
                 }
             }
-
         });
 
-        //获取停保信息
-        getPauseInfo(context, outerUserId);
-
+        if(outerUserId>0) {
+            //获取停保信息
+            getPauseInfo(context, outerUserId);
+        }else {
+            //没有登录的时候，累计节省保费的动画
+            createTracksWithNoValue();
+            //车牌号码
+            layout_car_number_spinner.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -731,7 +833,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     /**
      * 发送时机	用户选择取消暂停调用
-     *
      * @param type 0限行取消   1预约取消
      */
     public void cancelPause(int type) {
@@ -753,6 +854,72 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            context = ShutInsureFragment.this.getActivity();
+            outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
+            //用户的id
+            outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
+            if (outerUserId < 0) {
+                outerPauseBean = null;
+                mCarNumbersStringList.clear();
+                if(dateSwitchTabView!=null&&weekSwitchTabView!=null) {
+                    isSwitchTouchedOrTriggeredByCode = true;
+                    weekSwitchTabView.setChecked(false);
+                    dateSwitchTabView.setChecked(false);
+                    isSwitchTouchedOrTriggeredByCode = false;
+                }
+                //车牌号
+                if(layout_car_number_spinner!=null)
+                {
+                    layout_car_number_spinner.setVisibility(View.INVISIBLE);
+                }
+
+                //没有登录时的可用停保余额
+                if(tv_usefulPauseFee!=null)
+                {
+                    tv_usefulPauseFee.setText("¥0");
+                }
+
+                //没有登录时的每日停保费用
+                if(tv_pausePrice!=null)
+                {
+                    tv_pausePrice.setText("¥0");
+                }
+
+                //没有登录时的累计节省保费
+                if(tv_follow_decoView!=null)
+                {
+                    createTracksWithNoValue();
+                    tv_follow_decoView.setText("¥0");
+                }
+            }
+        }
+    }
+
+    /**
+     * 当没有值或者没有登录的时候的动画
+     */
+    private void createTracksWithNoValue()
+    {
+        setDemoFinished(false);
+        final View view = getView();
+        final DecoView decoView = getDecoView();
+        if (view == null || decoView == null) {
+            return;
+        }
+        decoView.executeReset();
+        decoView.deleteAll();
+
+        final float mSeriesMax = 100f;
+
+        SeriesItem seriesBack1Item = new SeriesItem.Builder(COLOR_BACK)
+                .setRange(0, mSeriesMax, mSeriesMax)
+                .setLineWidth(getDimension(6))
+                .build();
+        decoView.addSeries(seriesBack1Item);
+        decoView.addEvent(new DecoEvent.Builder(mSeriesMax)
+                .setListener(null)
+                .build());
     }
 
     @Override
@@ -892,7 +1059,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                 timeStringFroServer = event.getTimeStringFroServer();
 
-
                 tv_start_date.setText(startTimeStr);
                 tv_end_date.setText(endTimeStr);
                 tv_date_interval.setText(timeIntvalStr);
@@ -953,7 +1119,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             weekSpinnerTriggeredByCode = true;
             week_number_spinner.setSelection(0);
             weekSpinnerTriggeredByCode = false;
-
         }
         if (bean.getPausePrice() != null) {
             tv_pausePrice.setText("¥" + bean.getPausePrice() + "");

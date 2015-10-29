@@ -35,7 +35,8 @@ public class DialogFragmentCreater extends DialogFragment {
 
     private FragmentManager fragmentManager;
 
-    public DialogFragmentCreater(Context mContext, FragmentManager fragmentManager) {
+    public void setDialogContext(Context mContext, FragmentManager fragmentManager)
+    {
         this.mContext = mContext;
         this.fragmentManager = fragmentManager;
     }
@@ -216,15 +217,15 @@ public class DialogFragmentCreater extends DialogFragment {
         et_6.setOnKeyListener(onKeyListener);
 
 
-        Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
-        dialog.setCanceledOnTouchOutside(false);
+       final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+//        dialog.setCanceledOnTouchOutside(false);//要求触碰到外面能够消失
         dialog.setContentView(convertView);
 
         dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
         //当dialog 显示的时候，弹出键盘
         dialog.setOnShowListener(new android.content.DialogInterface.OnShowListener() {
             @Override
-            public void onShow(android.content.DialogInterface dialog) {
+            public void onShow(final android.content.DialogInterface dialog) {
 
                 new AsyncTask<Integer, Void, Void>() {
                     @Override
@@ -348,9 +349,7 @@ public class DialogFragmentCreater extends DialogFragment {
                 }
             }
         };
-        LayoutInflater mInflater = (LayoutInflater) mContext
-                .getSystemService("layout_inflater");
-        View convertView = mInflater.inflate(R.layout.view_sign_out_dialog, null);
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.view_sign_out_dialog, null);
         TextView signOutButton = (TextView) convertView.findViewById(R.id.stay_here);
         TextView closeAppButton = (TextView) convertView.findViewById(R.id.close_app);
 

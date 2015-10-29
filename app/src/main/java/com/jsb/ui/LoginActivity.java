@@ -1,5 +1,7 @@
 package com.jsb.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -46,6 +48,11 @@ public class LoginActivity extends BaseActivity {
 
     private ProgressDialogUtil mProgressUtil;
 
+
+    public static void startLoginActivity(Context context)
+    {
+        context.startActivity(new Intent(context,LoginActivity.class));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

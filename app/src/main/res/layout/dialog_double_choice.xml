@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
@@ -10,43 +11,41 @@
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/middle_padding"
         android:layout_marginRight="@dimen/middle_padding"
-        android:textIsSelectable="true"
         android:layout_marginTop="@dimen/more_big_padding"
         android:text=""
         android:textColor="@color/tv_black_color_level_1"
+        android:textIsSelectable="true"
         android:textSize="@dimen/big_textsize" />
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginBottom="@dimen/middle_padding"
         android:layout_marginLeft="@dimen/middle_padding"
         android:layout_marginRight="@dimen/middle_padding"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textIsSelectable="true"
         android:textColor="@color/tv_black_color_level_1"
+        android:textIsSelectable="true"
         android:textSize="@dimen/big_textsize" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_color"
-        android:layout_marginTop="@dimen/middle_padding" />
+        android:background="@color/gray_color" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="48dp"
+        android:background="@drawable/shape_4_white_color"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="0dp"
-            android:background="@drawable/left_bottom_corners_8_select_white_to_gray"
-            android:layout_gravity="center"
-            android:padding="@dimen/middle_padding"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:background="@drawable/btn_select_shape_8_white_to_gray"
             android:gravity="center"
             android:text="取消"
             android:textColor="#3aa2ff"
@@ -60,15 +59,12 @@
         <TextView
             android:id="@+id/tv_confirm"
             android:layout_width="0dp"
-            android:padding="@dimen/middle_padding"
-            android:layout_gravity="center"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/right_bottom_corners_8_select_white_to_gray"
+            android:background="@drawable/btn_select_shape_8_white_to_gray"
             android:gravity="center"
             android:text="确定"
             android:textColor="#3aa2ff"
             android:textSize="@dimen/big_textsize" />
     </LinearLayout>
-
 </LinearLayout>

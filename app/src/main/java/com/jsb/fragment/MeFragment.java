@@ -1,5 +1,6 @@
 package com.jsb.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.R;
 import com.jsb.ui.MyCallPoliceActivity;
@@ -19,6 +21,7 @@ import com.jsb.ui.MyInsureActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.ui.MyMoneyPocketActivity;
 import com.jsb.ui.ShareActivity;
+import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.PopWindowUtils;
 import com.jsb.widget.TitleBar;
 
@@ -43,6 +46,8 @@ public class MeFragment extends BaseFragment {
     private DialogFragmentCreater dialogFragmentCreater;
 
 
+    private Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_3, container, false);
@@ -55,12 +60,15 @@ public class MeFragment extends BaseFragment {
 
 
     private void setUp(View view, Bundle savedInstanceState) {
+        context = this.getActivity();
+
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.me, -1, R.drawable.icon_bar_share, "", "");
 
         //我的 fragment 顶部右边的图标
         mPopWindow = new PopWindowUtils(this.getActivity());
-        dialogFragmentCreater = new DialogFragmentCreater(this.getActivity(), this.getActivity().getSupportFragmentManager());
+        dialogFragmentCreater = new DialogFragmentCreater();
+        dialogFragmentCreater.setDialogContext(this.getActivity(), this.getActivity().getSupportFragmentManager());
 
 
         //我的保险
@@ -134,7 +142,10 @@ public class MeFragment extends BaseFragment {
                                                 dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                                                     @Override
                                                     public void viewClick(String tag) {
-
+                                                        if(tag.equals(StringConstant.tv_confirm))
+                                                        {
+                                                            PreferenceUtil.save(context, PreferenceConstant.userid,-1);
+                                                        }
                                                     }
 
                                                     @Override

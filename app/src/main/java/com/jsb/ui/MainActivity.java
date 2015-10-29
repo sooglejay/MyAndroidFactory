@@ -59,7 +59,8 @@ public class MainActivity extends BaseActivity {
     private void setUp() {
         lineView = findViewById(R.id.line_view);
         tabBar = (TabBar) findViewById(R.id.home_bottomBar);
-        dialogFragmentCreater = new DialogFragmentCreater(this,this.getSupportFragmentManager());
+        dialogFragmentCreater = new DialogFragmentCreater();
+        dialogFragmentCreater.setDialogContext(this,this.getSupportFragmentManager());
         dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
             @Override
             public void viewClick(String tag) {
