@@ -89,13 +89,10 @@ public class LoginActivity extends BaseActivity {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 LoginActivity.this.finish();
             }
-
             @Override
             public void onRightButtonClick(View v) {
-
             }
         });
 

@@ -6,7 +6,6 @@
     <string name="tab_buy_insure">买保险</string>
     <string name="tab_me">我的</string>
     <string name="shut_insure_str">暂停保费</string>
-    <string name="title_activity_browser">BrowserActivity</string>
     <string name="off">OFF</string>
     <string name="on">ON</string>
     <string name="car_insure">车险</string>
@@ -29,7 +28,6 @@
     <string name="share_qrcode">把二维码分享给朋友</string>
     <string name="title_activity_timePicker">TimePickerActivity</string>
     <string name="pull_money">立即提现</string>
-    <string name="title_activity_PullMoneyDescriptionActivity">PullMoneyDescriptionActivity</string>
 
 
     <string-array name="carNumberArray">
@@ -86,18 +84,6 @@
     <string name="rd_month_fourth">on every fourth %s</string>
     <string name="rd_event">event</string>
     <string name="rd_events">events</string>
-
-    <!-- activity labels -->
-    <string name="AddCardActivity">AddCardActivity</string>
-    <string name="InsureCarActivity">InsureCarActivity</string>
-    <string name="InsureJiaBanDogActivity">InsureJiaBanDogActivity</string>
-    <string name="InsureOnDrivingActivity">InsureOnDrivingActivity</string>
-    <string name="MyInsureActivity">MyInsureActivity</string>
-    <string name="MyHistoryInsureActivity">MyHistoryInsureActivity</string>
-    <string name="MyCallPoliceActivity">MyCallPoliceActivity</string>
-    <string name="MyPacketActivity">MyPacketActivity</string>
-    <string name="MyModifyPasswordActivity">MyModifyPasswordActivity</string>
-    <string name="LoginActivity">LoginActivity</string>
 
 
 </resources>

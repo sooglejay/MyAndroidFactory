@@ -46,24 +46,26 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.BrowserActivity"
-            android:label="@string/title_activity_browser"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ShareActivity"
-            android:label="@string/title_activity_browser"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PullMoneyActivity"
-            android:label="@string/title_activity_PullMoneyDescriptionActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.AddCardActivity"
-            android:label="@string/AddCardActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
 
         </activity>
@@ -71,44 +73,41 @@
         <!-- 买保险 页面-->
         <activity
             android:name=".ui.InsureCarActivity"
-            android:label="@string/InsureCarActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.InsureJiaBanDogActivity"
-            android:label="@string/InsureJiaBanDogActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.InsureOnDrivingActivity"
-            android:label="@string/InsureOnDrivingActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyInsureActivity"
-            android:label="@string/MyInsureActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyHistorySaleActivity"
-            android:label="@string/MyHistoryInsureActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyCallPoliceActivity"
-            android:label="@string/MyCallPoliceActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyMoneyPocketActivity"
-            android:label="@string/MyPacketActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MyModifyPasswordActivity"
-            android:label="@string/MyModifyPasswordActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.LoginActivity"
-            android:label="@string/LoginActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <!-- Activities responsible for gathering payment info -->
