@@ -1,8 +1,11 @@
 package com.jsb.api.user;
 
 import com.jsb.api.callback.NetCallback;
+import com.jsb.model.AccountData;
 import com.jsb.model.CommData;
 import com.jsb.model.FreedomData;
+import com.jsb.model.MyInsuranceData;
+import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
@@ -249,6 +252,54 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/cancelPause/")
     public void cancelPause(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     * 7.8.1.我的钱包
+     7.8.1.1.可用余额
+     * 发送时机	用户点击我的钱包，获取个人钱包信息
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getMywalletInfo/")
+    public void getMywalletInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<MyWalletData>> NetCallback);
+
+
+
+    /**
+     * 7.8.1.2.提现
+     * 发送时机	用户提现
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/saveWithdrawlInfo/")
+    public void saveWithdrawlInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     * 7.8.1.3.提现获取上一次账号信息
+     * 发送时机	用户提现时，用于获取上一次填写的账号信息，可以作为默认值使用
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getLastAccountInfo/")
+    public void getLastAccountInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<AccountData>> NetCallback);
+
+
+
+    /**
+     * 接口名称	getMyinsuranceListInfo
+     * 发送时机	我的保险首页保险分类列表信息，每类均返回一个代表和该类的总数，点击后边有具体分页获取接口
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getMyinsuranceListInfo/")
+    public void getMyinsuranceListInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
 
 
 

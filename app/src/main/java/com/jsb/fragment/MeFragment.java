@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.R;
+import com.jsb.ui.LoginActivity;
 import com.jsb.ui.MyCallPoliceActivity;
 import com.jsb.ui.MyHistorySaleActivity;
 import com.jsb.ui.MyInsureActivity;
@@ -46,6 +47,7 @@ public class MeFragment extends BaseFragment {
     private DialogFragmentCreater dialogFragmentCreater;
 
 
+    private int outerUserId = -1;
     private Context context;
 
     @Override
@@ -62,6 +64,7 @@ public class MeFragment extends BaseFragment {
     private void setUp(View view, Bundle savedInstanceState) {
         context = this.getActivity();
 
+        outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.me, -1, R.drawable.icon_bar_share, "", "");
 
@@ -75,7 +78,29 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_insure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), MyInsureActivity.class));
+                if (outerUserId < 0) {
+                    //如果没有登录，就弹出是否登录的提醒对话框
+                    dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+                            tv_content.setVisibility(View.GONE);
+
+                        }
+                    });
+                    dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+                    getActivity().startActivity(new Intent(getActivity(), MyInsureActivity.class));
+                }
             }
         });
 
@@ -83,7 +108,29 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_history_sale).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), MyHistorySaleActivity.class));
+                if (outerUserId < 0) {
+                    //如果没有登录，就弹出是否登录的提醒对话框
+                    dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+                            tv_content.setVisibility(View.GONE);
+
+                        }
+                    });
+                    dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+                    getActivity().startActivity(new Intent(getActivity(), MyHistorySaleActivity.class));
+                }
             }
         });
 
@@ -91,7 +138,29 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_call_plice).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), MyCallPoliceActivity.class));
+                if (outerUserId < 0) {
+                    //如果没有登录，就弹出是否登录的提醒对话框
+                    dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+                            tv_content.setVisibility(View.GONE);
+
+                        }
+                    });
+                    dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+                    getActivity().startActivity(new Intent(getActivity(), MyCallPoliceActivity.class));
+                }
             }
         });
 
@@ -99,7 +168,29 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_money_packet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), MyMoneyPocketActivity.class));
+                if (outerUserId < 0) {
+                    //如果没有登录，就弹出是否登录的提醒对话框
+                    dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+                            tv_content.setVisibility(View.GONE);
+
+                        }
+                    });
+                    dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+                    getActivity().startActivity(new Intent(getActivity(), MyMoneyPocketActivity.class));
+                }
             }
         });
 
@@ -119,58 +210,83 @@ public class MeFragment extends BaseFragment {
 
             @Override
             public void onRightButtonClick(View v) {
-                titleBar.setRightContainerClickAble(false);
-                if (mPopWindow.isShowing()) {
-                    mPopWindow.dismiss();
-                    return;
-                }
-                mPopWindow.showMeFragmentPopWindows(v, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switch (v.getId()) {
-                            case R.id.layout_modify_password:
-                                MyModifyPasswordActivity.startModifyPasswordActivity(MeFragment.this.getActivity());
-                                break;
-                            case R.id.layout_login_out:
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MeFragment.this.getActivity());
-                                builder.setTitle("您确定要退出登录么?")
-                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                                dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
-                                                    @Override
-                                                    public void viewClick(String tag) {
-                                                        if(tag.equals(StringConstant.tv_confirm))
-                                                        {
-                                                            PreferenceUtil.save(context, PreferenceConstant.userid,-1);
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
-                                                        if (tv_content instanceof TextView) {
-                                                            ((TextView) tv_content).setText("亲，您去忙吧！需要小保\n的时候，我随时在您左右！");
-                                                        }
-                                                    }
-
-
-                                                });
-                                                dialogFragmentCreater.showDialog(MeFragment.this.getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
-
-                                            }
-                                        }).setNegativeButton("取消", null).create().show();
-
-
-                                break;
-                            case R.id.layout_clear_buffer:
-                                Toast.makeText(MeFragment.this.getActivity(), "清除缓存", Toast.LENGTH_SHORT).show();
-                                break;
+                if (outerUserId < 0) {
+                    //如果没有登录，就弹出是否登录的提醒对话框
+                    dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
                         }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+                            tv_content.setVisibility(View.GONE);
+
+                        }
+                    });
+                    dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+
+
+                    titleBar.setRightContainerClickAble(false);
+                    if (mPopWindow.isShowing()) {
                         mPopWindow.dismiss();
+                        return;
                     }
-                });
+                    mPopWindow.showMeFragmentPopWindows(v, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (v.getId()) {
+                                case R.id.layout_modify_password:
+                                    MyModifyPasswordActivity.startModifyPasswordActivity(MeFragment.this.getActivity());
+                                    break;
+                                case R.id.layout_login_out:
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(MeFragment.this.getActivity());
+                                    builder.setTitle("您确定要退出登录么?")
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                    dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                                                        @Override
+                                                        public void viewClick(String tag) {
+                                                            if (tag.equals(StringConstant.tv_confirm)) {
+                                                                PreferenceUtil.save(context, PreferenceConstant.userid, -1);
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                                                            if (tv_content instanceof TextView) {
+                                                                ((TextView) tv_content).setText("亲，您去忙吧！需要小保\n的时候，我随时在您左右！");
+                                                            }
+                                                            tv_title.setVisibility(View.GONE);
+
+                                                        }
+
+
+                                                    });
+                                                    dialogFragmentCreater.showDialog(MeFragment.this.getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+
+                                                }
+                                            }).setNegativeButton("取消", null).create().show();
+
+
+                                    break;
+                                case R.id.layout_clear_buffer:
+                                    Toast.makeText(MeFragment.this.getActivity(), "清除缓存", Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            mPopWindow.dismiss();
+                        }
+                    });
+                }
             }
         });
 

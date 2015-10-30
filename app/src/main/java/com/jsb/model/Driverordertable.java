@@ -45,8 +45,24 @@ public class Driverordertable implements Parcelable {
                 ", enddate=" + enddate +
                 ", buydate=" + buydate +
                 ", contactaddress='" + contactaddress + '\'' +
+                ", companyInfo=" + companyInfo +
                 '}';
     }
+
+    public InsuranceCompanyInfo getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public void setCompanyInfo(InsuranceCompanyInfo companyInfo) {
+        this.companyInfo = companyInfo;
+    }
+
+    public static Creator<Driverordertable> getCREATOR() {
+        return CREATOR;
+    }
+
+    private InsuranceCompanyInfo companyInfo;//保险公司数据结构
+
 
     public Integer getId() {
         return id;
@@ -176,6 +192,9 @@ public class Driverordertable implements Parcelable {
         this.contactaddress = contactaddress;
     }
 
+    public Driverordertable() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -199,9 +218,7 @@ public class Driverordertable implements Parcelable {
         dest.writeValue(this.enddate);
         dest.writeValue(this.buydate);
         dest.writeString(this.contactaddress);
-    }
-
-    public Driverordertable() {
+        dest.writeParcelable(this.companyInfo, 0);
     }
 
     protected Driverordertable(Parcel in) {
@@ -221,9 +238,10 @@ public class Driverordertable implements Parcelable {
         this.enddate = (Long) in.readValue(Long.class.getClassLoader());
         this.buydate = (Long) in.readValue(Long.class.getClassLoader());
         this.contactaddress = in.readString();
+        this.companyInfo = in.readParcelable(InsuranceCompanyInfo.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Driverordertable> CREATOR = new Parcelable.Creator<Driverordertable>() {
+    public static final Creator<Driverordertable> CREATOR = new Creator<Driverordertable>() {
         public Driverordertable createFromParcel(Parcel source) {
             return new Driverordertable(source);
         }

@@ -29,4 +29,9 @@ public class StringConstant {
     public static final String orderStartTimeFromServer = "orderStartTimeFromServer";//保单开始时间
     public static final String orderEndTimeFromServer = "orderEndTimeFromServer";//保单结束时间
 
+    //我的钱包》》》》提现
+    public static final String union_bank  ="银联";//银联
+    public static final String union_zhifubao  = "支付宝";//支付宝
+    public static final String union_weixing  = "微信";//微信
+
 }

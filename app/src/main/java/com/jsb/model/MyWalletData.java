@@ -9,7 +9,7 @@ import android.os.Parcelable;
 public class MyWalletData implements Parcelable {
 
     private Float paueFee;//float	停保费
-    private Float shareFee;//float	分项费
+    private Float shareFee;//float	分享费
     private Float workFee;//float	销售业绩费
     private Float manageFee;//float	管理费
     private Float refereeFee;//float	推荐费

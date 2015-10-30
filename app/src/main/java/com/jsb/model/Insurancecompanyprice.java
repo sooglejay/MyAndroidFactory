@@ -3,6 +3,8 @@ package com.jsb.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * 5.4.2.保险公司报价信息Insurancecompanyprice
  */
@@ -14,7 +16,9 @@ public class Insurancecompanyprice implements Parcelable {
     private Integer selected;//该报价是否被选中，0未选中 1选中	Y
     private Float totalprice;//总价	Y
     private Long date;//报价时间	Y
-    private Vechicleinsurancedetail insuranceDetail;//报价时间	Y 5.4.5
+    private List<Vechicleinsurancedetail> insuranceDetail;//报价时间	Y 5.4.5
+
+    private InsuranceCompanyInfo company;//
 
     @Override
     public String toString() {
@@ -25,7 +29,24 @@ public class Insurancecompanyprice implements Parcelable {
                 ", totalprice=" + totalprice +
                 ", date=" + date +
                 ", insuranceDetail=" + insuranceDetail +
+                ", company=" + company +
                 '}';
+    }
+
+    public void setInsuranceDetail(List<Vechicleinsurancedetail> insuranceDetail) {
+        this.insuranceDetail = insuranceDetail;
+    }
+
+    public InsuranceCompanyInfo getCompany() {
+        return company;
+    }
+
+    public void setCompany(InsuranceCompanyInfo company) {
+        this.company = company;
+    }
+
+    public static Creator<Insurancecompanyprice> getCREATOR() {
+        return CREATOR;
     }
 
     public Integer getId() {
@@ -68,12 +89,11 @@ public class Insurancecompanyprice implements Parcelable {
         this.date = date;
     }
 
-    public Vechicleinsurancedetail getInsuranceDetail() {
+    public List<Vechicleinsurancedetail> getInsuranceDetail() {
         return insuranceDetail;
     }
 
-    public void setInsuranceDetail(Vechicleinsurancedetail insuranceDetail) {
-        this.insuranceDetail = insuranceDetail;
+    public Insurancecompanyprice() {
     }
 
     @Override
@@ -88,10 +108,8 @@ public class Insurancecompanyprice implements Parcelable {
         dest.writeValue(this.selected);
         dest.writeValue(this.totalprice);
         dest.writeValue(this.date);
-        dest.writeParcelable(this.insuranceDetail, 0);
-    }
-
-    public Insurancecompanyprice() {
+        dest.writeTypedList(insuranceDetail);
+        dest.writeParcelable(this.company, 0);
     }
 
     protected Insurancecompanyprice(Parcel in) {
@@ -100,10 +118,11 @@ public class Insurancecompanyprice implements Parcelable {
         this.selected = (Integer) in.readValue(Integer.class.getClassLoader());
         this.totalprice = (Float) in.readValue(Float.class.getClassLoader());
         this.date = (Long) in.readValue(Long.class.getClassLoader());
-        this.insuranceDetail = in.readParcelable(Vechicleinsurancedetail.class.getClassLoader());
+        this.insuranceDetail = in.createTypedArrayList(Vechicleinsurancedetail.CREATOR);
+        this.company = in.readParcelable(InsuranceCompanyInfo.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Insurancecompanyprice> CREATOR = new Parcelable.Creator<Insurancecompanyprice>() {
+    public static final Creator<Insurancecompanyprice> CREATOR = new Creator<Insurancecompanyprice>() {
         public Insurancecompanyprice createFromParcel(Parcel source) {
             return new Insurancecompanyprice(source);
         }

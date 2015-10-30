@@ -312,8 +312,9 @@
                         android:textSize="@dimen/small_textsize" />
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_marginLeft="@dimen/little_padding"
+                        android:layout_height="12dp"
                         android:layout_gravity="bottom"
                         android:src="@drawable/icon_spinner_drop" />
                 </LinearLayout>

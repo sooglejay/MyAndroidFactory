@@ -1,6 +1,5 @@
 package com.jsb.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
-import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
 
 import retrofit.RetrofitError;
@@ -96,7 +94,6 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-
         tv_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +119,6 @@ public class LoginActivity extends BaseActivity {
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
                             mProgressUtil.hide();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();
                         }
                     });

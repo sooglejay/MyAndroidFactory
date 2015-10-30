@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class MyInsuranceData implements Parcelable {
 
-    private Driverordertable driverorderRecords;//驾驶险订单集合，参见5.6.1
-    private Vehicleordertable vehicleorderRecords;//车险订单集合，参见5.4.3
-    private Overtimeordertable overtimeorderRecords;//Overtimeordertable	加班险订单集合，参见5.5.1
-
+    private List<Driverordertable> driverorderRecords;//驾驶险订单集合，参见5.6.1
+    private List<Vehicleordertable> vehicleorderRecords;//车险订单集合，参见5.4.3
+    private List<Overtimeordertable> overtimeorderRecords;//Overtimeordertable	加班险订单集合，参见5.5.1
 
     private Integer vehicleorderAmount;//Int	车险记录总数
     private Integer driverorderAmount;//Int	驾驶险记录总数
     private Integer overtimeorderAmount;//Int	加班险记录总数
+
 
     @Override
     public String toString() {
@@ -31,27 +31,27 @@ public class MyInsuranceData implements Parcelable {
                 '}';
     }
 
-    public Driverordertable getDriverorderRecords() {
+    public List<Driverordertable> getDriverorderRecords() {
         return driverorderRecords;
     }
 
-    public void setDriverorderRecords(Driverordertable driverorderRecords) {
+    public void setDriverorderRecords(List<Driverordertable> driverorderRecords) {
         this.driverorderRecords = driverorderRecords;
     }
 
-    public Vehicleordertable getVehicleorderRecords() {
+    public List<Vehicleordertable> getVehicleorderRecords() {
         return vehicleorderRecords;
     }
 
-    public void setVehicleorderRecords(Vehicleordertable vehicleorderRecords) {
+    public void setVehicleorderRecords(List<Vehicleordertable> vehicleorderRecords) {
         this.vehicleorderRecords = vehicleorderRecords;
     }
 
-    public Overtimeordertable getOvertimeorderRecords() {
+    public List<Overtimeordertable> getOvertimeorderRecords() {
         return overtimeorderRecords;
     }
 
-    public void setOvertimeorderRecords(Overtimeordertable overtimeorderRecords) {
+    public void setOvertimeorderRecords(List<Overtimeordertable> overtimeorderRecords) {
         this.overtimeorderRecords = overtimeorderRecords;
     }
 
@@ -79,6 +79,13 @@ public class MyInsuranceData implements Parcelable {
         this.overtimeorderAmount = overtimeorderAmount;
     }
 
+    public static Creator<MyInsuranceData> getCREATOR() {
+        return CREATOR;
+    }
+
+    public MyInsuranceData() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -86,27 +93,24 @@ public class MyInsuranceData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.driverorderRecords, 0);
-        dest.writeParcelable(this.vehicleorderRecords, 0);
-        dest.writeParcelable(this.overtimeorderRecords, 0);
+        dest.writeTypedList(driverorderRecords);
+        dest.writeTypedList(vehicleorderRecords);
+        dest.writeTypedList(overtimeorderRecords);
         dest.writeValue(this.vehicleorderAmount);
         dest.writeValue(this.driverorderAmount);
         dest.writeValue(this.overtimeorderAmount);
     }
 
-    public MyInsuranceData() {
-    }
-
     protected MyInsuranceData(Parcel in) {
-        this.driverorderRecords = in.readParcelable(Driverordertable.class.getClassLoader());
-        this.vehicleorderRecords = in.readParcelable(Vehicleordertable.class.getClassLoader());
-        this.overtimeorderRecords = in.readParcelable(Overtimeordertable.class.getClassLoader());
+        this.driverorderRecords = in.createTypedArrayList(Driverordertable.CREATOR);
+        this.vehicleorderRecords = in.createTypedArrayList(Vehicleordertable.CREATOR);
+        this.overtimeorderRecords = in.createTypedArrayList(Overtimeordertable.CREATOR);
         this.vehicleorderAmount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.driverorderAmount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.overtimeorderAmount = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<MyInsuranceData> CREATOR = new Parcelable.Creator<MyInsuranceData>() {
+    public static final Creator<MyInsuranceData> CREATOR = new Creator<MyInsuranceData>() {
         public MyInsuranceData createFromParcel(Parcel source) {
             return new MyInsuranceData(source);
         }

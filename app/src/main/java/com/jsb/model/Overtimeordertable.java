@@ -14,8 +14,8 @@ public class Overtimeordertable implements Parcelable {
     private Integer charegeid;//int	支付对象id
     private Integer compensated;//int	是否赔付 0未赔 1已赔	Y
     private Float money;//float	金额	Y
-    private Float startdate;//起效时间	Y
-    private Float enddate;//timestamp	结束时间	Y
+    private Long startdate;//起效时间	Y
+    private Long enddate;//timestamp	结束时间	Y
     private Float reportdate;//timestamp	报案时间
     private String companyaddress;//String	公司地址	Y
     private String homeaddress;//String	家庭地址
@@ -35,6 +35,51 @@ public class Overtimeordertable implements Parcelable {
                 ", companyaddress='" + companyaddress + '\'' +
                 ", homeaddress='" + homeaddress + '\'' +
                 '}';
+    }
+
+    public void setMoney(Float money) {
+        this.money = money;
+    }
+
+    public Long getEnddate() {
+        return enddate;
+    }
+
+    public Float getReportdate() {
+        return reportdate;
+    }
+
+    public void setReportdate(Float reportdate) {
+        this.reportdate = reportdate;
+    }
+
+    public String getCompanyaddress() {
+        return companyaddress;
+    }
+
+    public void setCompanyaddress(String companyaddress) {
+        this.companyaddress = companyaddress;
+    }
+
+    public String getHomeaddress() {
+        return homeaddress;
+    }
+
+    public Long getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(Long startdate) {
+        this.startdate = startdate;
+    }
+
+    public static Creator<Overtimeordertable> getCREATOR() {
+        return CREATOR;
+    }
+
+    public void setEnddate(Long enddate) {
+
+        this.enddate = enddate;
     }
 
     public Integer getId() {
@@ -81,48 +126,11 @@ public class Overtimeordertable implements Parcelable {
         return money;
     }
 
-    public void setMoney(Float money) {
-        this.money = money;
-    }
-
-    public Float getStartdate() {
-        return startdate;
-    }
-
-    public void setStartdate(Float startdate) {
-        this.startdate = startdate;
-    }
-
-    public Float getEnddate() {
-        return enddate;
-    }
-
-    public void setEnddate(Float enddate) {
-        this.enddate = enddate;
-    }
-
-    public Float getReportdate() {
-        return reportdate;
-    }
-
-    public void setReportdate(Float reportdate) {
-        this.reportdate = reportdate;
-    }
-
-    public String getCompanyaddress() {
-        return companyaddress;
-    }
-
-    public void setCompanyaddress(String companyaddress) {
-        this.companyaddress = companyaddress;
-    }
-
-    public String getHomeaddress() {
-        return homeaddress;
-    }
-
     public void setHomeaddress(String homeaddress) {
         this.homeaddress = homeaddress;
+    }
+
+    public Overtimeordertable() {
     }
 
     @Override
@@ -145,9 +153,6 @@ public class Overtimeordertable implements Parcelable {
         dest.writeString(this.homeaddress);
     }
 
-    public Overtimeordertable() {
-    }
-
     protected Overtimeordertable(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.payed = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -155,14 +160,14 @@ public class Overtimeordertable implements Parcelable {
         this.charegeid = (Integer) in.readValue(Integer.class.getClassLoader());
         this.compensated = (Integer) in.readValue(Integer.class.getClassLoader());
         this.money = (Float) in.readValue(Float.class.getClassLoader());
-        this.startdate = (Float) in.readValue(Float.class.getClassLoader());
-        this.enddate = (Float) in.readValue(Float.class.getClassLoader());
+        this.startdate = (Long) in.readValue(Long.class.getClassLoader());
+        this.enddate = (Long) in.readValue(Long.class.getClassLoader());
         this.reportdate = (Float) in.readValue(Float.class.getClassLoader());
         this.companyaddress = in.readString();
         this.homeaddress = in.readString();
     }
 
-    public static final Parcelable.Creator<Overtimeordertable> CREATOR = new Parcelable.Creator<Overtimeordertable>() {
+    public static final Creator<Overtimeordertable> CREATOR = new Creator<Overtimeordertable>() {
         public Overtimeordertable createFromParcel(Parcel source) {
             return new Overtimeordertable(source);
         }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.constant.IntConstant;
 import com.jsb.event.BusEvent;
 
 import java.text.ParseException;
@@ -32,7 +33,6 @@ public class CalenderAdapter extends BaseAdapter {
     public final static int BETWEEN = 2;
     public final static int OTHERS = 3;
 
-    static long milliSecondInADay = 1000*24L*60L*60L;//一天的毫秒数
 
     private static final int Data = 0;
     private static final int Header = 1;
@@ -284,7 +284,7 @@ public class CalenderAdapter extends BaseAdapter {
 
                                             bean.setStatus(END);
                                             timeStringForServer = timeStringForServer+bean.getDateStr();
-                                            int e_s = (int)((dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime() - dateFormat_yyyy_MM_dd.parse(startDateString).getTime())/milliSecondInADay);
+                                            int e_s = (int)((dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime() - dateFormat_yyyy_MM_dd.parse(startDateString).getTime())/ IntConstant.milliSecondInADay);
                                             BusEvent intEvent = new BusEvent(BusEvent.MSG_INT_TIME);
                                             intEvent.setStart_time(startDateString);
                                             intEvent.setEnd_time(bean.getDateStr());
@@ -318,19 +318,19 @@ public class CalenderAdapter extends BaseAdapter {
                 switch (status) {
                     case START:
                         innerGridViewHolder.tv_bottom.setText("开始");
-                        innerGridViewHolder.tv_bottom.setTextColor(tvWhiteColorResId);
+                        innerGridViewHolder.tv_bottom.setTextColor(tvBlackColorResId);
                         innerGridViewHolder.tv_up.setTextColor(tvWhiteColorResId);
                         innerGridViewHolder.item.setBackgroundResource(R.drawable.shape_circle_base_color);
                         break;
                     case END:
                         innerGridViewHolder.tv_bottom.setText("结束");
-                        innerGridViewHolder.tv_bottom.setTextColor(tvWhiteColorResId);
+                        innerGridViewHolder.tv_bottom.setTextColor(tvBlackColorResId);
                         innerGridViewHolder.tv_up.setTextColor(tvWhiteColorResId);
                         innerGridViewHolder.item.setBackgroundResource(R.drawable.shape_circle_base_color);
                         break;
                     case BETWEEN:
                         innerGridViewHolder.tv_bottom.setText("");
-                        innerGridViewHolder.tv_bottom.setTextColor(tvWhiteColorResId);
+                        innerGridViewHolder.tv_bottom.setTextColor(tvBlackColorResId);
                         innerGridViewHolder.tv_up.setTextColor(tvWhiteColorResId);
                         innerGridViewHolder.item.setBackgroundResource(R.drawable.shape_circle_base_color);
                         break;
@@ -354,8 +354,6 @@ public class CalenderAdapter extends BaseAdapter {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-
 
 
             //如果是周末

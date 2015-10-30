@@ -7,6 +7,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:horizontalSpacing="0dip"
+        android:background="@color/transparent"
         android:listSelector="@null"
         android:numColumns="7"
         android:stretchMode="columnWidth"

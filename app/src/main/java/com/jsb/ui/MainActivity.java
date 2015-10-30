@@ -48,7 +48,8 @@ public class MainActivity extends BaseActivity {
 
     private UpdateVersionUtil updateVersionUtil;
 
-    private DialogFragmentCreater dialogFragmentCreater ;
+    private DialogFragmentCreater dialogFragmentCreater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,24 +61,23 @@ public class MainActivity extends BaseActivity {
         lineView = findViewById(R.id.line_view);
         tabBar = (TabBar) findViewById(R.id.home_bottomBar);
         dialogFragmentCreater = new DialogFragmentCreater();
-        dialogFragmentCreater.setDialogContext(this,this.getSupportFragmentManager());
+        dialogFragmentCreater.setDialogContext(this, this.getSupportFragmentManager());
         dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
             @Override
             public void viewClick(String tag) {
-                if(tag.equals(StringConstant.tv_confirm))
-                {
-                }else {
+                if (tag.equals(StringConstant.tv_confirm)) {
                     MainActivity.this.finish();
+                } else {
+
                 }
             }
 
             @Override
             public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
-
-                    ((TextView)tv_confirm).setText("留在这里");
-                    ((TextView)tv_cancel).setText("离开");//颠倒一下
-                    ((TextView)tv_title).setText("你确定要离开这里么？");
-
+                ((TextView) tv_confirm).setText("离开");
+                ((TextView) tv_cancel).setText("留在这里");//颠倒一下
+                ((TextView) tv_title).setText("你确定要离开这里么？");
+                tv_content.setVisibility(View.GONE);
             }
         });
         initViewPager();
@@ -219,9 +219,10 @@ public class MainActivity extends BaseActivity {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(tabBarStatusReceiver);
         }
     }
+
     @Override
     public void onBackPressed() {
-        dialogFragmentCreater.showDialog(this,DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+        dialogFragmentCreater.showDialog(this, DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
     }
 
 }

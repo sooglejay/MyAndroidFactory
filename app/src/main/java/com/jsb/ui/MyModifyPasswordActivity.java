@@ -119,6 +119,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
                         }
                     };
                     mCountTimer.start();
+                    et_verification_number.requestFocus();
 
                 }
             }

@@ -33,9 +33,11 @@ public class Vehicleordertable implements Parcelable {
     private String recieveaddress;//String	收件人地址
     private String idcardnum;//String	身份证号	Y
     private Float money;//float	金额	Y
+    private Integer kind;//我客户端不用管
     private Float totalpausefee;//float	该单子累计停保费
     private Vehicletable vehicle;//车辆信息对象5.4.4
     private Vechicleinsurancedetail insuranceDetail;//具体保险内容对象集合5.4.5
+    private Insurancecompanyprice insurancecompanyprices;//
 
     @Override
     public String toString() {
@@ -65,10 +67,32 @@ public class Vehicleordertable implements Parcelable {
                 ", recieveaddress='" + recieveaddress + '\'' +
                 ", idcardnum='" + idcardnum + '\'' +
                 ", money=" + money +
+                ", kind=" + kind +
                 ", totalpausefee=" + totalpausefee +
                 ", vehicle=" + vehicle +
                 ", insuranceDetail=" + insuranceDetail +
+                ", insurancecompanyprices=" + insurancecompanyprices +
                 '}';
+    }
+
+    public Integer getKind() {
+        return kind;
+    }
+
+    public void setKind(Integer kind) {
+        this.kind = kind;
+    }
+
+    public Insurancecompanyprice getInsurancecompanyprices() {
+        return insurancecompanyprices;
+    }
+
+    public void setInsurancecompanyprices(Insurancecompanyprice insurancecompanyprices) {
+        this.insurancecompanyprices = insurancecompanyprices;
+    }
+
+    public static Creator<Vehicleordertable> getCREATOR() {
+        return CREATOR;
     }
 
     public Integer getId() {
@@ -295,6 +319,9 @@ public class Vehicleordertable implements Parcelable {
         this.insuranceDetail = insuranceDetail;
     }
 
+    public Vehicleordertable() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -327,12 +354,11 @@ public class Vehicleordertable implements Parcelable {
         dest.writeString(this.recieveaddress);
         dest.writeString(this.idcardnum);
         dest.writeValue(this.money);
+        dest.writeValue(this.kind);
         dest.writeValue(this.totalpausefee);
         dest.writeParcelable(this.vehicle, 0);
         dest.writeParcelable(this.insuranceDetail, 0);
-    }
-
-    public Vehicleordertable() {
+        dest.writeParcelable(this.insurancecompanyprices, 0);
     }
 
     protected Vehicleordertable(Parcel in) {
@@ -361,12 +387,14 @@ public class Vehicleordertable implements Parcelable {
         this.recieveaddress = in.readString();
         this.idcardnum = in.readString();
         this.money = (Float) in.readValue(Float.class.getClassLoader());
+        this.kind = (Integer) in.readValue(Integer.class.getClassLoader());
         this.totalpausefee = (Float) in.readValue(Float.class.getClassLoader());
         this.vehicle = in.readParcelable(Vehicletable.class.getClassLoader());
         this.insuranceDetail = in.readParcelable(Vechicleinsurancedetail.class.getClassLoader());
+        this.insurancecompanyprices = in.readParcelable(Insurancecompanyprice.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Vehicleordertable> CREATOR = new Parcelable.Creator<Vehicleordertable>() {
+    public static final Creator<Vehicleordertable> CREATOR = new Creator<Vehicleordertable>() {
         public Vehicleordertable createFromParcel(Parcel source) {
             return new Vehicleordertable(source);
         }

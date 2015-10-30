@@ -7,6 +7,23 @@ import android.os.Parcelable;
  * Created by JammyQtheLab on 2015/10/22.
  */
 public class InsuranceCompanyInfo implements Parcelable {
+    public static Creator<InsuranceCompanyInfo> getCREATOR() {
+        return CREATOR;
+    }
+
+    @Override
+    public String toString() {
+        return "InsuranceCompanyInfo{" +
+                "id=" + id +
+                ", companyname='" + companyname + '\'' +
+                ", companyphone='" + companyphone + '\'' +
+                ", hotline='" + hotline + '\'' +
+                ", policy='" + policy + '\'' +
+                ", cooperationnetwork='" + cooperationnetwork + '\'' +
+                ", pauserule='" + pauserule + '\'' +
+                ", pauseprice=" + pauseprice +
+                '}';
+    }
 
     private Integer id;
     private String companyname;
@@ -81,6 +98,9 @@ public class InsuranceCompanyInfo implements Parcelable {
         this.pauseprice = pauseprice;
     }
 
+    public InsuranceCompanyInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -98,9 +118,6 @@ public class InsuranceCompanyInfo implements Parcelable {
         dest.writeValue(this.pauseprice);
     }
 
-    public InsuranceCompanyInfo() {
-    }
-
     protected InsuranceCompanyInfo(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.companyname = in.readString();
@@ -112,7 +129,7 @@ public class InsuranceCompanyInfo implements Parcelable {
         this.pauseprice = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<InsuranceCompanyInfo> CREATOR = new Parcelable.Creator<InsuranceCompanyInfo>() {
+    public static final Creator<InsuranceCompanyInfo> CREATOR = new Creator<InsuranceCompanyInfo>() {
         public InsuranceCompanyInfo createFromParcel(Parcel source) {
             return new InsuranceCompanyInfo(source);
         }

@@ -117,8 +117,7 @@ public class TimePickerActivity extends BaseActivity {
                     dayBean.setDateStr(thisYearNumber + "-" + (thisMonthNumber + i) + "-" + dayS);
 
 
-                    //获取 XML
-
+                    //设置 时间状态
                     dayBean.setStatus(genStatus(startTimeStr,endTimeStr,thisYearNumber+"-"+(thisMonthNumber+i)+"-"+dayS));
 
 

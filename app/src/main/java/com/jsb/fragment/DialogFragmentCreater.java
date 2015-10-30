@@ -17,10 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jsb.R;
-import com.jsb.api.callback.NetCallback;
-import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.StringConstant;
-import com.jsb.model.NetWorkResultBean;
 
 /**
  * Created by Administrator on 2015/10/18.
@@ -35,12 +32,13 @@ public class DialogFragmentCreater extends DialogFragment {
 
     private FragmentManager fragmentManager;
 
-    public void setDialogContext(Context mContext, FragmentManager fragmentManager)
-    {
+    public void setDialogContext(Context mContext, FragmentManager fragmentManager) {
         this.mContext = mContext;
         this.fragmentManager = fragmentManager;
     }
 
+
+    private Dialog outerDialog;
     private OnDialogClickLisenter onDialogClickLisenter;
 
     public void setOnPasswordDialogClickListener(OnPasswordDialogClickListener onPasswordDialogClickListener) {
@@ -62,7 +60,9 @@ public class DialogFragmentCreater extends DialogFragment {
 
     //专为密码  设置的回调
     public interface OnPasswordDialogClickListener {
-        public void getPassword(View v1,View v2,View v3,View v4,View v5,View v6);
+        public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6);
+
+        public void onDialogDismiss(EditText view);
     }
 
 
@@ -187,11 +187,10 @@ public class DialogFragmentCreater extends DialogFragment {
                 if (mPasswordString.length() < 6) {
                     int index = mPasswordString.length();
                     mEditTexts[index].requestFocus();
-                } else if(mPasswordString.length()==6) {
+                } else if (mPasswordString.length() == 6) {
 
-                    if(onPasswordDialogClickListener!=null)
-                    {
-                        onPasswordDialogClickListener.getPassword(et_1,et_2,et_3,et_4,et_5,et_6);
+                    if (onPasswordDialogClickListener != null) {
+                        onPasswordDialogClickListener.getPassword(et_1, et_2, et_3, et_4, et_5, et_6);
                     }
                 }
             }
@@ -217,7 +216,7 @@ public class DialogFragmentCreater extends DialogFragment {
         et_6.setOnKeyListener(onKeyListener);
 
 
-       final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
 //        dialog.setCanceledOnTouchOutside(false);//要求触碰到外面能够消失
         dialog.setContentView(convertView);
 
@@ -241,17 +240,18 @@ public class DialogFragmentCreater extends DialogFragment {
                     @Override
                     protected void onPostExecute(Void value) {
                         super.onPostExecute(value);
-                        if (et_1 != null) {
-                            et_1.requestFocus();
-                            InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                        }
-
+                           if(outerDialog.isShowing())
+                            if (et_1 != null) {
+                                et_1.requestFocus();
+                                InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                            }
                     }
-                }.execute(800);
+                }.execute(600);
             }
         });
 
+        outerDialog = dialog;
         return dialog;
     }
 
@@ -264,7 +264,7 @@ public class DialogFragmentCreater extends DialogFragment {
      */
     private Dialog showConfirmOrCancelDialog(final Context mContext) {
         View convertView = LayoutInflater.from(mContext).inflate(R.layout.dialog_double_choice, null);
-        final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        final Dialog dialog = new Dialog(mContext, R.style.mystyle);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -335,12 +335,12 @@ public class DialogFragmentCreater extends DialogFragment {
                 switch (view.getId()) {
                     case R.id.close_app:
 
-                        if (onDialogClickLisenter!=null)
+                        if (onDialogClickLisenter != null)
                             onDialogClickLisenter.viewClick(StringConstant.tv_confirm);
                         dismiss();
                         break;
                     case R.id.stay_here:
-                        if (onDialogClickLisenter!=null)
+                        if (onDialogClickLisenter != null)
                             onDialogClickLisenter.viewClick(StringConstant.tv_cancel);
                         dismiss();
                         break;

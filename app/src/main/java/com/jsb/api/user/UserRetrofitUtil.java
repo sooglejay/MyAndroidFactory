@@ -4,8 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.jsb.api.callback.NetCallback;
+import com.jsb.model.AccountData;
 import com.jsb.model.CommData;
 import com.jsb.model.FreedomData;
+import com.jsb.model.MyInsuranceData;
+import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
@@ -473,7 +476,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
-        git.confirmVehicleOrder("", callback);
+        git.confirmVehicleOrder(s, callback);
     }
 
 
@@ -521,7 +524,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
-        git.modifySelfInfo("", callback);
+        git.modifySelfInfo(s, callback);
     }
 
     /**
@@ -544,13 +547,119 @@ public class UserRetrofitUtil extends RetrofitUtil {
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid+
                 "&orderid="+orderid+
-                "&type="+type
-                ;
+                "&type="+type;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
-        git.cancelPause("", callback);
+        git.cancelPause(s, callback);
     }
 
+    /**
+     * 7.8.1.我的钱包
+     7.8.1.1.可用余额
+     * 发送时机	用户点击我的钱包，获取个人钱包信息
+     *
+     参数说明
+     1、int userid ; //用户编号
+     * @param mContext
+     * @param callback
+     */
+    public static void getMywalletInfo(Context mContext,
+                                           int userid,
+                                           NetCallback<NetWorkResultBean<MyWalletData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getMywalletInfo(s, callback);
+    }
+
+
+
+    /**
+     * 7.8.1.2.提现
+     * 发送时机	用户提现
+     *
+     参数说明
+     1、int userid ; //用户编号
+     2、int type; //提现类型 停保费 1；加班险费2 ；奖励费3。
+     3、float amount ;// 提现金额，小数位最多2位
+     4、int  realname ;//姓名
+     5、int  withdrawlPwd；// 提现密码（Md5编码）
+     6、String account；//账号
+     7、String  union;// 银联名字（支付宝就填支付宝，微信就填微信）
+     8、int accountType ;//账号类型  提现账号的类型  0 银联  1 支付宝 2微信
+     限制条件	参数1、2、3、4、5、6、7、8为必填。
+     * @param mContext
+     * @param callback
+     */
+    public static void saveWithdrawlInfo(Context mContext,
+                                       int userid,
+                                         int type,
+                                         float amount,
+                                         int  realname,
+                                         int  withdrawlPwd,
+                                         String account,
+                                         String  union,
+                                         int accountType,
+                                         NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid+
+                "&type="+type+
+                "&amount="+amount+
+                "&realname="+realname+
+                "&withdrawlPwd="+withdrawlPwd+
+                "&account="+account+
+                "&union="+union+
+                "&accountType="+accountType;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.saveWithdrawlInfo(s, callback);
+    }
+
+
+    /**
+     * 7.8.1.3.提现获取上一次账号信息
+     * 发送时机	用户提现时，用于获取上一次填写的账号信息，可以作为默认值使用
+     *
+     参数说明
+     1、int userid ; //用户编号
+     * @param mContext
+     * @param callback
+     */
+    public static void getLastAccountInfo(Context mContext,
+                                       int userid,
+                                       NetCallback<NetWorkResultBean<AccountData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getLastAccountInfo(s, callback);
+    }
+
+
+    /**
+     7.8.2.我的保险
+     7.8.2.1.首页保险分类列表
+     接口名称	getMyinsuranceListInfo
+     发送时机	我的保险首页保险分类列表信息，每类均返回一个代表和该类的总数，点击后边有具体分页获取接口
+     参数说明	1、int userid ; //用户编号
+     限制条件	参数1为必填。
+     * @param mContext
+     * @param callback
+     */
+    public static void getMyinsuranceListInfo(Context mContext,
+                                       int userid,
+                                       NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getMyinsuranceListInfo(s, callback);
+    }
 
 
 }

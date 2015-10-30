@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jsb.Bean.aaa_MyInsuranceBean;
 import com.jsb.R;
 import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
 import com.jsb.ui.MyInsuresListDrivingInsureDetailActivity;
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by Administrator on 2015/9/16.
  */
 public class MyInsuresListAdapter extends BaseAdapter {
-    public MyInsuresListAdapter(Context mContext, List<String> datas) {
+    public MyInsuresListAdapter(Context mContext, List<aaa_MyInsuranceBean> datas) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
@@ -30,14 +31,14 @@ public class MyInsuresListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
     private ViewHolder holder;
-    private List<String> mDatas = new ArrayList<String>();
+    private List<aaa_MyInsuranceBean> mDatas = new ArrayList<>();
     @Override
     public int getCount() {
         return mDatas.size();
     }
 
     @Override
-    public Object getItem(int position) {
+    public aaa_MyInsuranceBean getItem(int position) {
         return mDatas.get(position);
     }
 
@@ -62,7 +63,12 @@ public class MyInsuresListAdapter extends BaseAdapter {
         else {
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.tv_insure_name.setText(mDatas.get(position) + "");
+        holder.tv_insure_name.setText(mDatas.get(position).getInsuranceName() + "");
+        holder.tv_insure_price.setText(mDatas.get(position).getInsuranceMoney() + "");
+        holder.tv_buy_insure_agent.setText(mDatas.get(position).getInsuranceCompanyName() + "");
+        holder.tv_buy_insure_time.setText(mDatas.get(position).getInsuranceBuyDate() + "");
+
+
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,10 +84,8 @@ public class MyInsuresListAdapter extends BaseAdapter {
                         mContext.startActivity(new Intent(mContext, MyInsuresListJiaBanDogInsureDetailActivity.class));
                         break;
                 }
-
             }
         });
-
         return convertView;
     }
     private class ViewHolder

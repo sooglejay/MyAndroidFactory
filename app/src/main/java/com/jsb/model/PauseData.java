@@ -17,27 +17,10 @@ public class PauseData implements Parcelable {
     private String reservedays;//预约日期  如“2015-09-07，2015-09-12”
     private Float usefulPauseFee;//可用停保费
     private Boolean limitPaused;//是否现行暂停过
-    private Boolean reservepaused;//是否预约暂停过
+    private Boolean reservePaused;//是否预约暂停过
     private Long startdate;//保险的有效起始时间
     private Long enddate;//保险的有效结束时间
 
-    @Override
-    public String toString() {
-        return "PauseData{" +
-                "totalPauseFee=" + totalPauseFee +
-                ", pausePrice=" + pausePrice +
-                ", orderid=" + orderid +
-                ", limitday=" + limitday +
-                ", licenseplate='" + licenseplate + '\'' +
-                ", pauseRule='" + pauseRule + '\'' +
-                ", reservedays='" + reservedays + '\'' +
-                ", usefulPauseFee=" + usefulPauseFee +
-                ", limitPaused=" + limitPaused +
-                ", reservepaused=" + reservepaused +
-                ", startdate=" + startdate +
-                ", enddate=" + enddate +
-                '}';
-    }
 
     public Float getTotalPauseFee() {
         return totalPauseFee;
@@ -111,12 +94,34 @@ public class PauseData implements Parcelable {
         this.limitPaused = limitPaused;
     }
 
-    public Boolean getReservepaused() {
-        return reservepaused;
+    @Override
+    public String toString() {
+        return "PauseData{" +
+                "totalPauseFee=" + totalPauseFee +
+                ", pausePrice=" + pausePrice +
+                ", orderid=" + orderid +
+                ", limitday=" + limitday +
+                ", licenseplate='" + licenseplate + '\'' +
+                ", pauseRule='" + pauseRule + '\'' +
+                ", reservedays='" + reservedays + '\'' +
+                ", usefulPauseFee=" + usefulPauseFee +
+                ", limitPaused=" + limitPaused +
+                ", reservePaused=" + reservePaused +
+                ", startdate=" + startdate +
+                ", enddate=" + enddate +
+                '}';
     }
 
-    public void setReservepaused(Boolean reservepaused) {
-        this.reservepaused = reservepaused;
+    public Boolean getReservePaused() {
+        return reservePaused;
+    }
+
+    public void setReservePaused(Boolean reservePaused) {
+        this.reservePaused = reservePaused;
+    }
+
+    public static Creator<PauseData> getCREATOR() {
+        return CREATOR;
     }
 
     public Long getStartdate() {
@@ -135,6 +140,9 @@ public class PauseData implements Parcelable {
         this.enddate = enddate;
     }
 
+    public PauseData() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -151,12 +159,9 @@ public class PauseData implements Parcelable {
         dest.writeString(this.reservedays);
         dest.writeValue(this.usefulPauseFee);
         dest.writeValue(this.limitPaused);
-        dest.writeValue(this.reservepaused);
+        dest.writeValue(this.reservePaused);
         dest.writeValue(this.startdate);
         dest.writeValue(this.enddate);
-    }
-
-    public PauseData() {
     }
 
     protected PauseData(Parcel in) {
@@ -169,12 +174,12 @@ public class PauseData implements Parcelable {
         this.reservedays = in.readString();
         this.usefulPauseFee = (Float) in.readValue(Float.class.getClassLoader());
         this.limitPaused = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.reservepaused = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.reservePaused = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.startdate = (Long) in.readValue(Long.class.getClassLoader());
         this.enddate = (Long) in.readValue(Long.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<PauseData> CREATOR = new Parcelable.Creator<PauseData>() {
+    public static final Creator<PauseData> CREATOR = new Creator<PauseData>() {
         public PauseData createFromParcel(Parcel source) {
             return new PauseData(source);
         }
