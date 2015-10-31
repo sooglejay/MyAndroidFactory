@@ -4,6 +4,8 @@ package com.jsb.event;
 
 public class BusEvent {
     public static final int  MSG_INT_TIME = 1000;//选择时间控件  投保开始和结束的时间
+    public static final int  MSG_Login_Success = 1001;//登录成功！
+    public static final int  MSG_SignOut_Success = 1002;//注销登录成功！
     private String start_time;//开始时间
     private String end_time;//结束时间
     private String interval_time;//时间间隔

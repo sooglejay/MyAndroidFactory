@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.R;
+import com.jsb.event.BusEvent;
 import com.jsb.ui.LoginActivity;
 import com.jsb.ui.MyCallPoliceActivity;
 import com.jsb.ui.MyHistorySaleActivity;
@@ -26,6 +27,7 @@ import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.PopWindowUtils;
 import com.jsb.widget.TitleBar;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 
 /**
@@ -253,11 +255,16 @@ public class MeFragment extends BaseFragment {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
 
+                                                    PreferenceUtil.save(context, PreferenceConstant.userid, -1);
+                                                    PreferenceUtil.save(context, PreferenceConstant.pwd, "");
+                                                    PreferenceUtil.save(context, PreferenceConstant.phone, "");
+                                                    PreferenceUtil.save(context, PreferenceConstant.name, "");
+                                                    EventBus.getDefault().post(new BusEvent(BusEvent.MSG_SignOut_Success));
+
                                                     dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                                                         @Override
                                                         public void viewClick(String tag) {
                                                             if (tag.equals(StringConstant.tv_confirm)) {
-                                                                PreferenceUtil.save(context, PreferenceConstant.userid, -1);
                                                             }
                                                         }
 
@@ -266,13 +273,9 @@ public class MeFragment extends BaseFragment {
                                                             if (tv_content instanceof TextView) {
                                                                 ((TextView) tv_content).setText("亲，您去忙吧！需要小保\n的时候，我随时在您左右！");
                                                             }
-                                                            tv_title.setVisibility(View.GONE);
-
                                                         }
-
-
                                                     });
-                                                    dialogFragmentCreater.showDialog(MeFragment.this.getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                                                    dialogFragmentCreater.showDialog(MeFragment.this.getActivity(), DialogFragmentCreater.DialogShowSingleChoiceDialog);
 
                                                 }
                                             }).setNegativeButton("取消", null).create().show();

@@ -16,12 +16,14 @@ import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.event.BusEvent;
 import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -140,6 +142,7 @@ public class LoginActivity extends BaseActivity {
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
                             mProgressUtil.hide();
+                            EventBus.getDefault().post(new BusEvent(BusEvent.MSG_Login_Success));
                             LoginActivity.this.finish();
                         }
                     });
