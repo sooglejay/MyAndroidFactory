@@ -190,19 +190,22 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    Intent intent = new Intent(getActivity(), TimePickerActivity.class);
-                    long startTime = 0;
-                    long endTime = 0;
-                    if (outerPauseBean != null) {
-                        if (outerPauseBean.getStartdate() != null) {
-                            startTime = outerPauseBean.getStartdate();
-                        }
-                        if (outerPauseBean.getEnddate() != null) {
-                            endTime = outerPauseBean.getEnddate();
+
+                    long orderStartDateFromServer=0,orderEndDateFromServer=0;
+                    if(outerPauseBean!=null)
+                    {
+                        if(outerPauseBean.getStartdate()!=null&&outerPauseBean.getEnddate()!=null)
+                        {
+                            orderStartDateFromServer = outerPauseBean.getStartdate();
+                            orderEndDateFromServer = outerPauseBean.getEnddate();
                         }
                     }
-                    intent.putExtra(StringConstant.orderStartTimeFromServer, startTime);
-                    intent.putExtra(StringConstant.orderEndTimeFromServer, endTime);
+                    Intent intent = new Intent(getActivity(), TimePickerActivity.class);
+                    intent.putExtra(StringConstant.orderStartTimeFromServerString, startTimeStr);
+                    intent.putExtra(StringConstant.orderEndTimeFromServerString, endTimeStr);
+
+                    intent.putExtra(StringConstant.orderStartTimeFromServerLong, orderStartDateFromServer);
+                    intent.putExtra(StringConstant.orderEndTimeFromServerLong, orderEndDateFromServer);
                     getActivity().startActivityForResult(intent, ACTION_CHOOSE_TIME);
                 }
             }
@@ -981,10 +984,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 endTimeStr = event.getEnd_time();
                 timeIntvalStr = event.getInterval_time();
                 timeStringForPostToServer = event.getTimeStringFroServer();
-
-                PreferenceUtil.save(context,PreferenceConstant.TimePickerDateStart,startTimeStr);
-                PreferenceUtil.save(context,PreferenceConstant.TimePickerDateEnd,endTimeStr);
-                PreferenceUtil.save(context,PreferenceConstant.TimePickerDateInterval,timeIntvalStr);
 
 
                 refreshReservePauseInsurance();

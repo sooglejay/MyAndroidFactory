@@ -21,7 +21,11 @@ import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
+import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
@@ -79,6 +83,20 @@ public class LoginActivity extends BaseActivity {
 
         et_verify_code = (EditText) findViewById(R.id.et_verification_number);
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);
+
+
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //手机号码输入框获取焦点
+                UIUtils.showSoftInput(LoginActivity.this,et_phone_number);
+                et_phone_number.requestFocus();
+            }
+        }, 100);  //在500毫秒后打开
+
+
 
         et_verify_code.addTextChangedListener(textWatcher);
         et_phone_number.addTextChangedListener(textWatcher);
@@ -223,4 +241,14 @@ public class LoginActivity extends BaseActivity {
 
         }
     };
+
+    @Override
+    public void finish() {
+        //隐藏键盘
+        if(et_phone_number!=null)
+        {
+            UIUtils.setHideSoftInput(this,et_phone_number);
+        }
+        super.finish();
+    }
 }

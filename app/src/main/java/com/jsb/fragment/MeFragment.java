@@ -49,13 +49,14 @@ public class MeFragment extends BaseFragment {
     private DialogFragmentCreater dialogFragmentCreater;
 
 
-    private int outerUserId = -1;
     private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_3, container, false);
     }
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -66,7 +67,6 @@ public class MeFragment extends BaseFragment {
     private void setUp(View view, Bundle savedInstanceState) {
         context = this.getActivity();
 
-        outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.me, -1, R.drawable.icon_bar_share, "", "");
 
@@ -80,7 +80,7 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_insure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (outerUserId < 0) {
+                if (!checkIsLogin()) {
                     //如果没有登录，就弹出是否登录的提醒对话框
                     dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
@@ -110,7 +110,7 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_history_sale).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (outerUserId < 0) {
+                if (!checkIsLogin()) {
                     //如果没有登录，就弹出是否登录的提醒对话框
                     dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
@@ -140,7 +140,7 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_call_plice).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (outerUserId < 0) {
+                if (!checkIsLogin()) {
                     //如果没有登录，就弹出是否登录的提醒对话框
                     dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
@@ -170,7 +170,7 @@ public class MeFragment extends BaseFragment {
         view.findViewById(R.id.layout_my_money_packet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (outerUserId < 0) {
+                if (!checkIsLogin()) {
                     //如果没有登录，就弹出是否登录的提醒对话框
                     dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
@@ -212,7 +212,7 @@ public class MeFragment extends BaseFragment {
 
             @Override
             public void onRightButtonClick(View v) {
-                if (outerUserId < 0) {
+                if (!checkIsLogin()) {
                     //如果没有登录，就弹出是否登录的提醒对话框
                     dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
                         @Override
@@ -308,6 +308,16 @@ public class MeFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
+
+    private boolean checkIsLogin()
+    {
+        int userid = PreferenceUtil.load(getActivity(),PreferenceConstant.userid,-1);
+        if(userid!=-1)
+        {
+            return true;
+        }
+        else return false;
+    }
 
     @Override
     public void onStop() {

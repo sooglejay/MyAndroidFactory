@@ -2,7 +2,6 @@ package com.jsb.widget.TimePicker;
 
 import android.app.Activity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,7 @@ public class CalenderAdapter extends BaseAdapter {
 
 
 
-    private String timeStringForServer = "";
+    private String timeStringForPostToServer = "";
     private long orderStartTimeFromServer = 0;
     private long orderEndTimeFromServer = 0;
 
@@ -213,7 +212,7 @@ public class CalenderAdapter extends BaseAdapter {
                                             }
                                         }
                                         bean.setStatus(START);
-                                        timeStringForServer=bean.getDateStr()+",";
+                                        timeStringForPostToServer =bean.getDateStr()+",";
                                         clickCount = 1;
                                         outerDayBean = bean;
                                         startDateString = bean.getDateStr();
@@ -225,7 +224,7 @@ public class CalenderAdapter extends BaseAdapter {
                                         {
                                             outerDayBean.setStatus(OTHERS);
                                             bean.setStatus(START);
-                                            timeStringForServer=bean.getDateStr()+",";
+                                            timeStringForPostToServer =bean.getDateStr()+",";
                                             outerDayBean = bean;
                                             startDateString = bean.getDateStr();
                                         }else if (minus==0)//点击的时间与上一次的一样，就认为是在调整开始时间
@@ -252,7 +251,7 @@ public class CalenderAdapter extends BaseAdapter {
                                                             )
                                                     {
                                                         b.setStatus(BETWEEN);
-                                                        timeStringForServer=timeStringForServer+b.getDateStr()+",";
+                                                        timeStringForPostToServer = timeStringForPostToServer +b.getDateStr()+",";
                                                     }
                                                 }
                                             }
@@ -274,7 +273,7 @@ public class CalenderAdapter extends BaseAdapter {
                                                                     dateFormat_yyyy_MM_dd.parse(b.getDateStr()).getTime() < dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime()
                                                                     ) {
                                                                 b.setStatus(BETWEEN);
-                                                                timeStringForServer=timeStringForServer+b.getDateStr()+",";
+                                                                timeStringForPostToServer = timeStringForPostToServer +b.getDateStr()+",";
                                                             }
                                                         }
 
@@ -283,12 +282,12 @@ public class CalenderAdapter extends BaseAdapter {
                                             }
 
                                             bean.setStatus(END);
-                                            timeStringForServer = timeStringForServer+bean.getDateStr();
+                                            timeStringForPostToServer = timeStringForPostToServer +bean.getDateStr();
                                             int e_s = (int)((dateFormat_yyyy_MM_dd.parse(bean.getDateStr()).getTime() - dateFormat_yyyy_MM_dd.parse(startDateString).getTime())/ IntConstant.milliSecondInADay);
                                             BusEvent intEvent = new BusEvent(BusEvent.MSG_INT_TIME);
                                             intEvent.setStart_time(startDateString);
                                             intEvent.setEnd_time(bean.getDateStr());
-                                            intEvent.setTimeStringFroServer(timeStringForServer);
+                                            intEvent.setTimeStringFroServer(timeStringForPostToServer);
                                             intEvent.setInterval_time(e_s + "天");
                                             EventBus.getDefault().post(intEvent);
                                             mContext.finish();

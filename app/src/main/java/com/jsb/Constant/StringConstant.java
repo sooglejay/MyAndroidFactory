@@ -26,8 +26,10 @@ public class StringConstant {
     public static final String failure = "failure";//
     public static final String success = "success";//
 
-    public static final String orderStartTimeFromServer = "orderStartTimeFromServer";//保单开始时间
-    public static final String orderEndTimeFromServer = "orderEndTimeFromServer";//保单结束时间
+    public static final String orderStartTimeFromServerString = "orderStartTimeFromServerString";//保单开始时间
+    public static final String orderStartTimeFromServerLong = "orderStartTimeFromServerLong";//保单开始时间
+    public static final String orderEndTimeFromServerString = "orderEndTimeFromServerString";//保单结束时间
+    public static final String orderEndTimeFromServerLong = "orderEndTimeFromServerLong";//保单结束时间
 
     //我的钱包》》》》提现
     public static final String union_bank  ="银联";//银联

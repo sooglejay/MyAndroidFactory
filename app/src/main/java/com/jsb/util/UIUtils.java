@@ -98,7 +98,7 @@ public class UIUtils {
     public static void showSoftInput(Context context, View view) {
         InputMethodManager mInputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (mInputManager != null) {
-            mInputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            mInputManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 
         }
     }

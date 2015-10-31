@@ -1,6 +1,7 @@
 package com.jsb.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 
@@ -40,8 +41,11 @@ public class TimePickerActivity extends BaseActivity {
     private String endTimeStr;
 
 
-    private long orderStartTimeFromServer = 0;
-    private long orderEndTimeFromServer = 0;
+    private Long startTimeLong;
+    private Long endTimeLong;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +70,22 @@ public class TimePickerActivity extends BaseActivity {
 
     private void setUpView() {
 
-        orderStartTimeFromServer = getIntent().getLongExtra(StringConstant.orderStartTimeFromServer,0);
-        orderEndTimeFromServer = getIntent().getLongExtra(StringConstant.orderEndTimeFromServer,0);
+        startTimeStr = getIntent().getExtras().getString(StringConstant.orderStartTimeFromServerString);
+        endTimeStr = getIntent().getExtras().getString(StringConstant.orderEndTimeFromServerString);
 
+        startTimeLong = getIntent().getLongExtra(StringConstant.orderStartTimeFromServerLong,0);
+        endTimeLong = getIntent().getLongExtra(StringConstant.orderEndTimeFromServerLong,0);
 
 
         mTitleBar = (TitleBar) findViewById(R.id.title_bar);
         mTitleBar.initTitleBarInfo("选择开始结束时间", R.drawable.arrow_left, -1, "", "");
 
-        startTimeStr = PreferenceUtil.load(this,PreferenceConstant.TimePickerDateStart,"");
-        endTimeStr = PreferenceUtil.load(this,PreferenceConstant.TimePickerDateEnd,"");
 
         listView = (ListView) findViewById(R.id.list_item);
         setmAdapterDatas(mDatas);
         mAdapter = new CalenderAdapter(this, mDatas);
-        mAdapter.setOrderEndTimeFromServer(orderEndTimeFromServer);
-        mAdapter.setOrderStartTimeFromServer(orderStartTimeFromServer);
+        mAdapter.setOrderEndTimeFromServer(endTimeLong);
+        mAdapter.setOrderStartTimeFromServer(startTimeLong);
         listView.setAdapter(mAdapter);
 
     }

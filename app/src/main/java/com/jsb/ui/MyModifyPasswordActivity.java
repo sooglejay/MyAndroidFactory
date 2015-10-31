@@ -21,7 +21,11 @@ import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
+import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -194,6 +198,17 @@ public class MyModifyPasswordActivity extends BaseActivity {
         et_new_password.addTextChangedListener(textWatcher);
         et_re_new_password.addTextChangedListener(textWatcher);
 
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //手机号码输入框获取焦点
+                UIUtils.showSoftInput(MyModifyPasswordActivity.this, et_phone_number);
+                et_phone_number.requestFocus();
+            }
+        }, 100);  //在500毫秒后打开
+
     }
 
 
@@ -234,4 +249,14 @@ public class MyModifyPasswordActivity extends BaseActivity {
         return false;
     }
 
+
+    @Override
+    public void finish() {
+        //隐藏键盘
+        if(et_phone_number!=null)
+        {
+            UIUtils.setHideSoftInput(this,et_phone_number);
+        }
+        super.finish();
+    }
 }
