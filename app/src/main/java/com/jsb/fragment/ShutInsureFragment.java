@@ -982,6 +982,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 endTimeStr = event.getEnd_time();
                 timeIntvalStr = event.getInterval_time();
                 timeStringForPostToServer = event.getTimeStringFroServer();
+
+                PreferenceUtil.save(context,PreferenceConstant.TimePickerDateStart,startTimeStr);
+                PreferenceUtil.save(context,PreferenceConstant.TimePickerDateEnd,endTimeStr);
+                PreferenceUtil.save(context,PreferenceConstant.TimePickerDateInterval,timeIntvalStr);
+
+
                 refreshReservePauseInsurance();
                 saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
                 break;
@@ -1082,11 +1088,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 {
                     week_number_spinner.setSelection(0);
                     isWeekSpinnerControlledByCode = false;
-                }else {
+                }else {//如果只有一个，调用setSelection方法时，不会进入itemSelectedListener方法中
                     week_number_spinner.setSelection(selectedPosition);
                 }
-
-
             } else {
                 isWeekSpinnerControlledByCode = true;
                 Log.d("Retrofit", " 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊行号 976  上一行代码  isWeekSpinnerControlledByCode =true");
