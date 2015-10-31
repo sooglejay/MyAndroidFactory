@@ -83,6 +83,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private Switch dateSwitchTabView;
     private LinearLayout datePickerLayout;
 
+//spinner  :if has not invoked setCheck(position) ,then,its itemSelectedListener will never be invoked,even if has been set itemSelectedlistener
+
+    private boolean isWeekSpinnerSetCheckByCode = false;
 
     private float maxNumber = 0;//动画的 数字最大值
     private float realNumber = 0;//动画的 数字最大值
@@ -308,7 +311,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                 //传出 position，在其他地方网络请求时，使用这个position，用于传递给服务端，周几
                 outerWeekthPosition = position;
-
+                if(isWeekSpinnerSetCheckByCode)return;
+                Log.e("Retrofit","进来了 outerWeekthPosition:"+outerWeekthPosition);
                 //如果是真实用户的操作，才会进入下面的逻辑
                 //保存限行停保的信息
                 saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, 1);
@@ -321,12 +325,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             }
         };
 
-//
-//        //车牌号码Spinner 的Item选中事件
-//        car_number_spinner.setOnItemSelectedListener(myCarSpinnerItemSelectedListener);
-//        //周Spinner 的下拉Item 选中事件
-//        week_number_spinner.setOnItemSelectedListener(myWeekSpinnerItemSelectedListener);
-//
+
+        //车牌号码Spinner 的Item选中事件
+        car_number_spinner.setOnItemSelectedListener(myCarSpinnerItemSelectedListener);
+        //周Spinner 的下拉Item 选中事件
+        week_number_spinner.setOnItemSelectedListener(myWeekSpinnerItemSelectedListener);
+
 
         //限行停保 - 周Spinner 的父Layout 的点击事件，并触发Spinner 的下拉事件
         layout_week_number_spinner.setOnClickListener(new View.OnClickListener() {
@@ -504,6 +508,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
         //用户的id
         outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
+        Log.e("Retrofit","userid="+outerUserId);
         //包装耗时操作
         progressDialogUtil = new ProgressDialogUtil(context);
 
@@ -630,7 +635,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
 
-                        UserRetrofitUtil.saveLimitPauseInfo(context, 1, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition, new NetCallback<NetWorkResultBean<String>>(context) {
+                        UserRetrofitUtil.saveLimitPauseInfo(context, 1, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition+1, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
                             public void onFailure(RetrofitError error) {
                             }
@@ -655,6 +660,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
             //用户的id
             outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
+            Log.e("Retrofit","userid="+outerUserId);
+
             if (outerUserId < 0) {
                 outerPauseBean = null;
                 mCarNumbersStringList.clear();
@@ -945,13 +952,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         refreshReservePauseInsurance();
         if (bean != null) {
             if (bean.getLimitday() != null) {
-                week_number_spinner.setOnItemSelectedListener(null);
+                isWeekSpinnerSetCheckByCode = true;
                 week_number_spinner.setSelection(bean.getLimitday() - 1);
-                week_number_spinner.setOnItemSelectedListener(myWeekSpinnerItemSelectedListener);
+                isWeekSpinnerSetCheckByCode = false;
             } else {
-                week_number_spinner.setOnItemSelectedListener(null);
+                isWeekSpinnerSetCheckByCode = true;
                 week_number_spinner.setSelection(0);
-                week_number_spinner.setOnItemSelectedListener(myWeekSpinnerItemSelectedListener);
+                isWeekSpinnerSetCheckByCode = false;
             }
             if (bean.getPausePrice() != null) {
                 tv_pausePrice.setText("¥" + bean.getPausePrice() + "");
