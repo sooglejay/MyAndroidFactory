@@ -49,6 +49,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:id="@+id/layout_history"
                 android:layout_height="146dp">
 
                 <com.jsb.widget.DecoView.decoviewlib.DecoView

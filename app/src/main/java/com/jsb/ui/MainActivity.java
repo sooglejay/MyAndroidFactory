@@ -16,7 +16,9 @@ import android.widget.TextView;
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.IntConstant;
 import com.jsb.constant.StringConstant;
+import com.jsb.event.BusEvent;
 import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.fragment.BuyInsureFragment;
@@ -177,6 +179,28 @@ public class MainActivity extends BaseActivity {
             return 3;
         }
     }
+
+
+
+    /**
+     * EventBus 广播
+     * @param event
+     */
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getMsg()) {
+           case BusEvent.MSG_Login_Success:
+               if (viewPager!=null)
+               {
+                   viewPager.setCurrentItem(0,false);
+               }
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
 
     /**
      * 注册控制tabbar的广播

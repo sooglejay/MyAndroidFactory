@@ -22,10 +22,15 @@
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_screen"
+        android:layout_height="wrap_content"
         android:divider="#d1d1d4"
         android:dividerHeight="1dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
     <View
         android:layout_width="match_parent"
         android:background="@color/bg_screen"

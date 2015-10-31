@@ -13,6 +13,7 @@ import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.PauseData;
+import com.jsb.model.PauseHistory;
 import com.jsb.model.ReportableInsurance;
 import com.jsb.model.TeamData;
 import com.jsb.model.Userstable;
@@ -551,6 +552,28 @@ public class UserRetrofitUtil extends RetrofitUtil {
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
         git.cancelPause(s, callback);
+    }
+
+    /**
+     7.7.5.暂停历史
+     发送时机	用户点击累计停保费、查看预约暂停记录时，获取两种类型的暂停记录，一次全返回
+     参数说明	1、int userid ; //用户编号
+     2、int orderid ; //保单编号
+     限制条件	参数1、2为必填。
+     * @param mContext
+     * @param callback
+     */
+    public static void getPauseHistory(Context mContext,
+                                           int userid,
+                                           int orderid,
+                                           NetCallback<NetWorkResultBean<PauseHistory>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid+
+                "&orderid="+orderid;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
+        git.getPauseHistory(s, callback);
     }
 
     /**

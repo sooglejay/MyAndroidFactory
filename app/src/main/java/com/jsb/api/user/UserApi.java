@@ -10,6 +10,7 @@ import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.PauseData;
+import com.jsb.model.PauseHistory;
 import com.jsb.model.ReportableInsurance;
 import com.jsb.model.TeamData;
 import com.jsb.model.Userstable;
@@ -252,6 +253,17 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/cancelPause/")
     public void cancelPause(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     * 7.7.4.取消停保
+     * 发送时机	用户选择取消暂停调用
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getPauseHistory/")
+    public void getPauseHistory(@Field("param") String params ,NetCallback<NetWorkResultBean<PauseHistory>> NetCallback);
 
 
     /**

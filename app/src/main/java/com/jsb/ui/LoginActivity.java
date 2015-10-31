@@ -172,6 +172,7 @@ public class LoginActivity extends BaseActivity {
         tv_obtain_verify_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCountTimer.start();
                 if (!checkPhoneNumberValid(et_phone_number.getText().toString())) {
                     Toast.makeText(LoginActivity.this, "请输入正确的手机号码!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -181,6 +182,7 @@ public class LoginActivity extends BaseActivity {
                         public void onFailure(RetrofitError error) {
                             Toast.makeText(LoginActivity.this, "无法连接网络！", Toast.LENGTH_SHORT).show();
                             mCountTimer.onFinish();
+                            mCountTimer.cancel();
 
                         }
 
@@ -191,7 +193,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     });
 
-                    mCountTimer.start();
+
 
 
 

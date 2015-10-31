@@ -57,22 +57,6 @@ public class MyMoneyPocketActivity extends BaseActivity {
         titleBar.initTitleBarInfo("我的钱包", R.drawable.arrow_left, -1, "", "");
 
 
-        aaa_MyMoneyPocketBean bean1 = new aaa_MyMoneyPocketBean();
-        aaa_MyMoneyPocketBean bean2 = new aaa_MyMoneyPocketBean();
-        aaa_MyMoneyPocketBean bean3 = new aaa_MyMoneyPocketBean();
-        bean1.setMoneyKind("车险");
-        bean2.setMoneyKind("驾驶险");
-        bean3.setMoneyKind("加班狗");
-
-        bean1.setMoneyAmount(556.00f);
-        bean2.setMoneyAmount(80.00f);
-        bean3.setMoneyAmount(120.00f);
-
-        mListDatas.add(bean1);
-        mListDatas.add(bean2);
-        mListDatas.add(bean3);
-
-
         myCallPoliceListAdapter = new MyMoneyPacketListAdapter(this, mListDatas);
         mInsureList = (ListView) findViewById(R.id.list_view);
         mInsureList.setAdapter(myCallPoliceListAdapter);
