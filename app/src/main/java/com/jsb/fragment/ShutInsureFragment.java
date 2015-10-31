@@ -329,7 +329,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                isWeekSpinnerControlledByCode = false;
+                Log.d("Retrofit","周监听器 什么都没有选择 ");
             }
         };
 
@@ -641,6 +642,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      */
     private void saveReservePauseInfo(int type, final int userid) {
         if (outerPauseBean != null) {
+            if(TextUtils.isEmpty(timeStringForPostToServer))
+            {
+                return;
+            }
             if (outerPauseBean.getReservePaused()) {
                 UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                     @Override
@@ -973,12 +978,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         switch (event.getMsg()) {
             case BusEvent.MSG_INT_TIME:
                 //保存预约停保的信息
-                saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
                 startTimeStr = event.getStart_time();
                 endTimeStr = event.getEnd_time();
                 timeIntvalStr = event.getInterval_time();
                 timeStringForPostToServer = event.getTimeStringFroServer();
                 refreshReservePauseInsurance();
+                saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
                 break;
             case BusEvent.MSG_Login_Success:
                 checkIsLoginAndRefreshUI();
@@ -1039,27 +1044,31 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      * @param bean
      */
     public void refreshData(PauseData bean) {
-        String reservedays = bean.getReservedays();
-        String dateArray[] = reservedays.split(",");
-        startTimeStr = todayString_yyyy_m_d;//使用今天的日期重新给其赋值
-        if (dateArray.length > 0) {
-            startTimeStr = dateArray[0];
-            if (dateArray.length > 1) {
-                Log.e("Retrofit", "测试Split：reservedays:" + reservedays + "  dateArray[0]:" + dateArray[0] + " dateArray[1]:" + dateArray[1]);
-                endTimeStr = dateArray[dateArray.length - 1];
-                Log.e("Retrofit", "endTimeStr:" + endTimeStr);
-                try {
-                    int e_s = (int) ((dateFormat_yyyy_mm_dd.parse(endTimeStr).getTime() - dateFormat_yyyy_mm_dd.parse(startTimeStr).getTime()) / IntConstant.milliSecondInADay);
-                    timeIntvalStr = "共" + e_s + "天";
-                } catch (ParseException e) {
-                    e.printStackTrace();
+        if(bean!=null&&bean.getReservedays()!=null) {
+            String reservedays = bean.getReservedays();
+            if(reservedays.contains(",")) {
+                String dateArray[] = reservedays.split(",");
+                startTimeStr = todayString_yyyy_m_d;//使用今天的日期重新给其赋值
+                if (dateArray.length > 0) {
+                    startTimeStr = dateArray[0];
+                    if (dateArray.length > 1) {
+                        Log.e("Retrofit", "测试Split：reservedays:" + reservedays + "  dateArray[0]:" + dateArray[0] + " dateArray[1]:" + dateArray[1]);
+                        endTimeStr = dateArray[dateArray.length - 1];
+                        Log.e("Retrofit", "endTimeStr:" + endTimeStr);
+                        try {
+                            int e_s = (int) ((dateFormat_yyyy_mm_dd.parse(endTimeStr).getTime() - dateFormat_yyyy_mm_dd.parse(startTimeStr).getTime()) / IntConstant.milliSecondInADay);
+                            timeIntvalStr = "共" + e_s + "天";
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        timeStringForPostToServer = reservedays;
+                    }
                 }
+            }else {
+                endTimeStr = startTimeStr;
+                timeIntvalStr = "共0天";
                 timeStringForPostToServer = reservedays;
             }
-        } else {
-            endTimeStr = startTimeStr;
-            timeIntvalStr = "共0天";
-            timeStringForPostToServer = reservedays;
         }
         //刷新预约停保的时间文本显示
         refreshReservePauseInsurance();
@@ -1067,11 +1076,20 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             if (bean.getLimitday() != null) {
                 isWeekSpinnerControlledByCode = true;
                 Log.d("Retrofit", " 行号 972  上一行代码 isWeekSpinnerControlledByCode =true");
-                week_number_spinner.setSelection(bean.getLimitday() - 1);
-                isWeekSpinnerControlledByCode = false;
+
+                int selectedPosition = bean.getLimitday() - 1;
+                if(selectedPosition <1  )
+                {
+                    week_number_spinner.setSelection(0);
+                    isWeekSpinnerControlledByCode = false;
+                }else {
+                    week_number_spinner.setSelection(selectedPosition);
+                }
+
+
             } else {
                 isWeekSpinnerControlledByCode = true;
-                Log.d("Retrofit", "行号 976  上一行代码  isWeekSpinnerControlledByCode =true");
+                Log.d("Retrofit", " 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊行号 976  上一行代码  isWeekSpinnerControlledByCode =true");
                 week_number_spinner.setSelection(0);
                 isWeekSpinnerControlledByCode = false;
 
