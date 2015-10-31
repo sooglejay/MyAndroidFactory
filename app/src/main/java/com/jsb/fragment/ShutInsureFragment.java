@@ -971,7 +971,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     /**
      * EventBus 广播
-     *
      * @param event
      */
     public void onEventMainThread(BusEvent event) {
