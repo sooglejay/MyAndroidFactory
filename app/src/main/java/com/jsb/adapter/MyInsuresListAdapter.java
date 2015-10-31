@@ -15,6 +15,7 @@ import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
 import com.jsb.ui.MyInsuresListDrivingInsureDetailActivity;
 import com.jsb.ui.MyInsuresListJiaBanDogInsureDetailActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ import java.util.List;
  * Created by Administrator on 2015/9/16.
  */
 public class MyInsuresListAdapter extends BaseAdapter {
+
+    private SimpleDateFormat dateFormat_yyyy_mm_dd = new SimpleDateFormat("yyyy-MM-dd");
+
     public MyInsuresListAdapter(Context mContext, List<aaa_MyInsuranceBean> datas) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
@@ -66,7 +70,7 @@ public class MyInsuresListAdapter extends BaseAdapter {
         holder.tv_insure_name.setText(mDatas.get(position).getInsuranceName() + "");
         holder.tv_insure_price.setText(mDatas.get(position).getInsuranceMoney() + "");
         holder.tv_buy_insure_agent.setText(mDatas.get(position).getInsuranceCompanyName() + "");
-        holder.tv_buy_insure_time.setText(mDatas.get(position).getInsuranceBuyDate() + "");
+        holder.tv_buy_insure_time.setText(dateFormat_yyyy_mm_dd.format(mDatas.get(position).getInsuranceBuyDate()) + "");
 
 
         holder.item.setOnClickListener(new View.OnClickListener() {

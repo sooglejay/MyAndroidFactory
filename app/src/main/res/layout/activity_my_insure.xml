@@ -10,14 +10,24 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="18dp"
+        android:layout_height="24dp"
         android:background="@color/bg_screen" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_screen"
-        android:divider="@color/very_light_gray_color"
+        android:divider="#d1d1d4"
         android:dividerHeight="1dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/bg_screen"
+        android:layout_height="match_parent"/>
 </LinearLayout>

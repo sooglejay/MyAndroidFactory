@@ -61,9 +61,8 @@ public class MyInsureActivity extends BaseActivity {
         titleBar.initTitleBarInfo("我的保险", R.drawable.arrow_left, -1, "", "");
 
 
-
-        myInsuresListAdapter = new MyInsuresListAdapter(this,mInsureListDatas);
-        mInsureList = (ListView)findViewById(R.id.list_view);
+        myInsuresListAdapter = new MyInsuresListAdapter(this, mInsureListDatas);
+        mInsureList = (ListView) findViewById(R.id.list_view);
         mInsureList.setAdapter(myInsuresListAdapter);
 
 
@@ -73,6 +72,7 @@ public class MyInsureActivity extends BaseActivity {
 
     /**
      * 获取我的保险的列表  （有三个代表）
+     *
      * @param userid
      */
     private void getMyinsuranceListInfo(int userid) {
@@ -86,13 +86,12 @@ public class MyInsureActivity extends BaseActivity {
             public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
                 mInsureListDatas.clear();
 
-                List<Driverordertable>driverordertableList = myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords();
-                List<Overtimeordertable>overtimeordertableList = myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords();
-                List<Vehicleordertable>vehicleordertableList = myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords();
+                List<Driverordertable> driverordertableList = myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords();
+                List<Overtimeordertable> overtimeordertableList = myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords();
+                List<Vehicleordertable> vehicleordertableList = myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords();
 
-                if(driverordertableList.size()>0)
-                {
-                    aaa_MyInsuranceBean b1=  new aaa_MyInsuranceBean() ;
+                if (driverordertableList.size() > 0) {
+                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
                     b1.setInsuranceCompanyName(driverordertableList.get(0).getCompanyInfo().getCompanyname());
                     b1.setInsuranceMoney(driverordertableList.get(0).getMoney());
                     b1.setInsuranceName("驾驶险");
@@ -100,9 +99,8 @@ public class MyInsureActivity extends BaseActivity {
                     mInsureListDatas.add(b1);
                 }
 
-                if(overtimeordertableList.size()>0)
-                {
-                    aaa_MyInsuranceBean b1=  new aaa_MyInsuranceBean() ;
+                if (overtimeordertableList.size() > 0) {
+                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
                     b1.setInsuranceCompanyName("万保易");
                     b1.setInsuranceMoney(overtimeordertableList.get(0).getMoney());
                     b1.setInsuranceName("加班险");
@@ -110,12 +108,21 @@ public class MyInsureActivity extends BaseActivity {
                     mInsureListDatas.add(b1);
                 }
 
-                if(vehicleordertableList.size()>0)
-                {
-                    aaa_MyInsuranceBean b1=  new aaa_MyInsuranceBean() ;
-                    b1.setInsuranceCompanyName(vehicleordertableList.get(0).getInsurancecompanyprices().getCompany().getCompanyname());
+                if (vehicleordertableList != null && vehicleordertableList.size() > 0) {
+                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
+                    if (vehicleordertableList.get(0).getInsurancecompanyprices() != null) {
+                        b1.setInsuranceCompanyName(vehicleordertableList.get(0).getInsurancecompanyprices().getCompany().getCompanyname());
+                    } else {
+                        b1.setInsuranceCompanyName("万保易");
+                    }
                     b1.setInsuranceMoney(vehicleordertableList.get(0).getMoney());
-                    b1.setInsuranceName(vehicleordertableList.get(0).getInsuranceDetail().getInsurancename());
+
+                    if (vehicleordertableList.get(0).getInsuranceDetail() != null) {
+                        b1.setInsuranceName(vehicleordertableList.get(0).getInsuranceDetail().getInsurancename());
+                    } else {
+                        b1.setInsuranceName("车险");
+                    }
+
                     b1.setInsuranceBuyDate(vehicleordertableList.get(0).getOrderdate());
                     mInsureListDatas.add(b1);
                 }
