@@ -320,7 +320,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 Log.d("Retrofit", "myWeekSpinnerItemSelectedListener 行号 320 上一行代码是 }");
                 //如果是真实用户的操作，才会进入下面的逻辑
                 //保存限行停保的信息
-                saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, 1);
+                if(outerUserId>0)
+                {
+                    saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
+                }
 
             }
 
@@ -397,7 +400,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      */
     private void checkIsLoginOrHasPassword(final boolean isChecked, final Switch switchView) {
         //通过userid来判断用户是否登录，-1就是未登录状态,弹出登录对话框
-        outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
         if (outerUserId < 0) {
             //登录对话框
             dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
@@ -479,7 +481,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                     layout_week_number_spinner.setClickable(isChecked);
                                     layout_week_number_spinner.setEnabled(isChecked);
                                     if (isChecked) {//如果是打开操作，就保存信息
-                                        saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, 1);
+                                        saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
                                     } else {//如果是关闭操作，就取消上一次保存的信息
                                         cancelPause(outerUserId, IntConstant.cancelPauseType_LimitPause);
                                     }
@@ -489,7 +491,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                     datePickerLayout.setClickable(isChecked);
                                     datePickerLayout.setEnabled(isChecked);
                                     if (isChecked) {//如果是打开操作，就保存信息
-                                        saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, 1);
+                                        saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
                                     } else {//如果是关闭操作，就取消上一次保存的信息
                                         cancelPause(outerUserId, IntConstant.cancelPauseType_ReservePause);
                                     }
@@ -517,7 +519,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             switch (type) {
                 case IntConstant.cancelPauseType_LimitPause:
                     if (outerPauseBean.getLimitPaused()) {
-                        UserRetrofitUtil.cancelPause(context, 1, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
+                        UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
                             public void onFailure(RetrofitError error) {
 
@@ -532,7 +534,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     break;
                 case IntConstant.cancelPauseType_ReservePause:
                     if (outerPauseBean.getReservePaused()) {
-                        UserRetrofitUtil.cancelPause(context, 1, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
+                        UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
                             public void onFailure(RetrofitError error) {
 
@@ -567,7 +569,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
         //用户的id
         outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
-        Log.e("Retrofit", "userid=" + outerUserId);
+
         //包装耗时操作
         progressDialogUtil = new ProgressDialogUtil(context);
 
@@ -687,8 +689,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     /**
      * 保存限行停保
      */
-    private void saveLimitPauseInfo(int type, int userid) {
-        //暂时使用 userid = 1的记录
+    private void saveLimitPauseInfo(int type, final int userid) {
         if (outerPauseBean != null) {
             if (outerPauseBean.getLimitPaused()) {
                 UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
@@ -700,35 +701,37 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                         outerPauseBean.setLimitPaused(false);
-                        if (week_number_spinner != null)
+                        if (week_number_spinner != null) {
                             outerWeekthPosition = week_number_spinner.getSelectedItemPosition();
-                        UserRetrofitUtil.saveLimitPauseInfo(context, 1, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
-                            @Override
-                            public void onFailure(RetrofitError error) {
-                            }
+                            UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
+                                @Override
+                                public void onFailure(RetrofitError error) {
+                                }
 
-                            @Override
-                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                                outerPauseBean.setLimitPaused(true);
-                                setSwitchChecked(true,weekSwitchTabView);
-                            }
-                        });
+                                @Override
+                                public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                    outerPauseBean.setLimitPaused(true);
+                                    setSwitchChecked(true, weekSwitchTabView);
+                                }
+                            });
+                        }
                     }
                 });
             } else if (!outerPauseBean.getLimitPaused()) {
-                if (week_number_spinner != null)
+                if (week_number_spinner != null) {
                     outerWeekthPosition = week_number_spinner.getSelectedItemPosition();
-                UserRetrofitUtil.saveLimitPauseInfo(context, 1, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
-                    @Override
-                    public void onFailure(RetrofitError error) {
-                    }
+                    UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
+                        @Override
+                        public void onFailure(RetrofitError error) {
+                        }
 
-                    @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                        outerPauseBean.setLimitPaused(true);
-                        setSwitchChecked(true,weekSwitchTabView);
-                    }
-                });
+                        @Override
+                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                            outerPauseBean.setLimitPaused(true);
+                            setSwitchChecked(true, weekSwitchTabView);
+                        }
+                    });
+                }
             }
         }
     }
@@ -765,7 +768,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             //没有登录时的累计节省保费
             if (tv_follow_decoView != null) {
-                createTracksWithNoValue();
                 tv_follow_decoView.setText("¥0");
             }
 
@@ -971,7 +973,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         switch (event.getMsg()) {
             case BusEvent.MSG_INT_TIME:
                 //保存预约停保的信息
-                saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, 1);
+                saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
                 startTimeStr = event.getStart_time();
                 endTimeStr = event.getEnd_time();
                 timeIntvalStr = event.getInterval_time();
@@ -1008,7 +1010,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      * @param userid
      */
     private void getPauseInfo(final Context context, int userid) {
-        UserRetrofitUtil.getPauseInfo(context, 1, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
+        UserRetrofitUtil.getPauseInfo(context, userid, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
             @Override
             public void onFailure(RetrofitError error) {
             }
