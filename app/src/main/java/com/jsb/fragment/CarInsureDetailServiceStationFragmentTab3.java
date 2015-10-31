@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 我的保险-车险-tab3
  */
-public class CarInsureDetailServiceStationFragmentTab3 extends Fragment {
+public class CarInsureDetailServiceStationFragmentTab3 extends BaseFragment {
 
     private ListView listView;
     private List<Object> listData = new ArrayList<>();

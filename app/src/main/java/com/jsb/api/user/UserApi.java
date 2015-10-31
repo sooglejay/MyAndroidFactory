@@ -303,4 +303,48 @@ public interface UserApi {
 
 
 
+
+    /**
+     发送时机	分页获取加班险信息
+     参数说明	1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getOvertimeOrderByPage/")
+    public void getOvertimeOrderByPage(@Field("param") String params ,NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+
+
+    /**
+     发送时机	分页获取驾驶险信息
+     参数说明
+     1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getDriverOrderByPage/")
+    public void getDriverOrderByPage(@Field("param") String params ,NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+
+
+
+    /**
+     发送时机	分页获取车险信息
+     参数说明
+     1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getVehicleOrderByPage/")
+    public void getVehicleOrderByPage(@Field("param") String params ,NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+
+
+
 }

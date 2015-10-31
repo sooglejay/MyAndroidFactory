@@ -73,6 +73,8 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
             convertView = inflater.inflate(layoutID, parent, false);
             if (type == Header) {
                 holder.tv_type_header = (TextView) convertView.findViewById(R.id.tv_type_header);
+                holder.line_top  = convertView.findViewById(R.id.line_top);
+                holder.line_bottom = convertView.findViewById(R.id.line_bottom);
             } else {
                 holder.tv_shop_name = (TextView) convertView.findViewById(R.id.tv_shop_name);
                 holder.tv_shop_address = (TextView) convertView.findViewById(R.id.tv_shop_address);
@@ -86,6 +88,15 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
 
         if (type == Header) {//如果是标题栏
             holder.tv_type_header.setText(mData.get(position).toString());
+            if(position<1)
+            {
+                holder.line_top.setVisibility(View.VISIBLE);
+                holder.line_bottom.setVisibility(View.GONE);
+            }else {
+                holder.line_bottom.setVisibility(View.GONE);
+                holder.line_top.setVisibility(View.GONE);
+            }
+
         }else  {//如果是数据
             holder.tv_shop_name.setText("长城汽车建国店");
             holder.tv_shop_address.setText("一环路南四段168号/110120119");
@@ -94,7 +105,11 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
+        View line_top;
         TextView tv_type_header;
+        View line_bottom;
+
+
         TextView tv_shop_name;
         TextView tv_shop_address;
         LinearLayout item;

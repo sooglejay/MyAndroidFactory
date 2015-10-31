@@ -90,23 +90,6 @@ public class MyInsureActivity extends BaseActivity {
                 List<Overtimeordertable> overtimeordertableList = myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords();
                 List<Vehicleordertable> vehicleordertableList = myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords();
 
-                if (driverordertableList.size() > 0) {
-                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
-                    b1.setInsuranceCompanyName(driverordertableList.get(0).getCompanyInfo().getCompanyname());
-                    b1.setInsuranceMoney(driverordertableList.get(0).getMoney());
-                    b1.setInsuranceName("驾驶险");
-                    b1.setInsuranceBuyDate(driverordertableList.get(0).getBuydate());
-                    mInsureListDatas.add(b1);
-                }
-
-                if (overtimeordertableList.size() > 0) {
-                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
-                    b1.setInsuranceCompanyName("万保易");
-                    b1.setInsuranceMoney(overtimeordertableList.get(0).getMoney());
-                    b1.setInsuranceName("加班险");
-                    b1.setInsuranceBuyDate(overtimeordertableList.get(0).getStartdate());
-                    mInsureListDatas.add(b1);
-                }
 
                 if (vehicleordertableList != null && vehicleordertableList.size() > 0) {
                     aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
@@ -124,6 +107,26 @@ public class MyInsureActivity extends BaseActivity {
                     }
 
                     b1.setInsuranceBuyDate(vehicleordertableList.get(0).getOrderdate());
+                    mInsureListDatas.add(b1);
+                }
+
+
+                if (overtimeordertableList.size() > 0) {
+                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
+                    b1.setInsuranceCompanyName("万保易");
+                    b1.setInsuranceMoney(overtimeordertableList.get(0).getMoney());
+                    b1.setInsuranceName("加班险");
+                    b1.setInsuranceBuyDate(overtimeordertableList.get(0).getStartdate());
+                    mInsureListDatas.add(b1);
+                }
+
+
+                if (driverordertableList.size() > 0) {
+                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
+                    b1.setInsuranceCompanyName(driverordertableList.get(0).getCompanyInfo().getCompanyname());
+                    b1.setInsuranceMoney(driverordertableList.get(0).getMoney());
+                    b1.setInsuranceName("驾驶险");
+                    b1.setInsuranceBuyDate(driverordertableList.get(0).getBuydate());
                     mInsureListDatas.add(b1);
                 }
 

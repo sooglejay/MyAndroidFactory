@@ -1,5 +1,4 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true">
@@ -8,7 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -20,6 +22,11 @@
             android:text="基本信息"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
 
         <LinearLayout
@@ -198,6 +205,10 @@
                 android:textSize="@dimen/big_textsize" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -209,12 +220,18 @@
             android:text="服务热线"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
 
         <LinearLayout
+            android:clickable="true"
+            android:id="@+id/layout_server_call"
+            android:background="@drawable/btn_select_white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_color"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/middle_padding"
             android:paddingRight="@dimen/middle_padding">
@@ -223,8 +240,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingBottom="@dimen/small_padding"
-                android:paddingTop="@dimen/small_padding"
+                android:paddingBottom="@dimen/middle_padding"
+                android:paddingTop="@dimen/middle_padding"
                 android:text="服务热线"
                 android:textColor="@color/tv_black_color_level_0"
                 android:textSize="@dimen/big_textsize" />
@@ -237,13 +254,17 @@
                 android:textSize="@dimen/big_textsize" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_call" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -255,6 +276,10 @@
             android:text="商业险"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -393,6 +418,10 @@
                 android:textSize="@dimen/big_textsize" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -404,6 +433,7 @@
             android:text="强制险"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -444,6 +474,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white_color"
             android:orientation="horizontal"
+            android:paddingBottom="@dimen/small_padding"
+
             android:paddingLeft="@dimen/middle_padding"
             android:paddingRight="@dimen/middle_padding">
 
@@ -473,6 +505,10 @@
                 android:textSize="@dimen/big_textsize" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -521,8 +557,8 @@
                 android:id="@+id/cb_agree_license"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:button="@drawable/icon_agree"
+                android:checked="true"
                 android:gravity="center_vertical"
                 android:text="同意《约定保障条款》"
                 android:textColor="#a7a7a7" />
@@ -535,26 +571,26 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="@color/white_color"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#82ba90"
                     android:gravity="center"
-                    android:textSize="@dimen/big_textsize"
                     android:minHeight="48dp"
-                    android:text="分享" />
+                    android:text="分享"
+                    android:textColor="@color/white_color"
+                    android:textSize="@dimen/big_textsize" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/big_textsize"
                     android:layout_weight="1"
-                    android:textColor="@color/white_color"
                     android:background="#50a165"
                     android:gravity="center"
                     android:minHeight="48dp"
-                    android:text="我要续保" />
+                    android:text="我要续保"
+                    android:textColor="@color/white_color"
+                    android:textSize="@dimen/big_textsize" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

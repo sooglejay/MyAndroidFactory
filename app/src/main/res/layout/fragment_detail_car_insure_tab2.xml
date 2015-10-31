@@ -7,6 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
+
 
 
         <TextView
@@ -19,6 +24,11 @@
             android:text="基本信息"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
 
         <LinearLayout
@@ -197,6 +207,10 @@
                 android:textSize="@dimen/big_textsize" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -209,12 +223,18 @@
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
+            android:id="@+id/layout_server_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_color"
+            android:background="@drawable/btn_select_white"
             android:orientation="horizontal"
+            android:clickable="true"
             android:paddingLeft="@dimen/middle_padding"
             android:paddingRight="@dimen/middle_padding">
 
@@ -222,8 +242,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingBottom="@dimen/small_padding"
-                android:paddingTop="@dimen/small_padding"
+                android:paddingBottom="@dimen/middle_padding"
+                android:paddingTop="@dimen/middle_padding"
                 android:text="服务热线"
                 android:textColor="@color/tv_black_color_level_0"
                 android:textSize="@dimen/big_textsize" />
@@ -236,13 +256,17 @@
                 android:textSize="@dimen/big_textsize" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_call" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -254,6 +278,11 @@
             android:text="商业险"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -392,6 +421,10 @@
                 android:textSize="@dimen/big_textsize" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -403,6 +436,11 @@
             android:text="强制险"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -443,6 +481,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white_color"
             android:orientation="horizontal"
+            android:paddingBottom="@dimen/small_padding"
             android:paddingLeft="@dimen/middle_padding"
             android:paddingRight="@dimen/middle_padding">
 
@@ -472,6 +511,10 @@
                 android:textSize="@dimen/big_textsize" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
             android:layout_width="match_parent"

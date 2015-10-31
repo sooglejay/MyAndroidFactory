@@ -662,4 +662,80 @@ public class UserRetrofitUtil extends RetrofitUtil {
     }
 
 
+    /**
+     发送时机	分页获取驾驶险信息
+     参数说明
+     1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     * @param mContext
+     * @param callback
+     */
+    public static void getDriverOrderByPage(Context mContext,
+                                       int userid,
+                                       int pageSize,
+                                       int pageNum,
+                                       NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid+
+                "&pageSize="+pageSize+
+                "&pageNum="+pageNum;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getDriverOrderByPage(s, callback);
+    }
+
+
+    /**
+     发送时机	分页获取车险信息
+     参数说明
+     1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     * @param mContext
+     * @param callback
+     */
+    public static void getVehicleOrderByPage(Context mContext,
+                                       int userid,
+                                       int pageSize,
+                                       int pageNum,
+                                       NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid+
+                "&pageSize="+pageSize+
+                "&pageNum="+pageNum;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getVehicleOrderByPage(s, callback);
+    }
+
+
+    /**
+     发送时机	分页获取加班险信息
+     参数说明
+     1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     * @param mContext
+     * @param callback
+     */
+    public static void getOvertimeOrderByPage(Context mContext,
+                                       int userid,
+                                       int pageSize,
+                                       int pageNum,
+                                       NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid+
+                "&pageSize="+pageSize+
+                "&pageNum="+pageNum;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getOvertimeOrderByPage(s, callback);
+    }
+
+
+
 }

@@ -76,7 +76,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private Paint dividerPaint;
 
     private int indicatorColor = 0xFF666666;
-    private int underlineColor = 0x1A000000;
+//    private int underlineColor = 0x1A000000;
+    private int underlineColor = 0xFFFFFFFF;
     private int dividerColor = 0x1A000000;
 
     private boolean shouldExpand = true;
@@ -84,7 +85,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     private int scrollOffset = 52;
     private int indicatorHeight = 8;
-    private int underlineHeight = 2;
+//    private int underlineHeight = 2;
+    private int underlineHeight = 0;//底部的 绿色线的底部的那条线
     private int dividerPadding = 12;
     private int tabPadding = 24;
     private int dividerWidth = 0;//分隔线
