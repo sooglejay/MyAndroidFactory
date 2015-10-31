@@ -81,6 +81,26 @@ public class LoginActivity extends BaseActivity {
         et_verify_code.addTextChangedListener(textWatcher);
         et_phone_number.addTextChangedListener(textWatcher);
 
+
+
+        mCountTimer = new CountDownTimer(60 * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                //让验证码输入框获取焦点
+                et_verify_code.requestFocus();
+                tv_obtain_verify_code.setText("" + millisUntilFinished / 1000 + "秒后重试");
+                tv_obtain_verify_code.setEnabled(false);
+                tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+            }
+
+            public void onFinish() {
+                tv_obtain_verify_code.setText("重新获取验证码");
+                tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.white_color));
+                tv_obtain_verify_code.setEnabled(true);
+            }
+
+        };
+
+
     }
 
     private void setLisenter() {
@@ -108,6 +128,7 @@ public class LoginActivity extends BaseActivity {
                         @Override
                         public void onFailure(RetrofitError error) {
                             mProgressUtil.hide();
+                            mCountTimer.onFinish();
                         }
 
                         @Override
@@ -138,6 +159,7 @@ public class LoginActivity extends BaseActivity {
                         @Override
                         public void onFailure(RetrofitError error) {
                             Toast.makeText(LoginActivity.this, "无法连接网络！", Toast.LENGTH_SHORT).show();
+                            mCountTimer.onFinish();
 
                         }
 
@@ -148,24 +170,8 @@ public class LoginActivity extends BaseActivity {
                         }
                     });
 
-                    mCountTimer = new CountDownTimer(60 * 1000, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            tv_obtain_verify_code.setText("" + millisUntilFinished / 1000 + "秒后重试");
-                            tv_obtain_verify_code.setEnabled(false);
-                            tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
-                        }
-
-                        public void onFinish() {
-                            tv_obtain_verify_code.setText("重新获取验证码");
-                            tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.white_color));
-                            tv_obtain_verify_code.setEnabled(true);
-                        }
-                    };
                     mCountTimer.start();
 
-
-                    //让验证码输入框获取焦点
-                   et_verify_code.requestFocus();
 
 
                 }

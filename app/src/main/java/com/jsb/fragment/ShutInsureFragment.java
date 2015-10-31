@@ -85,7 +85,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 //spinner  :if has not invoked setCheck(position) ,then,its itemSelectedListener will never be invoked,even if has been set itemSelectedlistener
 
-    private boolean isWeekSpinnerSetCheckByCode = false;
+
+    private boolean isWeekSpinnerControlledByCode = false;//是否是代码设置Spinner
 
     private float maxNumber = 0;//动画的 数字最大值
     private float realNumber = 0;//动画的 数字最大值
@@ -229,7 +230,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                 ((TextView) tv_title).setText("您需要登录操作才能提现哦！\n是否现在就去登录？");
                             }
                             tv_content.setVisibility(View.GONE);
-
                         }
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
@@ -292,6 +292,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     if (carNumberStr.equals(bean.getLicenseplate())) {
                         //刷新车牌号为选中的字符串的停保记录
                         outerPauseBean = bean;
+                        Log.d("Retrofit","执行 到 车牌号 这个坑爹的代码行了，注意啊啊啊啊啊啊");
                         refreshData(outerPauseBean);
                         break;
                     }
@@ -308,11 +309,16 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         myWeekSpinnerItemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 //传出 position，在其他地方网络请求时，使用这个position，用于传递给服务端，周几
+
+                if(isWeekSpinnerControlledByCode)
+                {
+                    isWeekSpinnerControlledByCode = false;
+                    Log.d("Retrofit","行号 316 上一行代码是 isWeekSpinnerControlledByCode = false;");
+                    return;
+                }
                 outerWeekthPosition = position;
-                if(isWeekSpinnerSetCheckByCode)return;
-                Log.e("Retrofit","进来了 outerWeekthPosition:"+outerWeekthPosition);
+                Log.d("Retrofit", "myWeekSpinnerItemSelectedListener 行号 320 上一行代码是 }");
                 //如果是真实用户的操作，才会进入下面的逻辑
                 //保存限行停保的信息
                 saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, 1);
@@ -346,9 +352,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //如果是代码调用了setCheck()就直接跳出，不进行下面的逻辑
-                if (isSwitchTouchedOrTriggeredByCode) return;
+                if (isSwitchTouchedOrTriggeredByCode){
+                   Log.d("Retrofit","行号371:上一行代码是：  isSwitchTouchedOrTriggeredByCode = false;");
+                    return;
+                }
+                Log.d("Retrofit","行号371:上一行代码是：}");
                 //先反向设置一下Switch
-                reversalSwitch(isChecked, weekSwitchTabView);
+                setSwitchChecked(!isChecked, weekSwitchTabView);
                 //检查操作的合法性：登录与否，是否设置过密码
                 checkIsLoginOrHasPassword(isChecked, weekSwitchTabView);
             }
@@ -360,9 +370,14 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //如果是代码调用了setCheck()就直接跳出，不进行下面的逻辑
-                if (isSwitchTouchedOrTriggeredByCode) return;
+                if (isSwitchTouchedOrTriggeredByCode)
+                {
+                    Log.d("Retrofit","行号371:上一行代码是：  isSwitchTouchedOrTriggeredByCode = false;");
+                    return;
+                }
+                Log.d("Retrofit","行号374 上一行代码是：}");
                 //先反向设置一下Switch
-                reversalSwitch(isChecked, dateSwitchTabView);
+                setSwitchChecked(!isChecked, dateSwitchTabView);
                 //检查操作的合法性：登录与否，是否设置过密码
                 checkIsLoginOrHasPassword(isChecked, dateSwitchTabView);
             }
@@ -374,6 +389,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      */
     private void checkIsLoginOrHasPassword(final boolean isChecked, final Switch switchView) {
         //通过userid来判断用户是否登录，-1就是未登录状态,弹出登录对话框
+        outerUserId = PreferenceUtil.load(context,PreferenceConstant.userid,-1);
         if (outerUserId < 0) {
             //登录对话框
             dialogFragmentController.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
@@ -448,14 +464,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                 Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
                                 dialogFragmentController.dismiss();
                                 //如果密码验证成功才真正去操作Switch
-                                reversalSwitch(!isChecked, switchView);
+                                setSwitchChecked(isChecked, switchView);
                                 if (switchView == weekSwitchTabView) {
                                     tv_xxtb.setAlpha(isChecked ? 1 : 0.5f);
                                     layout_week_number_spinner.setAlpha(isChecked ? 1 : 0.5f);
                                     layout_week_number_spinner.setClickable(isChecked);
                                     layout_week_number_spinner.setEnabled(isChecked);
-
-
                                     if (isChecked) {//如果是打开操作，就保存信息
                                         saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, 1);
                                     } else {//如果是关闭操作，就取消上一次保存的信息
@@ -490,9 +504,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         }
     }
 
-    public void reversalSwitch(boolean isChecked, Switch switchView) {
+    public void setSwitchChecked(boolean isChecked, Switch switchView) {
         isSwitchTouchedOrTriggeredByCode = true;
-        switchView.setChecked(!isChecked);
+        switchView.setChecked(isChecked);
         isSwitchTouchedOrTriggeredByCode = false;
     }
 
@@ -508,7 +522,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
         //用户的id
         outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
-        Log.e("Retrofit","userid="+outerUserId);
+        Log.e("Retrofit", "userid=" + outerUserId);
         //包装耗时操作
         progressDialogUtil = new ProgressDialogUtil(context);
 
@@ -542,6 +556,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         datePickerLayout = (LinearLayout) view.findViewById(R.id.layout_date_picker);
         //车牌号Spinner的父Layout
         layout_car_number_spinner = (LinearLayout) view.findViewById(R.id.layout_car_number_spinner);
+        refreshCarSpinnerLayout(false);
+
         //限行停保的 Spinner 的父Layout
         layout_week_number_spinner = (LinearLayout) view.findViewById(R.id.layout_week_number_spinner);
 
@@ -562,28 +578,19 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         weekSwitchTabView = (Switch) view.findViewById(R.id.week_switch_tab_view);
 
         //默认先设置为false,并且其父Layout设置为不可点击
-        isSwitchTouchedOrTriggeredByCode = true;
         weekSwitchTabView.setChecked(false);
-        isSwitchTouchedOrTriggeredByCode = false;
         refreshLimitPauseUI(false);
 
 
         // 滑动按钮-选择预约停保的时间
         dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
-        isSwitchTouchedOrTriggeredByCode = true;
         dateSwitchTabView.setChecked(false);//默认是关闭
-        isSwitchTouchedOrTriggeredByCode = false;
+
+        //更新预约停保的UI
         refreshReservePauseUI(false);
 
-        if (outerUserId > 0) {
-            //获取停保信息
-            getPauseInfo(context, outerUserId);
-        } else {
-            //没有登录的时候，累计节省保费的动画
-            createTracksWithNoValue();
-            //车牌号码
-            layout_car_number_spinner.setVisibility(View.INVISIBLE);
-        }
+        //先画初始化的动画
+        createTracksWithNoValue();
     }
 
 
@@ -601,6 +608,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                        outerPauseBean.setReservePaused(false);
                         UserRetrofitUtil.saveReservePauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), timeStringForPostToServer, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
                             public void onFailure(RetrofitError error) {
@@ -609,7 +617,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                             @Override
                             public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-
+                                outerPauseBean.setReservePaused(true);
                             }
                         });
                     }
@@ -625,7 +633,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private void saveLimitPauseInfo(int type, int userid) {
         //暂时使用 userid = 1的记录
         if (outerPauseBean != null) {
-            if (outerPauseBean.getReservePaused()) {
+            if (outerPauseBean.getLimitPaused()) {
                 UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                     @Override
                     public void onFailure(RetrofitError error) {
@@ -634,15 +642,15 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-
-                        UserRetrofitUtil.saveLimitPauseInfo(context, 1, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition+1, new NetCallback<NetWorkResultBean<String>>(context) {
+                        outerPauseBean.setLimitPaused(false);
+                        UserRetrofitUtil.saveLimitPauseInfo(context, 1, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
                             public void onFailure(RetrofitError error) {
                             }
 
                             @Override
                             public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-
+                                outerPauseBean.setLimitPaused(true);
                             }
                         });
                     }
@@ -660,7 +668,17 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
             //用户的id
             outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
-            Log.e("Retrofit","userid="+outerUserId);
+
+            Log.e("Retrofit", "userid=" + outerUserId);
+            if (outerUserId > 0) {
+                //获取停保信息
+                getPauseInfo(context, outerUserId);
+            } else {
+                //没有登录的时候，累计节省保费的动画
+                createTracksWithNoValue();
+                refreshCarSpinnerLayout(false);
+            }
+
 
             if (outerUserId < 0) {
                 outerPauseBean = null;
@@ -672,9 +690,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     isSwitchTouchedOrTriggeredByCode = false;
                 }
                 //车牌号
-                if (layout_car_number_spinner != null) {
-                    layout_car_number_spinner.setVisibility(View.INVISIBLE);
-                }
+                refreshCarSpinnerLayout(false);
 
                 //没有登录时的可用停保余额
                 if (tv_usefulPauseFee != null) {
@@ -707,6 +723,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 }
 
             }
+        }
+    }
+
+    private void refreshCarSpinnerLayout(boolean isVisible) {
+        if (layout_car_number_spinner != null) {
+            //车牌号码
+            layout_car_number_spinner.setVisibility(isVisible?View.VISIBLE:View.INVISIBLE);
         }
     }
 
@@ -861,7 +884,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     /**
      * EventBus 广播
-     *
      * @param event
      */
     public void onEventMainThread(BusEvent event) {
@@ -893,6 +915,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         }
     }
 
+    /**
+     * 获取服务端 userid 的值
+     * @param context
+     * @param userid
+     */
     private void getPauseInfo(final Context context, int userid) {
         UserRetrofitUtil.getPauseInfo(context, 1, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
             @Override
@@ -901,19 +928,16 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             @Override
             public void success(NetWorkResultBean<List<PauseData>> objectNetWorkResultBean, Response response) {
-
                 mPauseDataList.clear();
                 mPauseDataList.addAll(objectNetWorkResultBean.getData());
                 mCarNumbersStringList.clear();
                 for (PauseData bean : mPauseDataList) {
                     mCarNumbersStringList.add(bean.getLicenseplate());
                 }
-                isSwitchTouchedOrTriggeredByCode = true;
                 mCarNumbersListAdapter.notifyDataSetChanged();
-                isSwitchTouchedOrTriggeredByCode = false;
-
                 if (mPauseDataList != null && mPauseDataList.size() > 0) {
                     outerPauseBean = mPauseDataList.get(0);
+                    Log.d("Retrofit","网络请求执行refreshData（）必须的");
                     refreshData(outerPauseBean);
                 }
             }
@@ -922,7 +946,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     /**
      * 刷新首页的停保对象
-     *
      * @param bean
      */
     public void refreshData(PauseData bean) {
@@ -952,13 +975,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         refreshReservePauseInsurance();
         if (bean != null) {
             if (bean.getLimitday() != null) {
-                isWeekSpinnerSetCheckByCode = true;
+                isWeekSpinnerControlledByCode = true;
+                Log.d("Retrofit"," 行号 972  上一行代码 isWeekSpinnerControlledByCode =true");
                 week_number_spinner.setSelection(bean.getLimitday() - 1);
-                isWeekSpinnerSetCheckByCode = false;
             } else {
-                isWeekSpinnerSetCheckByCode = true;
+                isWeekSpinnerControlledByCode = true;
+                Log.d("Retrofit","行号 976  上一行代码  isWeekSpinnerControlledByCode =true");
                 week_number_spinner.setSelection(0);
-                isWeekSpinnerSetCheckByCode = false;
             }
             if (bean.getPausePrice() != null) {
                 tv_pausePrice.setText("¥" + bean.getPausePrice() + "");
@@ -971,18 +994,24 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             if (bean.getReservePaused() != null) {
                 refreshReservePauseUI(bean.getReservePaused());
                 //如果 之前是打开的，则再一次进入页面时也要打开
-                reversalSwitch(!bean.getReservePaused(), dateSwitchTabView);
+                setSwitchChecked(bean.getReservePaused(), dateSwitchTabView);
             }
             if (bean.getLimitPaused() != null) {
                 //刷新两种停保的ui 透明度和点击使能
                 refreshLimitPauseUI(bean.getLimitPaused());
-                reversalSwitch(!bean.getLimitPaused(), weekSwitchTabView);
+                setSwitchChecked(bean.getLimitPaused(), weekSwitchTabView);
             }
 
             if (bean.getTotalPauseFee() != null) { //开始动画
                 realNumber = bean.getTotalPauseFee();
                 maxNumber = (float) DiditUtil.getMaxInteger(realNumber);
                 createAnimation();
+            }
+
+            //更新车牌号的layout
+            if(mCarNumbersStringList!=null&&mCarNumbersStringList.size()>0)
+            {
+                refreshCarSpinnerLayout(true);
             }
         }
 
@@ -996,6 +1025,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         tv_xxtb.setAlpha(isLimitedPause ? 1 : 0.5f);
         layout_week_number_spinner.setAlpha(isLimitedPause ? 1 : 0.5f);
         layout_week_number_spinner.setClickable(isLimitedPause ? true : false);
+        layout_week_number_spinner.setEnabled(isLimitedPause ? true : false);
     }
 
     /**
@@ -1005,6 +1035,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         tv_yytb.setAlpha(isReservePause ? 1 : 0.5f);
         datePickerLayout.setAlpha(isReservePause ? 1 : 0.5f);
         datePickerLayout.setClickable(isReservePause ? true : false);
+        datePickerLayout.setEnabled(isReservePause ? true : false);
+
     }
 
 }
