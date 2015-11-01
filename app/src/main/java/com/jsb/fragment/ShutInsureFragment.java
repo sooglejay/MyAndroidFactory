@@ -764,6 +764,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             createTracksWithNoValue();
             refreshCarSpinnerLayout(false);
 
+            refreshReservePauseUI(false);
+            refreshLimitPauseUI(false);
+
             //没有登录时的可用停保余额
             if (tv_usefulPauseFee != null) {
                 tv_usefulPauseFee.setText("¥0");
@@ -804,8 +807,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         Log.e("Retrofit", "userid=" + outerUserId);
         if (outerUserId > 0) {
             //获取停保信息
-            getPauseInfo(context, outerUserId);
+            getPauseInfoAndThenRefreshData(context, outerUserId);
         }
+
     }
 
     @Override
@@ -993,6 +997,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 checkIsLoginAndRefreshUI();
                 break;
             case BusEvent.MSG_SignOut_Success:
+
                 refreshUIAfterSignOut();
                 break;
             default:
@@ -1018,7 +1023,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      * @param context
      * @param userid
      */
-    private void getPauseInfo(final Context context, int userid) {
+    private void getPauseInfoAndThenRefreshData(final Context context, int userid) {
         UserRetrofitUtil.getPauseInfo(context, userid, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
             @Override
             public void onFailure(RetrofitError error) {
