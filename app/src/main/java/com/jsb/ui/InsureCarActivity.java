@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
 
 
@@ -29,6 +30,7 @@ public class InsureCarActivity extends BaseActivity {
     private EditText etUserIdCardNumber;
     private EditText etStartInsureDate;
     private TextView tv_enquiry;
+    private ProgressDialogUtil progressDialogUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

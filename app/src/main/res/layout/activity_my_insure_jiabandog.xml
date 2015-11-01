@@ -21,7 +21,10 @@
         android:textColor="#8e8e8f"
         android:textSize="@dimen/small_textsize" />
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -181,7 +184,10 @@
             android:textColor="#888888"
             android:textSize="@dimen/small_textsize" />
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,7 +198,10 @@
         android:text="赔付信息"
         android:textColor="#8e8e8f"
         android:textSize="@dimen/small_textsize" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -234,7 +243,10 @@
             android:textSize="@dimen/small_textsize" />
     </LinearLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

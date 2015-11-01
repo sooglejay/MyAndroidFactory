@@ -2,6 +2,7 @@ package com.jsb.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.IntConstant;
+import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.fragment.DialogFragmentCreater;
@@ -26,10 +29,12 @@ import com.jsb.fragment.MeFragment;
 import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.CheckNetWorkUtil;
+import com.jsb.util.PreferenceUtil;
 import com.jsb.util.UpdateVersionUtil;
 import com.jsb.widget.ScrollableViewPager;
 import com.jsb.widget.TabBar;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -50,8 +55,6 @@ public class MainActivity extends BaseActivity {
 
     private UpdateVersionUtil updateVersionUtil;
 
-    private DialogFragmentCreater dialogFragmentCreater;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,26 +65,6 @@ public class MainActivity extends BaseActivity {
     private void setUp() {
         lineView = findViewById(R.id.line_view);
         tabBar = (TabBar) findViewById(R.id.home_bottomBar);
-        dialogFragmentCreater = new DialogFragmentCreater();
-        dialogFragmentCreater.setDialogContext(this, this.getSupportFragmentManager());
-        dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
-            @Override
-            public void viewClick(String tag) {
-                if (tag.equals(StringConstant.tv_confirm)) {
-                    MainActivity.this.finish();
-                } else {
-
-                }
-            }
-
-            @Override
-            public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
-                ((TextView) tv_confirm).setText("离开");
-                ((TextView) tv_cancel).setText("留在这里");//颠倒一下
-                ((TextView) tv_title).setText("你确定要离开这里么？");
-                tv_content.setVisibility(View.GONE);
-            }
-        });
         initViewPager();
         checkUpdate();
     }
@@ -246,7 +229,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        dialogFragmentCreater.showDialog(this, DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("真的要关闭安心车险么?")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.this.finish();
+                      }
+                }).setNegativeButton("取消", null).create().show();
     }
 
 }

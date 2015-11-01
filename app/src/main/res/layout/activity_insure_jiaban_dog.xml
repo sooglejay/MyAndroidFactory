@@ -28,7 +28,10 @@
         android:text="本期商品数还剩7份"
         android:textColor="#8e8e8e"
         android:textSize="@dimen/middle_textsize" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +56,10 @@
             android:layout_marginRight="@dimen/middle_padding"
             android:src="@drawable/arrow_right" />
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:button="@drawable/icon_agree"
+            android:button="@drawable/icon_choose_selected"
             android:gravity="center_vertical"
             android:text="同意《约定保障条款》"
             android:textColor="#a7a7a7" />

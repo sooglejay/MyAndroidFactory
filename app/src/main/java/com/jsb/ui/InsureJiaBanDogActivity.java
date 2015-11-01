@@ -15,6 +15,7 @@ import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
 
 import java.text.SimpleDateFormat;
@@ -37,11 +38,13 @@ public class InsureJiaBanDogActivity extends BaseActivity {
     private boolean isAgreeWithLicence = true;
     private SimpleDateFormat df_yyyy_m_d =new SimpleDateFormat("yyyy-MM-dd");
 
+    private ProgressDialogUtil progressDialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_jiaban_dog);
+        progressDialogUtil = new ProgressDialogUtil(this);
         setUp();
         setLisenter();
     }
@@ -86,11 +89,11 @@ public class InsureJiaBanDogActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     isAgreeWithLicence = true;
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_agree);
+                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose_selected);
                     tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
                 } else {
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_disagree);
+                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose);
                     isAgreeWithLicence = false;
                     tv_buy_insure.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
@@ -98,14 +101,16 @@ public class InsureJiaBanDogActivity extends BaseActivity {
             }
         });
 
+        progressDialogUtil.show("正在获取加班险信息...");
         UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<OvertimeData>>(InsureJiaBanDogActivity.this) {
             @Override
             public void onFailure(RetrofitError error) {
-
+                progressDialogUtil.hide();
             }
 
             @Override
             public void success(NetWorkResultBean<OvertimeData> overtimeinsuranceNetWorkResultBean, Response response) {
+                progressDialogUtil.hide();
                 Overtimeinsurance bean= overtimeinsuranceNetWorkResultBean.getData().getOvertimeInsurance();
                 if(bean.getReleasetime()!=null) {
                     //生效时间

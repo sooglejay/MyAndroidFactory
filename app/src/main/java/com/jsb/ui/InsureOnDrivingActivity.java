@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
 
 /**
@@ -17,11 +18,13 @@ public class InsureOnDrivingActivity extends BaseActivity {
     private TitleBar titleBar;
     private CheckBox cb_agree_license;
     private TextView tv_buy_insure;
+    private ProgressDialogUtil progressDialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_on_driving_activity);
+        progressDialogUtil = new ProgressDialogUtil(this);
         setUp();
         setLisenter();
     }
@@ -59,12 +62,12 @@ public class InsureOnDrivingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_agree);
+                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose_selected);
                     tv_buy_insure.setEnabled(true);
                     tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
                 } else {
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_disagree);
+                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose);
                     tv_buy_insure.setEnabled(false);
                     tv_buy_insure.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));

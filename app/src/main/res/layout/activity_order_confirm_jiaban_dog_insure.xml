@@ -12,7 +12,11 @@
     <View
         android:layout_width="match_parent"
         android:background="@color/bg_screen"
-        android:layout_height="20dp"/>
+        android:layout_height="22dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <!--保障人-->
     <LinearLayout
         android:background="@color/white_color"
@@ -43,7 +47,38 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen" />
+        android:background="@drawable/line_e0_e5"/>
+    <!--公司名称-->
+    <LinearLayout
+        android:background="@color/white_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="@dimen/middle_padding"
+            android:text="公司名称"
+            android:textColor="#4f4f4f"
+            android:textSize="@dimen/big_textsize" />
+
+        <EditText
+            android:id="@+id/et_company_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入公司名称"
+            android:inputType="text"
+            android:padding="@dimen/middle_padding"
+            android:textColorHint="@color/tv_gray_color_level_1" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <!--公司地址-->
     <LinearLayout
         android:background="@color/white_color"
@@ -74,7 +109,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen" />
+        android:background="@drawable/line_e0_e5"/>
     <!--家庭地址-->
     <LinearLayout
         android:background="@color/white_color"
@@ -105,7 +140,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen" />
+        android:background="@drawable/line_e0_e5"/>
     <!--保险期限-->
     <LinearLayout
         android:background="@color/white_color"
@@ -136,7 +171,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen" />
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/bg_screen"

@@ -27,10 +27,21 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_insure_car_describe" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+                android:paddingBottom="@dimen/small_padding"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingTop="@dimen/small_padding"
+                android:text="行驶证信息"
+                android:textColor="@color/tv_gray_color_level_3"
+                android:textSize="@dimen/small_textsize" />
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/small_padding"
-                android:background="@color/bg_screen" />
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,8 +79,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/bg_screen" />
-
+                    android:background="@drawable/line_e0_e5" />
 
                 <!--车牌号码-->
                 <LinearLayout
@@ -102,7 +112,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/bg_screen" />
+                    android:background="@drawable/line_e0_e5" />
                 <!--车架号码-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,7 +144,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/bg_screen" />
+                    android:background="@drawable/line_e0_e5" />
                 <!--发动机号-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -166,7 +176,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/bg_screen" />
+                    android:background="@drawable/line_e0_e5" />
                 <!--登记日期-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -197,19 +207,14 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/small_padding"
-                    android:background="@color/bg_screen" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_color">
-
-                <!--身份证号码-->
+                    android:layout_height="1dp"
+                    android:background="@drawable/line_e0_e5" />
+                <!--发证日期-->
                 <LinearLayout
+                    android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/btn_select_white"
                     android:orientation="horizontal">
 
                     <TextView
@@ -217,46 +222,101 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:paddingLeft="@dimen/middle_padding"
-                        android:text="身份证号(可扫描)"
+                        android:text="发证日期"
                         android:textColor="@color/tv_black_color_level_0"
                         android:textSize="@dimen/big_textsize" />
 
-                    <EditText
-                        android:id="@+id/et_user_id_card_number"
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="请输入身份证号"
-                        android:inputType="text"
                         android:padding="@dimen/middle_padding"
-                        android:textColorHint="@color/tv_gray_color_level_1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_scan_id_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingRight="@dimen/middle_padding">
+                        android:text="2015-10-11" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_pic_small" />
+                        android:layout_gravity="center"
+                        android:src="@drawable/arrow_right" />
                 </LinearLayout>
-            </FrameLayout>
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bg_screen" />
+                android:background="@drawable/line_e0_e5" />
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white_color"
+                android:background="#f5f5f6"
+                android:paddingBottom="@dimen/small_padding"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingTop="@dimen/small_padding"
+                android:text="起保日期"
+                android:textColor="@color/tv_gray_color_level_3"
+                android:textSize="@dimen/small_textsize" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+
+            <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white_color">-->
+
+            <!--&lt;!&ndash;身份证号码&ndash;&gt;-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingLeft="@dimen/middle_padding"-->
+            <!--android:text="身份证号(可扫描)"-->
+            <!--android:textColor="@color/tv_black_color_level_0"-->
+            <!--android:textSize="@dimen/big_textsize" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/et_user_id_card_number"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@null"-->
+            <!--android:hint="请输入身份证号"-->
+            <!--android:inputType="text"-->
+            <!--android:padding="@dimen/middle_padding"-->
+            <!--android:textColorHint="@color/tv_gray_color_level_1" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/layout_scan_id_card"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right|center_vertical"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingRight="@dimen/middle_padding">-->
+
+            <!--<ImageView-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:src="@drawable/icon_choose_pic_small" />-->
+            <!--</LinearLayout>-->
+            <!--</FrameLayout>-->
+
+
+            <!--商业险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_select_white"
                 android:orientation="horizontal">
 
                 <TextView
@@ -264,21 +324,90 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="起保日期"
+                    android:text="商业险    "
                     android:textColor="@color/tv_black_color_level_0"
                     android:textSize="@dimen/big_textsize" />
 
-                <EditText
-                    android:id="@+id/et_insure_date"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="请扫描或输入登记日期"
-                    android:inputType="text"
                     android:padding="@dimen/middle_padding"
-                    android:textColorHint="@color/tv_gray_color_level_1" />
+                    android:text="2015-10-11" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/arrow_right" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+            <!--交强险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:background="@drawable/btn_select_white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="交强险    "
+                    android:textColor="@color/tv_black_color_level_0"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/middle_padding"
+                    android:text="2015-10-11" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/arrow_right" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white_color"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingLeft="@dimen/middle_padding"-->
+            <!--android:text="起保日期"-->
+            <!--android:textColor="@color/tv_black_color_level_0"-->
+            <!--android:textSize="@dimen/big_textsize" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/et_insure_date"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@null"-->
+            <!--android:hint="请扫描或输入登记日期"-->
+            <!--android:inputType="text"-->
+            <!--android:padding="@dimen/middle_padding"-->
+            <!--android:textColorHint="@color/tv_gray_color_level_1" />-->
+            <!--</LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"

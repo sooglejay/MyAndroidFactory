@@ -12,7 +12,11 @@
     <View
         android:layout_width="match_parent"
         android:background="@color/bg_screen"
-        android:layout_height="20dp"/>
+        android:layout_height="22dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <!--保障人-->
     <LinearLayout
         android:background="@color/white_color"
@@ -44,8 +48,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen" />
-
+        android:background="@drawable/line_e0_e5"/>
 
     <!--保障人身份证号码-->
     <LinearLayout
@@ -78,7 +81,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen" />
+        android:background="@drawable/line_e0_e5"/>
     <!--保险期限-->
     <LinearLayout
         android:background="@color/white_color"
@@ -109,7 +112,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_screen" />
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/bg_screen"
