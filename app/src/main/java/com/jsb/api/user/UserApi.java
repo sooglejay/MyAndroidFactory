@@ -3,7 +3,10 @@ package com.jsb.api.user;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.model.AccountData;
 import com.jsb.model.CommData;
+import com.jsb.model.ConsultantData;
 import com.jsb.model.FreedomData;
+import com.jsb.model.HistoryPriceData;
+import com.jsb.model.InviteInfo;
 import com.jsb.model.MyInsuranceData;
 import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
@@ -11,7 +14,10 @@ import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.PauseData;
 import com.jsb.model.PauseHistory;
+import com.jsb.model.RangeData;
+import com.jsb.model.ReportData;
 import com.jsb.model.ReportableInsurance;
+import com.jsb.model.SelfRecord;
 import com.jsb.model.TeamData;
 import com.jsb.model.Userstable;
 
@@ -54,16 +60,6 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/getOvertimeInsuranceInfo/")
     public void getOvertimeInsuranceInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<OvertimeData>> NetCallback);
-
-
-    /**
-     * 加班狗报案
-     * @param params
-     * @param NetCallback
-     */
-    @FormUrlEncoded
-    @POST("/getReportableInsurance/")
-    public void getReportableInsurance(@Field("param") String params ,NetCallback<NetWorkResultBean<ReportableInsurance>> NetCallback);
 
 
 
@@ -117,6 +113,222 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/getFourTeamInfo/")
     public void getFourTeamInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<List<FreedomData>>> NetCallback);
+
+
+    /*
+    参数说明
+    1、int userid ; //用户编号
+    2、string realname ; //姓名
+    3、String city；//地址
+            4、String idcardnum ;//身份证号
+    5、String refereephone;//推荐人电话，没有就传"0"
+    6、String companyname;//公司名字   无则传空“”
+    7、String companyaddress;//公司地址  无则传空“”
+    8、String service;//服务介绍
+    本接口还有一个参数imagesData,放图片，图片名字每次加个随机数上防止名字冲突
+    * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/fillInfoJoinTeam/")
+    public void fillInfoJoinTeam(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     发送时机	获取排名信息
+     参数说明	1、int userid; //用户id
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getTeamRangeInfo/")
+    public void getTeamRangeInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<RangeData>> NetCallback);
+
+    /**
+     发送时机	获取邀请信息
+     参数说明	1、int userid; //用户id
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getInviteInfo/")
+    public void getInviteInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<List<InviteInfo>>> NetCallback);
+
+
+    /**
+     发送时机	创建团队获取可选团员
+     参数说明
+     1、int userid; //用户id
+     2、int pageSize;//每页容量
+     3、int pageNum ;//页码
+     限制条件	参数1、2、3为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getChoicers/")
+    public void getChoicers(@Field("param") String params ,NetCallback<NetWorkResultBean<List<Userstable>>> NetCallback);
+
+
+    /**
+     发送时机	团队创建好后，想添加团员时，获取可选人员
+     参数说明	1、int userid; //用户id
+     2、int pageSize;//每页容量
+     3、int pageNum ;//页码
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getAvailable/")
+    public void getAvailable(@Field("param") String params ,NetCallback<NetWorkResultBean<List<Userstable>>> NetCallback);
+
+
+
+    /**
+     发送时机	添加团员时，选择好人员，提交
+     参数说明
+     1、int leaderid; //用户id(团长id)
+     2、String ids;//选中的队员编号，多个以豆号隔开
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/addNewMember/")
+    public void addNewMember(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     发送时机	创建团队异步验证团名是否可用
+     参数说明	1、String teamname;//团队名字
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/verifyTeamName/")
+    public void verifyTeamName(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     发送时机	创建团队提交
+     参数说明
+     1、int userid; //用户id
+     2、String teamname;//团队名字
+     3、String memberids;//多个以逗号隔开，例如： 1，2，3 小刘要做审核处理，给选定的人写邀请信息,或者调我的接口 ，没有勾选则传"",
+     限制条件	参数1、2、3为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/createTeam/")
+    public void createTeam(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     发送时机	邀请入团信息处理
+     参数说明
+     1、int inviteinfoid; //邀请信息id
+     2、int received ;//0不接受  1 接受
+     限制条件	参数1、2为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/dealInviting/")
+    public void dealInviting(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     发送时机	团长提交审核结果
+     参数说明
+     1、int memberid; //请求用户id
+     2、int teamid ;//申请入团的团队编号
+     3、int  auditResult ;// 0未通过  1 通过
+     限制条件	参数1、2、3为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/auditJoinRequest/")
+    public void auditJoinRequest(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+    /**
+     发送时机	团长查看团队信息
+     参数说明	1、int userid; //用户id
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getMyTeamInfo/")
+    public void getMyTeamInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<TeamData>> NetCallback);
+
+
+    /**
+     发送时机	团长查看申请
+     参数说明	1、int userid; //用户id
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getJoinRequest/")
+    public void getJoinRequest(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+    /**
+     发送时机	团长搜索团员
+     参数说明	1、int userid; //团长id
+     2、String searchParam ;//电话或姓名,成员列表直接放在data中 SelfRecord
+     限制条件	参数1、2为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/searchMember/")
+    public void searchMember(@Field("param") String params ,NetCallback<NetWorkResultBean<SelfRecord>> NetCallback);
+
+
+    /**
+     发送时机	查询我的顾问
+     参数说明	1、int userid; //用户id
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getMyConsultant/")
+    public void getMyConsultant(@Field("param") String params ,NetCallback<NetWorkResultBean<ConsultantData>> NetCallback);
+
+
+    /**
+     发送时机	查询其他顾问
+     参数说明
+     1、int userid; //用户id
+     2、int pageSize;//每页容量
+     3、int pageNum;//页码
+     限制条件	参数1、2、3为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getOtherConsultant/")
+    public void getOtherConsultant(@Field("param") String params ,NetCallback<NetWorkResultBean<ConsultantData>> NetCallback);
+
+
+    /**
+     发送时机	用户点击加入团队时，调用此接口获取默认信息，有则用户可以不重新填写
+     参数说明	1、int userid ; //用户编号
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getSelfInfo/")
+    public void getSelfInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<Userstable>> NetCallback);
 
 
     /**
@@ -315,6 +527,21 @@ public interface UserApi {
 
 
 
+    /**
+     发送时机	获取加班明细
+     参数说明
+     1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getMyOvertimeInfo/")
+    public void getMyOvertimeInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<MyWalletData>> NetCallback);
+
+
+
 
     /**
      发送时机	分页获取加班险信息
@@ -356,6 +583,96 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/getVehicleOrderByPage/")
     public void getVehicleOrderByPage(@Field("param") String params ,NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+
+
+
+
+    /**
+     发送时机	用户点击报价历史，获取报价列表
+     参数说明
+     1、int userid ; //用户编号
+     2、int pageSize ; //每页数据量大小
+     3、int pageNum；//当前页数
+     限制条件	参数1、2、3为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getPriceHistoryList/")
+    public void getPriceHistoryList(@Field("param") String params ,NetCallback<NetWorkResultBean<HistoryPriceData>> NetCallback);
+
+
+
+
+
+    /**
+     发送时机	用户点击某个报价，查看详情时调用，获取报价详情
+     参数说明	1、int orderid ; //保单编号
+     限制条件	参数1为必填。
+     限制条件	参数1、2、3为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getHistoryPriceDetail/")
+    public void getHistoryPriceDetail(@Field("param") String params ,NetCallback<NetWorkResultBean<HistoryPriceData>> NetCallback);
+
+
+    /**
+     发送时机	历史报价删除记录
+     参数说明	1、int orderid ; //保单编号
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/deleteHistoryPrice/")
+    public void deleteHistoryPrice(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     发送时机	用户点击我要报案时，获取可报案列表
+     参数说明	1、int userid ; //用户编号
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getReportableInsurance/")
+    public void getReportableInsurance(@Field("param") String params ,NetCallback<NetWorkResultBean<ReportData>> NetCallback);
+
+
+
+    /**
+     发送时机	用户加班险报案
+     参数说明
+     1、int userid ; //用户编号
+     2、int orderid ; //保单编号
+     3、String companyaddress；//公司地址（定位得出，供报案比对）
+     限制条件	参数1、2、3为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/reportOvertime/")
+    public void reportOvertime(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+
+    /**
+     发送时机	提交入团请求
+     参数说明
+     1、int userid; //用户id
+     2、int teamid ;//申请入团的团队编号
+     限制条件	参数1、2为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/submitJoinRequest/")
+    public void submitJoinRequest(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
 
 
 

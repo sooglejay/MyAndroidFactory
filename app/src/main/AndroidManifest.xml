@@ -26,7 +26,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <!-- Camera features - recommended -->
     <uses-feature
@@ -50,6 +50,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.BrowserActivity"
@@ -114,12 +115,11 @@
         <activity android:name=".ui.OrderCofirmJiaBanDogInsureActivity"></activity>
         <activity android:name=".ui.OrderCofirmOnDrivingInsureActivity"></activity>
         <activity android:name=".ui.PayJiaBanDogInsureActivity"></activity>
-        <activity android:name=".ui.MyInsuresListCarInsureDetailActivity"> </activity>
-        <activity android:name=".ui.MyInsuresListJiaBanDogInsureDetailActivity"> </activity>
-        <activity android:name=".ui.TimePickerActivity"/>
-        <activity android:name=".ui.MyInsuresListDrivingInsureDetailActivity"/>
+        <activity android:name=".ui.MyInsuresListCarInsureDetailActivity"></activity>
+        <activity android:name=".ui.MyInsuresListJiaBanDogInsureDetailActivity"></activity>
+        <activity android:name=".ui.TimePickerActivity" />
+        <activity android:name=".ui.MyInsuresListDrivingInsureDetailActivity" />
         <activity android:name=".test.AndroidHttpPostActivity">
-
 
         </activity>
     </application>

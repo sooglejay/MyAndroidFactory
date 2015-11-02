@@ -26,6 +26,9 @@ public class StringConstant {
     public static final String failure = "failure";//
     public static final String success = "success";//
 
+    public static final String usefull = "usefull";//7.8.5.11.验证团队名是否可用
+    public static final String useless = "useless";//不可用
+
     public static final String orderStartTimeFromServerString = "orderStartTimeFromServerString";//保单开始时间
     public static final String orderStartTimeFromServerLong = "orderStartTimeFromServerLong";//保单开始时间
     public static final String orderEndTimeFromServerString = "orderEndTimeFromServerString";//保单结束时间
