@@ -48,7 +48,7 @@ public class AndroidHttpPostActivity extends Activity {
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOtherConsultant();
+                getMyOvertimeInfo();
             }
         });
     }
@@ -445,7 +445,7 @@ public class AndroidHttpPostActivity extends Activity {
     }
 
     private void getMyOvertimeInfo() {
-        UserRetrofitUtil.getMyOvertimeInfo(this, 1, 1, 10, new NetCallback<NetWorkResultBean<MyWalletData>>(this) {
+        UserRetrofitUtil.getMyOvertimeInfo(this, 1, 1, 1000, new NetCallback<NetWorkResultBean<MyWalletData>>(this) {
             @Override
             public void onFailure(RetrofitError error) {
 

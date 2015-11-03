@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -38,6 +39,7 @@
             android:paddingRight="@dimen/middle_padding">
 
             <TextView
+                android:id="@+id/tv_insurance_agent_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,6 +65,7 @@
             android:paddingRight="@dimen/middle_padding">
 
             <TextView
+                android:id="@+id/tv_insurant_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -88,6 +91,7 @@
             android:paddingRight="@dimen/middle_padding">
 
             <TextView
+                android:id="@+id/tv_insurance_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,6 +117,7 @@
             android:paddingRight="@dimen/middle_padding">
 
             <TextView
+                android:id="@+id/tv_insurance_duration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -220,6 +225,7 @@
             android:text="服务热线"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -227,11 +233,11 @@
 
 
         <LinearLayout
-            android:clickable="true"
             android:id="@+id/layout_server_call"
-            android:background="@drawable/btn_select_white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_select_white"
+            android:clickable="true"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/middle_padding"
             android:paddingRight="@dimen/middle_padding">
@@ -276,6 +282,7 @@
             android:text="商业险"
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -557,7 +564,7 @@
                 android:id="@+id/cb_agree_license"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:button="@drawable/icon_agree"
+                android:button="@drawable/icon_choose_selected"
                 android:checked="true"
                 android:gravity="center_vertical"
                 android:text="同意《约定保障条款》"
@@ -582,10 +589,11 @@
                     android:textSize="@dimen/big_textsize" />
 
                 <TextView
+                    android:id="@+id/tv_i_want_to_rebuy_insurance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#50a165"
+                    android:background="@drawable/btn_select_base_shape_0"
                     android:gravity="center"
                     android:minHeight="48dp"
                     android:text="我要续保"
@@ -594,6 +602,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </ScrollView>
 
 

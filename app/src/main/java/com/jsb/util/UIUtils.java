@@ -44,7 +44,7 @@ public class UIUtils {
      */
     public static void initSwipeRefreshLayout(SwipeRefreshLayout swipeLayout) {
         if (swipeLayout == null) return;
-        swipeLayout.setColorSchemeResources(R.color.green_color);
+        swipeLayout.setColorSchemeResources(R.color.base_color);
 //        swipeLayout.setProgressBackgroundColorSchemeColor(R.color.more_dark_green_color);
     }
 

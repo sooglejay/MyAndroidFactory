@@ -16,7 +16,7 @@ public class Insurancecompanyprice implements Parcelable {
     private Integer selected;//该报价是否被选中，0未选中 1选中	Y
     private Float totalprice;//总价	Y
     private Long date;//报价时间	Y
-    private List<Vechicleinsurancedetail> insuranceDetail;//报价时间	Y 5.4.5
+    private List<Vechicleinsurancedetail> insuranceDetail;//5.4.5.车险具体保险内容Vechicleinsurancedetail
 
     private InsuranceCompanyInfo company;//
 

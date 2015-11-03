@@ -1,6 +1,8 @@
 package com.jsb.ui;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -16,6 +18,8 @@ import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Overtimeordertable;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.UIUtils;
+import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -30,9 +34,25 @@ import retrofit.client.Response;
 public class MyInsureActivity extends BaseActivity {
 
     private TitleBar titleBar;
-    private ListView mInsureList;
+    private SwipeRefreshLayout swipeLayout;
+    private AutoListView mInsureList;
     private MyInsuresListAdapter myInsuresListAdapter;
-    private List<aaa_MyInsuranceBean> mInsureListDatas = new ArrayList<>();
+    private List<Object> mInsureListDatas = new ArrayList<>();
+
+    private List<Vehicleordertable> vehicleordertables = new ArrayList<>();
+    private List<Driverordertable> driverordertables = new ArrayList<>();
+    private List<Overtimeordertable> overtimeordertables = new ArrayList<>();
+
+
+    private int pageSize = 10;
+
+
+    //起始页
+    private int pageNum_vehicleordertables = 1;
+    private int pageNum_driverordertables = 1;
+    private int pageNum_overtimeordertables = 1;
+
+    private int userid = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,82 +77,165 @@ public class MyInsureActivity extends BaseActivity {
     }
 
     private void setUp() {
+        userid = PreferenceUtil.load(MyInsureActivity.this, PreferenceConstant.userid, -1);
+
+
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("我的保险", R.drawable.arrow_left, -1, "", "");
 
+        myInsuresListAdapter = new MyInsuresListAdapter(this, mInsureListDatas, vehicleordertables, driverordertables, overtimeordertables);
 
-        myInsuresListAdapter = new MyInsuresListAdapter(this, mInsureListDatas);
-        mInsureList = (ListView) findViewById(R.id.list_view);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        UIUtils.initSwipeRefreshLayout(swipeLayout);
+        mInsureList = (AutoListView) findViewById(R.id.list_view);
         mInsureList.setAdapter(myInsuresListAdapter);
 
 
-        int userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
-        getMyinsuranceListInfo(userid);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                driverordertables.clear();
+                overtimeordertables.clear();
+                vehicleordertables.clear();
+                pageNum_vehicleordertables = 1;
+                pageNum_driverordertables = 1;
+                pageNum_overtimeordertables = 1;
+                loadDataFromNet(userid);
+            }
+        });
+        mInsureList.setOnLoadListener(new AutoListView.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                if (swipeLayout != null && !swipeLayout.isRefreshing()) {
+                    mInsureList.setLoading(true);
+                    loadDataFromNet(userid);
+                }
+            }
+        });
+
+        loadDataFromNet(userid);
     }
 
     /**
-     * 获取我的保险的列表  （有三个代表）
+     * 请求网络数据
      *
      * @param userid
      */
-    private void getMyinsuranceListInfo(int userid) {
-        UserRetrofitUtil.getMyinsuranceListInfo(this, 1, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
+    private void loadDataFromNet(int userid) {
+        getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
+        getDriverOrderByPage(userid, pageSize, pageNum_driverordertables);
+        getOvertimeOrderByPage(userid, pageSize, pageNum_overtimeordertables);
+    }
+
+
+    /**
+     * 分页获取车险信息
+     *
+     * @param userid
+     * @param pageSize
+     * @param pageNum
+     */
+    private void getVehicleOrderByPage(final int userid, final int pageSize, int pageNum) {
+        swipeLayout.setEnabled(false);
+        UserRetrofitUtil.getVehicleOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
             @Override
             public void onFailure(RetrofitError error) {
-
+                swipeLayout.setRefreshing(false);
+                swipeLayout.setEnabled(true);
+                mInsureList.setLoading(false);
             }
 
             @Override
             public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
-                mInsureListDatas.clear();
+                //结束下拉刷新
+                swipeLayout.setRefreshing(false);
+                swipeLayout.setEnabled(true);
+                mInsureList.setLoading(false);
 
-                List<Driverordertable> driverordertableList = myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords();
-                List<Overtimeordertable> overtimeordertableList = myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords();
-                List<Vehicleordertable> vehicleordertableList = myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords();
-
-
-                if (vehicleordertableList != null && vehicleordertableList.size() > 0) {
-                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
-                    if (vehicleordertableList.get(0).getInsurancecompanyprices() != null) {
-                        b1.setInsuranceCompanyName(vehicleordertableList.get(0).getInsurancecompanyprices().getCompany().getCompanyname());
-                    } else {
-                        b1.setInsuranceCompanyName("万保易");
+                if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderAmount() > 0) {
+                    if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords() != null) {
+                        vehicleordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords());
+                        pageNum_vehicleordertables++;
+                        getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
                     }
-                    b1.setInsuranceMoney(vehicleordertableList.get(0).getMoney());
-
-                    if (vehicleordertableList.get(0).getInsuranceDetail() != null) {
-                        b1.setInsuranceName(vehicleordertableList.get(0).getInsuranceDetail().getInsurancename());
-                    } else {
-                        b1.setInsuranceName("车险");
-                    }
-
-                    b1.setInsuranceBuyDate(vehicleordertableList.get(0).getOrderdate());
-                    mInsureListDatas.add(b1);
                 }
-
-
-                if (overtimeordertableList.size() > 0) {
-                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
-                    b1.setInsuranceCompanyName("万保易");
-                    b1.setInsuranceMoney(overtimeordertableList.get(0).getMoney());
-                    b1.setInsuranceName("加班险");
-                    b1.setInsuranceBuyDate(overtimeordertableList.get(0).getStartdate());
-                    mInsureListDatas.add(b1);
-                }
-
-
-                if (driverordertableList.size() > 0) {
-                    aaa_MyInsuranceBean b1 = new aaa_MyInsuranceBean();
-                    b1.setInsuranceCompanyName(driverordertableList.get(0).getCompanyInfo().getCompanyname());
-                    b1.setInsuranceMoney(driverordertableList.get(0).getMoney());
-                    b1.setInsuranceName("驾驶险");
-                    b1.setInsuranceBuyDate(driverordertableList.get(0).getBuydate());
-                    mInsureListDatas.add(b1);
-                }
-
                 myInsuresListAdapter.notifyDataSetChanged();
 
             }
         });
     }
+
+
+    /**
+     * 分页获取驾驶险信息
+     *
+     * @param userid
+     * @param pageSize
+     * @param pageNum
+     */
+    private void getDriverOrderByPage(final int userid, final int pageSize, int pageNum) {
+        swipeLayout.setEnabled(false);
+        UserRetrofitUtil.getDriverOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
+            @Override
+            public void onFailure(RetrofitError error) {
+
+                swipeLayout.setRefreshing(false);
+                swipeLayout.setEnabled(true);
+                mInsureList.setLoading(false);
+            }
+
+            @Override
+            public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
+                //结束下拉刷新
+                swipeLayout.setRefreshing(false);
+                swipeLayout.setEnabled(true);
+                mInsureList.setLoading(false);
+                if (myInsuranceDataNetWorkResultBean.getData().getDriverorderAmount() > 0) {
+                    if (myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords() != null) {
+                        driverordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords());
+                        pageNum_driverordertables++;
+                        getDriverOrderByPage(userid, pageSize, pageNum_driverordertables);
+                    }
+                }
+                myInsuresListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    /**
+     * 分页获取加班险信息
+     *
+     * @param userid
+     * @param pageSize
+     * @param pageNum
+     */
+    private void getOvertimeOrderByPage(final int userid, final int pageSize, int pageNum) {
+        swipeLayout.setEnabled(false);
+        UserRetrofitUtil.getOvertimeOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
+            @Override
+            public void onFailure(RetrofitError error) {
+                swipeLayout.setRefreshing(false);
+                swipeLayout.setEnabled(true);
+                mInsureList.setLoading(false);
+            }
+
+            @Override
+            public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
+                //结束下拉刷新
+                swipeLayout.setRefreshing(false);
+                swipeLayout.setEnabled(true);
+                mInsureList.setLoading(false);
+
+                if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderAmount() > 0) {
+                    if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords() != null) {
+                        overtimeordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords());
+                        pageNum_overtimeordertables++;
+                        getOvertimeOrderByPage(userid, pageSize, pageNum_overtimeordertables);
+                    }
+                }
+                myInsuresListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
 }
