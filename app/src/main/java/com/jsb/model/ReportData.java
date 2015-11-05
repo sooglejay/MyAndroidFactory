@@ -9,41 +9,22 @@ import java.util.List;
  * 5.1.11.报案信息对象ReportData
  */
 public class ReportData implements Parcelable {
-    List<Vehicleordertable>vehicleReportableData;
-    List<Driverordertable>driverReportableData;
-    List<Overtimeordertable>overtimeReportableData;
+
+    private ReportableInsurance reportableInsurance;
 
     @Override
     public String toString() {
         return "ReportData{" +
-                "vehicleReportableData=" + vehicleReportableData +
-                ", driverReportableData=" + driverReportableData +
-                ", overtimeReportableData=" + overtimeReportableData +
+                "reportableInsurance=" + reportableInsurance +
                 '}';
     }
 
-    public List<Vehicleordertable> getVehicleReportableData() {
-        return vehicleReportableData;
+    public ReportableInsurance getReportableInsurance() {
+        return reportableInsurance;
     }
 
-    public void setVehicleReportableData(List<Vehicleordertable> vehicleReportableData) {
-        this.vehicleReportableData = vehicleReportableData;
-    }
-
-    public List<Driverordertable> getDriverReportableData() {
-        return driverReportableData;
-    }
-
-    public void setDriverReportableData(List<Driverordertable> driverReportableData) {
-        this.driverReportableData = driverReportableData;
-    }
-
-    public List<Overtimeordertable> getOvertimeReportableData() {
-        return overtimeReportableData;
-    }
-
-    public void setOvertimeReportableData(List<Overtimeordertable> overtimeReportableData) {
-        this.overtimeReportableData = overtimeReportableData;
+    public void setReportableInsurance(ReportableInsurance reportableInsurance) {
+        this.reportableInsurance = reportableInsurance;
     }
 
     @Override
@@ -53,21 +34,17 @@ public class ReportData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(vehicleReportableData);
-        dest.writeTypedList(driverReportableData);
-        dest.writeTypedList(overtimeReportableData);
+        dest.writeParcelable(this.reportableInsurance, 0);
     }
 
     public ReportData() {
     }
 
     protected ReportData(Parcel in) {
-        this.vehicleReportableData = in.createTypedArrayList(Vehicleordertable.CREATOR);
-        this.driverReportableData = in.createTypedArrayList(Driverordertable.CREATOR);
-        this.overtimeReportableData = in.createTypedArrayList(Overtimeordertable.CREATOR);
+        this.reportableInsurance = in.readParcelable(ReportableInsurance.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<ReportData> CREATOR = new Parcelable.Creator<ReportData>() {
+    public static final Creator<ReportData> CREATOR = new Creator<ReportData>() {
         public ReportData createFromParcel(Parcel source) {
             return new ReportData(source);
         }

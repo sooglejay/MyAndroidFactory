@@ -49,6 +49,7 @@ public class Driverordertable implements Parcelable {
                 '}';
     }
 
+
     public InsuranceCompanyInfo getCompanyInfo() {
         return companyInfo;
     }

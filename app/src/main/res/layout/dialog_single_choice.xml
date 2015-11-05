@@ -6,11 +6,12 @@
     <TextView
         android:id="@+id/tv_explain"
         android:gravity="center"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="36dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginTop="24dp"
+        android:textSize="@dimen/big_textsize"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="24dp"
         android:textColor="@color/tv_black_color_level_2"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="24dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -24,6 +25,7 @@
         android:id="@+id/tv_confirm"
         android:text="我知道了"
         android:gravity="center"
+        android:textSize="@dimen/big_textsize"
         android:textColor="#0073f1"
         android:layout_gravity="center"
         android:layout_height="48dp" />

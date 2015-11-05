@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.jsb.R;
 import com.jsb.constant.StringConstant;
 import com.jsb.fragment.DialogFragmentCreater;
-import com.jsb.Bean.aaa_MyCallPoliceBean;
+import com.jsb.model.Driverordertable;
+import com.jsb.model.Overtimeordertable;
+import com.jsb.model.Vehicleordertable;
 import com.jsb.ui.MyCallPoliceActivity;
 import com.jsb.util.UIUtils;
 
@@ -22,33 +24,21 @@ import java.util.List;
  * Created by Administrator on 2015/9/16.
  */
 public class MyCallPoliceListAdapter extends BaseAdapter {
-    public static final int STATUS_Default = 0;
-    public static final int STATUS_CALLED = 1;
-
-
     private DialogFragmentCreater mCallPoliceFragment;
 
-    private int textColorResId_called = -1;
-    private int textColorResId_uncalled = -1;//dialog 按钮文字的颜色
+    private Object outerTagBean;
 
-
-    private aaa_MyCallPoliceBean outerTagBean = new aaa_MyCallPoliceBean();
-
-    public MyCallPoliceListAdapter(final Activity mContext, List<aaa_MyCallPoliceBean> datas, DialogFragmentCreater dialogFragmentCreater) {
+    public MyCallPoliceListAdapter(final Activity mContext, List<Object> datas, DialogFragmentCreater dialogFragmentCreater) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
         this.mCallPoliceFragment = dialogFragmentCreater;
-
-        textColorResId_called = mContext.getResources().getColor(R.color.gray_color);
-        textColorResId_uncalled = mContext.getResources().getColor(R.color.light_red);
-
     }
 
     private Activity mContext;
     private LayoutInflater inflater;
     private ViewHolder holder;
-    private List<aaa_MyCallPoliceBean> mDatas = new ArrayList<aaa_MyCallPoliceBean>();
+    private List<Object> mDatas = new ArrayList<>();
 
     @Override
     public int getCount() {
@@ -56,7 +46,7 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
     }
 
     @Override
-    public aaa_MyCallPoliceBean getItem(int position) {
+    public Object getItem(int position) {
         return mDatas.get(position);
     }
 
@@ -75,57 +65,97 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
             holder.tv_call_police = (TextView) convertView.findViewById(R.id.tv_call_police);
             holder.tv_buy_insure_agent = (TextView) convertView.findViewById(R.id.tv_buy_insure_agent);
             holder.item = (LinearLayout) convertView.findViewById(R.id.item);
-
             holder.onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    outerTagBean = (aaa_MyCallPoliceBean) v.getTag();
-                    mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
-                    mCallPoliceFragment.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
-                        @Override
-                        public void viewClick(String tag) {
-                            if (tag.equals("tv_confirm")) {
-                                UIUtils.takePhoneCall(mContext, StringConstant.CALL_POLICE_PHONE_NUMBER, MyCallPoliceActivity.REQUEST_CODE_CALL);
-                                outerTagBean.setStatus(STATUS_CALLED);
-                                notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
-                            if (tv_content instanceof TextView) {
-                                ((TextView) tv_content).setText(StringConstant.CALL_POLICE_PHONE_NUMBER);
-                            }
-                            if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("太平洋保险报案电话");
-                            }
-                            if (tv_confirm instanceof TextView) {
-                                ((TextView) tv_confirm).setText("拨打");
+                    outerTagBean = v.getTag();
+                    if (outerTagBean instanceof Vehicleordertable) {
+                        final Vehicleordertable bean = (Vehicleordertable) outerTagBean;
+                        mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                        mCallPoliceFragment.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                            @Override
+                            public void viewClick(String tag) {
+                                if (tag.equals("tv_confirm")) {
+                                    if (bean.getInsurancecompanyprices() != null && bean.getInsurancecompanyprices().getCompany() != null) {
+                                        String phoneNumber = bean.getInsurancecompanyprices().getCompany().getCompanyphone();
+                                        UIUtils.takePhoneCall(mContext, phoneNumber, MyCallPoliceActivity.REQUEST_CODE_CALL);
+                                    }
+                                }
                             }
 
+                            @Override
+                            public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                                if (tv_content instanceof TextView) {
+                                    ((TextView) tv_content).setText(StringConstant.CALL_POLICE_PHONE_NUMBER);
+                                }
+                                if (tv_title instanceof TextView) {
+                                    if (bean.getInsuranceDetail() != null) {
+                                        ((TextView) tv_title).setText(bean.getInsuranceDetail().getInsurancename());
+                                    }
+                                    ((TextView) tv_title).append("报案电话");
+                                }
+                                if (tv_confirm instanceof TextView) {
+                                    ((TextView) tv_confirm).setText("拨打");
+                                }
+                            }
+                        });
+                    } else if (outerTagBean instanceof Driverordertable) {
+                        final Driverordertable bean = (Driverordertable) outerTagBean;
+                        mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                        mCallPoliceFragment.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                            @Override
+                            public void viewClick(String tag) {
+                                if (tag.equals("tv_confirm")) {
+                                    if (bean.getCompanyInfo() != null) {
+                                        String phoneNumber = bean.getCompanyInfo().getCompanyphone();
+                                        UIUtils.takePhoneCall(mContext, phoneNumber, MyCallPoliceActivity.REQUEST_CODE_CALL);
+                                    }
+                                }
+                            }
 
-                        }
-                    });
+                            @Override
+                            public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                                if (tv_content instanceof TextView) {
+                                    ((TextView) tv_content).setText(StringConstant.CALL_POLICE_PHONE_NUMBER);
+                                }
+                                if (tv_title instanceof TextView) {
+                                    ((TextView) tv_title).setText("驾驶险报案电话");
+                                }
+                                if (tv_confirm instanceof TextView) {
+                                    ((TextView) tv_confirm).setText("拨打");
+                                }
+                            }
+                        });
+                    } else if (outerTagBean instanceof Overtimeordertable) {
+                        //还没有做 加班险报案
+                    }
                 }
             };
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        final aaa_MyCallPoliceBean bean = getItem(position);
-        holder.tv_insure_name.setText(bean.getInsureNameStr() + "");
-        switch (bean.getStatus()) {
-            case STATUS_Default:
-                holder.tv_call_police.setTextColor(textColorResId_uncalled);
-                break;
-            case STATUS_CALLED:
-                holder.tv_call_police.setTextColor(textColorResId_called);
-                break;
-            default:
-                break;
+        final Object obj = getItem(position);
+        if (obj instanceof Vehicleordertable) {
+            Vehicleordertable bean = (Vehicleordertable) obj;
+            if (bean.getInsuranceDetail() != null) {
+                holder.tv_insure_name.setText(bean.getInsuranceDetail().getInsurancename() + "");
+            } else {
+                holder.tv_insure_name.setText("mock");
+            }
+            holder.item.setTag(bean);
+            holder.item.setOnClickListener(holder.onClickListener);
+        } else if (obj instanceof Overtimeordertable) {
+            Overtimeordertable bean = (Overtimeordertable) obj;
+            holder.tv_insure_name.setText("加班险");
+            holder.item.setTag(bean);
+            holder.item.setOnClickListener(holder.onClickListener);
+        } else if (obj instanceof Driverordertable) {
+            Driverordertable bean = (Driverordertable) obj;
+            holder.tv_insure_name.setText("驾驶险");
+            holder.item.setTag(bean);
+            holder.item.setOnClickListener(holder.onClickListener);
         }
-        holder.item.setTag(bean);
-        holder.item.setOnClickListener(holder.onClickListener);
         return convertView;
     }
 
@@ -136,17 +166,27 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
         mCallPoliceFragment.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
             @Override
             public void viewClick(String tag) {
-
             }
 
             @Override
             public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                 if (tv_content instanceof TextView) {
-                    String text = outerTagBean.getInsureNameStr() + StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS;
+                    String text = "";
+                    if (outerTagBean instanceof Vehicleordertable) {
+                        Vehicleordertable bean = (Vehicleordertable) outerTagBean;
+                        if (bean.getInsuranceDetail() != null) {
+                            text = ((Vehicleordertable) outerTagBean).getInsuranceDetail().getInsurancename();
+                        }
+                        text += StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS;
+                    } else if (outerTagBean instanceof Driverordertable) {
+                        text = "驾驶险" + StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS;
+
+                    } else if (outerTagBean instanceof Overtimeordertable) {
+                        text = "加班险" + StringConstant.TEXT_SHOW_AFTER_CALL_POLICE_SUCCESS;
+                    }
                     ((TextView) tv_content).setText(text);
                 }
             }
-
         });
         mCallPoliceFragment.showDialog(mContext, DialogFragmentCreater.DialogShowSingleChoiceDialog);
 

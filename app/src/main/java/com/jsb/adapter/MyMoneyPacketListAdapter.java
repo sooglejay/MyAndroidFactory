@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.jsb.Bean.aaa_MyMoneyPocketBean;
 import com.jsb.R;
-import com.jsb.fragment.DialogFragmentCreater;
-import com.jsb.Bean.aaa_MyCallPoliceBean;
+import com.jsb.constant.StringConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,7 @@ public class MyMoneyPacketListAdapter extends BaseAdapter {
         }
         final aaa_MyMoneyPocketBean bean = getItem(position);
         holder.tv_money_kind.setText(bean.getMoneyKind());
-        holder.tv_money_amount.setText("Y"+bean.getMoneyAmount()+"");
+        holder.tv_money_amount.setText(StringConstant.RMB+bean.getMoneyAmount()+"");
         holder.item.setTag(bean);
         holder.item.setOnClickListener(holder.onClickListener);
         return convertView;

@@ -41,4 +41,7 @@ public class StringConstant {
     public static final String union_zhifubao  = "支付宝";//支付宝
     public static final String union_weixing  = "微信";//微信
 
+
+    public static final String RMB = "¥";
+
 }

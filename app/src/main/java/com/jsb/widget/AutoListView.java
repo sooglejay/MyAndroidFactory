@@ -129,10 +129,7 @@ public class AutoListView extends ListView implements OnScrollListener {
         loadFull = (TextView) footer.findViewById(R.id.loadFull);
         more = (TextView) footer.findViewById(R.id.more);
 //        progressAnim = (AnimationDrawable) footerProgress.getBackground();
-
-
         footer.setClickable(false);
-
         this.addFooterView(footer);
         this.setOnScrollListener(this);
     }
@@ -180,15 +177,16 @@ public class AutoListView extends ListView implements OnScrollListener {
             //显示正在加载
             footerProgress.setVisibility(View.VISIBLE);
             loadFull.setVisibility(View.GONE);
+            footer.setAlpha(1);
         } else {
             header_layout.setVisibility(GONE);
+            footer.setAlpha(0);
             //加载完成
             loadFull.setVisibility(View.VISIBLE);//显示“加载完成”
             loadFull.setText("");
             footerProgress.setVisibility(View.GONE);//隐藏 加载中的progress
         }
     }
-
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         if (onAutoListViewScrollListener != null) {
@@ -200,7 +198,6 @@ public class AutoListView extends ListView implements OnScrollListener {
             if (firstVisibleItem >= mExtraHeaderCount) {
                 mKeepScreenHeaderView.setVisibility(View.VISIBLE);
             } else {
-
                 mKeepScreenHeaderView.setVisibility(View.GONE);
             }
         }

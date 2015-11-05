@@ -20,6 +20,8 @@ public class Overtimeordertable implements Parcelable {
     private String companyaddress;//String	公司地址	Y
     private String homeaddress;//String	家庭地址
 
+    private int super_status = 0 ;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
+
     @Override
     public String toString() {
         return "Overtimeordertable{" +
@@ -34,7 +36,16 @@ public class Overtimeordertable implements Parcelable {
                 ", reportdate=" + reportdate +
                 ", companyaddress='" + companyaddress + '\'' +
                 ", homeaddress='" + homeaddress + '\'' +
+                ", super_status=" + super_status +
                 '}';
+    }
+
+    public int getSuper_status() {
+        return super_status;
+    }
+
+    public void setSuper_status(int super_status) {
+        this.super_status = super_status;
     }
 
     public void setMoney(Float money) {
@@ -151,6 +162,7 @@ public class Overtimeordertable implements Parcelable {
         dest.writeValue(this.reportdate);
         dest.writeString(this.companyaddress);
         dest.writeString(this.homeaddress);
+        dest.writeInt(this.super_status);
     }
 
     protected Overtimeordertable(Parcel in) {
@@ -165,6 +177,7 @@ public class Overtimeordertable implements Parcelable {
         this.reportdate = (Float) in.readValue(Float.class.getClassLoader());
         this.companyaddress = in.readString();
         this.homeaddress = in.readString();
+        this.super_status = in.readInt();
     }
 
     public static final Creator<Overtimeordertable> CREATOR = new Creator<Overtimeordertable>() {

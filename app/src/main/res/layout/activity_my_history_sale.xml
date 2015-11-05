@@ -1,25 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_screen"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/title_bar_height"/>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_below="@+id/title_bar"
-        android:id="@+id/swipe_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.jsb.widget.AutoListView
-            android:id="@+id/list_view"
-            android:dividerHeight="-1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="@dimen/title_bar_height" />
 
     <LinearLayout
         android:id="@+id/layout_operate"
@@ -31,26 +20,41 @@
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="0dp"
-            android:layout_gravity="bottom"
-            android:text="删除"
-            android:textSize="@dimen/big_textsize"
-            android:textColor="#a80001"
-            android:gravity="center"
-            android:background="@drawable/btn_select_light_blue_shape_0"
-            android:layout_weight="1"
-            android:layout_height="48dp" />
-        <TextView
-            android:id="@+id/tv_cancel"
-            android:layout_width="0dp"
-            android:clickable="true"
-            android:textSize="@dimen/big_textsize"
-            android:textColor="@color/white_color"
-            android:gravity="center"
-            android:background="@drawable/btn_select_base_shape_0"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="取消"/>
+            android:background="@drawable/btn_select_light_blue_shape_0"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#a80001"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@drawable/btn_select_base_shape_0"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/big_textsize" />
     </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar">
+
+        <com.jsb.widget.AutoListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="-1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

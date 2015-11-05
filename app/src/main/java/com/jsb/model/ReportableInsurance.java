@@ -12,12 +12,14 @@ import java.util.List;
 public class ReportableInsurance implements Parcelable {
     private List<VehicleReportableData> vehicleReportableData;
     private List<Driverordertable> driverReportableData;
+    private List<Overtimeordertable> overtimeReportableData;
 
     @Override
     public String toString() {
         return "ReportableInsurance{" +
                 "vehicleReportableData=" + vehicleReportableData +
                 ", driverReportableData=" + driverReportableData +
+                ", overtimeReportableData=" + overtimeReportableData +
                 '}';
     }
 
@@ -37,6 +39,14 @@ public class ReportableInsurance implements Parcelable {
         this.driverReportableData = driverReportableData;
     }
 
+    public List<Overtimeordertable> getOvertimeReportableData() {
+        return overtimeReportableData;
+    }
+
+    public void setOvertimeReportableData(List<Overtimeordertable> overtimeReportableData) {
+        this.overtimeReportableData = overtimeReportableData;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -44,20 +54,21 @@ public class ReportableInsurance implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeList(this.vehicleReportableData);
+        dest.writeTypedList(vehicleReportableData);
         dest.writeTypedList(driverReportableData);
+        dest.writeTypedList(overtimeReportableData);
     }
 
     public ReportableInsurance() {
     }
 
     protected ReportableInsurance(Parcel in) {
-        this.vehicleReportableData = new ArrayList<VehicleReportableData>();
-        in.readList(this.vehicleReportableData, List.class.getClassLoader());
+        this.vehicleReportableData = in.createTypedArrayList(VehicleReportableData.CREATOR);
         this.driverReportableData = in.createTypedArrayList(Driverordertable.CREATOR);
+        this.overtimeReportableData = in.createTypedArrayList(Overtimeordertable.CREATOR);
     }
 
-    public static final Parcelable.Creator<ReportableInsurance> CREATOR = new Parcelable.Creator<ReportableInsurance>() {
+    public static final Creator<ReportableInsurance> CREATOR = new Creator<ReportableInsurance>() {
         public ReportableInsurance createFromParcel(Parcel source) {
             return new ReportableInsurance(source);
         }

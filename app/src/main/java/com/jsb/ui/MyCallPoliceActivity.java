@@ -7,31 +7,42 @@ import android.widget.ListView;
 
 import com.jsb.R;
 import com.jsb.adapter.MyCallPoliceListAdapter;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.PreferenceConstant;
 import com.jsb.fragment.DialogFragmentCreater;
-import com.jsb.Bean.aaa_MyCallPoliceBean;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.Overtimeordertable;
+import com.jsb.model.ReportData;
 import com.jsb.model.ReportableInsurance;
+import com.jsb.model.Vehicleordertable;
+import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * 我的-我的报案
  */
 public class MyCallPoliceActivity extends BaseActivity {
-
     public static final int REQUEST_CODE_CALL = 1000;
     private ListView mInsureList;
     private TitleBar titleBar;
     private MyCallPoliceListAdapter myCallPoliceListAdapter;
-    private List<aaa_MyCallPoliceBean> mListDatas = new ArrayList<>();
-
+    private List<Object> mListDatas = new ArrayList<>();
     private DialogFragmentCreater dialogFragmentCreater;
+
+    private int userid = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_call_police);
+        userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
         setUp();
         setLisenter();
     }
@@ -54,38 +65,54 @@ public class MyCallPoliceActivity extends BaseActivity {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("我的报案", R.drawable.arrow_left, -1, "", "");
 
-
         dialogFragmentCreater = new DialogFragmentCreater();
         dialogFragmentCreater.setDialogContext(this, getSupportFragmentManager());
-
-        aaa_MyCallPoliceBean bean1 = new aaa_MyCallPoliceBean();
-        aaa_MyCallPoliceBean bean2 = new aaa_MyCallPoliceBean();
-        aaa_MyCallPoliceBean bean3 = new aaa_MyCallPoliceBean();
-        bean1.setInsureNameStr("车险");
-        bean2.setInsureNameStr("驾驶险");
-        bean3.setInsureNameStr("加班狗");
-        bean1.setStatus(0);
-        bean2.setStatus(0);
-        bean3.setStatus(0);
-        mListDatas.add(bean1);
-        mListDatas.add(bean2);
-        mListDatas.add(bean3);
-
 
         myCallPoliceListAdapter = new MyCallPoliceListAdapter(this, mListDatas, dialogFragmentCreater);
         mInsureList = (ListView) findViewById(R.id.list_view);
         mInsureList.setAdapter(myCallPoliceListAdapter);
+
+        getReportableInsurance(userid);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_CALL) {
-
             //重新生成一个 DialogFragment
             DialogFragmentCreater dialogFragmentCreater = new DialogFragmentCreater();
             dialogFragmentCreater.setDialogContext(this, getSupportFragmentManager());
             myCallPoliceListAdapter.setResultDialg(dialogFragmentCreater);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private void getReportableInsurance(int userid) {
+        UserRetrofitUtil.getReportableInsurance(this, userid, new NetCallback<NetWorkResultBean<ReportData>>(this) {
+            @Override
+            public void onFailure(RetrofitError error) {
+            }
+
+            @Override
+            public void success(NetWorkResultBean<ReportData> reportDataNetWorkResultBean, Response response) {
+                ReportData data = reportDataNetWorkResultBean.getData();
+                if (data.getReportableInsurance() != null) {
+                    ReportableInsurance reportableInsurance = data.getReportableInsurance();
+                    if (reportableInsurance.getOvertimeReportableData() != null) {
+                        mListDatas.addAll(data.getReportableInsurance().getOvertimeReportableData());
+                    }
+                    if (reportableInsurance.getDriverReportableData() != null) {
+                        mListDatas.addAll(data.getReportableInsurance().getDriverReportableData());
+                    }
+                    if (reportableInsurance.getVehicleReportableData() != null) {
+                        mListDatas.addAll(data.getReportableInsurance().getVehicleReportableData());
+                    }
+
+                    Vehicleordertable bean = new Vehicleordertable();
+                    mListDatas.add(bean);
+                    myCallPoliceListAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 }
