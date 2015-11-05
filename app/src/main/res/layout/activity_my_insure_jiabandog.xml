@@ -24,7 +24,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@drawable/line_e0_e5" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +44,7 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurant_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="张三"
@@ -69,6 +71,7 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurance_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2015-09-12起，2016-09-11止"
@@ -94,6 +97,8 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurance_agent_name"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="腾讯"
@@ -119,6 +124,8 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_company_address"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="高新区天府软件园"
@@ -145,6 +152,8 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_home_address"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="天河路暴力花园"
@@ -170,6 +179,7 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_jbpf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10元"
@@ -177,6 +187,7 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_jbpf_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/middle_padding"
@@ -184,10 +195,12 @@
             android:textColor="#888888"
             android:textSize="@dimen/small_textsize" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@drawable/line_e0_e5" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -198,10 +211,12 @@
         android:text="赔付信息"
         android:textColor="#8e8e8f"
         android:textSize="@dimen/small_textsize" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@drawable/line_e0_e5" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -223,7 +238,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Y10"
+            android:text="￥"
+            android:textColor="#888888"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
             android:textColor="#888888"
             android:textSize="@dimen/big_textsize" />
 
@@ -246,7 +268,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@drawable/line_e0_e5" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -277,10 +300,11 @@
             android:id="@+id/cb_agree_license"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_padding"
             android:checked="true"
+            android:button="@drawable/icon_choose_selected"
             android:gravity="center_vertical"
             android:text="同意《约定保障条款》"
-            android:layout_marginBottom="@dimen/middle_padding"
             android:textColor="#a7a7a7" />
 
         <LinearLayout
@@ -300,13 +324,13 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:enabled="true"
-                android:clickable="true"
                 android:id="@+id/tv_buy_insure"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/btn_select_base_shape_0"
+                android:clickable="true"
+                android:enabled="true"
                 android:gravity="center"
                 android:minHeight="48dp"
                 android:text="我要购买"

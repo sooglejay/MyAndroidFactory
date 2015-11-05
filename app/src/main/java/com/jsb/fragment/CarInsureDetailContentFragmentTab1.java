@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +22,18 @@ import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.constant.StringConstant;
 import com.jsb.model.MyInsuranceData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Vehicleordertable;
+import com.jsb.model.Vehicletable;
+import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
 import com.jsb.ui.OrderCofirmJiaBanDogInsureActivity;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +57,16 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
     private int pageNum,pageSize;//分页加载
 
     private List<Vehicleordertable> mDatas = new ArrayList<>();
+    private Vehicleordertable vehicleordertable;
+
+
+    private TextView tv_insurance_agent_name;//
+    private TextView tv_insurant_name;
+    private TextView tv_insurance_number;
+    private TextView tv_insurance_duration;
+    private TextView tv_car_fdjh;
+    private TextView tv_car_cjhm;
+    private TextView tv_car_cphm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,11 +84,20 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
         userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
 
 
+        tv_car_cphm = (TextView)view.findViewById(R.id.tv_car_cphm);
+        tv_car_cjhm = (TextView)view.findViewById(R.id.tv_car_cjhm);
+        tv_car_fdjh = (TextView)view.findViewById(R.id.tv_car_fdjh);
+        tv_insurance_duration = (TextView)view.findViewById(R.id.tv_insurance_duration);
+        tv_insurance_number = (TextView)view.findViewById(R.id.tv_insurance_number);
+        tv_insurant_name = (TextView)view.findViewById(R.id.tv_insurant_name);
+        tv_insurance_agent_name = (TextView)view.findViewById(R.id.tv_insurance_agent_name);
+
+
         layout_server_call = (LinearLayout)view.findViewById(R.id.layout_server_call);
         layout_server_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.takePhoneCall(context, "87777777", ACTION_CALL);
+                UIUtils.takePhoneCall(context, StringConstant.call_police_number, ACTION_CALL);
             }
         });
 
@@ -107,7 +134,26 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
                 }
             }
         });
+        vehicleordertable = this.getActivity().getIntent().getParcelableExtra(MyInsuresListCarInsureDetailActivity.ExtrasKeyName);
+        if(vehicleordertable!=null)
+        {
+            Vehicletable vehicletable = vehicleordertable.getVehicle();
+            if(vehicletable!=null) {
+                tv_car_cphm.setText(TextUtils.isEmpty(vehicletable.getLicenseplate()) ? "" : vehicletable.getLicenseplate());
+                tv_car_cjhm.setText(TextUtils.isEmpty(vehicletable.getFramenumber()) ? "" : vehicletable.getFramenumber());
+                tv_car_fdjh.setText(TextUtils.isEmpty(vehicletable.getEnginenumber()) ? "" : vehicletable.getEnginenumber());
+                tv_car_fdjh.setText(TextUtils.isEmpty(vehicletable.getOwnerName()) ? "" : vehicletable.getOwnerName());
+                tv_insurance_number.setText(vehicletable.getId() == null ? "" : vehicletable.getId() + "");
+            }
+            if(vehicleordertable.getInsurancecompanyprices()!=null&&vehicleordertable.getInsurancecompanyprices().getCompany()!=null)
+            {
+                tv_insurance_agent_name.setText(vehicleordertable.getInsurancecompanyprices().getCompany().getCompanyname()+"");
+            }else {
+                tv_insurance_agent_name.setText("null");
+            }
+            tv_insurance_duration.setText(TimeUtil.getTimeString(vehicleordertable.getStartdate())+"起，"+TimeUtil.getTimeString(vehicleordertable.getEnddate())+"止");
 
+        }
     }
 
     @Override

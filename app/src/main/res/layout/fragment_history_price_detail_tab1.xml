@@ -1,0 +1,481 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:paddingBottom="@dimen/little_padding"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingTop="@dimen/little_padding"
+        android:text="商业险"
+        android:textColor="#8e8e8f"
+        android:textSize="@dimen/small_textsize" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingRight="@dimen/middle_padding">
+
+        <CheckBox
+            android:id="@+id/cb_csx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/icon_choose_selected" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/small_padding"
+            android:text="车损险"
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/small_padding"
+            android:text="20万"
+            android:textColor="#7e7e7e"
+            android:textSize="@dimen/small_textsize" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/little_padding"
+
+            android:src="@drawable/arrow_down" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="#888888"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_csx_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1260,00" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingRight="@dimen/middle_padding">
+
+        <CheckBox
+            android:id="@+id/cb_szx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/icon_choose_selected" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/small_padding"
+            android:text="三者险"
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/small_padding"
+            android:text="20万"
+            android:textColor="#7e7e7e"
+            android:textSize="@dimen/small_textsize" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/little_padding"
+
+            android:src="@drawable/arrow_down" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="#888888"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_szx_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="688,00" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingRight="@dimen/middle_padding">
+
+        <CheckBox
+            android:id="@+id/cb_zwx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/icon_choose_selected" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/small_padding"
+            android:text="座位险"
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/small_padding"
+            android:text="20万"
+            android:textColor="#7e7e7e"
+            android:textSize="@dimen/small_textsize" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/little_padding"
+
+            android:src="@drawable/arrow_down" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="#888888"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_zwx_price"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="230,00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingRight="@dimen/middle_padding">
+
+        <CheckBox
+            android:id="@+id/cb_bjmpx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/icon_choose_selected" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/small_padding"
+            android:text="不计免赔险"
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/small_padding"
+            android:text="20万"
+            android:textColor="#7e7e7e"
+            android:textSize="@dimen/small_textsize" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/little_padding"
+
+            android:src="@drawable/arrow_down" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="#888888"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_bjmpx_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="230,00" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:paddingBottom="@dimen/little_padding"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingTop="@dimen/little_padding"
+        android:text="强制险"
+        android:textColor="#8e8e8f"
+        android:textSize="@dimen/small_textsize" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingRight="@dimen/middle_padding">
+
+        <CheckBox
+            android:id="@+id/cb_jqx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/icon_choose_selected" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/small_padding"
+            android:text="交强险"
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/big_textsize" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="#888888"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_jqx_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="960,00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingRight="@dimen/middle_padding">
+
+        <CheckBox
+            android:id="@+id/cb_ccx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/icon_choose_selected" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/small_padding"
+            android:text="车船险"
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/small_padding"
+            android:text="12个月"
+            android:textColor="#7e7e7e"
+            android:textSize="@dimen/small_textsize" />
+
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="#888888"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_cqx_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="360,00" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/middle_padding">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_screen"
+            android:paddingBottom="@dimen/little_padding"
+            android:paddingLeft="@dimen/middle_padding"
+            android:paddingTop="@dimen/little_padding"
+            android:text="合计金额："
+            android:textColor="#8e8e8f"
+            android:textSize="@dimen/small_textsize" />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_screen"
+            android:paddingBottom="@dimen/little_padding"
+            android:paddingTop="@dimen/little_padding"
+            android:text="$4598,00"
+            android:textColor="#8e8e8f"
+            android:textSize="@dimen/small_textsize" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/bg_screen"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/cb_agree_license"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/middle_padding"
+            android:layout_height="wrap_content"
+            android:button="@drawable/icon_choose_selected"
+            android:checked="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="同意《约定保障条款》"
+            android:textColor="#a7a7a7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#82ba90"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="分享"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_i_want_to_rebuy_insurance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_select_base_shape_0"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="我要续保"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/big_textsize" />
+
+    </LinearLayout>
+</LinearLayout>
+
+
+
+

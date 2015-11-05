@@ -41,6 +41,7 @@ public class AutoListView extends ListView implements OnScrollListener {
 
     private LayoutInflater inflater;
     private View footer;
+    private View header_layout;
 
     private TextView loadFull;
     private TextView more;
@@ -124,6 +125,7 @@ public class AutoListView extends ListView implements OnScrollListener {
         inflater = LayoutInflater.from(context);
         footer = inflater.inflate(R.layout.listview_footer, null);
         footerProgress = (ProgressBar) footer.findViewById(R.id.progress);
+        header_layout = footer.findViewById(R.id.header_layout);
         loadFull = (TextView) footer.findViewById(R.id.loadFull);
         more = (TextView) footer.findViewById(R.id.more);
 //        progressAnim = (AnimationDrawable) footerProgress.getBackground();
@@ -174,18 +176,15 @@ public class AutoListView extends ListView implements OnScrollListener {
     public void setLoading(boolean isLoading) {
         this.isLoading = isLoading;
         if (isLoading) {
+            header_layout.setVisibility(VISIBLE);
             //显示正在加载
             footerProgress.setVisibility(View.VISIBLE);
             loadFull.setVisibility(View.GONE);
-            footer.setVisibility(View.VISIBLE);
-
-//            more.setVisibility(View.VISIBLE);
         } else {
+            header_layout.setVisibility(GONE);
             //加载完成
-            footer.setVisibility(View.VISIBLE);
             loadFull.setVisibility(View.VISIBLE);//显示“加载完成”
             loadFull.setText("");
-//            more.setVisibility(View.GONE);//隐藏 “加载中”
             footerProgress.setVisibility(View.GONE);//隐藏 加载中的progress
         }
     }

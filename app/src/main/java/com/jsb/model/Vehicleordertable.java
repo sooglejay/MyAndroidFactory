@@ -39,6 +39,9 @@ public class Vehicleordertable implements Parcelable {
     private Vechicleinsurancedetail insuranceDetail;//具体保险内容对象集合5.4.5
     private Insurancecompanyprice insurancecompanyprices;//
 
+
+    private int super_status = 0 ;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
+
     @Override
     public String toString() {
         return "Vehicleordertable{" +
@@ -72,7 +75,20 @@ public class Vehicleordertable implements Parcelable {
                 ", vehicle=" + vehicle +
                 ", insuranceDetail=" + insuranceDetail +
                 ", insurancecompanyprices=" + insurancecompanyprices +
+                ", super_status=" + super_status +
                 '}';
+    }
+
+    public int getSuper_status() {
+        return super_status;
+    }
+
+    public void setSuper_status(int super_status) {
+        this.super_status = super_status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Integer getKind() {
@@ -359,6 +375,7 @@ public class Vehicleordertable implements Parcelable {
         dest.writeParcelable(this.vehicle, 0);
         dest.writeParcelable(this.insuranceDetail, 0);
         dest.writeParcelable(this.insurancecompanyprices, 0);
+        dest.writeInt(this.super_status);
     }
 
     protected Vehicleordertable(Parcel in) {
@@ -392,6 +409,7 @@ public class Vehicleordertable implements Parcelable {
         this.vehicle = in.readParcelable(Vehicletable.class.getClassLoader());
         this.insuranceDetail = in.readParcelable(Vechicleinsurancedetail.class.getClassLoader());
         this.insurancecompanyprices = in.readParcelable(Insurancecompanyprice.class.getClassLoader());
+        this.super_status = in.readInt();
     }
 
     public static final Creator<Vehicleordertable> CREATOR = new Creator<Vehicleordertable>() {

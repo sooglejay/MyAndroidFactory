@@ -186,6 +186,7 @@ public class TitleBar extends FrameLayout {
 
     }
 
+
     public void setLeftContainerClickAble(boolean able) {
         leftContainer.setEnabled(able);
         leftContainer.setClickable(able);
@@ -196,6 +197,19 @@ public class TitleBar extends FrameLayout {
         rightContainer.setClickable(able);
     }
 
+
+    public void setRightTv(String rightBtnText,int rightBtnImageId)
+    {
+        rightTv.setText(rightBtnText);
+        rightTv.setVisibility(VISIBLE);
+        setRightContainerClickAble(TextUtils.isEmpty(rightBtnText) && rightBtnImageId == -1 ? false : true);
+
+    }
+
+    public String getRightTv()
+    {
+        return rightTv.getText().toString();
+    }
 
     public void setTitleBarBackgroundColor(int colorRes) {
         if (colorRes == 0) {

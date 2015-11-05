@@ -8,12 +8,19 @@
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/title_bar_height"/>
-
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_below="@+id/title_bar"
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
-        android:id="@+id/list_view"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <com.jsb.widget.AutoListView
+            android:id="@+id/list_view"
+            android:dividerHeight="-1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <LinearLayout
         android:id="@+id/layout_operate"
         android:layout_width="match_parent"

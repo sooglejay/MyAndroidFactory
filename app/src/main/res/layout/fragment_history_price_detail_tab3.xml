@@ -1,17 +1,18 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@drawable/line_e0_e5" />
+
+
 
         <TextView
             android:layout_width="match_parent"
@@ -48,7 +49,6 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:id="@+id/tv_insurance_agent_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="太平保险"
@@ -74,7 +74,6 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:id="@+id/tv_insurant_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张三"
@@ -100,7 +99,6 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:id="@+id/tv_insurance_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DZ8888888"
@@ -126,7 +124,6 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:id="@+id/tv_insurance_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2015-09-12起，2016-09-11止"
@@ -152,7 +149,6 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:id="@+id/tv_car_fdjh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="plc989332"
@@ -178,8 +174,6 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:id="@+id/tv_car_cjhm"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LV7978123431"
@@ -206,7 +200,6 @@
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
-                android:id="@+id/tv_car_cphm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="川A88888"
@@ -235,14 +228,13 @@
             android:layout_height="1dp"
             android:background="@drawable/line_e0_e5" />
 
-
         <LinearLayout
             android:id="@+id/layout_server_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_select_white"
-            android:clickable="true"
             android:orientation="horizontal"
+            android:clickable="true"
             android:paddingLeft="@dimen/middle_padding"
             android:paddingRight="@dimen/middle_padding">
 
@@ -445,6 +437,10 @@
             android:textColor="#8e8e8f"
             android:textSize="@dimen/small_textsize" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -486,7 +482,6 @@
             android:background="@color/white_color"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/small_padding"
-
             android:paddingLeft="@dimen/middle_padding"
             android:paddingRight="@dimen/middle_padding">
 
@@ -557,6 +552,7 @@
         </LinearLayout>
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -605,8 +601,9 @@
                     android:textSize="@dimen/big_textsize" />
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
+
+    </LinearLayout>
 </ScrollView>
 
 

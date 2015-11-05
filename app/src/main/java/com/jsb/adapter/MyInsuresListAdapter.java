@@ -1,7 +1,9 @@
 package com.jsb.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jsb.Bean.aaa_MyInsuranceBean;
 import com.jsb.R;
 import com.jsb.model.Driverordertable;
 import com.jsb.model.Overtimeordertable;
@@ -35,7 +36,7 @@ public class MyInsuresListAdapter extends BaseAdapter {
     private List<Driverordertable> driverordertables = new ArrayList<>();
     private List<Overtimeordertable> overtimeordertables = new ArrayList<>();
 
-    public MyInsuresListAdapter(Context mContext, List<Object> datas, List<Vehicleordertable> vehicleordertables, List<Driverordertable> driverordertables, List<Overtimeordertable> overtimeordertables) {
+    public MyInsuresListAdapter(Activity mContext, List<Object> datas, List<Vehicleordertable> vehicleordertables, List<Driverordertable> driverordertables, List<Overtimeordertable> overtimeordertables) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
@@ -58,6 +59,8 @@ public class MyInsuresListAdapter extends BaseAdapter {
         //车险-驾驶险-加班险
         int i = 0;
         for (; i < size_vehicleordertables; i++) {
+            if(size_vehicleordertables<1)
+                break;
             mDatas.add(vehicleordertables.get(i));//车险直到加载完为止
             if (i < size_driverordertables) {
                 mDatas.add(driverordertables.get(i));//然后依次加载驾驶险
@@ -70,6 +73,8 @@ public class MyInsuresListAdapter extends BaseAdapter {
         //驾驶险-加班险
         int j = i;
         for (; j < size_driverordertables; j++) {
+            if(size_driverordertables<1)
+                break;
             mDatas.add(driverordertables.get(j));//驾驶险直到加载完为止
             if (j < size_overtimeordertables) {
                 mDatas.add(overtimeordertables.get(j));//然后依次加载加班险
@@ -83,7 +88,8 @@ public class MyInsuresListAdapter extends BaseAdapter {
         super.notifyDataSetChanged();
     }
 
-    private Context mContext;
+
+    private Activity mContext;
     private LayoutInflater inflater;
     private ViewHolder holder;
 
@@ -116,78 +122,80 @@ public class MyInsuresListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        Object obj = getItem(position);
+        Object obj = mDatas.get(position);
+        Log.e("jwjw","position:"+position+"    size:"+mDatas.size()+"    obj.toString() "+obj.toString());
         if (obj instanceof Vehicleordertable) {
-            Vehicleordertable bean = (Vehicleordertable) obj;
+            final Vehicleordertable bean = (Vehicleordertable) obj;
             if (bean.getInsuranceDetail() != null && bean.getInsuranceDetail().getInsurancename() != null) {
                 holder.tv_insure_name.setText(bean.getInsuranceDetail().getInsurancename() + "");
             } else {
-                holder.tv_insure_name.setText("");
+                holder.tv_insure_name.setText("null");
             }
             if (bean.getInsuranceDetail() != null && bean.getInsuranceDetail().getFee() != null) {
                 holder.tv_insure_price.setText(bean.getInsuranceDetail().getFee() + "");
             } else {
-                holder.tv_insure_price.setText("");
+                holder.tv_insure_price.setText("null");
             }
             if (bean.getInsurancecompanyprices() != null && bean.getInsurancecompanyprices().getCompany() != null && bean.getInsurancecompanyprices().getCompany().getCompanyname() != null) {
                 holder.tv_buy_insure_agent.setText(bean.getInsurancecompanyprices().getCompany().getCompanyname() + "");
             } else {
-                holder.tv_buy_insure_agent.setText("");
+                holder.tv_buy_insure_agent.setText("null");
             }
             if (bean.getInsurancecompanyprices() != null && bean.getInsurancecompanyprices().getDate() != null) {
                 holder.tv_buy_insure_time.setText(dateFormat_yyyy_mm_dd.format(bean.getInsurancecompanyprices().getDate()) + "");
             } else {
-                holder.tv_buy_insure_time.setText("");
+                holder.tv_buy_insure_time.setText("null");
             }
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, MyInsuresListCarInsureDetailActivity.class));
+                    MyInsuresListCarInsureDetailActivity.startActivity(mContext, bean);
                 }
             });
+
         } else if (obj instanceof Driverordertable) {
-            Driverordertable bean = (Driverordertable) obj;
+            final Driverordertable bean = (Driverordertable) obj;
             holder.tv_insure_name.setText("驾驶险");
             if (bean.getMoney() != null) {
                 holder.tv_insure_price.setText(bean.getMoney() + "");
             } else {
-                holder.tv_insure_price.setText("");
+                holder.tv_insure_price.setText("null");
             }
             if (bean.getCompanyInfo() != null && bean.getCompanyInfo().getCompanyname() != null) {
                 holder.tv_buy_insure_agent.setText(bean.getCompanyInfo().getCompanyname() + "");
             } else {
-                holder.tv_buy_insure_agent.setText("");
+                holder.tv_buy_insure_agent.setText("null");
             }
             if (bean.getBuydate() != null) {
                 holder.tv_buy_insure_time.setText(dateFormat_yyyy_mm_dd.format(bean.getBuydate()) + "");
             } else {
-                holder.tv_buy_insure_time.setText("");
+                holder.tv_buy_insure_time.setText("null");
             }
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, MyInsuresListDrivingInsureDetailActivity.class));
+                    MyInsuresListDrivingInsureDetailActivity.startActivity(mContext,bean);
                 }
             });
+
         } else if (obj instanceof Overtimeordertable) {
-            Overtimeordertable bean = (Overtimeordertable) obj;
+            final Overtimeordertable bean = (Overtimeordertable) obj;
             holder.tv_insure_name.setText("加班险");
             holder.tv_insure_price.setText(bean.getMoney() + "");
             holder.tv_buy_insure_agent.setText("万保易");
             if (bean.getStartdate() != null) {
                 holder.tv_buy_insure_time.setText(dateFormat_yyyy_mm_dd.format(bean.getStartdate()) + "");
             } else {
-                holder.tv_buy_insure_time.setText("");
+                holder.tv_buy_insure_time.setText("null");
             }
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, MyInsuresListJiaBanDogInsureDetailActivity.class));
+                   MyInsuresListJiaBanDogInsureDetailActivity.startActivity(mContext,bean);
                 }
             });
-        } else {
-            return null;
+        }else {
+            Log.e("jwjw","没有任何类型 :" +obj.toString());
         }
         return convertView;
     }

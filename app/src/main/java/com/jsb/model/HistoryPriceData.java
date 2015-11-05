@@ -80,7 +80,7 @@ public class HistoryPriceData implements Parcelable {
         this.vehicleorderAmount = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<HistoryPriceData> CREATOR = new Parcelable.Creator<HistoryPriceData>() {
+    public static final Creator<HistoryPriceData> CREATOR = new Creator<HistoryPriceData>() {
         public HistoryPriceData createFromParcel(Parcel source) {
             return new HistoryPriceData(source);
         }

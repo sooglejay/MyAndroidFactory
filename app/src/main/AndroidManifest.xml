@@ -116,12 +116,26 @@
         <!-- Activities responsible for gathering payment info -->
         <activity android:name=".ui.OrderCofirmJiaBanDogInsureActivity"></activity>
         <activity android:name=".ui.OrderCofirmOnDrivingInsureActivity"></activity>
-        <activity android:name=".ui.PayJiaBanDogInsureActivity"></activity>
-        <activity android:name=".ui.MyInsuresListCarInsureDetailActivity"></activity>
-        <activity android:name=".ui.MyInsuresListJiaBanDogInsureDetailActivity"></activity>
+        <activity android:name=".ui.PayJiaBanDogInsureActivity" ></activity>
+        <activity
+            android:name=".ui.MyInsuresListCarInsureDetailActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".ui.MyInsuresListJiaBanDogInsureDetailActivity"
+            android:label="@string/app_name"></activity>
         <activity android:name=".ui.TimePickerActivity" />
-        <activity android:name=".ui.MyInsuresListDrivingInsureDetailActivity" />
-        <activity android:name=".test.AndroidHttpPostActivity">
+        <activity
+            android:name=".ui.MyInsuresListDrivingInsureDetailActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".test.AndroidHttpPostActivity"
+            android:label="@string/app_name">
+
+
+        </activity>
+        <activity
+            android:name=".ui.HistoryPriceDetailActivity"
+            android:label="@string/app_name">
 
         </activity>
     </application>

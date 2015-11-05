@@ -40,6 +40,7 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurance_agent_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="太平保险"
@@ -66,6 +67,8 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurant_name"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="张三"
@@ -91,6 +94,8 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurance_number"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="HD88882"
@@ -116,6 +121,8 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurance_duration"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2015-09-12起2016-09-11止"
@@ -142,6 +149,7 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_insurance_scope"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看驾驶险说明"
@@ -162,9 +170,11 @@
         android:textSize="@dimen/small_textsize" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/layout_server_call"
+           android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_color"
+        android:clickable="true"
+        android:background="@drawable/btn_select_white"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/middle_padding"
         android:paddingRight="@dimen/middle_padding">
@@ -212,13 +222,21 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/middle_padding"
+                android:text="产品售价："
+                android:textColor="#888888"
+                android:textSize="@dimen/middle_textsize" />
 
             <TextView
+                android:id="@+id/tv_insure_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/middle_padding"
                 android:layout_marginTop="@dimen/middle_padding"
-                android:text="产品售价：Y1,00元"
+                android:text="Y1,00元"
                 android:textColor="#888888"
                 android:textSize="@dimen/middle_textsize" />
         </LinearLayout>
@@ -228,7 +246,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:buttonTint="@color/green_color"
+            android:button="@drawable/icon_choose_selected"
             android:gravity="center_vertical"
             android:text="同意《约定保障条款》"
             android:layout_marginBottom="@dimen/middle_padding"

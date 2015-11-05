@@ -52,6 +52,11 @@ public class MyInsureActivity extends BaseActivity {
     private int pageNum_driverordertables = 1;
     private int pageNum_overtimeordertables = 1;
 
+
+    private int success_count_v = 0;//车险
+    private int success_count_d = 0;//驾驶险
+    private int success_count_o = 0;//加班险
+
     private int userid = -1;
 
     @Override
@@ -89,7 +94,7 @@ public class MyInsureActivity extends BaseActivity {
         UIUtils.initSwipeRefreshLayout(swipeLayout);
         mInsureList = (AutoListView) findViewById(R.id.list_view);
         mInsureList.setAdapter(myInsuresListAdapter);
-
+        mInsureList.setLoading(false);
 
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -151,15 +156,17 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-
-                if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderAmount() > 0) {
-                    if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords() != null) {
-                        vehicleordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords());
-                        pageNum_vehicleordertables++;
-                        getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
+                if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords() != null && myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords().size() > 0) {
+                    vehicleordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords());
+                    pageNum_vehicleordertables++;
+                    getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
+                }else {
+                    success_count_v = 1;
+                    if(success_count_d+success_count_o+success_count_v==3)
+                    {
+                        myInsuresListAdapter.notifyDataSetChanged();
                     }
                 }
-                myInsuresListAdapter.notifyDataSetChanged();
 
             }
         });
@@ -190,14 +197,18 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (myInsuranceDataNetWorkResultBean.getData().getDriverorderAmount() > 0) {
-                    if (myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords() != null) {
-                        driverordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords());
-                        pageNum_driverordertables++;
-                        getDriverOrderByPage(userid, pageSize, pageNum_driverordertables);
+                if (myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords() != null && myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords().size() > 0) {
+                    driverordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords());
+                    pageNum_driverordertables++;
+                    getDriverOrderByPage(userid, pageSize, pageNum_driverordertables);
+                }else {
+                    success_count_d = 1;
+                    if(success_count_d+success_count_o+success_count_v==3)
+                    {
+                        myInsuresListAdapter.notifyDataSetChanged();
                     }
                 }
-                myInsuresListAdapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -226,14 +237,19 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
 
-                if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderAmount() > 0) {
-                    if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords() != null) {
-                        overtimeordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords());
-                        pageNum_overtimeordertables++;
-                        getOvertimeOrderByPage(userid, pageSize, pageNum_overtimeordertables);
+                if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords() != null && myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords().size() > 0) {
+                    overtimeordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords());
+                    pageNum_overtimeordertables++;
+                    getOvertimeOrderByPage(userid, pageSize, pageNum_overtimeordertables);
+                }
+                else {
+                    success_count_o = 1;
+                    if(success_count_d+success_count_o+success_count_v==3)
+                    {
+                        myInsuresListAdapter.notifyDataSetChanged();
                     }
                 }
-                myInsuresListAdapter.notifyDataSetChanged();
+
             }
         });
     }

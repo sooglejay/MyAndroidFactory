@@ -34,6 +34,8 @@ public class StringConstant {
     public static final String orderEndTimeFromServerString = "orderEndTimeFromServerString";//保单结束时间
     public static final String orderEndTimeFromServerLong = "orderEndTimeFromServerLong";//保单结束时间
 
+
+    public static final String call_police_number  =  "87777777";//报警电话
     //我的钱包》》》》提现
     public static final String union_bank  ="银联";//银联
     public static final String union_zhifubao  = "支付宝";//支付宝

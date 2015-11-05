@@ -7,21 +7,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 
 import com.jsb.R;
 import com.jsb.fragment.CarInsureDetailClaimPolicyFragmentTab2;
 import com.jsb.fragment.CarInsureDetailContentFragmentTab1;
 import com.jsb.fragment.CarInsureDetailServiceStationFragmentTab3;
+import com.jsb.fragment.HistoryPriceDetailFragmentTab1;
+import com.jsb.fragment.HistoryPriceDetailFragmentTab2;
+import com.jsb.fragment.HistoryPriceDetailFragmentTab3;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.widget.PagerSlidingTabStrip;
 import com.jsb.widget.TitleBar;
 
 /**
- * 我的-我的保险-车险
+ * Created by JammyQtheLab on 2015/11/5.
  */
-public class MyInsuresListCarInsureDetailActivity extends BaseActivity {
+public class HistoryPriceDetailActivity extends BaseActivity {
+
 
     public final static String ExtrasKeyName = "ExtrasKeyName";
     private TitleBar mTitleBar;
@@ -29,14 +32,12 @@ public class MyInsuresListCarInsureDetailActivity extends BaseActivity {
     private ViewPager viewPager;
     private ViewPagerAdapter mAdapter;
 
-    private int selectTabTextColor ;
+    private int selectTabTextColor;
     private int unSelectTabTextColor;
 
 
-
-    public static void startActivity(Activity context,Vehicleordertable bean)
-    {
-        Intent intent = new Intent(context, MyInsuresListCarInsureDetailActivity.class);
+    public static void startActivity(Activity context, Vehicleordertable bean) {
+        Intent intent = new Intent(context, HistoryPriceDetailActivity.class);
         intent.putExtra(ExtrasKeyName, bean);
         context.startActivity(intent);
     }
@@ -45,14 +46,14 @@ public class MyInsuresListCarInsureDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_my_insure_car);
+        setContentView(R.layout.activity_history_price_detail);
 
 
         selectTabTextColor = getResources().getColor(R.color.base_color);
         unSelectTabTextColor = getResources().getColor(R.color.gray_color);
 
-        mTitleBar = (TitleBar)findViewById(R.id.title_bar);
-        mTitleBar.initTitleBarInfo("保险详情",R.drawable.arrow_left,-1,"","");
+        mTitleBar = (TitleBar) findViewById(R.id.title_bar);
+        mTitleBar.initTitleBarInfo("华安保险", R.drawable.arrow_left, -1, "", "");
         mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -82,7 +83,7 @@ public class MyInsuresListCarInsureDetailActivity extends BaseActivity {
         mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                MyInsuresListCarInsureDetailActivity.this.finish();
+                HistoryPriceDetailActivity.this.finish();
             }
 
             @Override
@@ -96,7 +97,7 @@ public class MyInsuresListCarInsureDetailActivity extends BaseActivity {
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "保单内容", "理赔政策", "合作网点" };
+        private final String[] TITLES = {"详细报价", "理赔政策", "合作网点"};
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -117,13 +118,13 @@ public class MyInsuresListCarInsureDetailActivity extends BaseActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = new CarInsureDetailContentFragmentTab1();
+                    fragment = new HistoryPriceDetailFragmentTab1();
                     break;
                 case 1:
-                    fragment = new CarInsureDetailClaimPolicyFragmentTab2();
+                    fragment = new HistoryPriceDetailFragmentTab1();
                     break;
                 case 2:
-                    fragment = new CarInsureDetailServiceStationFragmentTab3();
+                    fragment = new HistoryPriceDetailFragmentTab1();
                     break;
                 default:
                     break;
