@@ -15,22 +15,27 @@ public class TabBar extends LinearLayout {
     private TextView tv0;
     private TextView tv1;
     private TextView tv2;
+    private TextView tv3;
 
     private ImageView iv0;
     private ImageView iv1;
     private ImageView iv2;
+    private ImageView iv3;
 
     private ImageView iv0Selected;
     private ImageView iv1Selected;
     private ImageView iv2Selected;
+    private ImageView iv3Selected;
 
     private ImageView reddot0;
     private ImageView reddot1;
     private ImageView reddot2;
+    private ImageView reddot3;
 
     private View container0;
     private View container1;
     private View container2;
+    private View container3;
 
     private AnimatorListener mAnimatorListener;
 
@@ -63,23 +68,28 @@ public class TabBar extends LinearLayout {
         tv0 = (TextView) findViewById(R.id.tv0);
         tv1 = (TextView) findViewById(R.id.tv1);
         tv2 = (TextView) findViewById(R.id.tv2);
+        tv3 = (TextView) findViewById(R.id.tv3);
 
         iv0 = (ImageView) findViewById(R.id.iv0);
         iv1 = (ImageView) findViewById(R.id.iv1);
         iv2 = (ImageView) findViewById(R.id.iv2);
+        iv3 = (ImageView) findViewById(R.id.iv3);
 
 
         iv0Selected = (ImageView) findViewById(R.id.iv0_selected);
         iv1Selected = (ImageView) findViewById(R.id.iv1_selected);
         iv2Selected = (ImageView) findViewById(R.id.iv2_selected);
+        iv3Selected = (ImageView) findViewById(R.id.iv3_selected);
 
         reddot0 = (ImageView) findViewById(R.id.reddot0);
         reddot1 = (ImageView) findViewById(R.id.reddot1);
         reddot2 = (ImageView) findViewById(R.id.reddot2);
+        reddot3 = (ImageView) findViewById(R.id.reddot3);
 
         container0 = findViewById(R.id.layout0);
         container1 = findViewById(R.id.layout1);
         container2 = findViewById(R.id.layout2);
+        container3 = findViewById(R.id.layout3);
 
         mAnimatorListener = new AnimatorListener();
 
@@ -87,7 +97,7 @@ public class TabBar extends LinearLayout {
             @Override
             public void onClick(View v) {
                 selectTab(0);
-                if(onTabClickListener != null) {
+                if (onTabClickListener != null) {
                     onTabClickListener.onTabClick(0);
                 }
             }
@@ -97,7 +107,7 @@ public class TabBar extends LinearLayout {
             @Override
             public void onClick(View v) {
                 selectTab(1);
-                if(onTabClickListener != null) {
+                if (onTabClickListener != null) {
                     onTabClickListener.onTabClick(1);
                 }
             }
@@ -107,8 +117,19 @@ public class TabBar extends LinearLayout {
             @Override
             public void onClick(View v) {
                 selectTab(2);
-                if(onTabClickListener != null) {
+                if (onTabClickListener != null) {
                     onTabClickListener.onTabClick(2);
+                }
+            }
+        });
+
+
+        container3.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectTab(3);
+                if (onTabClickListener != null) {
+                    onTabClickListener.onTabClick(3);
                 }
             }
         });
@@ -118,10 +139,11 @@ public class TabBar extends LinearLayout {
 
     /**
      * 设置tab是否显示
+     *
      * @param pos
      * @param flag
      */
-    public void setTabVisibility(int pos, int flag){
+    public void setTabVisibility(int pos, int flag) {
         switch (pos) {
             case 0:
                 container0.setVisibility(flag);
@@ -132,12 +154,17 @@ public class TabBar extends LinearLayout {
             case 2:
                 container2.setVisibility(flag);
                 break;
-            default:break;
+            case 3:
+                container3.setVisibility(flag);
+                break;
+            default:
+                break;
         }
     }
 
     /**
      * 选择tab
+     *
      * @param position
      */
     public void selectTab(int position) {
@@ -146,6 +173,7 @@ public class TabBar extends LinearLayout {
                 tv0.setTextColor(getResources().getColor(R.color.dark_green_color));
                 tv1.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv2.setTextColor(getResources().getColor(R.color.middle_gray_color));
+                tv3.setTextColor(getResources().getColor(R.color.middle_gray_color));
 //
 //                iv0Selected.animate().alpha(1.0f).setListener(mAnimatorListener).start();
 //                iv0.animate().alpha(0f).setListener(mAnimatorListener).start();
@@ -158,12 +186,15 @@ public class TabBar extends LinearLayout {
                 iv1.setAlpha(1.0f);
                 iv2Selected.setAlpha(0f);
                 iv2.setAlpha(1.0f);
+                iv3Selected.setAlpha(0f);
+                iv3.setAlpha(1.0f);
                 break;
             case 1:
 
                 tv0.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv1.setTextColor(getResources().getColor(R.color.dark_green_color));
                 tv2.setTextColor(getResources().getColor(R.color.middle_gray_color));
+                tv3.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 iv0Selected.setAlpha(0f);
                 iv0.setAlpha(1.0f);
 
@@ -175,20 +206,44 @@ public class TabBar extends LinearLayout {
 
                 iv2Selected.setAlpha(0f);
                 iv2.setAlpha(1.0f);
+                iv3Selected.setAlpha(0f);
+                iv3.setAlpha(1.0f);
                 break;
             case 2:
 
                 tv0.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv1.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv2.setTextColor(getResources().getColor(R.color.dark_green_color));
+                tv3.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 iv0Selected.setAlpha(0f);
                 iv0.setAlpha(1.0f);
                 iv1Selected.setAlpha(0f);
                 iv1.setAlpha(1.0f);
+                iv3Selected.setAlpha(0f);
+                iv3.setAlpha(1.0f);
 
 
                 iv2Selected.setAlpha(1.0f);
                 iv2.setAlpha(0f);
+//                iv2Selected.animate().alpha(1.0f).setListener(mAnimatorListener).start();
+//                iv2.animate().alpha(0f).setListener(mAnimatorListener).start();
+                break;
+            case 3:
+
+                tv0.setTextColor(getResources().getColor(R.color.middle_gray_color));
+                tv1.setTextColor(getResources().getColor(R.color.middle_gray_color));
+                tv2.setTextColor(getResources().getColor(R.color.middle_gray_color));
+                tv3.setTextColor(getResources().getColor(R.color.dark_green_color));
+                iv0Selected.setAlpha(0f);
+                iv0.setAlpha(1.0f);
+                iv1Selected.setAlpha(0f);
+                iv1.setAlpha(1.0f);
+                iv2Selected.setAlpha(0f);
+                iv2.setAlpha(1.0f);
+
+
+                iv3Selected.setAlpha(1.0f);
+                iv3.setAlpha(0f);
 //                iv2Selected.animate().alpha(1.0f).setListener(mAnimatorListener).start();
 //                iv2.animate().alpha(0f).setListener(mAnimatorListener).start();
                 break;
@@ -199,6 +254,7 @@ public class TabBar extends LinearLayout {
 
     /**
      * 设置小红点的可见性
+     *
      * @param position
      * @param isVisible
      */
@@ -213,6 +269,9 @@ public class TabBar extends LinearLayout {
                 break;
             case 2:
                 reddot2.setVisibility(result);
+                break;
+            case 3:
+                reddot3.setVisibility(result);
                 break;
             default:
                 break;
@@ -244,11 +303,10 @@ public class TabBar extends LinearLayout {
 
     public void changeImageView(int currentPosition, int position, float positionOffset, int positionOffsetPixels) {
 
-        if(position != currentPosition){
+        if (position != currentPosition) {
             changeCurrentAlpha(currentPosition, positionOffset);
 
-        }
-        else {
+        } else {
             changePreviousAlpha(position, positionOffset);
         }
 
@@ -256,51 +314,49 @@ public class TabBar extends LinearLayout {
 
     /**
      * 调整
+     *
      * @param position
      * @param positionOffset
      */
     private void changePreviousAlpha(int position, float positionOffset) {
-            if(position == 0) {
-                iv0Selected.setAlpha(1-positionOffset);
-                iv0.setAlpha(positionOffset);
+        if (position == 0) {
+            iv0Selected.setAlpha(1 - positionOffset);
+            iv0.setAlpha(positionOffset);
 
 
-            }
-            else if(position == 1) {
-                iv1Selected.setAlpha(1-positionOffset);
-                iv1.setAlpha(positionOffset);
-
-
-            }
-            else if(position == 2) {
-                iv2Selected.setAlpha(1-positionOffset);
-                iv2.setAlpha(positionOffset);
-
-
-            }
+        } else if (position == 1) {
+            iv1Selected.setAlpha(1 - positionOffset);
+            iv1.setAlpha(positionOffset);
+        } else if (position == 2) {
+            iv2Selected.setAlpha(1 - positionOffset);
+            iv2.setAlpha(positionOffset);
+        } else if (position == 3) {
+            iv3Selected.setAlpha(1 - positionOffset);
+            iv3.setAlpha(positionOffset);
+        }
 
     }
 
     private void changeCurrentAlpha(int position, float positionOffset) {
-           if(position == 0) {
-               iv0Selected.setAlpha(positionOffset);
-               iv0.setAlpha(1-positionOffset);
+        if (position == 0) {
+            iv0Selected.setAlpha(positionOffset);
+            iv0.setAlpha(1 - positionOffset);
 
-           }
-           else if(position == 1) {
-               iv1Selected.setAlpha(positionOffset);
-               iv1.setAlpha(1-positionOffset);
+        } else if (position == 1) {
+            iv1Selected.setAlpha(positionOffset);
+            iv1.setAlpha(1 - positionOffset);
 
-           }
-           else if(position == 2) {
-               iv2Selected.setAlpha(positionOffset);
-               iv2.setAlpha(1-positionOffset);
+        } else if (position == 2) {
+            iv2Selected.setAlpha(positionOffset);
+            iv2.setAlpha(1 - positionOffset);
+        } else if (position == 3) {
+            iv3Selected.setAlpha(positionOffset);
+            iv3.setAlpha(1 - positionOffset);
 
-           }
+        }
 
 
     }
-
 
 
     public interface OnTabClickListener {

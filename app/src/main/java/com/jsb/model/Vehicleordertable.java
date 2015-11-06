@@ -39,9 +39,6 @@ public class Vehicleordertable implements Parcelable {
     private Vechicleinsurancedetail insuranceDetail;//具体保险内容对象集合5.4.5
     private Insurancecompanyprice insurancecompanyprices;//
 
-
-    private int super_status = 0 ;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
-
     @Override
     public String toString() {
         return "Vehicleordertable{" +
@@ -75,9 +72,23 @@ public class Vehicleordertable implements Parcelable {
                 ", vehicle=" + vehicle +
                 ", insuranceDetail=" + insuranceDetail +
                 ", insurancecompanyprices=" + insurancecompanyprices +
+                ", companyInfo=" + companyInfo +
                 ", super_status=" + super_status +
                 '}';
     }
+
+    public InsuranceCompanyInfo getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public void setCompanyInfo(InsuranceCompanyInfo companyInfo) {
+        this.companyInfo = companyInfo;
+    }
+
+    private InsuranceCompanyInfo companyInfo;
+
+
+    private int super_status = 0 ;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
 
     public int getSuper_status() {
         return super_status;
@@ -375,6 +386,7 @@ public class Vehicleordertable implements Parcelable {
         dest.writeParcelable(this.vehicle, 0);
         dest.writeParcelable(this.insuranceDetail, 0);
         dest.writeParcelable(this.insurancecompanyprices, 0);
+        dest.writeParcelable(this.companyInfo, 0);
         dest.writeInt(this.super_status);
     }
 
@@ -409,6 +421,7 @@ public class Vehicleordertable implements Parcelable {
         this.vehicle = in.readParcelable(Vehicletable.class.getClassLoader());
         this.insuranceDetail = in.readParcelable(Vechicleinsurancedetail.class.getClassLoader());
         this.insurancecompanyprices = in.readParcelable(Insurancecompanyprice.class.getClassLoader());
+        this.companyInfo = in.readParcelable(InsuranceCompanyInfo.class.getClassLoader());
         this.super_status = in.readInt();
     }
 

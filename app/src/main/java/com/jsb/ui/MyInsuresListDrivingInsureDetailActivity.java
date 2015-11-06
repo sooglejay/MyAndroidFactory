@@ -15,11 +15,10 @@ import android.widget.Toast;
 import com.jsb.R;
 import com.jsb.constant.StringConstant;
 import com.jsb.model.Driverordertable;
-import com.jsb.model.Vehicleordertable;
 import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
-import com.lidroid.xutils.db.annotation.Check;
+
 
 /**
  * 我的-我的保险-车险

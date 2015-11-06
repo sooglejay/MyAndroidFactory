@@ -3,14 +3,13 @@ package com.jsb.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by JammyQtheLab on 2015/10/25.
  */
 public class ReportableInsurance implements Parcelable {
-    private List<VehicleReportableData> vehicleReportableData;
+    private List<Vehicleordertable> vehicleReportableData;
     private List<Driverordertable> driverReportableData;
     private List<Overtimeordertable> overtimeReportableData;
 
@@ -23,11 +22,11 @@ public class ReportableInsurance implements Parcelable {
                 '}';
     }
 
-    public List<VehicleReportableData> getVehicleReportableData() {
+    public List<Vehicleordertable> getVehicleReportableData() {
         return vehicleReportableData;
     }
 
-    public void setVehicleReportableData(List<VehicleReportableData> vehicleReportableData) {
+    public void setVehicleReportableData(List<Vehicleordertable> vehicleReportableData) {
         this.vehicleReportableData = vehicleReportableData;
     }
 
@@ -63,7 +62,7 @@ public class ReportableInsurance implements Parcelable {
     }
 
     protected ReportableInsurance(Parcel in) {
-        this.vehicleReportableData = in.createTypedArrayList(VehicleReportableData.CREATOR);
+        this.vehicleReportableData = in.createTypedArrayList(Vehicleordertable.CREATOR);
         this.driverReportableData = in.createTypedArrayList(Driverordertable.CREATOR);
         this.overtimeReportableData = in.createTypedArrayList(Overtimeordertable.CREATOR);
     }

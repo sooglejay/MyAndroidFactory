@@ -28,7 +28,6 @@ import com.jsb.widget.PopWindowUtils;
 import com.jsb.widget.TitleBar;
 
 import de.greenrobot.event.EventBus;
-import retrofit.RetrofitError;
 
 /**
  * 我的-主框架-tab3
@@ -53,7 +52,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_3, container, false);
+        return inflater.inflate(R.layout.fragment_4, container, false);
     }
 
 

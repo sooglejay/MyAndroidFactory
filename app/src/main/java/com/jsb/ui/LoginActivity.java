@@ -2,6 +2,7 @@ package com.jsb.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -55,7 +56,7 @@ public class LoginActivity extends BaseActivity {
 
     public static void startLoginActivity(Context context)
     {
-        context.startActivity(new Intent(context,LoginActivity.class));
+        context.startActivity(new Intent(context, LoginActivity.class));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,17 +87,28 @@ public class LoginActivity extends BaseActivity {
 
 
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //手机号码输入框获取焦点
-                UIUtils.showSoftInput(LoginActivity.this,et_phone_number);
-                et_phone_number.requestFocus();
-            }
-        }, 100);  //在500毫秒后打开
 
 
+       new AsyncTask<Integer, Void, Long>() {
+
+           @Override
+           protected Long doInBackground(Integer... params) {
+               try {
+                   Thread.sleep(params[0]);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+               return null;
+           }
+           @Override
+           protected void onPostExecute(Long value) {
+               if (et_phone_number != null) { //手机号码输入框获取焦点
+                   UIUtils.showSoftInput(LoginActivity.this, et_phone_number);
+                   et_phone_number.requestFocus();
+               }
+           }
+
+        }.execute(100);
 
         et_verify_code.addTextChangedListener(textWatcher);
         et_phone_number.addTextChangedListener(textWatcher);
@@ -253,4 +265,5 @@ public class LoginActivity extends BaseActivity {
         }
         super.finish();
     }
+
 }

@@ -23,6 +23,7 @@ import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.fragment.DialogFragmentCreater;
+import com.jsb.fragment.ServerConsultorFragment;
 import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.fragment.BuyInsureFragment;
 import com.jsb.fragment.MeFragment;
@@ -149,6 +150,9 @@ public class MainActivity extends BaseActivity {
                     fragment = new BuyInsureFragment();
                     break;
                 case 2:
+                    fragment = new ServerConsultorFragment();
+                    break;
+                case 3:
                     fragment = new MeFragment();
                     break;
                 default:
@@ -159,30 +163,27 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 
 
-
     /**
      * EventBus 广播
+     *
      * @param event
      */
     public void onEventMainThread(BusEvent event) {
         switch (event.getMsg()) {
-           case BusEvent.MSG_Login_Success:
-               if (viewPager!=null)
-               {
-                   viewPager.setCurrentItem(0,false);
-               }
+            case BusEvent.MSG_Login_Success:
+                if (viewPager != null) {
+                    viewPager.setCurrentItem(0, false);
+                }
                 break;
             default:
                 break;
         }
     }
-
-
 
 
     /**
@@ -235,7 +236,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MainActivity.this.finish();
-                      }
+                    }
                 }).setNegativeButton("取消", null).create().show();
     }
 

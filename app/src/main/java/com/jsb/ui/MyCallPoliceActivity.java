@@ -107,9 +107,6 @@ public class MyCallPoliceActivity extends BaseActivity {
                     if (reportableInsurance.getVehicleReportableData() != null) {
                         mListDatas.addAll(data.getReportableInsurance().getVehicleReportableData());
                     }
-
-                    Vehicleordertable bean = new Vehicleordertable();
-                    mListDatas.add(bean);
                     myCallPoliceListAdapter.notifyDataSetChanged();
                 }
             }

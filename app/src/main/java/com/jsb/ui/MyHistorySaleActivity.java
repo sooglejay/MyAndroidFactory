@@ -173,29 +173,6 @@ public class MyHistorySaleActivity extends BaseActivity {
                         if (bean.getVehicleorderAmount() > 0) {
                             mDatas.addAll(bean.getVehicleorderRecords());
                             pageNum++;
-                        } else {
-                            for (int i = 0; i < 4; i++) {
-                                Vehicleordertable b = new Vehicleordertable();
-                                Insurancecompanyprice p = new Insurancecompanyprice();
-                                InsuranceCompanyInfo c = new InsuranceCompanyInfo();
-                                c.setCompanyname("mock");
-                                p.setCompany(c);
-                                b.setInsurancecompanyprices(p);
-                                b.setStatus(0);
-                                b.setMoney(100.0f);
-                                mDatas.add(b);
-                            }
-                            for (int i = 0; i < 4; i++) {
-                                Vehicleordertable b = new Vehicleordertable();
-                                Insurancecompanyprice p = new Insurancecompanyprice();
-                                InsuranceCompanyInfo c = new InsuranceCompanyInfo();
-                                c.setCompanyname("付出卡");
-                                p.setCompany(c);
-                                b.setInsurancecompanyprices(p);
-                                b.setDeleted(1);
-                                b.setMoney(100.0f);
-                                mDatas.add(b);
-                            }
                         }
                         mAdapter.notifyDataSetChanged();
                     }

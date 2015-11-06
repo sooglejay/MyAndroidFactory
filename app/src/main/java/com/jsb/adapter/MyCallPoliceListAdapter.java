@@ -15,6 +15,7 @@ import com.jsb.model.Driverordertable;
 import com.jsb.model.Overtimeordertable;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.ui.MyCallPoliceActivity;
+import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
 
 import java.util.ArrayList;
@@ -76,8 +77,8 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
                             @Override
                             public void viewClick(String tag) {
                                 if (tag.equals("tv_confirm")) {
-                                    if (bean.getInsurancecompanyprices() != null && bean.getInsurancecompanyprices().getCompany() != null) {
-                                        String phoneNumber = bean.getInsurancecompanyprices().getCompany().getCompanyphone();
+                                    if (bean.getCompanyInfo() != null) {
+                                        String phoneNumber = bean.getCompanyInfo().getCompanyphone();
                                         UIUtils.takePhoneCall(mContext, phoneNumber, MyCallPoliceActivity.REQUEST_CODE_CALL);
                                     }
                                 }
@@ -138,21 +139,46 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
         final Object obj = getItem(position);
         if (obj instanceof Vehicleordertable) {
             Vehicleordertable bean = (Vehicleordertable) obj;
-            if (bean.getInsuranceDetail() != null) {
-                holder.tv_insure_name.setText(bean.getInsuranceDetail().getInsurancename() + "");
+            holder.tv_insure_name.setText( "是哪个字段？");
+            if (bean.getCompanyInfo() != null) {
+                holder.tv_buy_insure_agent.setText(bean.getCompanyInfo().getCompanyname() + "");
             } else {
-                holder.tv_insure_name.setText("mock");
+                holder.tv_buy_insure_agent.setText("null");
+            }
+            if (bean.getStartdate() != null) {
+                holder.tv_buy_insure_time.setText(TimeUtil.getTimeString(bean.getStartdate()));
+            } else {
+                holder.tv_buy_insure_time.setText("null");
             }
             holder.item.setTag(bean);
             holder.item.setOnClickListener(holder.onClickListener);
         } else if (obj instanceof Overtimeordertable) {
             Overtimeordertable bean = (Overtimeordertable) obj;
             holder.tv_insure_name.setText("加班险");
+
+            holder.tv_buy_insure_agent.setText("万保易");
+
+            if (bean.getStartdate() != null) {
+                holder.tv_buy_insure_time.setText(TimeUtil.getTimeString(bean.getStartdate()));
+            }else {
+                holder.tv_buy_insure_time.setText("null");
+            }
             holder.item.setTag(bean);
             holder.item.setOnClickListener(holder.onClickListener);
         } else if (obj instanceof Driverordertable) {
             Driverordertable bean = (Driverordertable) obj;
             holder.tv_insure_name.setText("驾驶险");
+            if (bean.getCompanyInfo() != null) {
+                holder.tv_buy_insure_agent.setText(bean.getCompanyInfo().getCompanyname());
+            } else {
+                holder.tv_buy_insure_agent.setText("null");
+            }
+
+            if (bean.getStartdate() != null) {
+                holder.tv_buy_insure_time.setText(TimeUtil.getTimeString(bean.getStartdate()));
+            } else {
+                holder.tv_buy_insure_time.setText("null");
+            }
             holder.item.setTag(bean);
             holder.item.setOnClickListener(holder.onClickListener);
         }

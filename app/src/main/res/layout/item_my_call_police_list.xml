@@ -20,20 +20,20 @@
             android:paddingTop="@dimen/small_padding">
 
             <TextView
+                android:text="保险名字"
                 android:id="@+id/tv_insure_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/middle_padding"
-                android:text="车险（川A88888）"
                 android:textColor="@color/tv_black_color_level_0"
                 android:textSize="@dimen/big_textsize" />
 
             <TextView
+
                 android:id="@+id/tv_buy_insure_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/middle_padding"
-                android:text="2015-09-12"
                 android:textColor="@color/tv_gray_color_level_2"
                 android:textSize="@dimen/middle_textsize" />
         </LinearLayout>
@@ -49,10 +49,10 @@
             <TextView
                 android:id="@+id/tv_call_police"
                 android:layout_width="wrap_content"
+                android:text="立即报案"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
                 android:layout_marginRight="@dimen/middle_padding"
-                android:text="立即报案"
                 android:textColor="@color/light_red"
                 android:textSize="@dimen/big_textsize" />
 
@@ -62,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
                 android:layout_marginRight="@dimen/middle_padding"
-                android:text="太平保险"
                 android:textColor="@color/tv_gray_color_level_2"
                 android:textSize="@dimen/small_textsize" />
         </LinearLayout>
