@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib.charts;
+package com.jsb.widget.decoview.decoviewlib.charts;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,7 +24,7 @@ import android.graphics.Shader;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.jsb.widget.DecoView.decoviewlib.DecoView;
+import com.jsb.widget.decoview.decoviewlib.DecoView;
 
 public class LineSeries extends ChartSeries {
     private final String TAG = getClass().getSimpleName();

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.view;
+package com.jsb.widget.decoview.nineoldandroids.view;
 
 import java.util.WeakHashMap;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.Interpolator;
-import com.jsb.widget.DecoView.nineoldandroids.animation.Animator;
+import com.jsb.widget.decoview.nineoldandroids.animation.Animator;
 
 /**
  * This class enables automatic and optimized animation of select properties on View objects.

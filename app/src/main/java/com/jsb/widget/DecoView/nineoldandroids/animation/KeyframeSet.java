@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.view.animation.Interpolator;
 
-import com.jsb.widget.DecoView.nineoldandroids.animation.Keyframe.FloatKeyframe;
-import com.jsb.widget.DecoView.nineoldandroids.animation.Keyframe.IntKeyframe;
-import com.jsb.widget.DecoView.nineoldandroids.animation.Keyframe.ObjectKeyframe;
+import com.jsb.widget.decoview.nineoldandroids.animation.Keyframe.FloatKeyframe;
+import com.jsb.widget.decoview.nineoldandroids.animation.Keyframe.IntKeyframe;
+import com.jsb.widget.decoview.nineoldandroids.animation.Keyframe.ObjectKeyframe;
 
 /**
  * This class holds a collection of Keyframe objects and is called by ValueAnimator to calculate

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 import android.util.Log;
 
@@ -23,9 +23,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.jsb.widget.DecoView.nineoldandroids.util.FloatProperty;
-import com.jsb.widget.DecoView.nineoldandroids.util.IntProperty;
-import com.jsb.widget.DecoView.nineoldandroids.util.Property;
+import com.jsb.widget.decoview.nineoldandroids.util.FloatProperty;
+import com.jsb.widget.decoview.nineoldandroids.util.IntProperty;
+import com.jsb.widget.decoview.nineoldandroids.util.Property;
 
 /**
  * This class holds information about a property and the values that that property

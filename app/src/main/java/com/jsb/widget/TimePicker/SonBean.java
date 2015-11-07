@@ -1,4 +1,4 @@
-package com.jsb.widget.TimePicker;
+package com.jsb.widget.timepicker;
 
 /**
  * Created by JiangWei on 2015/10/20.

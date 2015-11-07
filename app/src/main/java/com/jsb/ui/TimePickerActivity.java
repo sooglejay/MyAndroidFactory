@@ -1,17 +1,14 @@
 package com.jsb.ui;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 
 import com.jsb.R;
-import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
-import com.jsb.util.PreferenceUtil;
-import com.jsb.widget.TimePicker.CalenderAdapter;
-import com.jsb.widget.TimePicker.SonBean;
-import com.jsb.widget.TimePicker.FatherBean;
+import com.jsb.widget.timepicker.CalenderAdapter;
+import com.jsb.widget.timepicker.SonBean;
+import com.jsb.widget.timepicker.FatherBean;
 import com.jsb.widget.TitleBar;
 
 import java.text.ParseException;

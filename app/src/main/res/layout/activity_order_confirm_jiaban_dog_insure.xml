@@ -1,228 +1,259 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
 
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <View
-        android:layout_width="match_parent"
+    <ScrollView
         android:background="@color/bg_screen"
-        android:layout_height="22dp"/>
-    <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
-    <!--保障人-->
-    <LinearLayout
-        android:background="@color/white_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="@dimen/middle_padding"
-            android:text="被保障人"
-            android:textColor="#4f4f4f"
-            android:textSize="@dimen/big_textsize" />
-
-        <EditText
-            android:id="@+id/et_insure_user_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="请输入被保障人姓名"
-            android:inputType="text"
-            android:padding="@dimen/middle_padding"
-            android:textColorHint="@color/tv_gray_color_level_1" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
-    <!--公司名称-->
-    <LinearLayout
-        android:background="@color/white_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="@dimen/middle_padding"
-            android:text="公司名称"
-            android:textColor="#4f4f4f"
-            android:textSize="@dimen/big_textsize" />
-
-        <EditText
-            android:id="@+id/et_company_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="请输入公司名称"
-            android:inputType="text"
-            android:padding="@dimen/middle_padding"
-            android:textColorHint="@color/tv_gray_color_level_1" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
-    <!--公司地址-->
-    <LinearLayout
-        android:background="@color/white_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="@dimen/middle_padding"
-            android:text="公司地址"
-            android:textColor="#4f4f4f"
-            android:textSize="@dimen/big_textsize" />
-
-        <EditText
-            android:id="@+id/et_company_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="请定位公司地址"
-            android:inputType="text"
-            android:padding="@dimen/middle_padding"
-            android:textColorHint="@color/tv_gray_color_level_1" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
-    <!--家庭地址-->
-    <LinearLayout
-        android:background="@color/white_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="@dimen/middle_padding"
-            android:text="家庭地址"
-            android:textColor="#4f4f4f"
-            android:textSize="@dimen/big_textsize" />
-
-        <EditText
-            android:id="@+id/et_home_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="请输入家庭住址"
-            android:inputType="text"
-            android:padding="@dimen/middle_padding"
-            android:textColorHint="@color/tv_gray_color_level_1" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
-    <!--保险期限-->
-    <LinearLayout
-        android:background="@color/white_color"
-        android:layout_width="match_parent"
-        android:padding="@dimen/middle_padding"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-
-            android:text="保险期限"
-            android:textColor="#4f4f4f"
-            android:textSize="@dimen/big_textsize" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="@dimen/middle_padding"
-            android:text="7天"
-            android:textColor="#4f4f4f"
-            android:textSize="@dimen/big_textsize" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="@color/bg_screen"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/middle_padding"
-        android:paddingTop="@dimen/middle_padding"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="订单内容"
-                android:textSize="@dimen/big_textsize"  android:textColor="#4e4e4e"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/big_textsize"   android:textColor="#4e4e4e"
-                android:text="驾驶员保险"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/big_textsize"    android:textColor="#4e4e4e"
-                android:text="订单金额"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/big_textsize"  android:textColor="#4e4e4e"
-                android:text="1元"
-                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/line_e0_e5" />
+            <!--保障人-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="被保障人"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入被保障人姓名"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+            <!--公司名称-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="公司名称"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_company_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入公司名称"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+            <!--公司地址-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="公司地址"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_company_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请定位公司地址"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+
+                <ImageView
+                    android:id="@+id/iv_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/little_padding"
+                    android:src="@drawable/icon_location" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+            <!--家庭地址-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="家庭地址"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_home_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入家庭住址"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+            <!--保险期限-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal"
+                android:padding="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:text="保险期限"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="7天"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/middle_padding"
+                android:paddingTop="@dimen/middle_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="订单内容:  "
+                        android:textColor="#4e4e4e"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="加班险"
+                        android:textColor="#4e4e4e"
+                        android:textSize="@dimen/big_textsize" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="订单金额:  "
+                        android:textColor="#4e4e4e"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1元"
+                        android:textColor="#4e4e4e"
+                        android:textSize="@dimen/big_textsize" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/middle_padding"
+                    android:layout_marginTop="@dimen/most_big_padding"
+                    android:background="@drawable/btn_select_base"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="去支付"
+                    android:textColor="@color/white_color"
+                    android:textSize="@dimen/tv_size_level_1" />
+            </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_pay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/middle_padding"
-            android:layout_marginTop="@dimen/most_big_padding"
-            android:gravity="center"
-            android:background="@drawable/btn_select_base"
-            android:paddingBottom="@dimen/middle_padding"
-            android:paddingTop="@dimen/middle_padding"
-            android:text="去支付"
-            android:textColor="@color/white_color"
-            android:textSize="@dimen/tv_size_level_1" />
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

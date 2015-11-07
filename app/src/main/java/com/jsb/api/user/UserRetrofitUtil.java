@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.jsb.api.callback.NetCallback;
 import com.jsb.model.AccountData;
+import com.jsb.model.Charge;
+import com.jsb.model.ChargeBean;
 import com.jsb.model.CommData;
 import com.jsb.model.ConsultantData;
 import com.jsb.model.FreedomData;
@@ -15,6 +17,7 @@ import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
+import com.jsb.model.Overtimeordertable;
 import com.jsb.model.PauseData;
 import com.jsb.model.PauseHistory;
 import com.jsb.model.RangeData;
@@ -143,29 +146,38 @@ public class UserRetrofitUtil extends RetrofitUtil {
 
 
     /**
-     * 发送时机	提交订单时保存订单信息
-     * 参数说明
-     * 1、String phone； // 被保人电话
-     * 2、float money； // 保费
-     * 3、String companyaddress； // 公司地址
-     * 4、String homeaddress; //家庭地址
-     *
+     发送时机	提交订单时保存订单信息
+     参数说明
+     1、String phone； // 被保人电话
+     2、Int overtimeInsuranceId;//上一个接口返回的加班险id
+     3、float money； // 保费
+     4、String companyaddress； // 公司地址
+     5、String homeaddress; //家庭地址
+     6、float  lat;//纬度   8位小数
+     7、float lng;//经度   8位小数
+     限制条件	参数1、2，3，4、5、6、7为必填。
      * @param mContext
      * @param callback
      */
     public static void saveOvertimeInsuranceOrder(Context mContext,
                                                   String phone,
+                                                  int overtimeInsuranceId,
                                                   float money,
                                                   String companyaddress,
                                                   String homeaddress,
-                                                  NetCallback<NetWorkResultBean<String>> callback) {
+                                                  double  lat,
+                                                  double  lng,
+                                                  NetCallback<NetWorkResultBean<Overtimeordertable>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
-        String key =
-                "phone=" + phone +
+        String key = "phone=" + phone +
+                     "&overtimeInsuranceId=" + overtimeInsuranceId +
                         "&money=" + money +
                         "&companyaddress=" + companyaddress +
-                        "&homeaddress=" + homeaddress;
+                        "&homeaddress=" + homeaddress+
+                        "&lat=" + lat+
+                        "&lng=" + lng
+                ;
         String value = Base64Util.encode(key.getBytes());
         Log.e("Retrofit", "original:" + key + "\nbase64:" + value);
         git.saveOvertimeInsuranceOrder(value, callback);
@@ -1298,6 +1310,57 @@ public class UserRetrofitUtil extends RetrofitUtil {
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.reportOvertime(s, callback);
+    }
+
+
+    /**
+     * 获取4S店信息
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getFourServiceInfo(Context mContext,
+                                          NetCallback<NetWorkResultBean<CommData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        git.getFourServiceInfo("", callback);
+    }
+
+
+    /**
+     * 发送时机	付款时调用，先拿到支付对象，然后去支付，具体流程参见ping++
+     * 参数说明
+     * 1、int orderid；//保险订单编号
+     * 2、double  money ; //支付金额，保留两位小数，单位元
+     * 3、String phone ; //被保险人电话
+     * 4、int type ;// 保险类别   0车险  1加班险  2驾驶险
+     * 5、String channel ;// 支付渠道，参见ping++的可选项
+     * 6、String client_ip ; //客户端ip
+     * 限制条件	参数1、2、3、4、5、6为必填。
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getCharge(Context mContext,
+                                 int orderid,
+                                 double money,
+                                 String phone,
+                                 int type,
+                                 String channel,
+                                 String client_ip,
+                                 NetCallback<ChargeBean> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "orderid=" + orderid +
+                        "&money=" + money +
+                        "&phone=" + phone +
+                        "&type=" + type +
+                        "&channel=" + channel +
+                        "&client_ip=" + client_ip;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getCharge(s, callback);
     }
 
 

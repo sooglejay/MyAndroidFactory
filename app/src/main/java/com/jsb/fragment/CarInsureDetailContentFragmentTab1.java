@@ -2,13 +2,9 @@ package com.jsb.fragment;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,16 +24,14 @@ import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.model.Vehicletable;
 import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
-import com.jsb.ui.OrderCofirmJiaBanDogInsureActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -68,6 +62,7 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
     private TextView tv_car_cjhm;
     private TextView tv_car_cphm;
 
+    private GifImageView gifImageView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_detail_car_insure_tab1, container, false);
@@ -83,6 +78,8 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
         context =CarInsureDetailContentFragmentTab1.this.getActivity();
         userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
 
+        gifImageView = (GifImageView)view.findViewById(R.id.gif_view);
+        UIUtils.setGifView(this.getActivity(), gifImageView,R.drawable.anim_flag_iceland);
 
         tv_car_cphm = (TextView)view.findViewById(R.id.tv_car_cphm);
         tv_car_cjhm = (TextView)view.findViewById(R.id.tv_car_cjhm);

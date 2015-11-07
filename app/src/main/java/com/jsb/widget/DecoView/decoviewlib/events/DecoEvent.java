@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib.events;
+package com.jsb.widget.decoview.decoviewlib.events;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,7 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.jsb.widget.DecoView.decoviewlib.charts.DecoDrawEffect;
+import com.jsb.widget.decoview.decoviewlib.charts.DecoDrawEffect;
 
 /**
  * Encapsulates a scheduled operation to perform on the {@link com.hookedonplay.decoviewlib.DecoView}

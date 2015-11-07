@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 import android.content.Context;
 import android.content.res.TypedArray;

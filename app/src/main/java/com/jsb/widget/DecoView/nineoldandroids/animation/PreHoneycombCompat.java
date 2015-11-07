@@ -1,10 +1,10 @@
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 import android.view.View;
-import com.jsb.widget.DecoView.nineoldandroids.util.FloatProperty;
-import com.jsb.widget.DecoView.nineoldandroids.util.IntProperty;
-import com.jsb.widget.DecoView.nineoldandroids.util.Property;
-import com.jsb.widget.DecoView.nineoldandroids.view.animation.AnimatorProxy;
+import com.jsb.widget.decoview.nineoldandroids.util.FloatProperty;
+import com.jsb.widget.decoview.nineoldandroids.util.IntProperty;
+import com.jsb.widget.decoview.nineoldandroids.util.Property;
+import com.jsb.widget.decoview.nineoldandroids.view.animation.AnimatorProxy;
 
 final class PreHoneycombCompat {
     static Property<View, Float> ALPHA = new FloatProperty<View>("alpha") {

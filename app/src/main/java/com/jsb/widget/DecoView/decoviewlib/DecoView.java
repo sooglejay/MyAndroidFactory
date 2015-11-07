@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib;
+package com.jsb.widget.decoview.decoviewlib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -28,15 +28,15 @@ import android.util.Log;
 import android.view.View;
 
 import com.jsb.R;
-import com.jsb.widget.DecoView.decoviewlib.charts.ChartSeries;
-import com.jsb.widget.DecoView.decoviewlib.charts.DecoDrawEffect;
-import com.jsb.widget.DecoView.decoviewlib.charts.LineArcSeries;
-import com.jsb.widget.DecoView.decoviewlib.charts.LineSeries;
-import com.jsb.widget.DecoView.decoviewlib.charts.PieSeries;
-import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
-import com.jsb.widget.DecoView.decoviewlib.events.DecoEvent;
-import com.jsb.widget.DecoView.decoviewlib.events.DecoEventManager;
-import com.jsb.widget.DecoView.decoviewlib.util.GenericFunctions;
+import com.jsb.widget.decoview.decoviewlib.charts.ChartSeries;
+import com.jsb.widget.decoview.decoviewlib.charts.DecoDrawEffect;
+import com.jsb.widget.decoview.decoviewlib.charts.LineArcSeries;
+import com.jsb.widget.decoview.decoviewlib.charts.LineSeries;
+import com.jsb.widget.decoview.decoviewlib.charts.PieSeries;
+import com.jsb.widget.decoview.decoviewlib.charts.SeriesItem;
+import com.jsb.widget.decoview.decoviewlib.events.DecoEvent;
+import com.jsb.widget.decoview.decoviewlib.events.DecoEventManager;
+import com.jsb.widget.decoview.decoviewlib.util.GenericFunctions;
 
 import java.util.ArrayList;
 

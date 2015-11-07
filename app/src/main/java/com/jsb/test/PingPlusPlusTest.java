@@ -181,6 +181,7 @@ public class PingPlusPlusTest extends Activity implements View.OnClickListener{
             try {
                 //向Your Ping++ Server SDK请求数据
                 data = postJson(URL, json);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -196,7 +197,7 @@ public class PingPlusPlusTest extends Activity implements View.OnClickListener{
         		showMsg("请求出错", "请检查URL", "URL无法获取charge");
         		return;
         	}
-        	Log.d("charge", data);
+        	Log.e("jwjw", data);
             Intent intent = new Intent();
             String packageName = getPackageName();
             ComponentName componentName = new ComponentName(packageName, packageName + ".wxapi.WXPayEntryActivity");

@@ -1,26 +1,18 @@
 package com.jsb.ui;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jsb.R;
 import com.jsb.adapter.MyHistorySaleAdapter;
-import com.jsb.Bean.aaa_HistorySaleBean;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.HistoryPriceData;
-import com.jsb.model.InsuranceCompanyInfo;
-import com.jsb.model.Insurancecompanyprice;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.util.PreferenceUtil;

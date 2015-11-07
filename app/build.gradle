@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
@@ -36,59 +36,63 @@ android {
             proguardFile 'proguard-rules.pro'
         }
     }
-//    //批量打包--声明
-//    productFlavors {
-//        _360市场_ {
-//            //这里可以配置不同的包名
-//            manifestPlaceholders = [CHANNEL_NAME: "360市场"]
-//        }
-//        _友盟_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "友盟"]
-//        }
-//        _豌豆荚_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "豌豆荚"]
-//        }
-//        _小米市场_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "小米市场"]
-//        }
-//        _QQ应用宝_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "QQ应用宝"]
-//        }
-//        _安智_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "安智"]
-//        }
-//        _QQ推广_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "QQ推广"]
-//        }
-//        _华为_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "华为"]
-//        }
-//
-//        _测试包_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "测试包"]
-//        }
-//
-//        _魅族_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "魅族"]
-//        }
-//        _酷传_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "酷传"]
-//        }
-//
-//        _安心车险_{
-//            manifestPlaceholders = [CHANNEL_NAME: "安心车险"]
-//        }
-//
-//        _公测包_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "公测包"]
-//        }
-//
-//
-//        _百度_ {
-//            manifestPlaceholders = [CHANNEL_NAME: "百度"]
-//        }
-//    }
+    //批量打包--声明
+    productFlavors {
+        _360市场_ {
+            //这里可以配置不同的包名
+            manifestPlaceholders = [CHANNEL_NAME: "360市场"]
+        }
+        _友盟_ {
+            manifestPlaceholders = [CHANNEL_NAME: "友盟"]
+        }
+        _豌豆荚_ {
+            manifestPlaceholders = [CHANNEL_NAME: "豌豆荚"]
+        }
+        _小米市场_ {
+            manifestPlaceholders = [CHANNEL_NAME: "小米市场"]
+        }
+        _QQ应用宝_ {
+            manifestPlaceholders = [CHANNEL_NAME: "QQ应用宝"]
+        }
+        _安智_ {
+            manifestPlaceholders = [CHANNEL_NAME: "安智"]
+        }
+        _QQ推广_ {
+            manifestPlaceholders = [CHANNEL_NAME: "QQ推广"]
+        }
+        _华为_ {
+            manifestPlaceholders = [CHANNEL_NAME: "华为"]
+        }
 
+        _测试包_ {
+            manifestPlaceholders = [CHANNEL_NAME: "测试包"]
+        }
+
+        _魅族_ {
+            manifestPlaceholders = [CHANNEL_NAME: "魅族"]
+        }
+        _酷传_ {
+            manifestPlaceholders = [CHANNEL_NAME: "酷传"]
+        }
+
+        _安心车险_{
+            manifestPlaceholders = [CHANNEL_NAME: "安心车险"]
+        }
+
+        _公测包_ {
+            manifestPlaceholders = [CHANNEL_NAME: "公测包"]
+        }
+
+
+        _百度_ {
+            manifestPlaceholders = [CHANNEL_NAME: "百度"]
+        }
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 
 }
 dependencies {
@@ -102,4 +106,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile project(':umengshare')
     compile project(':bdwallet_pay_sdk')
+    compile(name: 'android-gif-drawable-1.1.10', ext: 'aar')
 }

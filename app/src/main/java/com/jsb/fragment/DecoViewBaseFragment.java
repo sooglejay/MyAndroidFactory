@@ -26,8 +26,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.jsb.R;
-import com.jsb.widget.DecoView.decoviewlib.DecoView;
-import com.jsb.widget.DecoView.decoviewlib.charts.SeriesItem;
+import com.jsb.widget.decoview.decoviewlib.DecoView;
+import com.jsb.widget.decoview.decoviewlib.charts.SeriesItem;
 
 abstract public class DecoViewBaseFragment extends BaseFragment {
     protected final String TAG = getClass().getSimpleName();

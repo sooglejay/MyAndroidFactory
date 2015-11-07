@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 /**
  * This adapter class provides empty implementations of the methods from {@link android.animation.Animator.AnimatorListener}.

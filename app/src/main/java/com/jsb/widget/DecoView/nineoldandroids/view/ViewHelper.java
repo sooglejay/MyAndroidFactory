@@ -1,9 +1,9 @@
-package com.jsb.widget.DecoView.nineoldandroids.view;
+package com.jsb.widget.decoview.nineoldandroids.view;
 
 import android.view.View;
 
-import static com.jsb.widget.DecoView.nineoldandroids.view.animation.AnimatorProxy.NEEDS_PROXY;
-import static com.jsb.widget.DecoView.nineoldandroids.view.animation.AnimatorProxy.wrap;
+import static com.jsb.widget.decoview.nineoldandroids.view.animation.AnimatorProxy.NEEDS_PROXY;
+import static com.jsb.widget.decoview.nineoldandroids.view.animation.AnimatorProxy.wrap;
 
 public final class ViewHelper {
     private ViewHelper() {}

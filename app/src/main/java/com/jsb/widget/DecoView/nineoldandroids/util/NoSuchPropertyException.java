@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.nineoldandroids.util;
+package com.jsb.widget.decoview.nineoldandroids.util;
 
 /**
  * Thrown when code requests a {@link Property} on a class that does

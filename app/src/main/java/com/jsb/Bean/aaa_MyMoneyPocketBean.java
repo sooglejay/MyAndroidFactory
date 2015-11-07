@@ -1,4 +1,4 @@
-package com.jsb.Bean;
+package com.jsb.bean;
 
 /**
  * Created by JammyQtheLab on 2015/10/23.

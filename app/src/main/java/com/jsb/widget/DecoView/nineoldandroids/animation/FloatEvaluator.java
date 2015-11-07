@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 /**
  * This evaluator can be used to perform type interpolation between <code>float</code> values.

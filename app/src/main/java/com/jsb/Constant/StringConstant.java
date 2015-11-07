@@ -36,10 +36,31 @@ public class StringConstant {
 
 
     public static final String call_police_number  =  "87777777";//报警电话
-    //我的钱包》》》》提现
-    public static final String union_bank  ="银联";//银联
-    public static final String union_zhifubao  = "支付宝";//支付宝
-    public static final String union_weixing  = "微信";//微信
+
+
+
+    /**
+     * 银联支付渠道
+     */
+    public static final String CHANNEL_UPACP = "upacp";
+    /**
+     * 微信支付渠道
+     */
+    public static final String CHANNEL_WECHAT = "wx";
+    /**
+     * 支付支付渠道
+     */
+    public static final String CHANNEL_ALIPAY = "alipay";
+    /**
+     * 百度支付渠道
+     */
+    public static final String CHANNEL_BFB = "bfb";
+    /**
+     * 京东支付渠道
+     */
+    public static final String CHANNEL_JDPAY_WAP = "jdpay_wap";
+
+
 
 
     public static final String RMB = "¥";

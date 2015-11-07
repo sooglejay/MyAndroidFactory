@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib.charts;
+package com.jsb.widget.decoview.decoviewlib.charts;
 
 import android.graphics.Color;
 

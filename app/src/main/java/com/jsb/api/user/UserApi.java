@@ -2,6 +2,8 @@ package com.jsb.api.user;
 
 import com.jsb.api.callback.NetCallback;
 import com.jsb.model.AccountData;
+import com.jsb.model.Charge;
+import com.jsb.model.ChargeBean;
 import com.jsb.model.CommData;
 import com.jsb.model.ConsultantData;
 import com.jsb.model.FreedomData;
@@ -12,6 +14,7 @@ import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
+import com.jsb.model.Overtimeordertable;
 import com.jsb.model.PauseData;
 import com.jsb.model.PauseHistory;
 import com.jsb.model.RangeData;
@@ -80,7 +83,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/saveOvertimeInsuranceOrder/")
-    public void saveOvertimeInsuranceOrder(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void saveOvertimeInsuranceOrder(@Field("param") String params ,NetCallback<NetWorkResultBean<Overtimeordertable>> NetCallback);
 
 
     /**
@@ -673,6 +676,37 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/submitJoinRequest/")
     public void submitJoinRequest(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     * 获取4S店的信息
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getFourServiceInfo/")
+    public void getFourServiceInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<CommData>> NetCallback);
+
+
+
+    /**
+     *
+     *发送时机	付款时调用，先拿到支付对象，然后去支付，具体流程参见ping++
+     参数说明
+     1、int orderid；//保险订单编号
+     2、double  money ; //支付金额，保留两位小数，单位元
+     3、String phone ; //被保险人电话
+     4、int type ;// 保险类别   0车险  1加班险  2驾驶险
+     5、String channel ;// 支付渠道，参见ping++的可选项
+     6、String client_ip ; //客户端ip
+     限制条件	参数1、2、3、4、5、6为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getCharge/")
+    public void getCharge(@Field("param") String params ,NetCallback<ChargeBean> NetCallback);
 
 
 

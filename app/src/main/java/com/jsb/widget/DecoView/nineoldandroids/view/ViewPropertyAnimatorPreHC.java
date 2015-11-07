@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.view;
+package com.jsb.widget.decoview.nineoldandroids.view;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -22,9 +22,9 @@ import java.util.HashMap;
 import java.util.Set;
 import android.view.View;
 import android.view.animation.Interpolator;
-import com.jsb.widget.DecoView.nineoldandroids.animation.Animator;
-import com.jsb.widget.DecoView.nineoldandroids.animation.ValueAnimator;
-import com.jsb.widget.DecoView.nineoldandroids.view.animation.AnimatorProxy;
+import com.jsb.widget.decoview.nineoldandroids.animation.Animator;
+import com.jsb.widget.decoview.nineoldandroids.animation.ValueAnimator;
+import com.jsb.widget.decoview.nineoldandroids.view.animation.AnimatorProxy;
 
 class ViewPropertyAnimatorPreHC extends ViewPropertyAnimator {
     /**

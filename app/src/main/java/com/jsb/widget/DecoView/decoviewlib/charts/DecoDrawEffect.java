@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib.charts;
+package com.jsb.widget.decoview.decoviewlib.charts;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -22,7 +22,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.jsb.widget.DecoView.decoviewlib.DecoView;
+import com.jsb.widget.decoview.decoviewlib.DecoView;
 
 /**
  * Animates some non-core movements for the series of data, such as fades and swirls.

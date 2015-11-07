@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +23,8 @@ import java.util.Map;
 import android.util.Log;
 import android.view.View;
 
-import com.jsb.widget.DecoView.nineoldandroids.util.Property;
-import com.jsb.widget.DecoView.nineoldandroids.view.animation.AnimatorProxy;
+import com.jsb.widget.decoview.nineoldandroids.util.Property;
+import com.jsb.widget.decoview.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
  * This subclass of {@link ValueAnimator} provides support for animating properties on target objects.

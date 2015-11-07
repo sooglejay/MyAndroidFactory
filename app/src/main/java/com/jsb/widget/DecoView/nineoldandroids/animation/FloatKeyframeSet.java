@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 import android.view.animation.Interpolator;
 
-import com.jsb.widget.DecoView.nineoldandroids.animation.Keyframe.FloatKeyframe;
+import com.jsb.widget.decoview.nineoldandroids.animation.Keyframe.FloatKeyframe;
 
 import java.util.ArrayList;
 

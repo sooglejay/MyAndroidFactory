@@ -1,4 +1,4 @@
-package com.jsb.Bean;
+package com.jsb.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -5,15 +5,22 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import com.jsb.R;
+
+import java.io.IOException;
 import java.util.List;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 
 public class UIUtils {
@@ -126,6 +133,23 @@ public class UIUtils {
         {
             Intent phoneIntent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + phoneNumberString));
             context.startActivityForResult(phoneIntent, requestCode);
+        }
+    }
+
+    public static void setGifView(Activity context,GifImageView gifImageView,int imageId)
+    {
+        try {
+            GifDrawable gifDrawable = new GifDrawable(context.getResources(), imageId);
+            gifImageView.setImageDrawable(gifDrawable);
+        } catch (Resources.NotFoundException e) {
+            Log.e("jwjw","出错了:NotFoundException");
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e("jwjw","出错了:IOException");
+
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }

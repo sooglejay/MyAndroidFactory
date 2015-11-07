@@ -15,7 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.constant.StringConstant;
 import com.jsb.util.UIUtils;
+
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * 我的保险-车险-tab2
@@ -30,6 +33,7 @@ public class CarInsureDetailClaimPolicyFragmentTab2 extends BaseFragment {
     private boolean isAgreeWithLicence = true;
 
 
+    private GifImageView gifImageView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_detail_car_insure_tab2, container, false);
@@ -42,11 +46,17 @@ public class CarInsureDetailClaimPolicyFragmentTab2 extends BaseFragment {
 
     private void setUp(View view, Bundle savedInstanceState) {
         context =CarInsureDetailClaimPolicyFragmentTab2.this.getActivity();
+
+
+        gifImageView = (GifImageView)view.findViewById(R.id.gif_view);
+        UIUtils.setGifView(this.getActivity(), gifImageView,R.drawable.anim_flag_iceland);
+
+
         layout_server_call = (LinearLayout)view.findViewById(R.id.layout_server_call);
         layout_server_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.takePhoneCall(context,"87777777",ACTION_CALL);
+                UIUtils.takePhoneCall(context, StringConstant.call_police_number,ACTION_CALL);
             }
         });
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.jsb.Bean.aaa_MyMoneyPocketBean;
+import com.jsb.bean.aaa_MyMoneyPocketBean;
 import com.jsb.R;
 import com.jsb.adapter.MyMoneyPacketListAdapter;
 import com.jsb.api.callback.NetCallback;

@@ -111,6 +111,9 @@
     -keep class com.amap.api.navi.**{*;}
     -keep class com.autonavi.**{*;}
 
+-keep public class com.jsb.widget.gif.GifIOException{<init>(int);}
+-keep class com.jsb.widget.gif.GifInfoHandle{<init>(long,int,int,int);}
+
 
 -dontwarn android.support.v7.appcompat.**
 -keep class android.support.v7.appcompat.**{*;}

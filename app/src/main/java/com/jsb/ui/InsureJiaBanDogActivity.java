@@ -40,6 +40,8 @@ public class InsureJiaBanDogActivity extends BaseActivity {
 
     private ProgressDialogUtil progressDialogUtil;
 
+
+    private OvertimeData overtimeData ;// 加班险 的具体信息对象
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (isAgreeWithLicence) {
-                    startActivity(new Intent(InsureJiaBanDogActivity.this, OrderCofirmJiaBanDogInsureActivity.class));
+                    OrderCofirmJiaBanDogInsureActivity.startActivity(InsureJiaBanDogActivity.this, overtimeData);
                 } else {
                     Toast.makeText(InsureJiaBanDogActivity.this, "请您勾选同意保障条款！", Toast.LENGTH_SHORT).show();
                 }
@@ -111,8 +113,9 @@ public class InsureJiaBanDogActivity extends BaseActivity {
             @Override
             public void success(NetWorkResultBean<OvertimeData> overtimeinsuranceNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
-                Overtimeinsurance bean= overtimeinsuranceNetWorkResultBean.getData().getOvertimeInsurance();
-                if(bean.getReleasetime()!=null) {
+                overtimeData = overtimeinsuranceNetWorkResultBean.getData();
+                Overtimeinsurance bean= overtimeData.getOvertimeInsurance();
+                if(bean!=null&&bean.getReleasetime()!=null) {
                     //生效时间
                     tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
                 }else {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib.charts;
+package com.jsb.widget.decoview.decoviewlib.charts;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,11 +24,11 @@ import android.util.Log;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import com.jsb.widget.DecoView.decoviewlib.DecoView;
-import com.jsb.widget.DecoView.decoviewlib.events.DecoEvent;
-import com.jsb.widget.DecoView.nineoldandroids.animation.Animator;
-import com.jsb.widget.DecoView.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.jsb.widget.DecoView.nineoldandroids.animation.ValueAnimator;
+import com.jsb.widget.decoview.decoviewlib.DecoView;
+import com.jsb.widget.decoview.decoviewlib.events.DecoEvent;
+import com.jsb.widget.decoview.nineoldandroids.animation.Animator;
+import com.jsb.widget.decoview.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.jsb.widget.decoview.nineoldandroids.animation.ValueAnimator;
 
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib.charts;
+package com.jsb.widget.decoview.decoviewlib.charts;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -25,7 +25,7 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.jsb.widget.DecoView.decoviewlib.util.GenericFunctions;
+import com.jsb.widget.decoview.decoviewlib.util.GenericFunctions;
 
 /**
  * Label for one series of data. One DecoView chart can have many series and each series can have

@@ -232,6 +232,7 @@
             android:id="@+id/layout_server_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:background="@drawable/btn_select_white"
             android:orientation="horizontal"
             android:clickable="true"
@@ -255,12 +256,12 @@
                 android:textColor="#888888"
                 android:textSize="@dimen/big_textsize" />
 
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_call" />
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gif_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                />
+
         </LinearLayout>
 
         <View

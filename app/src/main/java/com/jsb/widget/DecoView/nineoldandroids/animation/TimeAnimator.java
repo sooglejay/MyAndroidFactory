@@ -1,4 +1,4 @@
-package com.jsb.widget.DecoView.nineoldandroids.animation;
+package com.jsb.widget.decoview.nineoldandroids.animation;
 
 /**
  * This class provides a simple callback mechanism to listeners that is synchronized with other

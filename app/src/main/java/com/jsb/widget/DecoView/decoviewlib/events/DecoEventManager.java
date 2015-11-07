@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsb.widget.DecoView.decoviewlib.events;
+package com.jsb.widget.decoview.decoviewlib.events;
 
 import android.os.Build;
 import android.os.Handler;
@@ -23,7 +23,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
-import com.jsb.widget.DecoView.decoviewlib.charts.DecoDrawEffect;
+import com.jsb.widget.decoview.decoviewlib.charts.DecoDrawEffect;
 
 /**
  * Event manager for processing {@link DecoEvent} at the scheduled time (or immediately if no

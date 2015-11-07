@@ -2,11 +2,8 @@ package com.jsb.ui;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 
-import com.jsb.Bean.aaa_MyInsuranceBean;
 import com.jsb.R;
 import com.jsb.adapter.MyInsuresListAdapter;
 import com.jsb.api.callback.NetCallback;

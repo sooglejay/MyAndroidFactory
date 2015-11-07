@@ -1,4 +1,4 @@
-package com.jsb.widget.CustomSwitch;
+package com.jsb.widget.customswitch;
 
 import java.lang.reflect.Field;
 

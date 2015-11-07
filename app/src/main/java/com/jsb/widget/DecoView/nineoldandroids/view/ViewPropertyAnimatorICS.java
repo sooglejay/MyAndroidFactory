@@ -1,10 +1,10 @@
-package com.jsb.widget.DecoView.nineoldandroids.view;
+package com.jsb.widget.decoview.nineoldandroids.view;
 
 import java.lang.ref.WeakReference;
 
 import android.view.View;
 import android.view.animation.Interpolator;
-import com.jsb.widget.DecoView.nineoldandroids.animation.Animator.AnimatorListener;
+import com.jsb.widget.decoview.nineoldandroids.animation.Animator.AnimatorListener;
 
 class ViewPropertyAnimatorICS extends ViewPropertyAnimator {
     /**

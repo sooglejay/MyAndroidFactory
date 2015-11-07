@@ -23,28 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/line_e0_e5"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white_color"
-        android:orientation="horizontal"
-        android:padding="@dimen/middle_padding">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="小保钱包"
-            android:textColor="#4e4e4e" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:text="274元可用"
-            android:textColor="@color/tv_gray_color_level_1" />
-    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_zfb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_color"
@@ -60,8 +41,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="@dimen/middle_padding"
             android:textColor="@color/tv_gray_color_level_1" />
+        <ImageView
+            android:id="@+id/iv_choose_zfb"
+            android:layout_marginLeft="@dimen/little_padding"
+            android:src="@drawable/icon_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View
@@ -69,6 +57,7 @@
         android:layout_height="1dp"
         android:background="@drawable/line_e0_e5"/>
     <LinearLayout
+        android:id="@+id/layout_wx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_color"
@@ -84,11 +73,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="@dimen/middle_padding"
             android:textColor="@color/tv_gray_color_level_1" />
+        <ImageView
+            android:id="@+id/iv_choose_wx"
+            android:layout_marginLeft="@dimen/little_padding"
+            android:src="@drawable/icon_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
     <LinearLayout
+        android:id="@+id/layout_union_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_color"
@@ -104,11 +104,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="@dimen/middle_padding"
             android:text="已绑定的银行卡"
             android:textColor="@color/tv_gray_color_level_1" />
-    </LinearLayout>
 
+        <ImageView
+            android:id="@+id/iv_choose_union_card"
+            android:layout_marginLeft="@dimen/little_padding"
+            android:src="@drawable/icon_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5"/>
 
     <LinearLayout
         android:layout_width="match_parent"

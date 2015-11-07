@@ -1,4 +1,4 @@
-package com.jsb.widget.TimePicker;
+package com.jsb.widget.timepicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
