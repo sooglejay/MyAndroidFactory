@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/values-sw320dp/values-sw320dp.xml -->
+    <eat-comment/>
+    <dimen name="bd_wallet_contact_name_width">100dp</dimen>
+</resources>

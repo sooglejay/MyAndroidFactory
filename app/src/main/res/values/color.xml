@@ -169,4 +169,10 @@
 
 
 
+    <!--
+                    ping ++
+    -->
+    <color name="editText">#AAAAAA</color>
+
+
 </resources>

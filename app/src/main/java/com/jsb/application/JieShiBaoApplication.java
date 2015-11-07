@@ -5,10 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.StrictMode;
-import android.os.StrictMode.ThreadPolicy;
-import android.os.StrictMode.VmPolicy.Builder;
 import android.text.TextUtils;
 
 import com.jsb.util.CarNetCrashHandler;
@@ -17,12 +13,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-
-
 import java.util.List;
 
 
 public class JieShiBaoApplication extends Application {
+
 
     private static String appVersion = "";
 
@@ -60,6 +55,10 @@ public class JieShiBaoApplication extends Application {
         CarNetCrashHandler mCustomCrashHandler = CarNetCrashHandler.getInstance();
         mCustomCrashHandler.setCustomCrashHanler(getApplicationContext());
         initImageLoader(getApplicationContext());
+
+
+
+
 
 
     }

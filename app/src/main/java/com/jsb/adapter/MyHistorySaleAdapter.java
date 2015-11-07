@@ -152,13 +152,23 @@ public class MyHistorySaleAdapter extends BaseAdapter {
         }
 
         Vehicleordertable bean = getItem(position);
-
-        Vechicleinsurancedetail vechicleinsurancedetail = bean.getInsuranceDetail();
-        if (vechicleinsurancedetail != null) {
-            holder.tv_insure_name.setText(bean.getInsuranceDetail().getInsurancename());
-        } else {
-            holder.tv_insure_name.setText("null");
+        Integer insurancetype = bean.getInsurancetype();
+        if(insurancetype!=null)
+        {
+            switch (insurancetype)
+            {
+                case 0:
+                    holder.tv_insure_name.setText("商业险");
+                    break;
+                case 1:
+                    holder.tv_insure_name.setText("交强险");
+                    break;
+                default:
+                    holder.tv_insure_name.setText("车险");
+                    break;
+            }
         }
+
 
         if (bean.getOrderdate() != null) {
             holder.tv_buy_insure_time.setText(TimeUtil.getTimeString(bean.getOrderdate()) + "");
@@ -171,8 +181,8 @@ public class MyHistorySaleAdapter extends BaseAdapter {
             holder.tv_insure_price.setText("null");
         }
 
-        if (bean.getInsurancecompanyprices() != null && bean.getInsurancecompanyprices().getCompany() != null) {
-            holder.tv_buy_insure_agent.setText(bean.getInsurancecompanyprices().getCompany().getCompanyname());
+        if (bean.getCompanyInfo() != null) {
+            holder.tv_buy_insure_agent.setText(bean.getCompanyInfo().getCompanyname());
         } else {
             holder.tv_buy_insure_agent.setText("null");
         }
