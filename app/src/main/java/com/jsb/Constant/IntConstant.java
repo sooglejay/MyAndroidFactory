@@ -12,6 +12,10 @@ public class IntConstant {
 
 
 
+    //历史报价  记录 删除 标志
+    public static final int DELETE = 0;
+    public static final int UNDELETE = 1;
+
     //我的钱包》》》》提现
     public static final int accountType_bank  = 0;//银联
     public static final int accountType_zhifubao  = 1;//支付宝

@@ -3,6 +3,7 @@ package com.jsb.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,14 @@ import com.jsb.R;
 
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.IntConstant;
+import com.jsb.event.BusEvent;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Vechicleinsurancedetail;
 import com.jsb.model.Vehicleordertable;
 
 import com.jsb.ui.HistoryPriceDetailActivity;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
@@ -30,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -47,8 +52,9 @@ public class MyHistorySaleAdapter extends BaseAdapter {
     private RelativeLayout.LayoutParams layoutParams;
 
     private TitleBar mTitleBar;
+    private ProgressDialogUtil progressDialogUtil;
 
-    public MyHistorySaleAdapter(Activity mContext, List<Vehicleordertable> datas, View footerView, View listView, TitleBar mTitleBar) {
+    public MyHistorySaleAdapter(Activity mContext, List<Vehicleordertable> datas, View footerView, View listView, TitleBar mTitleBar, ProgressDialogUtil progressDialogUtil) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
@@ -57,6 +63,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
         layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         this.mTitleBar = mTitleBar;
+        this.progressDialogUtil = progressDialogUtil;
     }
 
     private Activity mContext;
@@ -64,15 +71,16 @@ public class MyHistorySaleAdapter extends BaseAdapter {
     private ViewHolder holder;
     private List<Vehicleordertable> mDatas = new ArrayList<>();
 
+    private int deleteNum = 0;//删除的记录个数
 
     /**
      * @param isDelete 删除 或者 取消
      */
     public void deleteItem(boolean isDelete) {
         if (isDelete) {
-            final Iterator keys = mDatas.iterator();
-            while (keys.hasNext()) {
-                final Vehicleordertable bean = (Vehicleordertable) keys.next();
+            progressDialogUtil.show("正在处理...");
+            for (final Vehicleordertable bean : mDatas) {
+                deleteNum = deleteNum + 1;
                 if (bean.getSuper_status() == VISIBLE_SELECTED && bean.getId() != null) {
                     UserRetrofitUtil.deleteHistoryPrice(mContext, bean.getId(), new NetCallback<NetWorkResultBean<String>>(mContext) {
                         @Override
@@ -86,29 +94,29 @@ public class MyHistorySaleAdapter extends BaseAdapter {
 
                         @Override
                         public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                            keys.remove();
+                            bean.setDeleted(IntConstant.DELETE);
                             if (bean.getInsuranceDetail() != null) {
+                                Log.e("Retrofit", "删除成功！+" + bean.getId());
                                 Toast.makeText(mContext, bean.getInsuranceDetail().getInsurancename() + "删除成功！", Toast.LENGTH_SHORT).show();
+                            }
+                            if (deleteNum == mDatas.size()) {
+                                progressDialogUtil.hide();
+                                EventBus.getDefault().post(new BusEvent(BusEvent.MSG_RefreshDataInHistoryPrice));
+                                return;
                             }
                         }
                     });
                 }
             }
-            for (Vehicleordertable bean : mDatas) {
-                bean.setSuper_status(GONE_UNSELECTED);
-            }
+            progressDialogUtil.hide();
         } else {
             for (Vehicleordertable bean : mDatas) {
                 bean.setSuper_status(GONE_UNSELECTED);
             }
         }
 
+        this.notifyDataSetChanged();
 
-        layoutParams.setMargins(0, (int) UIUtils.dp2px(mContext, 56), 0, 0);
-        listView.setLayoutParams(layoutParams);
-        footerView.setVisibility(View.GONE);
-        mTitleBar.setRightTv("", -1);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -122,10 +130,19 @@ public class MyHistorySaleAdapter extends BaseAdapter {
         while (keys.hasNext()) {
             final Vehicleordertable bean = (Vehicleordertable) keys.next();
             //0 表示 已经被删除，1表示未删除
-            if (bean.getDeleted() != null && bean.getDeleted() == 0) {
+            if (bean.getDeleted() != null && bean.getDeleted() == IntConstant.DELETE) {
                 keys.remove();
+                Log.e("jwjw", "删除成功！");
+            } else {
+                Log.e("jwjw", "删除shibai！" + bean.toString());
             }
         }
+
+        //把“ 隐藏 删除 和 取消 View” 的操作放在刷新数据源的函数里面
+        layoutParams.setMargins(0, (int) UIUtils.dp2px(mContext, 56), 0, 0);
+        listView.setLayoutParams(layoutParams);
+        footerView.setVisibility(View.GONE);
+        mTitleBar.setRightTv("", -1);
         super.notifyDataSetChanged();
     }
 
@@ -169,7 +186,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                     holder.tv_insure_name.setText("车险");
                     break;
             }
-        }else {
+        } else {
             holder.tv_insure_name.setText("车险(服务端字段是NULL)");
         }
 
@@ -205,6 +222,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 holder.iv_choose.setVisibility(View.VISIBLE);
                 break;
             default:
+                bean.setSuper_status(GONE_UNSELECTED);
                 holder.iv_choose.setImageResource(R.drawable.icon_choose);
                 holder.iv_choose.setVisibility(View.GONE);
                 break;

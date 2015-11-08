@@ -14,10 +14,12 @@ import com.jsb.adapter.MyHistorySaleAdapter;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.event.BusEvent;
 import com.jsb.model.HistoryPriceData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
@@ -54,6 +56,7 @@ public class MyHistorySaleActivity extends BaseActivity {
 
     private boolean isAllSelected = false;//全选操作 的辅助变量
 
+    private ProgressDialogUtil progressDialogUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,7 @@ public class MyHistorySaleActivity extends BaseActivity {
 
         context = this;
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
+        progressDialogUtil = new ProgressDialogUtil(this);
         setUp();
         setLisenter();
     }
@@ -111,6 +115,7 @@ public class MyHistorySaleActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 pageNum = 1;
+                mDatas.clear();
                 loadDataFromNet(userid);
             }
         });
@@ -142,24 +147,26 @@ public class MyHistorySaleActivity extends BaseActivity {
         list_view = (AutoListView) findViewById(R.id.list_view);
         list_view.setLoading(false);
 
-        mAdapter = new MyHistorySaleAdapter(this, mDatas, footerOperationView, list_view, titleBar);
+        mAdapter = new MyHistorySaleAdapter(this, mDatas, footerOperationView, list_view, titleBar,progressDialogUtil);
         list_view.setAdapter(mAdapter);
         loadDataFromNet(userid);
     }
 
     private void loadDataFromNet(int userid) {
         swipeLayout.setEnabled(false);
+        progressDialogUtil.show("正在获取数据...");
         UserRetrofitUtil.getPriceHistoryList(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<HistoryPriceData>>(this) {
                     @Override
-                    public void onFailure(RetrofitError error,String message) {
+                    public void onFailure(RetrofitError error, String message) {
                         swipeLayout.setRefreshing(false);
                         swipeLayout.setEnabled(true);
                         list_view.setLoading(false);
-                        if(!TextUtils.isEmpty(message)) {
+                        if (!TextUtils.isEmpty(message)) {
                             Toast.makeText(MyHistorySaleActivity.this, message, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MyHistorySaleActivity.this, "连接超时！请重试", Toast.LENGTH_SHORT).show();
                         }
-                        Log.e("Retrofit","失败");
-
+                        progressDialogUtil.hide();
                     }
 
                     @Override
@@ -169,11 +176,17 @@ public class MyHistorySaleActivity extends BaseActivity {
                         swipeLayout.setEnabled(true);
                         list_view.setLoading(false);
                         HistoryPriceData bean = historyPriceDataNetWorkResultBean.getData();
-                        if (bean.getVehicleorderAmount() > 0) {
-                            mDatas.addAll(bean.getVehicleorderRecords());
+                        if (bean.getVehicleorderRecords() != null) {
+
+                            List<Vehicleordertable> datas = bean.getVehicleorderRecords();
+                            for (Vehicleordertable b : datas) {
+                                b.setSuper_status(MyHistorySaleAdapter.GONE_UNSELECTED);
+                            }
+                            mDatas.addAll(datas);
                             pageNum++;
                         }
                         mAdapter.notifyDataSetChanged();
+                        progressDialogUtil.hide();
                     }
                 }
         );
@@ -183,16 +196,36 @@ public class MyHistorySaleActivity extends BaseActivity {
     public void onBackPressed() {
         if (footerOperationView != null && footerOperationView.getVisibility() == View.VISIBLE) {
             footerOperationView.setVisibility(View.GONE);
-            if (titleBar != null)
-            {
+            if (titleBar != null) {
                 titleBar.setRightTv("", -1);
             }
             for (Vehicleordertable bean : mDatas) {
                 bean.setSuper_status(MyHistorySaleAdapter.GONE_UNSELECTED);
             }
             mAdapter.notifyDataSetChanged();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
+
+
+
+    /**
+     * EventBus 广播
+     *
+     * @param event
+     */
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getMsg()) {
+            case BusEvent.MSG_RefreshDataInHistoryPrice:
+                pageNum = 1;
+                mDatas.clear();
+                loadDataFromNet(userid);
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }

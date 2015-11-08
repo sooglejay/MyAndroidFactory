@@ -2,6 +2,7 @@ package com.jsb.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
@@ -19,6 +20,8 @@ import com.jsb.model.ReportData;
 import com.jsb.model.ReportableInsurance;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.UIUtils;
+import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -32,7 +35,9 @@ import retrofit.client.Response;
  */
 public class MyCallPoliceActivity extends BaseActivity {
     public static final int REQUEST_CODE_CALL = 1000;
-    private ListView mInsureList;
+    private SwipeRefreshLayout swipeLayout;
+    private AutoListView list_view;
+
     private TitleBar titleBar;
     private MyCallPoliceListAdapter myCallPoliceListAdapter;
     private List<Object> mListDatas = new ArrayList<>();
@@ -61,6 +66,14 @@ public class MyCallPoliceActivity extends BaseActivity {
 
             }
         });
+
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mListDatas.clear();
+                getReportableInsurance(userid);
+            }
+        });
     }
 
     private void setUp() {
@@ -70,9 +83,14 @@ public class MyCallPoliceActivity extends BaseActivity {
         dialogFragmentCreater = new DialogFragmentCreater();
         dialogFragmentCreater.setDialogContext(this, getSupportFragmentManager());
 
+
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        UIUtils.initSwipeRefreshLayout(swipeLayout);
+        list_view = (AutoListView) findViewById(R.id.list_view);
+        list_view.setLoading(false);
+
         myCallPoliceListAdapter = new MyCallPoliceListAdapter(this, mListDatas, dialogFragmentCreater);
-        mInsureList = (ListView) findViewById(R.id.list_view);
-        mInsureList.setAdapter(myCallPoliceListAdapter);
+        list_view.setAdapter(myCallPoliceListAdapter);
 
         getReportableInsurance(userid);
     }

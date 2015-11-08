@@ -159,7 +159,7 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords() != null && myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords().size() > 0) {
+                if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords() != null ) {
                     vehicleordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords());
                     pageNum_vehicleordertables++;
                     getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
@@ -204,7 +204,7 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords() != null && myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords().size() > 0) {
+                if (myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords() != null) {
                     driverordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords());
                     pageNum_driverordertables++;
                     getDriverOrderByPage(userid, pageSize, pageNum_driverordertables);
@@ -248,7 +248,7 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
 
-                if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords() != null && myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords().size() > 0) {
+                if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords() != null) {
                     overtimeordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords());
                     pageNum_overtimeordertables++;
                     getOvertimeOrderByPage(userid, pageSize, pageNum_overtimeordertables);

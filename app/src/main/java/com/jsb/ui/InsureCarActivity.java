@@ -40,14 +40,14 @@ public class InsureCarActivity extends BaseActivity {
     private EditText et_car_number;
     private EditText et_car_jia_number;
     private EditText et_car_fadongji_number;
-    private EditText et_sign_date;
+
     private EditText etUserIdCardNumber;
     private EditText etStartInsureDate;
+    private TextView tv_sign_date;
     private TextView tv_enquiry;
     private TextView tv_sign_pick_date;
     private TextView tv_jqx_pick_date;
     private TextView tv_commercial_pick_date;
-    private ProgressDialogUtil progressDialogUtil;
 
     private int userid = -1;
     private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
@@ -59,10 +59,13 @@ public class InsureCarActivity extends BaseActivity {
     private int flag_commercial_selected = 0;//用户是否选择 商业险的时间
     private int flag_jqx_selected = 0;//用户是否选择交强险时间
 
+
+    private ProgressDialogUtil progressDialogUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_car);
+        progressDialogUtil = new ProgressDialogUtil(this);
         setUp();
         setLisenter();
     }
@@ -87,8 +90,9 @@ public class InsureCarActivity extends BaseActivity {
             public void onClick(View v) {
                 if (!tvEnquiryFlag) {
                     Toast.makeText(InsureCarActivity.this, "请先完善以上信息！", Toast.LENGTH_SHORT).show();
-
                 } else {
+                    tv_enquiry.setEnabled(false);
+                    progressDialogUtil.show("正在生成订单...");
                     userid = PreferenceUtil.load(InsureCarActivity.this, PreferenceConstant.userid, -1);
                     UserRetrofitUtil.saveVehicleInfo(InsureCarActivity.this,
                             userid,
@@ -104,13 +108,18 @@ public class InsureCarActivity extends BaseActivity {
                                 public void onFailure(RetrofitError error,String message) {
                                   if(!TextUtils.isEmpty(message)) {
                                       Toast.makeText(InsureCarActivity.this, message, Toast.LENGTH_SHORT).show();
+                                  }else{
+                                      Toast.makeText(InsureCarActivity.this, "生成订单失败，请检查输入的内容是否合法！", Toast.LENGTH_SHORT).show();
                                   }
+                                    progressDialogUtil.hide();
+                                    tv_enquiry.setEnabled(true);
 
                                 }
 
                                 @Override
                                 public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-
+                                    progressDialogUtil.hide();
+                                    InsureCarActivity.this.finish();
                                 }
                             }
 
@@ -128,7 +137,7 @@ public class InsureCarActivity extends BaseActivity {
                 new DatePickerDialog(InsureCarActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tv_sign_pick_date.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        tv_sign_pick_date.setText(year + "-" + (++monthOfYear) + "-" + dayOfMonth);
 
                         String mm = "" + monthOfYear;
                         String dd = "" + dayOfMonth;
@@ -156,7 +165,7 @@ public class InsureCarActivity extends BaseActivity {
                 new DatePickerDialog(InsureCarActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tv_commercial_pick_date.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        tv_commercial_pick_date.setText(year + "-" + (++monthOfYear) + "-" + dayOfMonth);
 
                         String mm = "" + monthOfYear;
                         String dd = "" + dayOfMonth;
@@ -186,7 +195,7 @@ public class InsureCarActivity extends BaseActivity {
                 new DatePickerDialog(InsureCarActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tv_jqx_pick_date.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        tv_jqx_pick_date.setText(year + "-" + (++monthOfYear) + "-" + dayOfMonth);
                         String mm = "" + monthOfYear;
                         String dd = "" + dayOfMonth;
                         if (monthOfYear < 10 && mm.length() == 1) {
@@ -221,7 +230,7 @@ public class InsureCarActivity extends BaseActivity {
         et_car_number = (EditText) findViewById(R.id.et_car_number);
         et_car_jia_number = (EditText) findViewById(R.id.et_car_jia_number);
         et_car_fadongji_number = (EditText) findViewById(R.id.et_car_fadongji_number);
-        et_sign_date = (EditText) findViewById(R.id.et_sign_date);
+        tv_sign_date = (TextView) findViewById(R.id.tv_sign_date);
 
 
         et_user_name.addTextChangedListener(textWatcher);

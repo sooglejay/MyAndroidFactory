@@ -192,16 +192,22 @@
                         android:textColor="@color/tv_black_color_level_0"
                         android:textSize="@dimen/big_textsize" />
 
-                    <EditText
-                        android:id="@+id/et_sign_date"
+                  <TextView
+                        android:id="@+id/tv_sign_date"
                         android:layout_width="0dp"
+                        android:background="@drawable/btn_select_white"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="请扫描或输入登记日期"
-                        android:inputType="text"
                         android:padding="@dimen/middle_padding"
-                        android:textColorHint="@color/tv_gray_color_level_1" />
+                        android:text="2015-10-11" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/arrow_right" />
+
+
                 </LinearLayout>
 
                 <View
