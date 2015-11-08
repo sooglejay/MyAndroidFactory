@@ -193,7 +193,7 @@
                         android:textSize="@dimen/big_textsize" />
 
                   <TextView
-                        android:id="@+id/tv_sign_date"
+                        android:id="@+id/tv_sign_in_pick_date"
                         android:layout_width="0dp"
                         android:background="@drawable/btn_select_white"
                         android:layout_height="wrap_content"
@@ -232,7 +232,7 @@
                         android:textSize="@dimen/big_textsize" />
 
                    <TextView
-                       android:id="@+id/tv_sign_pick_date"
+                       android:id="@+id/tv_fazheng_date"
                         android:layout_width="0dp"
                         android:background="@drawable/btn_select_white"
                         android:layout_height="wrap_content"

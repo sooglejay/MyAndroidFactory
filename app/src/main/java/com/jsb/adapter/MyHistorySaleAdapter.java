@@ -79,6 +79,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
     public void deleteItem(boolean isDelete) {
         if (isDelete) {
             progressDialogUtil.show("正在处理...");
+            deleteNum = 0;
             for (final Vehicleordertable bean : mDatas) {
                 deleteNum = deleteNum + 1;
                 if (bean.getSuper_status() == VISIBLE_SELECTED && bean.getId() != null) {

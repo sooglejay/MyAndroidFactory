@@ -177,7 +177,6 @@ public class MyHistorySaleActivity extends BaseActivity {
                         list_view.setLoading(false);
                         HistoryPriceData bean = historyPriceDataNetWorkResultBean.getData();
                         if (bean.getVehicleorderRecords() != null) {
-
                             List<Vehicleordertable> datas = bean.getVehicleorderRecords();
                             for (Vehicleordertable b : datas) {
                                 b.setSuper_status(MyHistorySaleAdapter.GONE_UNSELECTED);
