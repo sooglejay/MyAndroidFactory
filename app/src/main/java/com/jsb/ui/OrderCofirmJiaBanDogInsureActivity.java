@@ -38,7 +38,7 @@ import retrofit.client.Response;
  */
 public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         AMapLocationListener {
-    private static final String ExtraKey="ExtraKey";
+    private static final String ExtraKey = "ExtraKey";
     private LocationManagerProxy mLocationManagerProxy;
 
 
@@ -53,18 +53,18 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
     private ProgressDialogUtil progressDialogUtil;
 
 
-    private  Context context;
+    private Context context;
 
     private OvertimeData overtimeData;//加班险的具体信息
 
 
     private double lat = 0;//
     private double lng = 0;
-    public static void startActivity(Activity context,OvertimeData overtimeData)
-    {
-        Intent intent = new Intent(context,OrderCofirmJiaBanDogInsureActivity.class);
-        intent.putExtra(ExtraKey,overtimeData);
-        Log.d("Retrofit",overtimeData.toString());
+
+    public static void startActivity(Activity context, OvertimeData overtimeData) {
+        Intent intent = new Intent(context, OrderCofirmJiaBanDogInsureActivity.class);
+        intent.putExtra(ExtraKey, overtimeData);
+        Log.d("Retrofit", overtimeData.toString());
         context.startActivity(intent);
     }
 
@@ -79,6 +79,7 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         setLisenter();
         initLocationManager();
     }
+
     /**
      * 初始化定位
      */
@@ -131,7 +132,7 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         et_home_address = (EditText) findViewById(R.id.et_home_address);
         iv_location = (ImageView) findViewById(R.id.iv_location);
 
-        et_insure_user_name.setText(PreferenceUtil.load(this,PreferenceConstant.name,""));
+        et_insure_user_name.setText(PreferenceUtil.load(this, PreferenceConstant.name, ""));
 
         et_insure_user_name.addTextChangedListener(textWatcher);
         et_company_address.addTextChangedListener(textWatcher);
@@ -149,8 +150,7 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
                     //如果输入框都有输入
 
                     int overtimeInsuranceId = 0;
-                    if(overtimeData!=null&&overtimeData.getOvertimeInsurance()!=null)
-                    {
+                    if (overtimeData != null && overtimeData.getOvertimeInsurance() != null) {
                         overtimeInsuranceId = overtimeData.getOvertimeInsurance().getId();
                     }
                     progressDialogUtil.show("正在保存订单...");
@@ -164,15 +164,17 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
                             lng,
                             new NetCallback<NetWorkResultBean<Overtimeordertable>>(context) {
                                 @Override
-                                public void onFailure(RetrofitError error) {
+                                public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
-                                    Toast.makeText(context, "无法连接网络！请检查网络设置", Toast.LENGTH_SHORT).show();
+                                    if(!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
 
                                 @Override
                                 public void success(NetWorkResultBean<Overtimeordertable> stringNetWorkResultBean, Response response) {
                                     progressDialogUtil.hide();
-                                    PayJiaBanDogInsureActivity.startActivity(OrderCofirmJiaBanDogInsureActivity.this,stringNetWorkResultBean.getData());
+                                    PayJiaBanDogInsureActivity.startActivity(OrderCofirmJiaBanDogInsureActivity.this, stringNetWorkResultBean.getData());
                                     OrderCofirmJiaBanDogInsureActivity.this.finish();
                                 }
                             });
@@ -197,9 +199,9 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (
                     TextUtils.isEmpty(et_insure_user_name.getText())
-                  ||TextUtils.isEmpty(et_company_address.getText())
-                  ||TextUtils.isEmpty(et_home_address.getText())
-               ) {
+                            || TextUtils.isEmpty(et_company_address.getText())
+                            || TextUtils.isEmpty(et_home_address.getText())
+                    ) {
                 tvPayFlag = false;
                 tv_pay.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                 tv_pay.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
@@ -221,9 +223,8 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         if (aMapLocation != null && aMapLocation.getAMapException().getErrorCode() == 0) {
             // 定位成功回调信息，设置相关消息
 
-            if(et_company_address!=null)
-            {
-                et_company_address.setText(aMapLocation.getPoiName()+"");
+            if (et_company_address != null) {
+                et_company_address.setText(aMapLocation.getPoiName() + "");
             }
             lat = aMapLocation.getLatitude();
             lng = aMapLocation.getLongitude();

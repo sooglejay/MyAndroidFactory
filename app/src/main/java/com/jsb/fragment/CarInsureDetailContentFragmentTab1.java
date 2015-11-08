@@ -15,25 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.api.callback.NetCallback;
-import com.jsb.api.user.UserRetrofitUtil;
-import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
-import com.jsb.model.MyInsuranceData;
-import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.model.Vehicletable;
 import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
-import com.jsb.util.PreferenceUtil;
 import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.droidsonroids.gif.GifImageView;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * 我的保险-车险-tab1
@@ -47,10 +36,7 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
     private TextView tv_i_want_to_rebuy_insurance;
     private boolean isAgreeWithLicence = true;
 
-    private int userid = -1;
-    private int pageNum,pageSize;//分页加载
 
-    private List<Vehicleordertable> mDatas = new ArrayList<>();
     private Vehicleordertable vehicleordertable;
 
 
@@ -76,10 +62,8 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
 
     private void setUp(View view, Bundle savedInstanceState) {
         context =CarInsureDetailContentFragmentTab1.this.getActivity();
-        userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
-
         gifImageView = (GifImageView)view.findViewById(R.id.gif_view);
-        UIUtils.setGifView(this.getActivity(), gifImageView,R.drawable.anim_flag_iceland);
+        UIUtils.setGifView(this.getActivity(), gifImageView,R.drawable.gif_test);
 
         tv_car_cphm = (TextView)view.findViewById(R.id.tv_car_cphm);
         tv_car_cjhm = (TextView)view.findViewById(R.id.tv_car_cjhm);
@@ -158,28 +142,5 @@ public class CarInsureDetailContentFragmentTab1 extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    private void getVehicleOrderByPage(int userid)
-    {
-        UserRetrofitUtil.getVehicleOrderByPage(context, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(context) {
-            @Override
-            public void onFailure(RetrofitError error) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
-                MyInsuranceData myInsuranceData = myInsuranceDataNetWorkResultBean.getData();
-
-                List<Vehicleordertable>vehicleordertables = myInsuranceData.getVehicleorderRecords();
-                if(vehicleordertables!=null&&vehicleordertables.size()>0)
-                {
-                    mDatas.addAll(vehicleordertables);
-                }
-
-
-
-            }
-        });
-    }
 
 }

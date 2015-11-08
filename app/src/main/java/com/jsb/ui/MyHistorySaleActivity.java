@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.adapter.MyHistorySaleAdapter;
@@ -149,10 +151,15 @@ public class MyHistorySaleActivity extends BaseActivity {
         swipeLayout.setEnabled(false);
         UserRetrofitUtil.getPriceHistoryList(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<HistoryPriceData>>(this) {
                     @Override
-                    public void onFailure(RetrofitError error) {
+                    public void onFailure(RetrofitError error,String message) {
                         swipeLayout.setRefreshing(false);
                         swipeLayout.setEnabled(true);
                         list_view.setLoading(false);
+                        if(!TextUtils.isEmpty(message)) {
+                            Toast.makeText(MyHistorySaleActivity.this, message, Toast.LENGTH_SHORT).show();
+                        }
+                        Log.e("Retrofit","失败");
+
                     }
 
                     @Override

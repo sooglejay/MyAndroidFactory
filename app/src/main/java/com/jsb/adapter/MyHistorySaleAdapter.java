@@ -2,6 +2,7 @@ package com.jsb.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
 
     private TitleBar mTitleBar;
 
-    public MyHistorySaleAdapter(Activity mContext, List<Vehicleordertable> datas, View footerView, View listView,TitleBar mTitleBar) {
+    public MyHistorySaleAdapter(Activity mContext, List<Vehicleordertable> datas, View footerView, View listView, TitleBar mTitleBar) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
@@ -55,7 +56,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
         this.listView = listView;
         layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        this.mTitleBar =mTitleBar;
+        this.mTitleBar = mTitleBar;
     }
 
     private Activity mContext;
@@ -75,9 +76,11 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 if (bean.getSuper_status() == VISIBLE_SELECTED && bean.getId() != null) {
                     UserRetrofitUtil.deleteHistoryPrice(mContext, bean.getId(), new NetCallback<NetWorkResultBean<String>>(mContext) {
                         @Override
-                        public void onFailure(RetrofitError error) {
+                        public void onFailure(RetrofitError error, String message) {
                             if (bean.getInsuranceDetail() != null) {
-                                Toast.makeText(mContext, bean.getInsuranceDetail().getInsurancename() + "删除失败！", Toast.LENGTH_SHORT).show();
+                                if (!TextUtils.isEmpty(message)) {
+                                    Toast.makeText(mContext, bean.getInsuranceDetail().getInsurancename() + message, Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 
@@ -104,7 +107,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
         layoutParams.setMargins(0, (int) UIUtils.dp2px(mContext, 56), 0, 0);
         listView.setLayoutParams(layoutParams);
         footerView.setVisibility(View.GONE);
-        mTitleBar.setRightTv("",-1);
+        mTitleBar.setRightTv("", -1);
         notifyDataSetChanged();
     }
 
@@ -118,7 +121,8 @@ public class MyHistorySaleAdapter extends BaseAdapter {
         final Iterator keys = mDatas.iterator();
         while (keys.hasNext()) {
             final Vehicleordertable bean = (Vehicleordertable) keys.next();
-            if (bean.getDeleted() != null && bean.getDeleted() == 1) {
+            //0 表示 已经被删除，1表示未删除
+            if (bean.getDeleted() != null && bean.getDeleted() == 0) {
                 keys.remove();
             }
         }
@@ -153,10 +157,8 @@ public class MyHistorySaleAdapter extends BaseAdapter {
 
         Vehicleordertable bean = getItem(position);
         Integer insurancetype = bean.getInsurancetype();
-        if(insurancetype!=null)
-        {
-            switch (insurancetype)
-            {
+        if (insurancetype != null) {
+            switch (insurancetype) {
                 case 0:
                     holder.tv_insure_name.setText("商业险");
                     break;
@@ -167,6 +169,8 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                     holder.tv_insure_name.setText("车险");
                     break;
             }
+        }else {
+            holder.tv_insure_name.setText("车险(服务端字段是NULL)");
         }
 
 
@@ -201,6 +205,8 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 holder.iv_choose.setVisibility(View.VISIBLE);
                 break;
             default:
+                holder.iv_choose.setImageResource(R.drawable.icon_choose);
+                holder.iv_choose.setVisibility(View.GONE);
                 break;
         }
         holder.item.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +215,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 Vehicleordertable tagBean = (Vehicleordertable) v.getTag();
                 switch (tagBean.getSuper_status()) {
                     case GONE_UNSELECTED:
-                        HistoryPriceDetailActivity.startActivity(mContext,null);
+                        HistoryPriceDetailActivity.startActivity(mContext, null);
                         break;
                     case VISIBLE_UNSELECTED:
                         tagBean.setSuper_status(VISIBLE_SELECTED);
@@ -236,7 +242,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                     }
                 } else {//否则，就设置为 ：显示+未选中 状态
                     footerView.setVisibility(View.VISIBLE);
-                    mTitleBar.setRightTv("全选",-1);
+                    mTitleBar.setRightTv("全选", -1);
                     layoutParams.setMargins(0, (int) UIUtils.dp2px(mContext, 56), 0, (int) UIUtils.dp2px(mContext, 48));
                     listView.setLayoutParams(layoutParams);
                     for (Vehicleordertable bean : mDatas) {

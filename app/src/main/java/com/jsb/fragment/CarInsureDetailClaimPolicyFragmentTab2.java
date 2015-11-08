@@ -2,7 +2,6 @@ package com.jsb.fragment;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -49,7 +48,7 @@ public class CarInsureDetailClaimPolicyFragmentTab2 extends BaseFragment {
 
 
         gifImageView = (GifImageView)view.findViewById(R.id.gif_view);
-        UIUtils.setGifView(this.getActivity(), gifImageView,R.drawable.anim_flag_iceland);
+        UIUtils.setGifView(this.getActivity(), gifImageView,R.drawable.gif_test);
 
 
         layout_server_call = (LinearLayout)view.findViewById(R.id.layout_server_call);

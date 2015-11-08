@@ -2,6 +2,7 @@ package com.jsb.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -36,12 +37,13 @@ public class InsureJiaBanDogActivity extends BaseActivity {
 
 
     private boolean isAgreeWithLicence = true;
-    private SimpleDateFormat df_yyyy_m_d =new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat df_yyyy_m_d = new SimpleDateFormat("yyyy-MM-dd");
 
     private ProgressDialogUtil progressDialogUtil;
 
 
-    private OvertimeData overtimeData ;// 加班险 的具体信息对象
+    private OvertimeData overtimeData;// 加班险 的具体信息对象
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,27 +108,29 @@ public class InsureJiaBanDogActivity extends BaseActivity {
         progressDialogUtil.show("正在获取加班险信息...");
         UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<OvertimeData>>(InsureJiaBanDogActivity.this) {
             @Override
-            public void onFailure(RetrofitError error) {
+            public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
+                if (!TextUtils.isEmpty(message)) {
+                    Toast.makeText(InsureJiaBanDogActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void success(NetWorkResultBean<OvertimeData> overtimeinsuranceNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
                 overtimeData = overtimeinsuranceNetWorkResultBean.getData();
-                Overtimeinsurance bean= overtimeData.getOvertimeInsurance();
-                if(bean!=null&&bean.getReleasetime()!=null) {
+                Overtimeinsurance bean = overtimeData.getOvertimeInsurance();
+                if (bean != null && bean.getReleasetime() != null) {
                     //生效时间
                     tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
-                }else {
+                } else {
                     tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date()) + "");
                 }
 
-                if(bean.getResidue()!=null)
-                {
-                    tv_amount.setText("本期商品数还剩"+bean.getResidue()+"份");
-                }else {
-                    tv_amount.setText("本期商品数还剩"+0+"份");
+                if (bean.getResidue() != null) {
+                    tv_amount.setText("本期商品数还剩" + bean.getResidue() + "份");
+                } else {
+                    tv_amount.setText("本期商品数还剩" + 0 + "份");
                 }
             }
         });

@@ -465,8 +465,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                     UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
                         @Override
-                        public void onFailure(RetrofitError error) {
+                        public void onFailure(RetrofitError error,String message) {
                             progressDialogUtil.hide();
+                            if(!TextUtils.isEmpty(message)) {
+                                Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
                         @Override
@@ -525,8 +529,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     if (outerPauseBean.getLimitPaused()) {
                         UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
-                            public void onFailure(RetrofitError error) {
-
+                            public void onFailure(RetrofitError error,String message) {
+                                if(!TextUtils.isEmpty(message)) {
+                                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                             @Override
@@ -540,7 +546,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     if (outerPauseBean.getReservePaused()) {
                         UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
-                            public void onFailure(RetrofitError error) {
+                            public void onFailure(RetrofitError error,String message) {
+                                if(!TextUtils.isEmpty(message)) {
+                                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                                }
 
                             }
 
@@ -652,7 +661,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             if (outerPauseBean.getReservePaused()) {
                 UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                     @Override
-                    public void onFailure(RetrofitError error) {
+                    public void onFailure(RetrofitError error,String message) {
+                        if(!TextUtils.isEmpty(message)) {
+                            Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                        }
 
                     }
 
@@ -661,7 +673,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         outerPauseBean.setReservePaused(false);
                         UserRetrofitUtil.saveReservePauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), timeStringForPostToServer, new NetCallback<NetWorkResultBean<String>>(context) {
                             @Override
-                            public void onFailure(RetrofitError error) {
+                            public void onFailure(RetrofitError error, String message) {
+                                if (!TextUtils.isEmpty(message)) {
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                }
 
                             }
 
@@ -678,7 +693,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             } else if (!outerPauseBean.getReservePaused()) {
                 UserRetrofitUtil.saveReservePauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), timeStringForPostToServer, new NetCallback<NetWorkResultBean<String>>(context) {
                     @Override
-                    public void onFailure(RetrofitError error) {
+                    public void onFailure(RetrofitError error,String message) {
+                        if(!TextUtils.isEmpty(message)) {
+                            Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                        }
 
                     }
 
@@ -702,7 +720,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             if (outerPauseBean.getLimitPaused()) {
                 UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
                     @Override
-                    public void onFailure(RetrofitError error) {
+                    public void onFailure(RetrofitError error,String message) {
+                        if(!TextUtils.isEmpty(message)) {
+                            Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                        }
 
                     }
 
@@ -713,7 +734,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                             outerWeekthPosition = week_number_spinner.getSelectedItemPosition();
                             UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
                                 @Override
-                                public void onFailure(RetrofitError error) {
+                                public void onFailure(RetrofitError error,String message) {
+                                    if(!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
 
                                 @Override
@@ -730,7 +755,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     outerWeekthPosition = week_number_spinner.getSelectedItemPosition();
                     UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
                         @Override
-                        public void onFailure(RetrofitError error) {
+                        public void onFailure(RetrofitError error,String message) {
+                            if(!TextUtils.isEmpty(message)) {
+                                Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
                         @Override
@@ -1026,7 +1055,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private void getPauseInfoAndThenRefreshData(final Context context, int userid) {
         UserRetrofitUtil.getPauseInfo(context, userid, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
             @Override
-            public void onFailure(RetrofitError error) {
+            public void onFailure(RetrofitError error,String message) {
+                if(!TextUtils.isEmpty(message)) {
+                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

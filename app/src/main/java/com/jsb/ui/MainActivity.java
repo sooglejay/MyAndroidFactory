@@ -12,8 +12,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
@@ -76,8 +78,10 @@ public class MainActivity extends BaseActivity {
     private void checkUpdate() {
         UserRetrofitUtil.checkUpdate(this, new NetCallback<NetWorkResultBean<CommData>>(this) {
             @Override
-            public void onFailure(RetrofitError error) {
-
+            public void onFailure(RetrofitError error,String message) {
+                if(!TextUtils.isEmpty(message)) {
+                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

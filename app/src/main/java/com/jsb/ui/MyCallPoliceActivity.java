@@ -2,8 +2,10 @@ package com.jsb.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.adapter.MyCallPoliceListAdapter;
@@ -90,7 +92,11 @@ public class MyCallPoliceActivity extends BaseActivity {
     private void getReportableInsurance(int userid) {
         UserRetrofitUtil.getReportableInsurance(this, userid, new NetCallback<NetWorkResultBean<ReportData>>(this) {
             @Override
-            public void onFailure(RetrofitError error) {
+            public void onFailure(RetrofitError error,String message) {
+                if(!TextUtils.isEmpty(message)) {
+                    Toast.makeText(MyCallPoliceActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.model.FourService;
 
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
     private static final int Header = 1;
     private static final int ViewTypeCount = 2;
 
-    private List<Object> mData = null;
+    private List<FourService> mData = null;
     private Context mContext = null;
 
-    public DetailCarInsureTab3ServiceStationAdapter(Context mContext, List<Object> mData) {
+    public DetailCarInsureTab3ServiceStationAdapter(Context mContext, List<FourService> mData) {
         this.mData = mData;
         this.mContext = mContext;
     }
@@ -36,7 +37,7 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public FourService getItem(int position) {
         return mData.get(position);
     }
 
@@ -52,8 +53,8 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return (mData.get(position) instanceof String) ? Header
-                : Data;
+        return (mData.get(position) instanceof FourService) ? Data
+                : Header;
     }
 
     @Override
@@ -73,12 +74,12 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
             convertView = inflater.inflate(layoutID, parent, false);
             if (type == Header) {
                 holder.tv_type_header = (TextView) convertView.findViewById(R.id.tv_type_header);
-                holder.line_top  = convertView.findViewById(R.id.line_top);
+                holder.line_top = convertView.findViewById(R.id.line_top);
                 holder.line_bottom = convertView.findViewById(R.id.line_bottom);
             } else {
                 holder.tv_shop_name = (TextView) convertView.findViewById(R.id.tv_shop_name);
                 holder.tv_shop_address = (TextView) convertView.findViewById(R.id.tv_shop_address);
-                holder.item = (LinearLayout)convertView.findViewById(R.id.item);
+                holder.item = (LinearLayout) convertView.findViewById(R.id.item);
             }
             convertView.setTag(holder);
 
@@ -88,18 +89,20 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
 
         if (type == Header) {//如果是标题栏
             holder.tv_type_header.setText(mData.get(position).toString());
-            if(position<1)
-            {
+            if (position < 1) {
                 holder.line_top.setVisibility(View.VISIBLE);
                 holder.line_bottom.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.line_bottom.setVisibility(View.GONE);
                 holder.line_top.setVisibility(View.GONE);
             }
 
-        }else  {//如果是数据
-            holder.tv_shop_name.setText("长城汽车建国店");
-            holder.tv_shop_address.setText("一环路南四段168号/110120119");
+        } else {//如果是数据
+            if (mData.get(position) instanceof FourService) {
+                FourService bean = mData.get(position);
+                holder.tv_shop_name.setText(bean.getName());
+                holder.tv_shop_address.setText(bean.getAddress());
+            }
         }
         return convertView;
     }

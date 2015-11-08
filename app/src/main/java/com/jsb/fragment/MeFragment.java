@@ -22,6 +22,7 @@ import com.jsb.ui.MyHistorySaleActivity;
 import com.jsb.ui.MyInsureActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.ui.MyMoneyPocketActivity;
+import com.jsb.ui.MyTeamActivity;
 import com.jsb.ui.ShareActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.PopWindowUtils;
@@ -101,6 +102,36 @@ public class MeFragment extends BaseFragment {
                     dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
                     getActivity().startActivity(new Intent(getActivity(), MyInsureActivity.class));
+                }
+            }
+        });
+
+        //我的团队
+        view.findViewById(R.id.layout_my_team).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!checkIsLogin()) {
+                    //如果没有登录，就弹出是否登录的提醒对话框
+                    dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                        @Override
+                        public void viewClick(String tag) {
+                            if (tag.equals(StringConstant.tv_confirm)) {
+                                LoginActivity.startLoginActivity(context);
+                            }
+                        }
+
+                        @Override
+                        public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                            if (tv_title instanceof TextView) {
+                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
+                            tv_content.setVisibility(View.GONE);
+
+                        }
+                    });
+                    dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+                } else {
+                    getActivity().startActivity(new Intent(getActivity(), MyTeamActivity.class));
                 }
             }
         });

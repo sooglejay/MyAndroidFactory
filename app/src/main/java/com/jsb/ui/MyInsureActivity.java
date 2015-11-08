@@ -2,7 +2,9 @@ package com.jsb.ui;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.adapter.MyInsuresListAdapter;
@@ -141,10 +143,14 @@ public class MyInsureActivity extends BaseActivity {
         swipeLayout.setEnabled(false);
         UserRetrofitUtil.getVehicleOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
             @Override
-            public void onFailure(RetrofitError error) {
+            public void onFailure(RetrofitError error,String message) {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
+                if(!TextUtils.isEmpty(message)) {
+                    Toast.makeText(MyInsureActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -181,11 +187,15 @@ public class MyInsureActivity extends BaseActivity {
         swipeLayout.setEnabled(false);
         UserRetrofitUtil.getDriverOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
             @Override
-            public void onFailure(RetrofitError error) {
+            public void onFailure(RetrofitError error,String message) {
 
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
+                if(!TextUtils.isEmpty(message)) {
+                    Toast.makeText(MyInsureActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -221,10 +231,14 @@ public class MyInsureActivity extends BaseActivity {
         swipeLayout.setEnabled(false);
         UserRetrofitUtil.getOvertimeOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
             @Override
-            public void onFailure(RetrofitError error) {
+            public void onFailure(RetrofitError error,String message) {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
+                if(!TextUtils.isEmpty(message)) {
+                    Toast.makeText(MyInsureActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override

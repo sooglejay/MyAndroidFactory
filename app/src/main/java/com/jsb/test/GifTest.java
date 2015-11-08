@@ -21,7 +21,7 @@ public class GifTest extends Activity {
 		setContentView(R.layout.aaaa_test_gif);
 		GifImageView gifImageView =(GifImageView) findViewById(R.id.giv_demo);
 		try {
-			GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.anim_flag_iceland);
+			GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.gif_test);
 			gifImageView.setImageDrawable(gifDrawable);
 		} catch (NotFoundException e) {
 			// TODO Auto-generated catch block

@@ -19,7 +19,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <ImageView
                 android:id="@+id/iv_take_car_picture"
                 android:layout_width="match_parent"
@@ -226,8 +225,10 @@
                         android:textColor="@color/tv_black_color_level_0"
                         android:textSize="@dimen/big_textsize" />
 
-                    <TextView
+                   <TextView
+                       android:id="@+id/tv_sign_pick_date"
                         android:layout_width="0dp"
+                        android:background="@drawable/btn_select_white"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="@dimen/middle_padding"
@@ -329,6 +330,7 @@
                     android:textSize="@dimen/big_textsize" />
 
                 <TextView
+                    android:id="@+id/tv_commercial_pick_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -364,6 +366,7 @@
                     android:textSize="@dimen/big_textsize" />
 
                 <TextView
+                    android:id="@+id/tv_jqx_pick_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

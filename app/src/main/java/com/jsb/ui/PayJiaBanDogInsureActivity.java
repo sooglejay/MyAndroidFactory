@@ -3,13 +3,18 @@ package com.jsb.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jsb.R;
@@ -26,8 +31,15 @@ import com.jsb.model.Overtimeordertable;
 import com.jsb.util.IpUtil;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
+import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
 import com.pingplusplus.android.PaymentActivity;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -162,20 +174,29 @@ public class PayJiaBanDogInsureActivity extends BaseActivity implements View.OnC
                 UserRetrofitUtil.getCharge(this, overtimeInsuranceId, fee, phone,
                         type.ordinal(), channelStr, IpUtil.getIPAddress(true), new NetCallback<ChargeBean>(this) {
                             @Override
-                            public void onFailure(RetrofitError error) {
+                            public void onFailure(RetrofitError error, String message) {
                                 progressDialogUtil.hide();
-                                Log.e("Retrofit", "失败！");
+                                if (TextUtils.isEmpty(message)) {
+                                    Toast.makeText(PayJiaBanDogInsureActivity.this, message, Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                             @Override
                             public void success(ChargeBean chargeNetWorkResultBean, Response response) {
                                 progressDialogUtil.hide();
+                                String message = chargeNetWorkResultBean.getMessage().toString();
+                                if (message.equals("buyed")) {
+                                    Toast.makeText(PayJiaBanDogInsureActivity.this, "您已经买过加班险了，每周只能买一次，下周再来吧！等你哟！", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+
                                 Intent intent = new Intent();
                                 String packageName = getPackageName();
                                 ComponentName componentName = new ComponentName(packageName, packageName + ".wxapi.WXPayEntryActivity");
                                 intent.setComponent(componentName);
                                 String json = new Gson().toJson(chargeNetWorkResultBean.getCharge());
-                                intent.putExtra(PaymentActivity.EXTRA_CHARGE,json);
+                                intent.putExtra(PaymentActivity.EXTRA_CHARGE, json);
                                 startActivityForResult(intent, REQUEST_CODE_PAYMENT);
                             }
                         });

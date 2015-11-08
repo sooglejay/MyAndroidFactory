@@ -3,12 +3,17 @@ package com.jsb.widget;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.jsb.R;
 import com.jsb.util.UIUtils;
+import com.jsb.widget.wheel.WheelView;
+
+import java.util.List;
 
 /**
  * Created by JammyQtheLab on 2015/10/25.

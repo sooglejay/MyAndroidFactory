@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jsb.bean.aaa_MyMoneyPocketBean;
 import com.jsb.R;
+import com.jsb.bean.aaa_MyMoneyPocketBean;
 import com.jsb.constant.StringConstant;
 
 import java.util.ArrayList;

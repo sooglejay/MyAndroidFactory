@@ -158,8 +158,11 @@ public class LoginActivity extends BaseActivity {
                     mProgressUtil.show("正在登录...");
                     UserRetrofitUtil.login(LoginActivity.this, phoneString, verifyCodeStringUser, new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
                         @Override
-                        public void onFailure(RetrofitError error) {
+                        public void onFailure(RetrofitError error,String message) {
                             mProgressUtil.hide();
+                            if(!TextUtils.isEmpty(message)) {
+                                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
                             mCountTimer.onFinish();
                         }
 
@@ -191,8 +194,8 @@ public class LoginActivity extends BaseActivity {
                     phoneString = et_phone_number.getText().toString();
                     UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
                         @Override
-                        public void onFailure(RetrofitError error) {
-                            Toast.makeText(LoginActivity.this, "无法连接网络！", Toast.LENGTH_SHORT).show();
+                        public void onFailure(RetrofitError error,String message) {
+                            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                             mCountTimer.onFinish();
                             mCountTimer.cancel();
 

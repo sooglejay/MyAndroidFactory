@@ -97,8 +97,10 @@ public class MyModifyPasswordActivity extends BaseActivity {
                     phoneString = et_phone_number.getText().toString();
                     UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, new NetCallback<NetWorkResultBean<CommData>>(MyModifyPasswordActivity.this) {
                         @Override
-                        public void onFailure(RetrofitError error) {
-                            Toast.makeText(MyModifyPasswordActivity.this, "无法连接网络！", Toast.LENGTH_SHORT).show();
+                        public void onFailure(RetrofitError error,String message) {
+                            if(!TextUtils.isEmpty(message)) {
+                                Toast.makeText(MyModifyPasswordActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
 
                         }
 
@@ -151,8 +153,12 @@ public class MyModifyPasswordActivity extends BaseActivity {
                         progressDialogUtil.show("正在提交数据...");
                         UserRetrofitUtil.setWithdrawlPassword(MyModifyPasswordActivity.this, phoneString, verifyCodeStringService, newPasswordString, new NetCallback<NetWorkResultBean<String>>(MyModifyPasswordActivity.this) {
                             @Override
-                            public void onFailure(RetrofitError error) {
+                            public void onFailure(RetrofitError error,String message) {
                                 progressDialogUtil.hide();
+                                if(!TextUtils.isEmpty(message)) {
+                                    Toast.makeText(MyModifyPasswordActivity.this, message, Toast.LENGTH_SHORT).show();
+                                }
+
                             }
 
                             @Override

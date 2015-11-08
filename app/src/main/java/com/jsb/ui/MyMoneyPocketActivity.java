@@ -1,8 +1,10 @@
 package com.jsb.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.jsb.bean.aaa_MyMoneyPocketBean;
 import com.jsb.R;
@@ -69,7 +71,10 @@ public class MyMoneyPocketActivity extends BaseActivity {
     private void getMywalletInfo(int userid) {
         UserRetrofitUtil.getMywalletInfo(this, 1, new NetCallback<NetWorkResultBean<MyWalletData>>(this) {
             @Override
-            public void onFailure(RetrofitError error) {
+            public void onFailure(RetrofitError error,String message) {
+                if(!TextUtils.isEmpty(message)) {
+                    Toast.makeText(MyMoneyPocketActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
 
             }
 
