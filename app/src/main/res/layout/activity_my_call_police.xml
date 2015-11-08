@@ -19,9 +19,8 @@
         android:background="@drawable/line_e0_e5" />
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_layout"
-        android:background="@color/bg_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <com.jsb.widget.AutoListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"

@@ -21,6 +21,7 @@
         android:background="@color/light_gray_color" />
 
     <LinearLayout
+        android:minWidth="290dp"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/middle_padding"

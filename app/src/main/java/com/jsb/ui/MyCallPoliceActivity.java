@@ -113,8 +113,9 @@ public class MyCallPoliceActivity extends BaseActivity {
             public void onFailure(RetrofitError error,String message) {
                 if(!TextUtils.isEmpty(message)) {
                     Toast.makeText(MyCallPoliceActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
 
+                }
+                swipeLayout.setRefreshing(false);
             }
 
             @Override
@@ -133,6 +134,7 @@ public class MyCallPoliceActivity extends BaseActivity {
                     }
                     myCallPoliceListAdapter.notifyDataSetChanged();
                 }
+                swipeLayout.setRefreshing(false);
             }
         });
     }
