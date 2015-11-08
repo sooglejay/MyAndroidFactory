@@ -92,6 +92,8 @@ public class InsureCarActivity extends BaseActivity {
                     Toast.makeText(InsureCarActivity.this, "请先完善以上信息！", Toast.LENGTH_SHORT).show();
                 } else {
                     tv_enquiry.setEnabled(false);
+                    tv_enquiry.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+
                     progressDialogUtil.show("正在生成订单...");
                     userid = PreferenceUtil.load(InsureCarActivity.this, PreferenceConstant.userid, -1);
                     UserRetrofitUtil.saveVehicleInfo(InsureCarActivity.this,
@@ -113,6 +115,7 @@ public class InsureCarActivity extends BaseActivity {
                                   }
                                     progressDialogUtil.hide();
                                     tv_enquiry.setEnabled(true);
+                                    tv_enquiry.setTextColor(getResources().getColor(R.color.white_color));
 
                                 }
 

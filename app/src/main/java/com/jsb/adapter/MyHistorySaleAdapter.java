@@ -102,7 +102,6 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                             if (deleteNum == mDatas.size()) {
                                 progressDialogUtil.hide();
                                 EventBus.getDefault().post(new BusEvent(BusEvent.MSG_RefreshDataInHistoryPrice));
-                                return;
                             }
                         }
                     });
@@ -114,9 +113,11 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 bean.setSuper_status(GONE_UNSELECTED);
             }
         }
-
+        layoutParams.setMargins(0, (int) UIUtils.dp2px(mContext, 56), 0, 0);
+        listView.setLayoutParams(layoutParams);
+        footerView.setVisibility(View.GONE);
+        mTitleBar.setRightTv("", -1);
         this.notifyDataSetChanged();
-
     }
 
     @Override
@@ -138,11 +139,6 @@ public class MyHistorySaleAdapter extends BaseAdapter {
             }
         }
 
-        //把“ 隐藏 删除 和 取消 View” 的操作放在刷新数据源的函数里面
-        layoutParams.setMargins(0, (int) UIUtils.dp2px(mContext, 56), 0, 0);
-        listView.setLayoutParams(layoutParams);
-        footerView.setVisibility(View.GONE);
-        mTitleBar.setRightTv("", -1);
         super.notifyDataSetChanged();
     }
 
