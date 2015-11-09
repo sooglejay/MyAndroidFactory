@@ -46,5 +46,9 @@
             android:scaleType="centerCrop"
             android:src="@drawable/arrow_right" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d1d1d4"/>
 </LinearLayout>
 

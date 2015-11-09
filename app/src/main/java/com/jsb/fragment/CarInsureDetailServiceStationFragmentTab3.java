@@ -4,6 +4,7 @@ package com.jsb.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.CommData;
 import com.jsb.model.FourService;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.util.UIUtils;
+import com.jsb.widget.AutoListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,8 @@ import retrofit.client.Response;
  * 我的保险-车险-tab3
  */
 public class CarInsureDetailServiceStationFragmentTab3 extends BaseFragment {
-
-    private ListView listView;
+    private SwipeRefreshLayout swipe_layout;
+    private AutoListView listView;
     private List<FourService> listData = new ArrayList<>();
     private DetailCarInsureTab3ServiceStationAdapter mAdapter;
 
@@ -46,9 +49,19 @@ public class CarInsureDetailServiceStationFragmentTab3 extends BaseFragment {
 
     private void setUp(View view, Bundle savedInstanceState) {
 
-        listView = (ListView) view.findViewById(R.id.list_view);
+        listView = (AutoListView) view.findViewById(R.id.list_view);
+        swipe_layout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        UIUtils.initSwipeRefreshLayout(swipe_layout);
+        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                listData.clear();
+                getFourServiceInfo();
+            }
+        });
         mAdapter = new DetailCarInsureTab3ServiceStationAdapter(this.getActivity(), listData);
         listView.setAdapter(mAdapter);
+        listView.setLoading(false);
         getFourServiceInfo();
     }
 
@@ -65,16 +78,20 @@ public class CarInsureDetailServiceStationFragmentTab3 extends BaseFragment {
                 if(!TextUtils.isEmpty(message)) {
                     Toast.makeText(CarInsureDetailServiceStationFragmentTab3.this.getActivity(), message, Toast.LENGTH_SHORT).show();
                 }
+                swipe_layout.setRefreshing(false);
 
             }
 
             @Override
             public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
+
                 if (commDataNetWorkResultBean.getData() != null && commDataNetWorkResultBean.getData().getFourService() != null)
                 {
+                    listData.clear();
                     listData.addAll(commDataNetWorkResultBean.getData().getFourService());
                     mAdapter.notifyDataSetChanged();
                 }
+                swipe_layout.setRefreshing(false);
             }
         });
     }

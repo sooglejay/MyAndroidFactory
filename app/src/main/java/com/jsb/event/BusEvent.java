@@ -7,6 +7,7 @@ public class BusEvent {
     public static final int  MSG_Login_Success = 1001;//登录成功！
     public static final int  MSG_SignOut_Success = 1002;//注销登录成功！
     public static final int MSG_RefreshDataInHistoryPrice = 1003;//历史报价 删除 一项纪录后要重新请求网络
+    public static final int MSG_RefreshDataInCallPolice = 1004;//这个用户加班狗报案时请求网络，定位用户的位置，得到用户报案时的位置信息，并与加班险购买时的地理位置信息对比即可得到用户报案是否成功的Boolean 值！
     private String start_time;//开始时间
     private String end_time;//结束时间
     private String interval_time;//时间间隔

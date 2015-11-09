@@ -26,6 +26,7 @@ import com.jsb.model.ReportableInsurance;
 import com.jsb.model.SelfRecord;
 import com.jsb.model.TeamData;
 import com.jsb.model.Userstable;
+import com.jsb.model.jugeOvertimeInsuranceOrder;
 import com.jsb.util.Base64Util;
 import com.jsb.util.MD5Util;
 import com.jsb.util.RetrofitUtil;
@@ -79,6 +80,24 @@ public class UserRetrofitUtil extends RetrofitUtil {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.getOvertimeInsuranceInfo("", callback);
+    }
+
+
+    /**
+     发送时机	判断本周是否购买过
+     参数说明	1、String phone;//用户电话
+     * @param mContext
+     * @param callback
+     */
+    public static void jugeOvertimeInsuranceOrder(Context mContext,
+                                                  String phone,
+                                                  NetCallback<jugeOvertimeInsuranceOrder> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "phone=" + phone;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
+        git.jugeOvertimeInsuranceOrder("", callback);
     }
 
 
@@ -1290,7 +1309,6 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * 参数说明
      * 1、int userid ; //用户编号
      * 2、int orderid ; //保单编号
-     * 3、String companyaddress；//公司地址（定位得出，供报案比对）
      * 限制条件	参数1、2、3为必填。
      *
      * @param mContext
@@ -1299,14 +1317,12 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void reportOvertime(Context mContext,
                                       int userid,
                                       int orderid,
-                                      String companyaddress,
                                       NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
                 "userid=" + userid +
-                        "&orderid=" + orderid +
-                        "&companyaddress=" + companyaddress;
+                        "&orderid=" + orderid ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.reportOvertime(s, callback);

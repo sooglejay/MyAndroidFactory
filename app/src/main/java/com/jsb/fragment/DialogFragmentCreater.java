@@ -186,7 +186,16 @@ public class DialogFragmentCreater extends DialogFragment {
                 mPasswordString = mPasswordString + s;
                 if (mPasswordString.length() < 6) {
                     int index = mPasswordString.length();
-                    mEditTexts[index].requestFocus();
+                    if(index>1)
+                    {
+                        mEditTexts[index-1].clearFocus();
+                        mEditTexts[index].requestFocus();
+                    }
+                    else {
+                        mEditTexts[0].clearFocus();
+                        mEditTexts[index].requestFocus();
+                    }
+
                 } else if (mPasswordString.length() == 6) {
 
                     if (onPasswordDialogClickListener != null) {
@@ -240,7 +249,7 @@ public class DialogFragmentCreater extends DialogFragment {
                     @Override
                     protected void onPostExecute(Void value) {
                         super.onPostExecute(value);
-                           if(outerDialog.isShowing())
+                        if (outerDialog.isShowing())
                             if (et_1 != null) {
                                 et_1.requestFocus();
                                 InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

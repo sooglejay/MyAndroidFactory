@@ -21,8 +21,7 @@
         android:background="@color/light_gray_color" />
 
     <LinearLayout
-        android:minWidth="290dp"
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/middle_padding"
         android:layout_marginRight="@dimen/middle_padding"
@@ -35,14 +34,13 @@
 
         <EditText
             android:id="@+id/et_1"
-            android:minWidth="48dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center"
             android:inputType="numberPassword"
-            android:maxLength="1" />
+            android:maxLength="1"  />
 
         <View
             android:layout_width="1dp"
@@ -51,14 +49,13 @@
 
         <EditText
             android:id="@+id/et_2"
-            android:minWidth="48dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center"
             android:inputType="numberPassword"
-            android:maxLength="1" />
+            android:maxLength="1"  />
 
         <View
             android:layout_width="1dp"
@@ -67,14 +64,13 @@
 
         <EditText
             android:id="@+id/et_3"
-            android:minWidth="48dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center"
             android:inputType="numberPassword"
-            android:maxLength="1" />
+            android:maxLength="1"  />
 
         <View
             android:layout_width="1dp"
@@ -83,7 +79,6 @@
 
         <EditText
             android:id="@+id/et_4"
-            android:minWidth="48dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -99,14 +94,13 @@
 
         <EditText
             android:id="@+id/et_5"
-            android:minWidth="48dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center"
             android:inputType="numberPassword"
-            android:maxLength="1" />
+            android:maxLength="1"  />
 
         <View
             android:layout_width="1dp"
@@ -115,7 +109,6 @@
 
         <EditText
             android:id="@+id/et_6"
-            android:minWidth="48dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

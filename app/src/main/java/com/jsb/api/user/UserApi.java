@@ -23,6 +23,7 @@ import com.jsb.model.ReportableInsurance;
 import com.jsb.model.SelfRecord;
 import com.jsb.model.TeamData;
 import com.jsb.model.Userstable;
+import com.jsb.model.jugeOvertimeInsuranceOrder;
 
 import java.util.List;
 
@@ -63,6 +64,16 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/getOvertimeInsuranceInfo/")
     public void getOvertimeInsuranceInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<OvertimeData>> NetCallback);
+
+
+    /**
+     * 获取获取在售加班险信息
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/jugeOvertimeInsuranceOrder/")
+    public void jugeOvertimeInsuranceOrder(@Field("param") String params ,NetCallback<jugeOvertimeInsuranceOrder> NetCallback);
 
 
 

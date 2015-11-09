@@ -4,17 +4,26 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_screen">
 
-        <ListView
-            android:id="@+id/list_view"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/line_d_e"
-            android:dividerHeight="1dp"></ListView>
+            android:layout_height="wrap_content">
+            <com.jsb.widget.AutoListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="-1dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
 </LinearLayout>

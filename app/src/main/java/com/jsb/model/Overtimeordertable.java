@@ -13,16 +13,16 @@ public class Overtimeordertable implements Parcelable {
     private Integer userid;//int	用户编号（被保险人）	Y
     private Integer charegeid;//int	支付对象id
     private Integer compensated;//int	是否赔付 0未赔 1已赔	Y
-    private Float money;//float	金额	Y
+    private Float money;//Float	金额	Y
     private Long startdate;//起效时间	Y
     private Long enddate;//timestamp	结束时间	Y
     private Float reportdate;//timestamp	报案时间
     private String companyaddress;//String	公司地址	Y
     private String homeaddress;//String	家庭地址
-//    lat	float	公司纬度
-//    lng	float	公司经度
-    private float lat;
-    private float lng;
+//    lat	Float	公司纬度
+//    lng	Float	公司经度
+    private Float lat;
+    private Float lng;
     private int super_status = 0 ;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
 
     @Override
@@ -45,19 +45,19 @@ public class Overtimeordertable implements Parcelable {
                 '}';
     }
 
-    public float getLat() {
+    public Float getLat() {
         return lat;
     }
 
-    public void setLat(float lat) {
+    public void setLat(Float lat) {
         this.lat = lat;
     }
 
-    public float getLng() {
+    public Float getLng() {
         return lng;
     }
 
-    public void setLng(float lng) {
+    public void setLng(Float lng) {
         this.lng = lng;
     }
 

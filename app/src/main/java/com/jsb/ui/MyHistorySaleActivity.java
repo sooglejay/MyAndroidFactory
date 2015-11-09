@@ -61,10 +61,9 @@ public class MyHistorySaleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_history_sale);
-
         context = this;
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
-        progressDialogUtil = new ProgressDialogUtil(this);
+        progressDialogUtil = new ProgressDialogUtil(this,true);
         setUp();
         setLisenter();
     }
