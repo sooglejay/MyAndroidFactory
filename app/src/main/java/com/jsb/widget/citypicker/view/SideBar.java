@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jsb.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,12 +53,12 @@ public class SideBar extends View {
         int singleHeight = height / indexStrings.size();
 
         for (int i = 0; i < indexStrings.size(); i++) {
-            paint.setColor(Color.parseColor("#00BFFF"));
+            paint.setColor(getContext().getResources().getColor(R.color.base_color));
             paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
             paint.setTextSize(24);
             if (i == choose) {
-                paint.setColor(Color.parseColor("#3399ff"));
+                paint.setColor(getContext().getResources().getColor(R.color.dark_green_color));
                 paint.setFakeBoldText(true);
             }
 

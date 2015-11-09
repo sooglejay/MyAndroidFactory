@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/bd_wallet_text_e4e4e4" android:state_enabled="true" android:state_pressed="true"/>
-</selector><!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/bdwallet_pay_sdk/src/main/res/drawable/wallet_base_service_squared_item_bg.xml --><!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable/wallet_base_service_squared_item_bg.xml -->
