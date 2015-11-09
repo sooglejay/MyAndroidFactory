@@ -37,6 +37,7 @@ import com.jsb.ui.LoginActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.util.DiditUtil;
 import com.jsb.util.ProgressDialogUtil;
+import com.jsb.util.ShareUtilsTest;
 import com.jsb.util.SpannableStringUtil;
 import com.jsb.widget.decoview.decoviewlib.DecoView;
 import com.jsb.widget.decoview.decoviewlib.charts.SeriesItem;
@@ -160,7 +161,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             @Override
             public void onRightButtonClick(View v) {
-                Toast.makeText(getActivity(), "hello,share", Toast.LENGTH_SHORT).show();
+                ShareUtilsTest shareUtilsTest = new ShareUtilsTest();
+                shareUtilsTest.addCustomPlatforms(ShutInsureFragment.this.getActivity());
             }
         });
 
