@@ -119,7 +119,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/searchTeam/")
-    public void searchTeam(@Field("param") String params ,NetCallback<NetWorkResultBean<List<TeamData>>> NetCallback);
+    public void searchTeam(@Field("param") String params ,NetCallback<NetWorkResultBean<List<FreedomData>>> NetCallback);
 
 
     /**

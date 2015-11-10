@@ -288,7 +288,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void searchTeam(Context mContext, String searchParam, NetCallback<NetWorkResultBean<List<TeamData>>> callback) {
+    public static void searchTeam(Context mContext, String searchParam, NetCallback<NetWorkResultBean<List<FreedomData>>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "searchParam=" + searchParam;

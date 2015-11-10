@@ -60,7 +60,7 @@ public class MyTeamActivity extends BaseActivity {
         findViewById(R.id.layout_join_team).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyTeamActivity.this.startActivity(new Intent(MyTeamActivity.this,CertificationActivity.class));
+                MyTeamActivity.this.startActivity(new Intent(MyTeamActivity.this,JoinTeamActivity.class));
             }
         });
     }
