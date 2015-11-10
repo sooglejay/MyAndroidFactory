@@ -11,6 +11,7 @@
 
 
     <color name="time_picker_title_bar_color">#FFF37B7A</color>
+    <color name="shut_fragment_background">#fafafa</color>
 
 
 

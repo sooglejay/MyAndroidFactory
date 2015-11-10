@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/white_color"
     android:orientation="vertical">
 
     <com.jsb.widget.TitleBar
@@ -48,8 +47,8 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
                 android:id="@+id/layout_history"
+                android:layout_width="match_parent"
                 android:layout_height="146dp">
 
                 <com.jsb.widget.decoview.decoviewlib.DecoView
@@ -78,8 +77,8 @@
                     <TextView
                         android:id="@+id/tv_follow_decoView"
                         android:layout_width="wrap_content"
-                        android:text="¥0"
                         android:layout_height="wrap_content"
+                        android:text="¥0"
                         android:textColor="@color/tv_black_color_level_1"
                         android:textSize="20sp" />
 
@@ -91,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginTop="@dimen/middle_padding"
-                android:background="#ababab" />
+                android:background="#a9a9a9" />
 
             <View
                 android:layout_width="match_parent"
@@ -101,6 +100,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/middle_padding"
                 android:layout_marginTop="@dimen/middle_padding"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -172,18 +172,18 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="@dimen/middle_padding"
-                android:background="#bfbfbf" />
+                android:background="#c0c0c1" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="22dp"
                 android:background="#f5f5f6" />
 
             <LinearLayout
                 android:id="@+id/layout_xxtb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#fafafa"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -206,16 +206,17 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1" />
+
                     <Switch
                         android:id="@+id/week_switch_tab_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textOn="ON"
-                        android:textOff="OFF"
-                        android:thumb="@drawable/switch_text_appearance"
                         android:layout_marginRight="@dimen/most_big_padding"
-                        android:checked="true"/>
+                        android:checked="true"
+                        android:textOff="OFF"
+                        android:textOn="ON"
+                        android:thumb="@drawable/switch_text_appearance" />
                 </LinearLayout>
 
 
@@ -223,7 +224,7 @@
                     android:id="@+id/layout_week_number_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_select_white"
+                    android:background="@drawable/btn_select_little_white"
                     android:clickable="true"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/middle_padding">
@@ -246,11 +247,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@drawable/line_e0_e5" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -281,10 +277,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textOn="ON"
+                    android:checked="true"
                     android:textOff="OFF"
-                    android:thumb="@drawable/switch_text_appearance"
-                    android:checked="true"/>
+                    android:textOn="ON"
+                    android:thumb="@drawable/switch_text_appearance" />
 
             </LinearLayout>
 
@@ -314,9 +310,9 @@
 
                     <ImageView
                         android:layout_width="12dp"
-                        android:layout_marginLeft="@dimen/little_padding"
                         android:layout_height="12dp"
                         android:layout_gravity="bottom"
+                        android:layout_marginLeft="@dimen/little_padding"
                         android:src="@drawable/icon_spinner_drop" />
                 </LinearLayout>
 
@@ -394,19 +390,15 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#eaeaea" />
-
             <TextView
                 android:id="@+id/layout_rule"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="@dimen/small_padding"
                 android:background="@drawable/btn_select_bg_screen"
                 android:gravity="center_vertical"
-                android:paddingBottom="@dimen/middle_padding"
-                android:paddingLeft="22dp"
+                android:paddingBottom="@dimen/small_padding"
                 android:paddingTop="@dimen/small_padding"
                 android:text="查看停保规则" />
         </LinearLayout>

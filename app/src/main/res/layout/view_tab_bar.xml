@@ -46,10 +46,6 @@
                 android:text="@string/tab_stop_insure" />
         </LinearLayout>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#e9e9e9" />
 
         <LinearLayout
             android:id="@+id/layout1"
@@ -84,10 +80,6 @@
                 android:text="@string/tab_buy_insure" />
         </LinearLayout>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#e9e9e9" />
 
         <LinearLayout
             android:id="@+id/layout2"
@@ -122,11 +114,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#e9e9e9" />
-
         <LinearLayout
             android:id="@+id/layout3"
             style="@style/home_bottom_bar_container">
@@ -160,5 +147,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

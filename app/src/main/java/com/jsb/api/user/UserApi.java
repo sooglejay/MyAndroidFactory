@@ -29,7 +29,10 @@ import java.util.List;
 
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by JiangWei on 15-7-8.
@@ -143,9 +146,9 @@ public interface UserApi {
     * @param params
      * @param NetCallback
      */
-    @FormUrlEncoded
+    @Multipart
     @POST("/fillInfoJoinTeam/")
-    public void fillInfoJoinTeam(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void fillInfoJoinTeam(@Part("param") String params ,@Part("imagesData") TypedFile imagesData ,NetCallback<NetWorkResultBean<String>> NetCallback);
 
 
     /**

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.jsb.R;
 import com.jsb.adapter.MyInsuresListAdapter;
@@ -36,7 +37,6 @@ public class MyTeamActivity extends BaseActivity {
     private GifImageView gifImageView;
 
     private int userid = -1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +51,16 @@ public class MyTeamActivity extends BaseActivity {
             public void onLeftButtonClick(View v) {
                 MyTeamActivity.this.finish();
             }
-
             @Override
             public void onRightButtonClick(View v) {
-                    MyTeamActivity.this.startActivity(new Intent(MyTeamActivity.this,CertificationActivity.class));
+            }
+        });
+
+
+        findViewById(R.id.layout_join_team).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyTeamActivity.this.startActivity(new Intent(MyTeamActivity.this,CertificationActivity.class));
             }
         });
     }
@@ -66,9 +72,8 @@ public class MyTeamActivity extends BaseActivity {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("我的团队", R.drawable.arrow_left, -1, "", "规则");
 
-
-
-
+        gifImageView = (GifImageView)findViewById(R.id.gif_view);
+        UIUtils.setGifView(this,gifImageView,R.drawable.gif_join_team);
 
     }
 

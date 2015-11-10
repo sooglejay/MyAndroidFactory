@@ -184,7 +184,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(TextUtils.isEmpty(titleString) ? StringConstant.modifyPassword : titleString, R.drawable.arrow_left, -1, "", "");
 
-        progressDialogUtil = new ProgressDialogUtil(this);
+        progressDialogUtil = new ProgressDialogUtil(this,true);
 
         tv_obtain_verify_code = (TextView) findViewById(R.id.tv_obtain_verify_code);
         tv_confirm = (TextView) findViewById(R.id.tv_confirm);

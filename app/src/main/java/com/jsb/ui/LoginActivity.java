@@ -67,7 +67,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void setUp() {
-        mProgressUtil = new ProgressDialogUtil(this);
+        mProgressUtil = new ProgressDialogUtil(this,true);
 
 
         titleBar = (TitleBar) findViewById(R.id.title_bar);

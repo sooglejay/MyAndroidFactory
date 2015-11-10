@@ -64,7 +64,6 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
     public static void startActivity(Activity context, OvertimeData overtimeData) {
         Intent intent = new Intent(context, OrderCofirmJiaBanDogInsureActivity.class);
         intent.putExtra(ExtraKey, overtimeData);
-        Log.d("Retrofit", overtimeData.toString());
         context.startActivity(intent);
     }
 

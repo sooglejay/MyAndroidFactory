@@ -67,7 +67,7 @@ public class InsureCarActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_car);
-        progressDialogUtil = new ProgressDialogUtil(this);
+        progressDialogUtil = new ProgressDialogUtil(this,true);
         setUp();
         setLisenter();
     }
@@ -107,7 +107,9 @@ public class InsureCarActivity extends BaseActivity {
                             signInTimeLong,
                             et_user_name.getText().toString(),
                             commercialTimeLong,
-                            jqxTimeLong, new NetCallback<NetWorkResultBean<CommData>>(InsureCarActivity.this) {
+                            jqxTimeLong,
+                            fazhengTimeLong,
+                            new NetCallback<NetWorkResultBean<CommData>>(InsureCarActivity.this) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     if (!TextUtils.isEmpty(message)) {

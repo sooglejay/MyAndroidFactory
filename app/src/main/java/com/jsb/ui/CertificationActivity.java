@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,24 +19,29 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.ExtraConstants;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.CityUtil;
 import com.jsb.util.ImageUtils;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.PopWindowUtils;
-import com.jsb.widget.RoundImageView;
 import com.jsb.widget.TitleBar;
 import com.jsb.widget.citypicker.ChooseCityActivity;
 import com.jsb.widget.imagepicker.MultiImageSelectorActivity;
-import com.jsb.widget.imagepicker.bean.Image;
 import com.jsb.widget.wheel.WheelView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
 
 /**
@@ -157,12 +162,16 @@ public class CertificationActivity extends BaseActivity implements
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = et_user_name.getText().toString();
-                String idCardNumber = et_id_card_number.getText().toString();
+                final String userName = et_user_name.getText().toString();
+                final String idCardNumber = et_id_card_number.getText().toString();
                 String compannyName = et_company_name.getText().toString();
-                String compannyAddress = et_company_address.getText().toString();
-                String serverDescribe = et_server_describe.getText().toString();
-                if(TextUtils.isEmpty(userName))
+                final String compannyAddress = et_company_address.getText().toString();
+                final String serverDescribe = et_server_describe.getText().toString();
+                if(TextUtils.isEmpty(resultPath))
+                {
+                    Toast.makeText(context,"请选择身份证正面图片！",Toast.LENGTH_SHORT).show();
+                }
+                else if(TextUtils.isEmpty(userName))
                 {
                     Toast.makeText(context,"请输入姓名！",Toast.LENGTH_SHORT).show();
                 }else if(TextUtils.isEmpty(idCardNumber))
@@ -182,7 +191,48 @@ public class CertificationActivity extends BaseActivity implements
                     Toast.makeText(context,"请输入服务介绍！",Toast.LENGTH_SHORT).show();
                 }else {
 
-                }
+                    final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(context);
+                    new AsyncTask<String, Void, String>() {
+                        @Override
+                        protected void onPreExecute() {
+                            super.onPreExecute();
+                            progressDialogUtil.show("正在处理...");
+                        }
+                        @Override
+                        protected String doInBackground(String... params) {
+                            String result = "";
+                            try {
+                                result = ImageUtils.saveBitmap2file(context, ImageUtils.compressImage(context, params[0]));
+                            } catch (Exception e) {
+                                result = "";
+                            } finally {
+                                return result;
+                            }
+                        }
+                        @Override
+                        protected void onPostExecute(String compressPath) {
+                            if (!TextUtils.isEmpty(compressPath)) {
+                                File file = new File(compressPath);
+                                TypedFile fileToSend = new TypedFile(ImageUtils.mimeType, file);
+                                UserRetrofitUtil.fillInfoJoinTeam(context, userid, userName, cityNameStr, idCardNumber, 0 + "", -1, -1, serverDescribe, "-1", fileToSend, new NetCallback<NetWorkResultBean<String>>(context) {
+                                    @Override
+                                    public void onFailure(RetrofitError error, String message) {
+                                        progressDialogUtil.hide();
+                                    }
+
+                                    @Override
+                                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                        progressDialogUtil.hide();
+                                        Toast.makeText(context,"认证申请已经提交！",Toast.LENGTH_SHORT).show();
+                                        context.finish();
+                                    }
+                                });
+                            }else {
+                                progressDialogUtil.hide();
+                            }
+                        }
+                    }.execute(resultPath);
+                  }
             }
         });
     }

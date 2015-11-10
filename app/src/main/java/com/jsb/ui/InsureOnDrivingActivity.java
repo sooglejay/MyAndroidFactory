@@ -24,7 +24,7 @@ public class InsureOnDrivingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_on_driving_activity);
-        progressDialogUtil = new ProgressDialogUtil(this);
+        progressDialogUtil = new ProgressDialogUtil(this,true);
         setUp();
         setLisenter();
     }

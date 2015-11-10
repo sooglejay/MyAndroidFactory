@@ -34,6 +34,7 @@ import com.jsb.util.RetrofitUtil;
 import java.util.List;
 
 import retrofit.RestAdapter;
+import retrofit.mime.TypedFile;
 
 public class UserRetrofitUtil extends RetrofitUtil {
 
@@ -335,22 +336,20 @@ public class UserRetrofitUtil extends RetrofitUtil {
 
 
     /**
-     * 发送时机
-     * 发送时机	加入团队保存个人身份信息
-     * 参数说明
-     * 1、int userid ; //用户编号
-     * 2、string realname ; //姓名
-     * 3、String city；//地址
-     * 4、String idcardnum ;//身份证号
-     * 5、String refereephone;//推荐人电话，没有就传"0"
-     * 6、int companyid;//公司编号  无则传-1
-     * 7、int fourServiceId;//4s店编号  无则传-1
-     * 8、String service;//服务介绍
-     * 9、String worknum;//保险公司，员工工号，无传 “-1”
-     * 本接口还有一个参数imagesData,放图片，图片名字每次加个随机数上防止名字冲突
+     发送时机	加入团队保存个人身份信息
+     参数说明
+     1、int userid ; //用户编号
+     2、string realname ; //姓名
+     3、String city；//地址
+     4、String idcardnum ;//身份证号
+     5、String refereephone;//推荐人电话，没有就传"0"
+     6、int companyid;//公司编号  无则传-1
+     7、int fourServiceId;//4s店编号  无则传-1
+     8、String service;//服务介绍
+     9、String worknum;//保险公司，员工工号，无传 “-1”
+     本接口还有两个参数：一个imagesData,放图片（可多张身份证jpg），图片名字每次加个随机数上防止名字冲突，另一个photoData(一张头像图jpg)
      *
      * @param mContext
-     * @param callback
      */
     public static void fillInfoJoinTeam(Context mContext,
                                         int userid,
@@ -362,6 +361,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                         int fourServiceId,
                                         String service,
                                         String worknum,
+                                        TypedFile imagesData,
                                         NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -374,10 +374,11 @@ public class UserRetrofitUtil extends RetrofitUtil {
                         "&companyid=" + companyid +
                         "&fourServiceId=" + fourServiceId +
                         "&service=" + service +
-                        "&worknum=" + worknum;
+                        "&worknum=" + worknum
+                ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
-        git.fillInfoJoinTeam(s, callback);
+        git.fillInfoJoinTeam(s,imagesData, callback);
     }
 
     /**
@@ -758,6 +759,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * 7、String ownerName； // 车主姓名
      * 8、Int commercestartdate； //商业险起效日期（毫秒）
      * 9、Int compulsorystartdate ; //交强险起效日期（毫秒）
+     * 9、Int issueDate ; //发证日期（毫秒）
      * <p/>
      * 参数1、2、4、5、6、7、8、9为必填，若用户未填7 就默认传userid值
      * 8、9若只选则了一个（至少选择一个），则未选中的给默认值0
@@ -775,6 +777,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                        String ownerName,
                                        long commercestartdate,
                                        long compulsorystartdate,
+                                       long issueDate,
 
                                        NetCallback<NetWorkResultBean<CommData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
@@ -787,7 +790,9 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&registrationDate=" + registrationDate +
                 "&ownerName=" + ownerName +
                 "&commercestartdate=" + commercestartdate +
-                "&compulsorystartdate=" + compulsorystartdate;
+                "&compulsorystartdate=" + compulsorystartdate+
+                "&issueDate=" + issueDate
+                ;
 
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);

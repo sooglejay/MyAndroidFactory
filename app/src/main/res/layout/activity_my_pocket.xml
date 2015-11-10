@@ -9,32 +9,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <View
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:background="@color/bg_screen" />-->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:background="@color/bg_screen" />
+        android:layout_height="wrap_content">
+        <com.jsb.widget.AutoListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="-1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5" />
-
-
-
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#d1d1d4"
-        android:dividerHeight="1dp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5" />
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/bg_screen"
-        android:layout_height="match_parent"/>
 </LinearLayout>

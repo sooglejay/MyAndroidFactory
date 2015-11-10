@@ -1,6 +1,7 @@
 package com.jsb.ui;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
@@ -15,6 +16,8 @@ import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.UIUtils;
+import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -27,11 +30,12 @@ import retrofit.client.Response;
  * 我的-我的钱包
  */
 public class MyMoneyPocketActivity extends BaseActivity {
-    private ListView mInsureList;
+    private SwipeRefreshLayout swipeLayout;
+    private AutoListView list_view;
     private TitleBar titleBar;
     private MyMoneyPacketListAdapter myCallPoliceListAdapter;
     private List<aaa_MyMoneyPocketBean> mListDatas = new ArrayList<>();
-
+    private int userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,12 @@ public class MyMoneyPocketActivity extends BaseActivity {
 
             }
         });
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getMywalletInfo(userid);
+            }
+        });
     }
 
     private void setUp() {
@@ -60,11 +70,12 @@ public class MyMoneyPocketActivity extends BaseActivity {
 
 
         myCallPoliceListAdapter = new MyMoneyPacketListAdapter(this, mListDatas);
-        mInsureList = (ListView) findViewById(R.id.list_view);
-        mInsureList.setAdapter(myCallPoliceListAdapter);
-
-
-        int userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        UIUtils.initSwipeRefreshLayout(swipeLayout);
+        list_view = (AutoListView) findViewById(R.id.list_view);
+        list_view.setAdapter(myCallPoliceListAdapter);
+        list_view.setLoading(false);
+         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
         getMywalletInfo(userid);
     }
 
@@ -75,7 +86,7 @@ public class MyMoneyPocketActivity extends BaseActivity {
                 if(!TextUtils.isEmpty(message)) {
                     Toast.makeText(MyMoneyPocketActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
-
+                swipeLayout.setRefreshing(false);
             }
 
             @Override
@@ -131,6 +142,7 @@ public class MyMoneyPocketActivity extends BaseActivity {
 
 
                 myCallPoliceListAdapter.notifyDataSetChanged();
+                swipeLayout.setRefreshing(false);
 
             }
         });

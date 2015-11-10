@@ -9,22 +9,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:background="@color/bg_screen" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:background="@color/bg_screen" />-->
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@drawable/line_e0_e5" />-->
 
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gif_view"
-        android:layout_gravity="center"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
-
+        android:id="@+id/layout_join_team"
+        android:layout_gravity="center">
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gif_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_join_team"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 </LinearLayout>
