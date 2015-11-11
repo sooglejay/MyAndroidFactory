@@ -1,10 +1,9 @@
-package com.jsb.ui;
+package com.jsb.ui.me.mymoneypocket;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jsb.bean.aaa_MyMoneyPocketBean;
@@ -15,6 +14,7 @@ import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;

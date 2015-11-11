@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.me.mycallpolice;
 
 import android.content.Intent;
 import android.location.Location;
@@ -22,6 +22,7 @@ import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.ReportData;
 import com.jsb.model.ReportableInsurance;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;

@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.me.historyprice;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,20 +10,16 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.jsb.R;
-import com.jsb.fragment.CarInsureDetailClaimPolicyFragmentTab2;
-import com.jsb.fragment.CarInsureDetailContentFragmentTab1;
-import com.jsb.fragment.CarInsureDetailServiceStationFragmentTab3;
 import com.jsb.fragment.HistoryPriceDetailFragmentTab1;
-import com.jsb.fragment.HistoryPriceDetailFragmentTab2;
-import com.jsb.fragment.HistoryPriceDetailFragmentTab3;
 import com.jsb.model.Vehicleordertable;
+import com.jsb.ui.BaseActivity;
 import com.jsb.widget.PagerSlidingTabStrip;
 import com.jsb.widget.TitleBar;
 
 /**
  * Created by JammyQtheLab on 2015/11/5.
  */
-public class HistoryPriceDetailActivity extends BaseActivity {
+public class MyHistoryPriceItemActivity extends BaseActivity {
 
 
     public final static String ExtrasKeyName = "ExtrasKeyName";
@@ -37,7 +33,7 @@ public class HistoryPriceDetailActivity extends BaseActivity {
 
 
     public static void startActivity(Activity context, Vehicleordertable bean) {
-        Intent intent = new Intent(context, HistoryPriceDetailActivity.class);
+        Intent intent = new Intent(context, MyHistoryPriceItemActivity.class);
         intent.putExtra(ExtrasKeyName, bean);
         context.startActivity(intent);
     }
@@ -83,7 +79,7 @@ public class HistoryPriceDetailActivity extends BaseActivity {
         mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                HistoryPriceDetailActivity.this.finish();
+                MyHistoryPriceItemActivity.this.finish();
             }
 
             @Override

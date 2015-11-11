@@ -6,20 +6,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jsb.constant.StringConstant;
 import com.jsb.R;
-import com.jsb.model.Banner;
-import com.jsb.ui.BrowserActivity;
-import com.jsb.ui.InsureCarActivity;
-import com.jsb.ui.InsureJiaBanDogActivity;
-import com.jsb.ui.InsureOnDrivingActivity;
-import com.jsb.widget.BannerView;
+import com.jsb.ui.buyinsurance.InsureCarActivity;
+import com.jsb.ui.buyinsurance.InsureJiaBanDogActivity;
+import com.jsb.ui.buyinsurance.InsureOnDrivingActivity;
 import com.jsb.widget.TitleBar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**

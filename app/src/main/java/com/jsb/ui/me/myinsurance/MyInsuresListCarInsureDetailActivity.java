@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.me.myinsurance;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 
 import com.jsb.R;
@@ -15,6 +14,7 @@ import com.jsb.fragment.CarInsureDetailClaimPolicyFragmentTab2;
 import com.jsb.fragment.CarInsureDetailContentFragmentTab1;
 import com.jsb.fragment.CarInsureDetailServiceStationFragmentTab3;
 import com.jsb.model.Vehicleordertable;
+import com.jsb.ui.BaseActivity;
 import com.jsb.widget.PagerSlidingTabStrip;
 import com.jsb.widget.TitleBar;
 

@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.buyinsurance;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.ui.BaseActivity;
 import com.jsb.widget.TitleBar;
 
 /**

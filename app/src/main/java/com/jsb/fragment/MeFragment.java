@@ -17,13 +17,13 @@ import com.jsb.constant.StringConstant;
 import com.jsb.R;
 import com.jsb.event.BusEvent;
 import com.jsb.ui.LoginActivity;
-import com.jsb.ui.MyCallPoliceActivity;
-import com.jsb.ui.MyHistorySaleActivity;
-import com.jsb.ui.MyInsureActivity;
+import com.jsb.ui.me.mycallpolice.MyCallPoliceActivity;
+import com.jsb.ui.me.historyprice.MyHistoryPriceListActivity;
+import com.jsb.ui.me.myinsurance.MyInsureActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
-import com.jsb.ui.MyMoneyPocketActivity;
-import com.jsb.ui.MyTeamActivity;
-import com.jsb.ui.ShareActivity;
+import com.jsb.ui.me.mymoneypocket.MyMoneyPocketActivity;
+import com.jsb.ui.me.myteam.MyTeamForFreeActivity;
+import com.jsb.ui.me.share.ShareActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.PopWindowUtils;
 import com.jsb.widget.TitleBar;
@@ -131,7 +131,7 @@ public class MeFragment extends BaseFragment {
                     });
                     dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    getActivity().startActivity(new Intent(getActivity(), MyTeamActivity.class));
+                    getActivity().startActivity(new Intent(getActivity(), MyTeamForFreeActivity.class));
                 }
             }
         });
@@ -161,7 +161,7 @@ public class MeFragment extends BaseFragment {
                     });
                     dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    getActivity().startActivity(new Intent(getActivity(), MyHistorySaleActivity.class));
+                    getActivity().startActivity(new Intent(getActivity(), MyHistoryPriceListActivity.class));
                 }
             }
         });

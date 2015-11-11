@@ -1,18 +1,15 @@
-package com.jsb.ui;
+package com.jsb.ui.buyinsurance;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.paysdk.login.Login;
-import com.baidu.wallet.base.datamodel.AccountManager;
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
@@ -22,6 +19,8 @@ import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.jugeOvertimeInsuranceOrder;
+import com.jsb.ui.BaseActivity;
+import com.jsb.ui.LoginActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;

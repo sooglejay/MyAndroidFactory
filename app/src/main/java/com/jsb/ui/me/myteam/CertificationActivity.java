@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.me.myteam;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.ExtraConstants;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.CityUtil;
 import com.jsb.util.ImageUtils;
 import com.jsb.util.PreferenceUtil;

@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.stopinsurance;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.adapter.CardListAdapter;
+import com.jsb.ui.BaseActivity;
+import com.jsb.ui.BrowserActivity;
 import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;

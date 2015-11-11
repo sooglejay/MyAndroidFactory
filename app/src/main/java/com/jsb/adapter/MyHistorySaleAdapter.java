@@ -1,7 +1,6 @@
 package com.jsb.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,10 +20,9 @@ import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.IntConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.model.NetWorkResultBean;
-import com.jsb.model.Vechicleinsurancedetail;
 import com.jsb.model.Vehicleordertable;
 
-import com.jsb.ui.HistoryPriceDetailActivity;
+import com.jsb.ui.me.historyprice.MyHistoryPriceItemActivity;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
@@ -230,7 +228,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 Vehicleordertable tagBean = (Vehicleordertable) v.getTag();
                 switch (tagBean.getSuper_status()) {
                     case GONE_UNSELECTED:
-                        HistoryPriceDetailActivity.startActivity(mContext, null);
+                        MyHistoryPriceItemActivity.startActivity(mContext, null);
                         break;
                     case VISIBLE_UNSELECTED:
                         tagBean.setSuper_status(VISIBLE_SELECTED);

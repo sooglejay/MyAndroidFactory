@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.buyinsurance;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +25,7 @@ import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeordertable;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;

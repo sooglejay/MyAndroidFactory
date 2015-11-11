@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.buyinsurance;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
@@ -24,7 +25,6 @@ import com.jsb.widget.TitleBar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;

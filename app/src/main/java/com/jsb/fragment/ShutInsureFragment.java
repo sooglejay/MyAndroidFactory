@@ -43,8 +43,8 @@ import com.jsb.widget.decoview.decoviewlib.DecoView;
 import com.jsb.widget.decoview.decoviewlib.charts.SeriesItem;
 import com.jsb.widget.decoview.decoviewlib.events.DecoEvent;
 import com.jsb.ui.BrowserActivity;
-import com.jsb.ui.PullMoneyActivity;
-import com.jsb.ui.TimePickerActivity;
+import com.jsb.ui.stopinsurance.PullMoneyActivity;
+import com.jsb.ui.stopinsurance.TimePickerActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.TitleBar;
 
@@ -67,7 +67,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     private TitleBar titleBar;
     private TextView tvPullMoney;
-    private TextView layout_rule;
+
     private Spinner week_number_spinner;
     private Spinner car_number_spinner;
 
@@ -269,13 +269,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         });
 
 
-        //停保规则
-        layout_rule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BrowserActivity.startActivity(getActivity(), true);
-            }
-        });
 
 
         //车牌号Layout ，包裹Spinner，并且设置Layout 的点击事件，触发Spinner 的下拉操作
@@ -603,7 +596,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         //提现
         tvPullMoney = (TextView) view.findViewById(R.id.tv_pull_money);
         //停保规则
-        layout_rule = (TextView) view.findViewById(R.id.layout_rule);
+        view.findViewById(R.id.layout_rule).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BrowserActivity.startActivity(getActivity(), true);
+            }
+        });
+
 
         //预约停保 的文本时间显示，表达用户选择的时间
         tv_start_date = (TextView) view.findViewById(R.id.tv_start_date);

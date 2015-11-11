@@ -25,9 +25,6 @@ import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

@@ -1,37 +1,22 @@
-package com.jsb.ui;
+package com.jsb.ui.me.myteam;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.jsb.R;
-import com.jsb.adapter.MyInsuresListAdapter;
-import com.jsb.api.callback.NetCallback;
-import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
-import com.jsb.model.Driverordertable;
-import com.jsb.model.MyInsuranceData;
-import com.jsb.model.NetWorkResultBean;
-import com.jsb.model.Overtimeordertable;
-import com.jsb.model.Vehicleordertable;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.UIUtils;
-import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.droidsonroids.gif.GifImageView;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * 我的-我的保险
  */
-public class MyTeamActivity extends BaseActivity {
+public class MyTeamForFreeActivity extends BaseActivity {
 
     private TitleBar titleBar;
     private GifImageView gifImageView;
@@ -49,7 +34,7 @@ public class MyTeamActivity extends BaseActivity {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                MyTeamActivity.this.finish();
+                MyTeamForFreeActivity.this.finish();
             }
             @Override
             public void onRightButtonClick(View v) {
@@ -60,7 +45,7 @@ public class MyTeamActivity extends BaseActivity {
         findViewById(R.id.layout_join_team).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyTeamActivity.this.startActivity(new Intent(MyTeamActivity.this,JoinTeamActivity.class));
+                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this,JoinTeamActivity.class));
             }
         });
     }

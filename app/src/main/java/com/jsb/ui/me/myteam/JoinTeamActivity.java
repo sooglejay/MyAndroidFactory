@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.me.myteam;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,9 +8,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
@@ -19,7 +16,7 @@ import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.FreedomData;
 import com.jsb.model.NetWorkResultBean;
-import com.jsb.model.TeamData;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;

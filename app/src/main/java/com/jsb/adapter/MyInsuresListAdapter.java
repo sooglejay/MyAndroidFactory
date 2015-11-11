@@ -1,8 +1,6 @@
 package com.jsb.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +13,9 @@ import com.jsb.R;
 import com.jsb.model.Driverordertable;
 import com.jsb.model.Overtimeordertable;
 import com.jsb.model.Vehicleordertable;
-import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
-import com.jsb.ui.MyInsuresListDrivingInsureDetailActivity;
-import com.jsb.ui.MyInsuresListJiaBanDogInsureDetailActivity;
+import com.jsb.ui.me.myinsurance.MyInsuresListCarInsureDetailActivity;
+import com.jsb.ui.me.myinsurance.MyInsuresListDrivingInsureDetailActivity;
+import com.jsb.ui.me.myinsurance.MyInsuresListJiaBanDogInsureDetailActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

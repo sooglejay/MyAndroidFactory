@@ -18,7 +18,7 @@ import com.jsb.R;
 import com.jsb.constant.StringConstant;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.model.Vehicletable;
-import com.jsb.ui.MyInsuresListCarInsureDetailActivity;
+import com.jsb.ui.me.myinsurance.MyInsuresListCarInsureDetailActivity;
 import com.jsb.util.TimeUtil;
 import com.jsb.util.UIUtils;
 

@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.buyinsurance;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.jsb.R;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
 

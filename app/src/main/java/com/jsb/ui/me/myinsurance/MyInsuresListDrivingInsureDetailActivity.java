@@ -1,53 +1,52 @@
-package com.jsb.ui;
+package com.jsb.ui.me.myinsurance;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.fragment.CarInsureDetailClaimPolicyFragmentTab2;
-import com.jsb.fragment.CarInsureDetailContentFragmentTab1;
-import com.jsb.fragment.CarInsureDetailServiceStationFragmentTab3;
+import com.jsb.constant.StringConstant;
 import com.jsb.model.Driverordertable;
-import com.jsb.model.Overtimeordertable;
+import com.jsb.ui.BaseActivity;
+import com.jsb.ui.buyinsurance.OrderCofirmOnDrivingInsureActivity;
 import com.jsb.util.TimeUtil;
-import com.jsb.widget.PagerSlidingTabStrip;
+import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
+
 
 /**
  * 我的-我的保险-车险
  */
-public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
+public class MyInsuresListDrivingInsureDetailActivity extends BaseActivity {
     public final static String ExtrasKeyName = "ExtrasKeyName";
-    private TitleBar mTitleBar;
+    private final static int ACTION_CALL = 110;
+
 
     private Activity context;
+    private TitleBar mTitleBar;
+    private LinearLayout layout_server_call;
+
+    private TextView tv_insurance_agent_name;
+    private TextView tv_insurant_name;
+    private TextView tv_insurance_number;
+    private TextView tv_insurance_duration;
+    private TextView tv_insurance_scope;
+    private TextView tv_insure_price;
+    private Driverordertable driverordertable;
+
     private CheckBox cb_agree_license;
     private TextView tv_buy_insure;
     private boolean isAgreeWithLicence = true;
 
-    private Overtimeordertable overtimeordertable;
-
-    private TextView tv_insurant_name;
-    private TextView tv_insurance_duration;
-    private TextView tv_insurance_agent_name;
-    private TextView tv_company_address;
-    private TextView tv_home_address;
-    private TextView tv_jbpf;
-
-    public static void startActivity(Activity context,Overtimeordertable bean)
-    {
-        Intent intent = new Intent(context, MyInsuresListJiaBanDogInsureDetailActivity.class);
+    public static void startActivity(Activity context, Driverordertable bean) {
+        Intent intent = new Intent(context, MyInsuresListDrivingInsureDetailActivity.class);
         intent.putExtra(ExtrasKeyName, bean);
         context.startActivity(intent);
     }
@@ -56,7 +55,7 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_insure_jiabandog);
+        setContentView(R.layout.activity_my_insure_driving);
         context = this;
 
         setUpView();
@@ -65,7 +64,7 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
     }
 
     private void setUpView() {
-        mTitleBar = (TitleBar)findViewById(R.id.title_bar);
+        mTitleBar = (TitleBar) findViewById(R.id.title_bar);
         mTitleBar.initTitleBarInfo("产品详情", R.drawable.arrow_left, -1, "", "");
 
 
@@ -75,31 +74,35 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
         tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
 
 
-        tv_insurant_name = (TextView)findViewById(R.id.tv_insurant_name);
-        tv_insurance_duration = (TextView)findViewById(R.id.tv_insurance_duration);
-        tv_insurance_agent_name = (TextView)findViewById(R.id.tv_insurance_agent_name);
-        tv_company_address = (TextView)findViewById(R.id.tv_company_address);
-        tv_home_address = (TextView)findViewById(R.id.tv_home_address);
-        tv_jbpf = (TextView)findViewById(R.id.tv_jbpf);
-
         //许可协议
         cb_agree_license = (CheckBox) findViewById(R.id.cb_agree_license);
         cb_agree_license.setChecked(true);
 
 
+        //服务电话
+        layout_server_call = (LinearLayout) findViewById(R.id.layout_server_call);
+
+        tv_insurance_agent_name = (TextView) findViewById(R.id.tv_insurance_agent_name);
+        tv_insurant_name = (TextView) findViewById(R.id.tv_insurant_name);
+        tv_insurance_number = (TextView) findViewById(R.id.tv_insurance_number);
+        tv_insurance_duration = (TextView) findViewById(R.id.tv_insurance_duration);
+        tv_insurance_scope = (TextView) findViewById(R.id.tv_insurance_scope);
+        tv_insure_price = (TextView) findViewById(R.id.tv_insure_price);
+
 
         // 传递过来的model   并 显示
-        overtimeordertable = getIntent().getParcelableExtra(MyInsuresListCarInsureDetailActivity.ExtrasKeyName);
-        if (overtimeordertable != null) {
-            if(overtimeordertable.getUserid()!=null)
-            {
-                tv_insurant_name.setText(overtimeordertable.getUserid()+"");
+        driverordertable = getIntent().getParcelableExtra(MyInsuresListCarInsureDetailActivity.ExtrasKeyName);
+        if (driverordertable != null) {
+            if (driverordertable.getCompanyInfo() != null) {
+                tv_insurance_agent_name.setText(TextUtils.isEmpty(driverordertable.getCompanyInfo().getCompanyname()) ? "" : driverordertable.getCompanyInfo().getCompanyname());
+            } else {
+                tv_insurance_agent_name.setText("null");
             }
-            tv_insurance_duration.setText(TimeUtil.getTimeString(overtimeordertable.getStartdate()) + "起，" + TimeUtil.getTimeString(overtimeordertable.getEnddate()) + "止");
-            tv_insurance_agent_name.setText("没有字段");
-            tv_company_address.setText(overtimeordertable.getCompanyaddress()+"");
-            tv_home_address.setText(overtimeordertable.getHomeaddress()+"");
-            tv_jbpf.setText(overtimeordertable.getMoney()+"");
+            tv_insurant_name.setText(TextUtils.isEmpty(driverordertable.getName()) ? "" : driverordertable.getName());
+            tv_insurance_number.setText(driverordertable.getId() == null ? "" : driverordertable.getId() + "");
+            tv_insurance_duration.setText(TimeUtil.getTimeString(driverordertable.getStartdate()) + "起，" + TimeUtil.getTimeString(driverordertable.getEnddate()) + "止");
+            tv_insurance_scope.setText("这个地方服务端没有字段");
+            tv_insure_price.setText("这个地方服务端也没有字段");
         }
 
     }
@@ -108,7 +111,7 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
         mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                MyInsuresListJiaBanDogInsureDetailActivity.this.finish();
+                context.finish();
             }
 
             @Override
@@ -116,7 +119,6 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
 
             }
         });
-
 
 
         //购买的TextView 监听器
@@ -150,7 +152,16 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
             }
         });
 
+        //服务电话
+        layout_server_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.takePhoneCall(MyInsuresListDrivingInsureDetailActivity.this, StringConstant.call_police_number, ACTION_CALL);
+            }
+        });
+
 
     }
+
 
 }

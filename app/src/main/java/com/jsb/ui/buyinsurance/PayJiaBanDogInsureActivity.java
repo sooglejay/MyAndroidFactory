@@ -1,15 +1,11 @@
-package com.jsb.ui;
+package com.jsb.ui.buyinsurance;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,22 +20,14 @@ import com.jsb.constant.InsuranceType;
 import com.jsb.constant.PaymentChannel;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
-import com.jsb.model.Charge;
 import com.jsb.model.ChargeBean;
-import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Overtimeordertable;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.IpUtil;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
-import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
 import com.pingplusplus.android.PaymentActivity;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;

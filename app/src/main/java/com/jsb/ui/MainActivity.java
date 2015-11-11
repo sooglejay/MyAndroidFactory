@@ -14,30 +14,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
-import com.jsb.constant.IntConstant;
-import com.jsb.constant.PreferenceConstant;
-import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
-import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.fragment.ServerConsultorFragment;
 import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.fragment.BuyInsureFragment;
 import com.jsb.fragment.MeFragment;
 import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
-import com.jsb.util.CheckNetWorkUtil;
-import com.jsb.util.PreferenceUtil;
 import com.jsb.util.UpdateVersionUtil;
 import com.jsb.widget.ScrollableViewPager;
 import com.jsb.widget.TabBar;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 

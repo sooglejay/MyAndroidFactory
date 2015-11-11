@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.stopinsurance;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import com.jsb.R;
 import com.jsb.constant.StringConstant;
+import com.jsb.ui.BaseActivity;
 import com.jsb.widget.timepicker.CalenderAdapter;
 import com.jsb.widget.timepicker.SonBean;
 import com.jsb.widget.timepicker.FatherBean;

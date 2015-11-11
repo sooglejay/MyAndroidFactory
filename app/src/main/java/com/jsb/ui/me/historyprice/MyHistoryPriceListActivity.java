@@ -1,10 +1,9 @@
-package com.jsb.ui;
+package com.jsb.ui.me.historyprice;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +17,7 @@ import com.jsb.event.BusEvent;
 import com.jsb.model.HistoryPriceData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Vehicleordertable;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
@@ -33,7 +33,7 @@ import retrofit.client.Response;
 /**
  * 我的-我的历史记录
  */
-public class MyHistorySaleActivity extends BaseActivity {
+public class MyHistoryPriceListActivity extends BaseActivity {
 
     private TitleBar titleBar;
 
@@ -72,7 +72,7 @@ public class MyHistorySaleActivity extends BaseActivity {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                MyHistorySaleActivity.this.finish();
+                MyHistoryPriceListActivity.this.finish();
             }
 
             @Override
@@ -161,9 +161,9 @@ public class MyHistorySaleActivity extends BaseActivity {
                         swipeLayout.setEnabled(true);
                         list_view.setLoading(false);
                         if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(MyHistorySaleActivity.this, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyHistoryPriceListActivity.this, message, Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(MyHistorySaleActivity.this, "连接超时！请重试", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyHistoryPriceListActivity.this, "连接超时！请重试", Toast.LENGTH_SHORT).show();
                         }
                         progressDialogUtil.hide();
                     }

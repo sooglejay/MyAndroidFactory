@@ -1,4 +1,4 @@
-package com.jsb.ui;
+package com.jsb.ui.me.myinsurance;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +16,7 @@ import com.jsb.model.MyInsuranceData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Overtimeordertable;
 import com.jsb.model.Vehicleordertable;
+import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;
