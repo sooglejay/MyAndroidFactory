@@ -22,7 +22,19 @@ public class IntConstant {
     public static final int accountType_weixing  = 2;//微信
 
 
+    //    type	int	用户角色
+    // 0 一般用户，
+    // 1 业务员,
+    // 2 团长
+    public static final int USER_TYPE_FREE  = 0;//
+    public static final int USER_TYPE_MEMBER  = 1;//
+    public static final int USER_TYPE_LEADER  = 2;//
+
+
     public final  static long milliSecondInADay = 1000*24L*60L*60L;//一天的毫秒数
+
+
+
 
 
 }

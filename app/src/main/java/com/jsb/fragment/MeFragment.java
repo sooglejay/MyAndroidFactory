@@ -1,6 +1,6 @@
 package com.jsb.fragment;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +12,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.IntConstant;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.R;
 import com.jsb.event.BusEvent;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.Userstable;
 import com.jsb.ui.LoginActivity;
 import com.jsb.ui.me.mycallpolice.MyCallPoliceActivity;
 import com.jsb.ui.me.historyprice.MyHistoryPriceListActivity;
@@ -23,12 +28,16 @@ import com.jsb.ui.me.myinsurance.MyInsureActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.ui.me.mymoneypocket.MyMoneyPocketActivity;
 import com.jsb.ui.me.myteam.MyTeamForFreeActivity;
+import com.jsb.ui.me.myteam.MyTeamForMemberActivity;
 import com.jsb.ui.me.share.ShareActivity;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.PopWindowUtils;
 import com.jsb.widget.TitleBar;
 
 import de.greenrobot.event.EventBus;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * 我的-主框架-tab3
@@ -49,7 +58,10 @@ public class MeFragment extends BaseFragment {
     private DialogFragmentCreater dialogFragmentCreater;
 
 
-    private Context context;
+    private Activity context;
+
+
+    private Userstable userBean;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,10 +69,10 @@ public class MeFragment extends BaseFragment {
     }
 
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         setUp(view, savedInstanceState);
+
     }
 
 
@@ -131,7 +143,26 @@ public class MeFragment extends BaseFragment {
                     });
                     dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
-                    getActivity().startActivity(new Intent(getActivity(), MyTeamForFreeActivity.class));
+
+                    //进入我的 团队之前先获取用户的信息
+                    if (userBean != null) {
+                        if (userBean.getType() != null) {
+                            int userType = userBean.getType();
+                            switch (userType) {
+                                case IntConstant.USER_TYPE_FREE:
+                                    MyTeamForFreeActivity.startActivity(context,userBean);
+                                    break;
+                                case IntConstant.USER_TYPE_MEMBER:
+                                    MyTeamForMemberActivity.startActivity(context,userBean);
+                                    break;
+                                case IntConstant.USER_TYPE_LEADER:
+                                    MyTeamForMemberActivity.startActivity(context,userBean);
+                                    break;
+                            }
+                        }
+                    } else {
+                        getUserInfo();
+                    }
                 }
             }
         });
@@ -330,7 +361,29 @@ public class MeFragment extends BaseFragment {
             }
         });
 
+        //获取用户信息，包括用户角色
+        getUserInfo();
+    }
 
+
+    private void getUserInfo() {
+        final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(context);
+        int userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
+        if (userid != -1) {
+            progressDialogUtil.show("正在获取用户信息...");
+            UserRetrofitUtil.getSelfInfo(context, userid, new NetCallback<NetWorkResultBean<Userstable>>(context) {
+                @Override
+                public void onFailure(RetrofitError error, String message) {
+                    progressDialogUtil.hide();
+                }
+
+                @Override
+                public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                    userBean = userstableNetWorkResultBean.getData();
+                    progressDialogUtil.hide();
+                }
+            });
+        }
     }
 
     @Override
@@ -339,14 +392,11 @@ public class MeFragment extends BaseFragment {
     }
 
 
-    private boolean checkIsLogin()
-    {
-        int userid = PreferenceUtil.load(getActivity(),PreferenceConstant.userid,-1);
-        if(userid!=-1)
-        {
+    private boolean checkIsLogin() {
+        int userid = PreferenceUtil.load(getActivity(), PreferenceConstant.userid, -1);
+        if (userid != -1) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override

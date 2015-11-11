@@ -7,7 +7,23 @@ import android.os.Parcelable;
  * Created by JammyQtheLab on 2015/10/28.
  */
 public class Userstable implements Parcelable {
-
+//    id	int	用户ID	Y
+//    phone	String	电话	Y
+//    registertime	timestamp	注册时间
+//    name	String	姓名
+//    sex	int	性别  0女  1男
+//    city	String	城市
+//    contactaddress	String	联系地址
+//    idnumber	String	身份证号
+//    pwd	String	提现密码
+//    idcardpicname	String	身份证图片名字
+//    type	int	用户角色 0 一般用户，1 业务员 2团长	Y
+//    last_login_time	timestamp	最近一次登录时间
+//    account	String	提现账号
+//    company	Insurancecompanytable	保险公司信息5.4.6
+//    fourservice	FourService	4S店信息5.4.7
+//    service	String	个人服务介绍
+//    worknum	String	工号
     private Integer id;//int	用户ID	Y
     private String phone;//电话	Y
     private Long registertime;//注册时间
@@ -21,6 +37,11 @@ public class Userstable implements Parcelable {
     private Integer type;//int	用户角色 0 一般用户，1 业务员 2团长	Y
     private String city;//String	城市
     private Integer sex;//int	性别  0女  1男
+
+    private InsuranceCompanyInfo company ;
+    private FourService fourservice;
+    private String service;
+    private String worknum;
 
     @Override
     public String toString() {
@@ -38,7 +59,47 @@ public class Userstable implements Parcelable {
                 ", type=" + type +
                 ", city='" + city + '\'' +
                 ", sex=" + sex +
+                ", company=" + company +
+                ", fourservice=" + fourservice +
+                ", service='" + service + '\'' +
+                ", worknum='" + worknum + '\'' +
                 '}';
+    }
+
+    public InsuranceCompanyInfo getCompany() {
+        return company;
+    }
+
+    public void setCompany(InsuranceCompanyInfo company) {
+        this.company = company;
+    }
+
+    public FourService getFourservice() {
+        return fourservice;
+    }
+
+    public void setFourservice(FourService fourservice) {
+        this.fourservice = fourservice;
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public String getWorknum() {
+        return worknum;
+    }
+
+    public void setWorknum(String worknum) {
+        this.worknum = worknum;
+    }
+
+    public static Creator<Userstable> getCREATOR() {
+        return CREATOR;
     }
 
     public Integer getId() {
@@ -145,6 +206,9 @@ public class Userstable implements Parcelable {
         this.sex = sex;
     }
 
+    public Userstable() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -165,9 +229,10 @@ public class Userstable implements Parcelable {
         dest.writeValue(this.type);
         dest.writeString(this.city);
         dest.writeValue(this.sex);
-    }
-
-    public Userstable() {
+        dest.writeParcelable(this.company, 0);
+        dest.writeParcelable(this.fourservice, 0);
+        dest.writeString(this.service);
+        dest.writeString(this.worknum);
     }
 
     protected Userstable(Parcel in) {
@@ -184,9 +249,13 @@ public class Userstable implements Parcelable {
         this.type = (Integer) in.readValue(Integer.class.getClassLoader());
         this.city = in.readString();
         this.sex = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.company = in.readParcelable(InsuranceCompanyInfo.class.getClassLoader());
+        this.fourservice = in.readParcelable(FourService.class.getClassLoader());
+        this.service = in.readString();
+        this.worknum = in.readString();
     }
 
-    public static final Parcelable.Creator<Userstable> CREATOR = new Parcelable.Creator<Userstable>() {
+    public static final Creator<Userstable> CREATOR = new Creator<Userstable>() {
         public Userstable createFromParcel(Parcel source) {
             return new Userstable(source);
         }

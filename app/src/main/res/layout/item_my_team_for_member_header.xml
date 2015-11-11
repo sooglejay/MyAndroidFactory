@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/line_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+  <TextView
+         android:id="@+id/tv_type_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:paddingBottom="@dimen/small_padding"
+        android:paddingLeft="@dimen/small_padding"
+        android:paddingTop="@dimen/small_padding"
+        android:text="4s店（4家）"
+      android:textColor="#868686"
+        android:textSize="@dimen/middle_textsize" />
+    <View
+        android:id="@+id/line_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+</LinearLayout>
+
+

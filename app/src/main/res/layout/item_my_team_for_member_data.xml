@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/btn_select_white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/middle_padding"
+            android:paddingTop="@dimen/middle_padding">
+
+          <FrameLayout
+              android:layout_width="wrap_content"
+              android:layout_marginLeft="@dimen/middle_padding"
+              android:layout_gravity="center_vertical"
+              android:layout_height="wrap_content">
+              <com.jsb.widget.RoundImageView
+                  android:layout_width="30dp"
+                  android:layout_gravity="center"
+                  android:src="@color/orange_color"
+                  android:layout_height="30dp" />
+              <TextView
+                  android:id="@+id/tv_rang_number"
+                  android:text="12"
+                  android:textColor="@color/white_color"
+                  android:layout_gravity="center"
+                  android:textSize="@dimen/middle_textsize"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+          </FrameLayout>
+          <TextView
+              android:layout_width="wrap_content"
+              android:id="@+id/tv_user_name"
+              android:text="张伟"
+              android:layout_weight="1"
+              android:textColor="#4c4c4c"
+              android:textSize="@dimen/big_textsize"
+              android:layout_marginLeft="@dimen/small_padding"
+              android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tv_money"
+                android:textColor="#4c4c4c"
+                android:textSize="@dimen/big_textsize"
+                android:text="4.18万"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d1d1d4"/>
+</LinearLayout>
+

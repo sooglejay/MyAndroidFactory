@@ -1,6 +1,7 @@
 package com.jsb.ui.me.myteam;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
@@ -16,6 +17,8 @@ import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.FreedomData;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.OvertimeData;
+import com.jsb.model.Userstable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
@@ -32,6 +35,7 @@ import retrofit.client.Response;
  * 加入团队
  */
 public class JoinTeamActivity extends BaseActivity {
+
     private TitleBar titleBar;
     private AutoListView list_view;
     private TeamListAdapter adapter;
@@ -42,6 +46,8 @@ public class JoinTeamActivity extends BaseActivity {
     private ProgressDialogUtil progressDialogUtil;
 
     private EditText et_search_team;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

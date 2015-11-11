@@ -1,11 +1,13 @@
 package com.jsb.ui.me.myteam;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.jsb.R;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.model.Userstable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.UIUtils;
@@ -17,18 +19,30 @@ import pl.droidsonroids.gif.GifImageView;
  * 我的-我的保险
  */
 public class MyTeamForFreeActivity extends BaseActivity {
-
+    private static final String ExtraKey = "ExtraKey";
     private TitleBar titleBar;
     private GifImageView gifImageView;
 
     private int userid = -1;
+    private Userstable userstable;
+    public static void startActivity(Activity context, Userstable userstable) {
+        Intent intent = new Intent(context, MyTeamForFreeActivity.class);
+        intent.putExtra(ExtraKey, userstable);
+        context.startActivity(intent);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_team);
+        setContentView(R.layout.activity_my_team_for_free);
+        userstable = getIntent().getParcelableExtra(ExtraKey);
+
         setUp();
         setLisenter();
     }
+
+
 
     private void setLisenter() {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
@@ -38,6 +52,7 @@ public class MyTeamForFreeActivity extends BaseActivity {
             }
             @Override
             public void onRightButtonClick(View v) {
+                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this,JoinTeamActivity.class));
             }
         });
 
@@ -45,7 +60,7 @@ public class MyTeamForFreeActivity extends BaseActivity {
         findViewById(R.id.layout_join_team).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this,JoinTeamActivity.class));
+                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this,CertificationActivity.class));
             }
         });
     }

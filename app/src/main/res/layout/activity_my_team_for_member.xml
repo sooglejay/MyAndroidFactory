@@ -1,0 +1,105 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/background_title_bar"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/left_container"
+            android:layout_width="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_select_transparent_darkgreen"
+            android:gravity="center"
+            android:minWidth="?actionBarSize"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/small_padding"
+            android:paddingRight="@dimen/small_padding">
+
+            <ImageView
+                android:id="@+id/left_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/arrow_left"></ImageView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxLength="12"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/more_big_textsize" />
+
+
+
+            <LinearLayout
+                android:id="@+id/layout_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/right_iv_operation"
+                android:layout_alignTop="@+id/right_iv_operation"
+                android:paddingRight="@dimen/middle_padding"
+                android:paddingLeft="@dimen/middle_padding"
+                android:background="@drawable/btn_select_transparent_darkgreen">
+
+                <ImageView
+                 android:id="@+id/iv_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_has_notification" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/right_iv_operation"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="@dimen/small_padding"
+                android:background="@drawable/btn_select_transparent_darkgreen">
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+
+                    android:src="@drawable/icon_location" />
+            </LinearLayout>
+
+
+    </RelativeLayout>
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="24dp"-->
+    <!--android:background="@color/bg_screen" />-->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_screen">
+
+        <com.jsb.widget.AutoListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="-1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
