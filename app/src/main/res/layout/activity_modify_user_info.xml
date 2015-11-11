@@ -7,7 +7,7 @@
     <FrameLayout
         android:id="@+id/layout_avatar"
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="220dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/middle_padding"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -42,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/small_padding"
                 android:gravity="center"
                 android:text="Hi，周波"
                 android:textColor="@color/white_color"
