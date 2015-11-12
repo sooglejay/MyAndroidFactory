@@ -63,8 +63,19 @@ public class Userstable implements Parcelable {
                 ", fourservice=" + fourservice +
                 ", service='" + service + '\'' +
                 ", worknum='" + worknum + '\'' +
+                ", superFlag=" + superFlag +
                 '}';
     }
+
+    public Boolean getSuperFlag() {
+        return superFlag;
+    }
+
+    public void setSuperFlag(Boolean superFlag) {
+        this.superFlag = superFlag;
+    }
+
+    private Boolean superFlag;//这个变量是作为超级变量，只存在于客户端本地，辅助android 开发的某些地方需要的状态
 
     public InsuranceCompanyInfo getCompany() {
         return company;
@@ -233,6 +244,7 @@ public class Userstable implements Parcelable {
         dest.writeParcelable(this.fourservice, 0);
         dest.writeString(this.service);
         dest.writeString(this.worknum);
+        dest.writeValue(this.superFlag);
     }
 
     protected Userstable(Parcel in) {
@@ -253,6 +265,7 @@ public class Userstable implements Parcelable {
         this.fourservice = in.readParcelable(FourService.class.getClassLoader());
         this.service = in.readString();
         this.worknum = in.readString();
+        this.superFlag = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
     public static final Creator<Userstable> CREATOR = new Creator<Userstable>() {

@@ -10,9 +10,10 @@
         android:layout_height="220dp">
 
         <ImageView
+            android:id="@+id/iv_avatar_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.3"
+            android:alpha="0.6"
             android:scaleType="centerCrop"
             android:src="@drawable/test" />
 
@@ -60,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="修改个人信息"
                 android:textColor="@color/white_color"
-                android:textSize="@dimen/big_textsize" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout

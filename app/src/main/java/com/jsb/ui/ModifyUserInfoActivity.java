@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.jsb.util.ImageUtils;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.RoundImageView;
 import com.jsb.widget.imagepicker.MultiImageSelectorActivity;
+import com.jsb.widget.imagepicker.bean.Image;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
@@ -30,6 +32,7 @@ import java.util.List;
  */
 public class ModifyUserInfoActivity extends BaseActivity {
     private FrameLayout layoutAvatar;
+    private ImageView iv_avatar_background;
     private RoundImageView ivAvatar;
     private LinearLayout layoutModifyMobile;
     private TextView tvMobileNumber;
@@ -50,6 +53,7 @@ public class ModifyUserInfoActivity extends BaseActivity {
      */
     private void findViews() {
         layoutAvatar = (FrameLayout)findViewById( R.id.layout_avatar );
+        iv_avatar_background = (ImageView)findViewById( R.id.iv_avatar_background );
         ivAvatar = (RoundImageView)findViewById( R.id.iv_avatar );
         layoutModifyMobile = (LinearLayout)findViewById( R.id.layout_modify_mobile );
         tvMobileNumber = (TextView)findViewById( R.id.tv_mobile_number );
@@ -146,6 +150,7 @@ public class ModifyUserInfoActivity extends BaseActivity {
                     //上传图片
                     if (!TextUtils.isEmpty(resultPath)) {
                         ImageLoader.getInstance().displayImage("file://"+resultPath,ivAvatar,ImageUtils.getOptions());
+                        ImageLoader.getInstance().displayImage("file://"+resultPath,iv_avatar_background,ImageUtils.getOptions());
                     }
                 }
                 break;

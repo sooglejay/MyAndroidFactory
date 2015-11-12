@@ -101,6 +101,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
                     public void onClick(View v) {
                         switch (v.getId()) {
                             case R.id.layout_create_team:
+                                activity.startActivity(new Intent(activity,CreateTeamActivity.class));
                                 break;
                             case R.id.layout_modify_info:
                                 ModifyUserInfoActivity.startActivity(activity,userstable);
