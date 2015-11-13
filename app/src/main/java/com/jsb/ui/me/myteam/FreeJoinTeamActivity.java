@@ -34,7 +34,7 @@ import retrofit.client.Response;
 /**
  * 加入团队
  */
-public class JoinTeamActivity extends BaseActivity {
+public class FreeJoinTeamActivity extends BaseActivity {
 
     private TitleBar titleBar;
     private AutoListView list_view;

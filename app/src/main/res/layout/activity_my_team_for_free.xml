@@ -20,8 +20,8 @@
         <!--android:background="@drawable/line_e0_e5" />-->
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/layout_join_team"
         android:layout_gravity="center">
         <pl.droidsonroids.gif.GifImageView
@@ -29,10 +29,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
+            android:text="加入"
             android:layout_gravity="center"
-            android:src="@drawable/icon_join_team"
+            android:gravity="center"
+            android:textColor="@color/white_color"
+            android:textSize="26sp"
             android:layout_height="wrap_content" />
     </FrameLayout>
 </LinearLayout>

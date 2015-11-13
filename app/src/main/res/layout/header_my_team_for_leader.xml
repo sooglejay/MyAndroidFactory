@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="#222222"
+                android:id="@+id/tv_year_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14.67"
+                android:textSize="20sp" />
+            <TextView
+                android:textColor="#333333"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/small_textsize"
+                android:layout_height="wrap_content"
+                android:text="万/年完成保费" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_reward" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textColor="@color/white_color"
+                    android:id="@+id/tv_team_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="徐家勇的团队"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:textColor="@color/white_color"
+                    android:id="@+id/tv_member_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16人"
+                    android:textSize="@dimen/small_textsize" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="#222222"
+                android:id="@+id/tv_month_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.13"
+                android:textSize="20sp" />
+            <TextView
+                android:textColor="#333333"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/small_textsize"
+                android:layout_height="wrap_content"
+                android:text="万/月完成保费" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

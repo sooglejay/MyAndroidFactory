@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:background="@color/base_color"
         android:orientation="vertical">
 
@@ -24,7 +24,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="@dimen/middle_padding"
-                android:src="@drawable/icon_my_insure" />
+                android:src="@drawable/icon_modify_password" />
 
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="@dimen/middle_padding"
-                android:src="@drawable/icon_my_insure" />
+                android:src="@drawable/icon_sign_out" />
 
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="@dimen/middle_padding"
-                android:src="@drawable/icon_my_insure" />
+                android:src="@drawable/icon_clear_buffer" />
 
 
             <TextView

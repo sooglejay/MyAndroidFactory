@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="160dp"
+        android:layout_height="140dp"
+        android:background="@color/base_color"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_add_new_member"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_select_transparent_darkgreen"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:src="@drawable/icon_create_team" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新增团员"
+                android:layout_marginLeft="@dimen/small_padding"
+                android:textColor="@color/white_color"
+                android:textSize="@dimen/big_textsize" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white_color" />
+
+        <LinearLayout
+            android:id="@+id/layout_modify_info"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_select_transparent_darkgreen"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:src="@drawable/icon_modify_info" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改个人信息"
+                android:layout_marginLeft="@dimen/small_padding"
+                android:textColor="@color/white_color"
+                android:textSize="@dimen/big_textsize" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white_color" />
+
+        <LinearLayout
+            android:id="@+id/layout_check_rule"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_select_transparent_darkgreen"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:src="@drawable/icon_check_rule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/small_padding"
+                android:text="查看规则"
+                android:textColor="@color/white_color"
+                android:textSize="@dimen/big_textsize" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

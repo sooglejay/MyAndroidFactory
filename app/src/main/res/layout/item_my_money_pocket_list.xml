@@ -23,7 +23,7 @@
                 android:id="@+id/tv_money_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginLeft="18dp"
                 android:text="Y 156.00"
                 android:textColor="#5a5a5a"
                 android:textSize="@dimen/big_textsize" />
@@ -32,7 +32,7 @@
                 android:id="@+id/tv_money_kind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginLeft="18dp"
                 android:text="停保费"
                 android:textColor="@color/tv_gray_color_level_4"
                 android:textSize="@dimen/small_textsize" />
@@ -54,12 +54,13 @@
         <View
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginRight="18dp"
             android:layout_gravity="center"
             android:background="@drawable/arrow_right" />
     </LinearLayout>
     <View
-        android:layout_marginRight="@dimen/middle_padding"
-        android:layout_marginLeft="@dimen/middle_padding"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/line_e0_e5"/>

@@ -19,11 +19,11 @@ public class Overtimeordertable implements Parcelable {
     private Float reportdate;//timestamp	报案时间
     private String companyaddress;//String	公司地址	Y
     private String homeaddress;//String	家庭地址
-//    lat	Float	公司纬度
+    //    lat	Float	公司纬度
 //    lng	Float	公司经度
     private Float lat;
     private Float lng;
-    private int super_status = 0 ;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
+    private int super_status = 0;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
 
     @Override
     public String toString() {
@@ -183,8 +183,10 @@ public class Overtimeordertable implements Parcelable {
         dest.writeValue(this.reportdate);
         dest.writeString(this.companyaddress);
         dest.writeString(this.homeaddress);
-        dest.writeFloat(this.lat);
-        dest.writeFloat(this.lng);
+        if (this.lat != null)
+            dest.writeFloat(this.lat);
+        if (this.lng != null)
+            dest.writeFloat(this.lng);
         dest.writeInt(this.super_status);
     }
 
@@ -200,8 +202,10 @@ public class Overtimeordertable implements Parcelable {
         this.reportdate = (Float) in.readValue(Float.class.getClassLoader());
         this.companyaddress = in.readString();
         this.homeaddress = in.readString();
-        this.lat = in.readFloat();
-        this.lng = in.readFloat();
+        if (this.lat != null)
+            this.lat = in.readFloat();
+        if (this.lng != null)
+            this.lng = in.readFloat();
         this.super_status = in.readInt();
     }
 

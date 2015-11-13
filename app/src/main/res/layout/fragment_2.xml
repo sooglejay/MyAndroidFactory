@@ -204,7 +204,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/icon_extending" />
 
                 <TextView
                     android:id="@+id/tv_insure_line"

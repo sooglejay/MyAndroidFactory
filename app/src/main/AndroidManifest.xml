@@ -89,14 +89,14 @@
 
 
 
-        <activity android:name=".ui.me.myteam.JoinTeamActivity"
+        <activity android:name=".ui.me.myteam.FreeJoinTeamActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
 
 
         <activity
-            android:name=".ui.me.myteam.MyTeamForLeader"
+            android:name=".ui.me.myteam.MyTeamForLeaderActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
@@ -112,6 +112,18 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".ui.me.myteam.LeaderAddNewMemberActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+        <activity
+            android:name=".ui.stopinsurance.PullMoneyDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
 
 
         <activity

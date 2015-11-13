@@ -82,6 +82,7 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
                 holder.item = (LinearLayout)convertView.findViewById(R.id.item);
                 holder.tvRangNumber = (TextView)convertView.findViewById(R.id.tv_rang_number);
                 holder.tvUserName = (TextView)convertView.findViewById(R.id.tv_user_name);
+                holder.line = convertView.findViewById(R.id.line);
                 holder.tvMoney = (TextView)convertView.findViewById(R.id.tv_money);
                 holder.listener = new View.OnClickListener() {
                     @Override
@@ -103,8 +104,8 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
         if (type == Header) {//如果是标题栏
             holder.tv_type_header.setText(mData.get(position).toString());
             if (position < 1) {
-                holder.line_top.setVisibility(View.VISIBLE);
-                holder.line_bottom.setVisibility(View.VISIBLE);
+                holder.line_top.setVisibility(View.GONE);
+                holder.line_bottom.setVisibility(View.GONE);
             } else {
                 holder.line_bottom.setVisibility(View.GONE);
                 holder.line_top.setVisibility(View.GONE);
@@ -118,6 +119,12 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
                 holder.tvUserName.setText(bean.getName());
                 holder.tvRangNumber.setText(position+"");
 
+                if(mData.size()>0&&position==mData.size()-1)
+                {
+                    holder.line.setVisibility(View.GONE);
+                }else {
+                    holder.line.setVisibility(View.VISIBLE);
+                }
                 holder.item.setTag(bean);
                 holder.item.setOnClickListener(holder.listener);
             }
@@ -133,6 +140,7 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
         private TextView tvUserName;
         private TextView tvMoney;
         private View.OnClickListener listener;
+        private View line;
 
 
         //header

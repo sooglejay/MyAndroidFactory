@@ -23,7 +23,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/line_e0_e5"/>
-
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@color/bg_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <ListView
         android:id="@+id/card_listview"
         android:layout_width="match_parent"
@@ -31,88 +35,6 @@
         android:divider="@color/gray_color"
         android:dividerHeight="@dimen/listview_divider"
         android:scrollbars="none"></ListView>
+</LinearLayout>
 
-
-    <TextView
-        android:id="@+id/tv_add_new_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_select_bg_screen"
-        android:gravity="left|center"
-        android:paddingBottom="28dp"
-        android:paddingLeft="@dimen/middle_padding"
-        android:paddingTop="28dp"
-        android:text="+添加新卡"
-        android:textColor="@color/tv_gray_color_level_3"
-        android:textSize="@dimen/middle_textsize" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bg_line_2" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_screen"
-        android:gravity="left|center"
-        android:paddingBottom="28dp"
-        android:paddingLeft="@dimen/middle_padding"
-        android:paddingTop="@dimen/middle_padding"
-        android:text="目前支持农业银行、工商银行、建设银行、招商银行"
-        android:textColor="@color/tv_gray_color_level_3"
-        android:textSize="@dimen/middle_textsize" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/white_color"
-        android:minHeight="48dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:text="金额"
-            android:textColor="@color/tv_black_color_level_1"
-            android:textSize="@dimen/big_textsize"></TextView>
-
-        <EditText
-            android:id="@+id/et_input_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/more_big_padding"
-            android:background="@null"
-            android:hint="本次最多可转出领取276元"
-            android:inputType="number"
-            android:textColorHint="@color/bg_line" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/bg_screen"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_confirm_pull_money"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:layout_marginRight="@dimen/middle_padding"
-            android:layout_marginTop="@dimen/most_big_padding"
-            android:background="@drawable/btn_select_base"
-            android:clickable="true"
-            android:enabled="false"
-            android:gravity="center"
-            android:paddingBottom="@dimen/middle_padding"
-            android:paddingTop="@dimen/middle_padding"
-            android:text="确定领取"
-            android:textColor="@color/white_color"
-            android:textSize="@dimen/tv_size_level_1" />
-    </LinearLayout>
 </LinearLayout>

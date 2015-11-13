@@ -28,6 +28,7 @@ import com.jsb.ui.me.myinsurance.MyInsureActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.ui.me.mymoneypocket.MyMoneyPocketActivity;
 import com.jsb.ui.me.myteam.MyTeamForFreeActivity;
+import com.jsb.ui.me.myteam.MyTeamForLeaderActivity;
 import com.jsb.ui.me.myteam.MyTeamForMemberActivity;
 import com.jsb.ui.me.share.ShareActivity;
 import com.jsb.util.PreferenceUtil;
@@ -72,7 +73,6 @@ public class MeFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         setUp(view, savedInstanceState);
-
     }
 
 
@@ -80,7 +80,7 @@ public class MeFragment extends BaseFragment {
         context = this.getActivity();
 
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo(StringConstant.me, -1, R.drawable.icon_bar_share, "", "");
+        titleBar.initTitleBarInfo(StringConstant.me, -1, R.drawable.icon_more, "", "");
 
         //我的 fragment 顶部右边的图标
         mPopWindow = new PopWindowUtils(this.getActivity());
@@ -150,14 +150,15 @@ public class MeFragment extends BaseFragment {
                             int userType = userBean.getType();
                             switch (userType) {
                                 case IntConstant.USER_TYPE_FREE:
-                                    MyTeamForFreeActivity.startActivity(context,userBean);
-                                    break;
+                                    MyTeamForFreeActivity.startActivity(context, userBean);
+                                    return;
                                 case IntConstant.USER_TYPE_MEMBER:
-                                    MyTeamForMemberActivity.startActivity(context,userBean);
-                                    break;
+                                    MyTeamForMemberActivity.startActivity(context, userBean);
+                                    return;
                                 case IntConstant.USER_TYPE_LEADER:
-                                    MyTeamForMemberActivity.startActivity(context,userBean);
-                                    break;
+                                    MyTeamForLeaderActivity.startActivity(context, userBean);
+                                    return;
+                                default:return;
                             }
                         }
                     } else {
@@ -361,8 +362,9 @@ public class MeFragment extends BaseFragment {
             }
         });
 
-        //获取用户信息，包括用户角色
-        getUserInfo();
+        if (userBean == null) {//获取用户信息，包括用户角色
+            getUserInfo();
+        }
     }
 
 
@@ -389,6 +391,13 @@ public class MeFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser) {
+            context = this.getActivity();
+            if (userBean == null) {//获取用户信息，包括用户角色
+                getUserInfo();
+            }
+        }
     }
 
 

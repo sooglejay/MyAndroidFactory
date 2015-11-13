@@ -261,9 +261,59 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 }
-                //用户设置过密码，也已经登录了，就跳到提现界面
+
                 else {
-                    context.startActivity(new Intent(context, PullMoneyActivity.class));
+                    //弹出输入密码对话框，输入密码正确才能提现
+                    dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
+                        @Override
+                        public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6) {
+                            progressDialogUtil.show("正在验证密码...");
+                            String p1 = ((EditText) v1).getText().toString();
+                            String p2 = ((EditText) v2).getText().toString();
+                            String p3 = ((EditText) v3).getText().toString();
+                            String p4 = ((EditText) v4).getText().toString();
+                            String p5 = ((EditText) v5).getText().toString();
+                            String p6 = ((EditText) v6).getText().toString();
+                            String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
+
+                            String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
+
+                            UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
+                                @Override
+                                public void onFailure(RetrofitError error,String message) {
+                                    progressDialogUtil.hide();
+                                    if(!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+
+                                @Override
+                                public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                    progressDialogUtil.hide();
+                                    if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                        Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
+                                        dialogFragmentController.dismiss();
+                                        context.startActivity(new Intent(context, PullMoneyActivity.class));
+                                    }
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onDialogDismiss(EditText view) {
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
+                        }
+                    });
+                    dialogFragmentController.showDialog(context, DialogFragmentCreater.DialogShowInputPasswordDialog);
+
+
                 }
             }
         });
@@ -592,7 +642,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         tv_follow_decoView = (TextView) view.findViewById(R.id.tv_follow_decoView);
         //自定义View，作为界面的顶部View，封装具体操作
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, -1, StringConstant.empty, StringConstant.share);
+        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1,R.drawable.icon_share,"","");
         //提现
         tvPullMoney = (TextView) view.findViewById(R.id.tv_pull_money);
         //停保规则
@@ -880,6 +930,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         decoView.addEvent(new DecoEvent.Builder(mSeriesMax)
                 .setListener(null)
                 .build());
+
+
+        //for  test
+        realNumber = 4567.98f;
+        maxNumber = 10000f;
+        createAnimation();
+
     }
 
     @Override
@@ -1071,6 +1128,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     mCarNumbersStringList.add(bean.getLicenseplate());
                 }
                 mCarNumbersListAdapter.notifyDataSetChanged();
+
+
+
+
                 if (mPauseDataList != null && mPauseDataList.size() > 0) {
                     outerPauseBean = mPauseDataList.get(0);
                     Log.d("Retrofit", "网络请求执行refreshData（）必须的");
@@ -1153,17 +1214,19 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 setSwitchChecked(bean.getLimitPaused(), weekSwitchTabView);
             }
 
-            if (bean.getTotalPauseFee() != null) { //开始动画
-                realNumber = bean.getTotalPauseFee();
-                maxNumber = (float) DiditUtil.getMaxInteger(realNumber);
-                createAnimation();
-            }
+//            if (bean.getTotalPauseFee() != null) { //开始动画
+//                realNumber = bean.getTotalPauseFee();
+//                maxNumber = (float) DiditUtil.getMaxInteger(realNumber);
+//                createAnimation();
+//            }
+
 
             //更新车牌号的layout
             if (mCarNumbersStringList != null && mCarNumbersStringList.size() > 0) {
                 refreshCarSpinnerLayout(true);
             }
         }
+
 
     }
 

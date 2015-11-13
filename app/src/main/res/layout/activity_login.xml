@@ -37,7 +37,7 @@
             android:layout_marginBottom="@dimen/middle_padding"
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginTop="@dimen/middle_padding"
-            android:text="手机号码:"
+            android:text="手机号码"
             android:textColor="@color/tv_black_color_level_0"
             android:textSize="@dimen/tv_size_level_1" />
 
@@ -76,7 +76,7 @@
             android:layout_marginBottom="@dimen/middle_padding"
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginTop="@dimen/middle_padding"
-            android:text="验 证 码:"
+            android:text="验证码    "
             android:textColor="@color/tv_black_color_level_0"
             android:textSize="@dimen/tv_size_level_1" />
 

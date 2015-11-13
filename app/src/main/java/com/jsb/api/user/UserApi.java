@@ -6,6 +6,7 @@ import com.jsb.model.Charge;
 import com.jsb.model.ChargeBean;
 import com.jsb.model.CommData;
 import com.jsb.model.ConsultantData;
+import com.jsb.model.FinancialAccount;
 import com.jsb.model.FreedomData;
 import com.jsb.model.HistoryPriceData;
 import com.jsb.model.InviteInfo;
@@ -306,7 +307,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/searchMember/")
-    public void searchMember(@Field("param") String params ,NetCallback<NetWorkResultBean<SelfRecord>> NetCallback);
+    public void searchMember(@Field("param") String params ,NetCallback<NetWorkResultBean<List<SelfRecord>>> NetCallback);
 
 
     /**
@@ -505,6 +506,55 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/getMywalletInfo/")
     public void getMywalletInfo(@Field("param") String params ,NetCallback<NetWorkResultBean<MyWalletData>> NetCallback);
+
+
+
+    /**
+     发送时机	添加提现账号
+     参数说明
+     1、int userid ; //用户编号
+     2、string bank_name;//银行名字（微信、支付宝就为微信支付宝）
+     3、string account_num;//账号
+     4、string account_name;//户名
+     5、int accountType ;//提现账号的类型   0 银联   1 支付宝   2微信
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/addWithdrawlAccount/")
+    public void addWithdrawlAccount(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+
+
+    /**
+     发送时机	获取提现账号
+     参数说明	1、int userid ; //用户编号
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getWithdrawlAccount/")
+    public void getWithdrawlAccount(@Field("param") String params ,NetCallback<NetWorkResultBean<List<FinancialAccount>>> NetCallback);
+
+
+
+
+
+
+    /**
+     发送时机	删除提现账号
+     参数说明	1、int userid ; //用户编号
+     2、int accountid ;// 对应提现账号的编号
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/deleteWithdrawlAccount/")
+    public void deleteWithdrawlAccount(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+
 
 
 

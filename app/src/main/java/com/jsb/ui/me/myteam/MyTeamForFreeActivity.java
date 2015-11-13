@@ -52,7 +52,7 @@ public class MyTeamForFreeActivity extends BaseActivity {
             }
             @Override
             public void onRightButtonClick(View v) {
-                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this,JoinTeamActivity.class));
+                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this,FreeJoinTeamActivity.class));
             }
         });
 

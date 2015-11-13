@@ -85,21 +85,17 @@ public class ModifyUserInfoActivity extends BaseActivity {
             }
             tvCompanyAddress.setText("服务端没有对应字段");
         }
-
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageUtils.startPickPhoto(activity, imageList, 1, false);
             }
         });
-
     }
-
 
 
     private ArrayList<String> imageList = new ArrayList<>();
     private String resultPath ;//图片最终位置
-
 
     private int userid = -1;
     private Activity activity;
@@ -111,7 +107,6 @@ public class ModifyUserInfoActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,16 +114,12 @@ public class ModifyUserInfoActivity extends BaseActivity {
         activity = this;
         userstable = getIntent().getExtras().getParcelable(ExtraKey);
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
-
         findViews();
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         switch (requestCode) {
-
             //若是从图库选择图
             case ImageUtils.REQUEST_CODE_PICK_IMAGE:
                 if (resultCode == Activity.RESULT_OK) {

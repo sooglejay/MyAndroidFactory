@@ -9,6 +9,7 @@ import com.jsb.model.Charge;
 import com.jsb.model.ChargeBean;
 import com.jsb.model.CommData;
 import com.jsb.model.ConsultantData;
+import com.jsb.model.FinancialAccount;
 import com.jsb.model.FreedomData;
 import com.jsb.model.HistoryPriceData;
 import com.jsb.model.InviteInfo;
@@ -378,7 +379,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
-        git.fillInfoJoinTeam(s,imagesData, callback);
+        git.fillInfoJoinTeam(s, imagesData, callback);
     }
 
     /**
@@ -640,7 +641,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void searchMember(Context mContext,
                                     int userid,
                                     String searchParam,
-                                    NetCallback<NetWorkResultBean<SelfRecord>> callback) {
+                                    NetCallback<NetWorkResultBean<List<SelfRecord>>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1096,7 +1097,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void saveWithdrawlInfo(Context mContext,
                                          int userid,
                                          int type,
-                                         float amount,
+                                         String amount,
                                          String realname,
                                          String withdrawlPwd,
                                          String account,
@@ -1116,6 +1117,82 @@ public class UserRetrofitUtil extends RetrofitUtil {
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.saveWithdrawlInfo(s, callback);
+    }
+
+
+    /**
+     发送时机	添加提现账号
+     参数说明
+     1、int userid ; //用户编号
+     2、string bank_name;//银行名字（微信、支付宝就为微信支付宝）
+     3、string account_num;//账号
+     4、string account_name;//户名
+     5、int accountType ;//提现账号的类型   0 银联   1 支付宝   2微信
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void addWithdrawlAccount(Context mContext,
+                                         int userid,
+                                         String bank_name,
+                                         String account_num,
+                                         String account_name,
+                                         int accountType,
+                                         NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid +
+                "&bank_name=" + bank_name +
+                "&account_num=" + account_num +
+                "&account_name=" +account_name +
+                "&accountType=" + accountType;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.addWithdrawlAccount(s, callback);
+    }
+
+
+
+    /**
+     发送时机	删除提现账号
+     参数说明
+     1、int userid ; //用户编号
+     2、int accountid ;// 对应提现账号的编号
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void deleteWithdrawlAccount(Context mContext,
+                                         int userid,
+                                         int accountid,
+                                         NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid +
+                "&accountid=" + accountid;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.deleteWithdrawlAccount(s, callback);
+    }
+
+
+    /**
+     发送时机	获取提现账号
+     参数说明	1、int userid ; //用户编号
+     限制条件	参数1为必填。
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getWithdrawlAccount(Context mContext,
+                                         int userid,
+                                         NetCallback<NetWorkResultBean<List<FinancialAccount>>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "userid=" + userid;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getWithdrawlAccount(s, callback);
     }
 
 

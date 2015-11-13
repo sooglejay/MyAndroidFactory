@@ -5,28 +5,41 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/white_color"
-        android:paddingTop="@dimen/middle_padding"
-        android:paddingBottom="@dimen/middle_padding"
-        android:paddingLeft="28dp"
-        android:minHeight="72dp"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/tv_black_color_level_1"
-            android:id="@+id/tv_card_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="中国建设银行"
-            android:textSize="@dimen/big_textsize" />
-        <TextView
+        android:background="@drawable/btn_select_white"
+        android:id="@+id/item"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/middle_padding"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/tv_black_color_level_1"
+                android:id="@+id/tv_card_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中国建设银行"
+                android:textSize="@dimen/big_textsize" />
+            <TextView
 
-            android:textColor="@color/tv_gray_color_level_3"
-            android:id="@+id/tv_card_end_number"
+                android:textColor="@color/tv_gray_color_level_3"
+                android:id="@+id/tv_card_end_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="尾号2347"
+                android:textSize="@dimen/small_textsize" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_choose"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/little_padding"
+            android:src="@drawable/icon_selected"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="尾号2347"
-            android:textSize="@dimen/small_textsize" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
 
 </LinearLayout>
