@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,6 +37,7 @@ import retrofit.client.Response;
  */
 public class LoginActivity extends BaseActivity {
     private TitleBar titleBar;
+    public static final int REFRESH = 1000;
 
     private boolean loginTvFlag = false;
     private TextView tv_login;
@@ -83,29 +87,7 @@ public class LoginActivity extends BaseActivity {
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);
 
 
-
-
-
-       new AsyncTask<Integer, Void, Long>() {
-
-           @Override
-           protected Long doInBackground(Integer... params) {
-               try {
-                   Thread.sleep(params[0]);
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-               return null;
-           }
-           @Override
-           protected void onPostExecute(Long value) {
-               if (et_phone_number != null) { //手机号码输入框获取焦点
-                   UIUtils.showSoftInput(LoginActivity.this, et_phone_number);
-                   et_phone_number.requestFocus();
-               }
-           }
-
-        }.execute(100);
+        new FreshWordsThread().start();
 
         et_verify_code.addTextChangedListener(textWatcher);
         et_phone_number.addTextChangedListener(textWatcher);
@@ -266,4 +248,50 @@ public class LoginActivity extends BaseActivity {
         super.finish();
     }
 
+
+
+    /**
+     * 主线程更新ui
+     */
+    private class FreshWordsThread extends Thread
+    {
+        @Override
+        public void run()
+        {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            refreshUiHandler.sendEmptyMessage(REFRESH);
+        }
+    }
+
+
+    //主线程中的handler
+    private RefreshUiHandler refreshUiHandler = new RefreshUiHandler();
+    private class RefreshUiHandler extends Handler
+    {
+        /**
+         * 接受子线程传递的消息机制
+         */
+        @Override
+        public void handleMessage(Message msg)
+        {
+            super.handleMessage(msg);
+            int what = msg.what;
+            switch (what)
+            {
+                case REFRESH:
+                {
+                    //手机号码输入框获取焦点
+                    UIUtils.showSoftInput(LoginActivity.this, et_phone_number);
+                    et_phone_number.requestFocus();
+                    break;
+                }
+
+            }
+        }
+
+    }
 }

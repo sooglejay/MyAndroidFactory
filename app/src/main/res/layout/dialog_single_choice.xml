@@ -6,12 +6,12 @@
     <TextView
         android:id="@+id/tv_explain"
         android:gravity="center"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:textSize="@dimen/big_textsize"
-        android:layout_marginBottom="24dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginLeft="28dp"
         android:textColor="@color/tv_black_color_level_2"
-        android:layout_marginRight="24dp"
+        android:layout_marginRight="28dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

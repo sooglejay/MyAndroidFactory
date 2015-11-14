@@ -37,8 +37,8 @@ public class ServerConsultorFragment extends BaseFragment {
         viewPager = (JazzyViewPager) view.findViewById(R.id.pager);
         layout_viewpager = (FrameLayout) view.findViewById(R.id.layout_viewpager);
 
-        viewPager.setOffscreenPageLimit(10);
-        viewPager.setPageMargin(-280);
+        viewPager.setOffscreenPageLimit(20);
+        viewPager.setPageMargin(-140);
 
         viewPagerAdapter = new ViewPagerAdapter(this.getActivity(), this.getActivity().getSupportFragmentManager(),viewPager);
         viewPager.setAdapter(viewPagerAdapter);

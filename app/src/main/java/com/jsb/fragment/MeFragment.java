@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,10 +106,11 @@ public class MeFragment extends BaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
-
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
                         }
                     });
                     dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
@@ -135,35 +137,57 @@ public class MeFragment extends BaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
 
                         }
                     });
                     dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
                 } else {
+                    int userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
+                    if (userid != -1) {
 
-                    //进入我的 团队之前先获取用户的信息
-                    if (userBean != null) {
-                        if (userBean.getType() != null) {
-                            int userType = userBean.getType();
-                            switch (userType) {
-                                case IntConstant.USER_TYPE_FREE:
-                                    MyTeamForFreeActivity.startActivity(context, userBean);
-                                    return;
-                                case IntConstant.USER_TYPE_MEMBER:
-                                    MyTeamForMemberActivity.startActivity(context, userBean);
-                                    return;
-                                case IntConstant.USER_TYPE_LEADER:
-                                    MyTeamForLeaderActivity.startActivity(context, userBean);
-                                    return;
-                                default:return;
+                        UserRetrofitUtil.getSelfInfo(context, userid, new NetCallback<NetWorkResultBean<Userstable>>(context) {
+                            @Override
+                            public void onFailure(RetrofitError error, String message) {
+
+                                if (TextUtils.isEmpty(message)) {
+                                    Toast.makeText(context, "无法连接网络", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+                                }
                             }
-                        }
-                    } else {
-                        getUserInfo();
+
+                            @Override
+                            public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                                userBean = userstableNetWorkResultBean.getData();
+                                //进入我的 团队之前先获取用户的信息
+                                if (userBean != null) {
+                                    if (userBean.getType() != null) {
+                                        int userType = userBean.getType();
+                                        switch (userType) {
+                                            case IntConstant.USER_TYPE_FREE:
+                                                MyTeamForFreeActivity.startActivity(context, userBean);
+                                                return;
+                                            case IntConstant.USER_TYPE_MEMBER:
+                                                MyTeamForMemberActivity.startActivity(context, userBean);
+                                                return;
+                                            case IntConstant.USER_TYPE_LEADER:
+                                                MyTeamForLeaderActivity.startActivity(context, userBean);
+                                                return;
+                                            default:
+                                                return;
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     }
+
                 }
             }
         });
@@ -185,9 +209,11 @@ public class MeFragment extends BaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
 
                         }
                     });
@@ -215,9 +241,11 @@ public class MeFragment extends BaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
 
                         }
                     });
@@ -245,9 +273,11 @@ public class MeFragment extends BaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
 
                         }
                     });
@@ -287,9 +317,11 @@ public class MeFragment extends BaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
 
                         }
                     });
@@ -335,6 +367,8 @@ public class MeFragment extends BaseFragment {
                                                             if (tv_content instanceof TextView) {
                                                                 ((TextView) tv_content).setText("亲，您去忙吧！需要小保\n的时候，我随时在您左右！");
                                                             }
+
+
                                                         }
                                                     });
                                                     dialogFragmentCreater.showDialog(MeFragment.this.getActivity(), DialogFragmentCreater.DialogShowSingleChoiceDialog);
@@ -362,42 +396,12 @@ public class MeFragment extends BaseFragment {
             }
         });
 
-        if (userBean == null) {//获取用户信息，包括用户角色
-            getUserInfo();
-        }
     }
 
-
-    private void getUserInfo() {
-        final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(context);
-        int userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
-        if (userid != -1) {
-            progressDialogUtil.show("正在获取用户信息...");
-            UserRetrofitUtil.getSelfInfo(context, userid, new NetCallback<NetWorkResultBean<Userstable>>(context) {
-                @Override
-                public void onFailure(RetrofitError error, String message) {
-                    progressDialogUtil.hide();
-                }
-
-                @Override
-                public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
-                    userBean = userstableNetWorkResultBean.getData();
-                    progressDialogUtil.hide();
-                }
-            });
-        }
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser) {
-            context = this.getActivity();
-            if (userBean == null) {//获取用户信息，包括用户角色
-                getUserInfo();
-            }
-        }
     }
 
 

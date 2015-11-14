@@ -184,9 +184,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
 
                         }
                     });
@@ -232,9 +234,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您需要登录操作才能提现哦！\n是否现在就去登录？");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
                         }
                     });
                     dialogFragmentController.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
@@ -253,9 +257,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         @Override
                         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                             if (tv_title instanceof TextView) {
-                                ((TextView) tv_title).setText("您还没有设置密码，是否现在去设置");
+                                ((TextView) tv_title).setText("提示");
                             }
-                            tv_content.setVisibility(View.GONE);
+                            if (tv_content instanceof TextView) {
+                                ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                            }
 
                         }
                     });
@@ -462,9 +468,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 @Override
                 public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                     if (tv_title instanceof TextView) {
-                        ((TextView) tv_title).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                        ((TextView) tv_title).setText("提示");
                     }
-                    tv_content.setVisibility(View.GONE);
+                    if (tv_content instanceof TextView) {
+                        ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                    }
 
                 }
             });
@@ -484,9 +492,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 @Override
                 public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
                     if (tv_title instanceof TextView) {
-                        ((TextView) tv_title).setText("您还没有设置密码，是否现在去设置");
+                        ((TextView) tv_title).setText("提示");
                     }
-                    tv_content.setVisibility(View.GONE);
+                    if (tv_content instanceof TextView) {
+                        ((TextView) tv_content).setText("您需要登录操作才能操作哦！\n是否现在就去登录？");
+                    }
 
 
                 }

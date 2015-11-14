@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ import retrofit.client.Response;
 public class MyModifyPasswordActivity extends BaseActivity {
 
     public static final String TITLE_STRING = "title_string";
+    public static final int REFRESH = 1000;
     private TitleBar titleBar;
     private String titleString;
 
@@ -205,15 +209,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
         et_re_new_password.addTextChangedListener(textWatcher);
 
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //手机号码输入框获取焦点
-                UIUtils.showSoftInput(MyModifyPasswordActivity.this, et_phone_number);
-                et_phone_number.requestFocus();
-            }
-        }, 100);  //在500毫秒后打开
+        new FreshWordsThread().start();
 
     }
 
@@ -264,5 +260,51 @@ public class MyModifyPasswordActivity extends BaseActivity {
             UIUtils.setHideSoftInput(this,et_phone_number);
         }
         super.finish();
+    }
+
+
+    /**
+     * 主线程更新ui
+     */
+    private class FreshWordsThread extends Thread
+    {
+        @Override
+        public void run()
+        {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            refreshUiHandler.sendEmptyMessage(REFRESH);
+        }
+    }
+
+
+    //主线程中的handler
+    private RefreshUiHandler refreshUiHandler = new RefreshUiHandler();
+    class RefreshUiHandler extends Handler
+    {
+        /**
+         * 接受子线程传递的消息机制
+         */
+        @Override
+        public void handleMessage(Message msg)
+        {
+            super.handleMessage(msg);
+            int what = msg.what;
+            switch (what)
+            {
+                case REFRESH:
+                {
+                    //手机号码输入框获取焦点
+                    UIUtils.showSoftInput(MyModifyPasswordActivity.this, et_phone_number);
+                    et_phone_number.requestFocus();
+                    break;
+                }
+
+            }
+        }
+
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -44,16 +45,16 @@ public class PopWindowUtils {
         pop = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
         pop.setBackgroundDrawable(dw);
+        pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
-        pop.showAsDropDown(v, 0,0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
         UIUtils.setWindowAlpla(mContext, 1f);
         //取消不透明的效果
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(onPopWindowDismissListener!=null)
-                {
+                if (onPopWindowDismissListener != null) {
                     onPopWindowDismissListener.onDismissListener();
                 }
             }
@@ -78,6 +79,7 @@ public class PopWindowUtils {
         pop = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
         pop.setBackgroundDrawable(dw);
+        pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
         pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
