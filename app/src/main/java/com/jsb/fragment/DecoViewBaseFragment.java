@@ -41,7 +41,7 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
     final protected int COLOR_SMALL_CIRCLE = Color.parseColor("#378954");
     final protected int COLOR_BIG_CIRCLE = Color.parseColor("#86b68f");
     protected boolean mUpdateListeners = true;
-    private boolean mInitialized = false;
+    protected boolean mInitialized = false;
 
     /**
      * Add a listener to update the progress on a TextView
@@ -131,50 +131,6 @@ abstract public class DecoViewBaseFragment extends BaseFragment {
 ////            stopFragment();
 ////        }
 //    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if (getView() == null) {
-            return;
-        }
-
-        mInitialized = true;
-        final View replay = getView().findViewById(R.id.imageReplay);
-        final View swipe = getView().findViewById(R.id.imageSwipe);
-        if (replay != null) {
-            replay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Animation animation = AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.rotate_hide);
-
-                    animation.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                            swipe.setVisibility(View.INVISIBLE);
-                            replay.setEnabled(false);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            setDemoFinished(false);
-                            createAnimation();
-                            replay.setEnabled(true);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    replay.startAnimation(animation);
-                }
-            });
-        }
-//        createAnimation();
-    }
 
     /**
      * Override to create events for demo. For example move, reveal or effect
