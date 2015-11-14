@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import com.jsb.R;
 import com.jsb.widget.TitleBar;
 import com.jsb.widget.jazzyviewpager.JazzyViewPager;
+import com.umeng.analytics.MobclickAgent;
 
 public class ServerConsultorFragment extends BaseFragment {
     private Context context;
@@ -32,7 +33,14 @@ public class ServerConsultorFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         setUp(view, savedInstanceState);
     }
-
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
+    }
     private void setUp(View view, Bundle savedInstanceState) {
         viewPager = (JazzyViewPager) view.findViewById(R.id.pager);
         layout_viewpager = (FrameLayout) view.findViewById(R.id.layout_viewpager);

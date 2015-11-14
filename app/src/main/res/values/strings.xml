@@ -56,34 +56,6 @@
     </string-array>
 
 
-    <string name="rd_repeat">Repeat</string>
-    <string name="rd_daily">Daily</string>
-    <string name="rd_weekly">Weekly</string>
-    <string name="rd_monthly">Monthly</string>
-    <string name="rd_yearly">Yearly</string>
-    <string name="rd_none">None</string>
-    <string name="rd_every">Every</string>
-    <string name="rd_day">day</string>
-    <string name="rd_days">days</string>
-    <string name="rd_week">week</string>
-    <string name="rd_weeks">weeks</string>
-    <string name="rd_month">month</string>
-    <string name="rd_months">months</string>
-    <string name="rd_year">year</string>
-    <string name="rd_years">years</string>
-    <string name="rd_forever">Forever</string>
-    <string name="rd_until">Until</string>
-    <string name="rd_until_full">Until a date</string>
-    <string name="rd_for">For</string>
-    <string name="rd_for_full">For a number of events</string>
-    <string name="rd_month_same_day">on the same day each month</string>
-    <string name="rd_month_last">on every last %s</string>
-    <string name="rd_month_first">on every first %s</string>
-    <string name="rd_month_second">on every second %s</string>
-    <string name="rd_month_third">on every third %s</string>
-    <string name="rd_month_fourth">on every fourth %s</string>
-    <string name="rd_event">event</string>
-    <string name="rd_events">events</string>
     <string name="server_consultor">服务顾问</string>
 
 
@@ -108,55 +80,6 @@
 
 
 
-
-
-    <!-- gaode -->
-    <string name="weather_forecast_title">天气预报</string>
-    <string name="weather_forecast_current">实时天气预报</string>
-    <string name="weather_forecast_future">未来天气预报</string>
-    <string name="location_title">定位</string>
-    <string name="location_net_method">网络（基站+WIFI）定位</string>
-    <string name="location_mulity_method">混合定位（GPS+网络）</string>
-    <string name="location_gps_method">GPS定位（建议室外使用）</string>
-    <string name="location_geofence_method">地理围栏（警戒区域提醒）</string>
-    <string name="current_weather_report_title">实时天气</string>
-    <string name="future_weather_report_title">天气预报</string>
-    <string name="net_location_title">网络定位</string>
-    <string name="gps_location_title">GPS定位</string>
-
-    <string name="weather_location">"地      点："</string>
-    <string name="weather_weather">"天      气："</string>
-    <string name="weather_temperature">"气      温："</string>
-    <string name="weather_wind_direction">"风      向："</string>
-    <string name="weather_wind_power">"风      力："</string>
-    <string name="weather_air_humidity">空气湿度：</string>
-    <string name="weather_weather_publish">发布时间：</string>
-
-    <string name="location_latlng">"坐      标："</string>
-    <string name="location_accurancy">"精      度："</string>
-    <string name="location_method">定位方式：</string>
-    <string name="location_time">定位时间：</string>
-    <string name="location_description">位置描述：</string>
-    <string name="location_country">国&#160;&#160;&#160;&#160;&#160;&#160;家 ：</string>
-    <string name="location_province">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;省 ：</string>
-    <string name="location_city">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;市   ：</string>
-    <string name="location_county">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;区 ：</string>
-    <string name="location_road">街&#160;&#160;&#160;&#160;&#160;&#160;道   ：</string>
-    <string name="location_poi">POI名称 ：</string>
-    <string name="location_city_code">城市编码：</string>
-    <string name="location_area_code">区域编码：</string>
-
-    <string name="gpsfollow">追随</string>
-    <string name="gpslocate">定位</string>
-    <string name="gpsrotate">旋转</string>
-    <string name="location_des_open_text">是否打开位置信息描述：</string>
-    <string name="yes">是</string>
-    <string name="no">否</string>
-    <string name="geofence_des">点击地图，以点击点为中心建立地理围栏，再次点击地图修改地理围栏位置</string>
-
-
-
-
     <!--  选中图片-->
 
 
@@ -164,6 +87,25 @@
     <string name="preview">预览</string>
     <string name="msg_no_camera">没有系统相机</string>
     <string name="msg_amount_limit">已经达到最高选择数量</string>
+
+
+
+
+    <!-- Viewpager -->
+    <string-array name="jazzy_effects">
+        <item>Standard</item>
+        <item>Tablet</item>
+        <item>CubeIn</item>
+        <item>CubeOut</item>
+        <item>FlipVertical</item>
+        <item>FlipHorizontal</item>
+        <item>Stack</item>
+        <item>ZoomIn</item>
+        <item>ZoomOut</item>
+        <item>RotateUp</item>
+        <item>RotateDown</item>
+        <item>Accordion</item>
+    </string-array>
 
 
 </resources>

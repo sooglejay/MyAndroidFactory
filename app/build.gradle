@@ -15,11 +15,9 @@ android {
         applicationId "com.jsb"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "0.0.1"
+        versionCode 3
+        versionName "0.0.3"
     }
-
-
     buildTypes {
         release {
             minifyEnabled false
@@ -83,7 +81,6 @@ android {
             manifestPlaceholders = [CHANNEL_NAME: "公测包"]
         }
 
-
         _百度_ {
             manifestPlaceholders = [CHANNEL_NAME: "百度"]
         }
@@ -91,6 +88,11 @@ android {
     repositories {
         flatDir {
             dirs 'libs'
+        }
+    }
+    allprojects {
+        repositories {
+            mavenCentral()
         }
     }
 

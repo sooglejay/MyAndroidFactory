@@ -9,9 +9,11 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -30,75 +32,43 @@ import java.net.URL;
 
 
 /**
- *@author coolszy
- *@date 2012-4-26
- *@blog http://blog.92coding.com
+ * @author coolszy
+ * @date 2012-4-26
+ * @blog http://blog.92coding.com
  */
 
-public class UpdateVersionUtil
-{
-    private  static final String packageName = "com.jsb";
-    private  static final String apkName = StringConstant.app_name+File.pathSeparator+"anxin.apk";
-    private  String apkUrl = "";
-    private  String versionCodeFromServer ="";
+public class UpdateVersionUtil {
+    private static final String packageName = "com.jsb";
+    private static final String apkName = StringConstant.app_name + File.pathSeparator + "anxin.apk";
+    private String apkUrl = "";
+    private String versionCodeFromServer = "";
 
-
-    /* 下载中 */
-    private static final int DOWNLOAD = 1;
-    /* 下载结束 */
-    private static final int DOWNLOAD_FINISH = 2;
 
     /* 下载保存路径 */
     private String mSavePath;
     /* 记录进度条数量 */
-    private int progress;
+    private float progress;
     /* 是否取消更新 */
     private boolean cancelUpdate = false;
 
     private Context mContext;
     /* 更新进度条 */
     private ProgressBar mProgress;
-    private TextView    progressTextView;
+    private TextView progressTextView;
 
     private Dialog mDownloadDialog;
 
-    private Handler mHandler = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
-                // 正在下载
-                case DOWNLOAD:
-                    // 设置进度条位置
-                    mProgress.setProgress(progress);
-
-                    progressTextView.setText(progress+"%");
-                    break;
-                case DOWNLOAD_FINISH:
-                    // 安装文件
-                    installApk();
-                    break;
-                default:
-                    break;
-            }
-        };
-    };
-
-    public UpdateVersionUtil(Context context,String apkUrl,String versionCodeFromServer)
-    {
+    public UpdateVersionUtil(Context context, String apkUrl, String versionCodeFromServer) {
         this.mContext = context;
         this.apkUrl = apkUrl;
-        this.versionCodeFromServer  = versionCodeFromServer;
+        this.versionCodeFromServer = versionCodeFromServer;
     }
 
     /**
      * 版本更新检测
      */
-    public void checkVerisonUpdate()
-    {
-        if(versionCodeFromServer.equals(getVersionCode(mContext) + ""))
-        {
+    public void checkVerisonUpdate() {
+        if (!versionCodeFromServer.equals(getVersionCode(mContext) + "")) {
             showNoticeDialog();
         }
 
@@ -110,15 +80,12 @@ public class UpdateVersionUtil
      * @param context
      * @return
      */
-    private int getVersionCode(Context context)
-    {
+    private int getVersionCode(Context context) {
         int versionCode = 0;
-        try
-        {
+        try {
             // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
             versionCode = context.getPackageManager().getPackageInfo(packageName, 0).versionCode;
-        } catch (NameNotFoundException e)
-        {
+        } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
         return versionCode;
@@ -127,29 +94,24 @@ public class UpdateVersionUtil
     /**
      * 显示软件更新对话框
      */
-    private void showNoticeDialog()
-    {
+    private void showNoticeDialog() {
         // 构造对话框
         AlertDialog.Builder builder = new Builder(mContext);
         builder.setTitle("软件更新");
         builder.setMessage("检测到新版本，立即更新吗?");
         // 更新
-        builder.setPositiveButton("更新", new OnClickListener()
-        {
+        builder.setPositiveButton("更新", new OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 // 显示下载对话框
                 showDownloadDialog();
             }
         });
         // 稍后更新
-        builder.setNegativeButton("暂不更新", new OnClickListener()
-        {
+        builder.setNegativeButton("暂不更新", new OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
@@ -160,8 +122,7 @@ public class UpdateVersionUtil
     /**
      * 显示软件下载对话框
      */
-    private void showDownloadDialog()
-    {
+    private void showDownloadDialog() {
         // 构造软件下载对话框
         AlertDialog.Builder builder = new Builder(mContext);
         builder.setTitle("正在更新");
@@ -172,11 +133,9 @@ public class UpdateVersionUtil
         progressTextView = (TextView) v.findViewById(R.id.progressTextView);
         builder.setView(v);
         // 取消更新
-        builder.setNegativeButton("取消", new OnClickListener()
-        {
+        builder.setNegativeButton("取消", new OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 // 设置取消状态
                 cancelUpdate = true;
@@ -191,95 +150,97 @@ public class UpdateVersionUtil
     /**
      * 下载apk文件
      */
-    private void downloadApk()
-    {
+    private void downloadApk() {
         // 启动新线程下载软件
-        new downloadApkThread().start();
-    }
+        new AsyncTask<Integer, Float, Boolean>() {
+            @Override
+            protected void onProgressUpdate(Float... values) {
+//                mProgress.setProgress((int) progress);
 
-    /**
-     * 下载文件线程
-     *
-     * @author coolszy
-     *@date 2012-4-26
-     *@blog http://blog.92coding.com
-     */
-    private class downloadApkThread extends Thread
-    {
-        @Override
-        public void run()
-        {
-            try
-            {
-                // 判断SD卡是否存在，并且是否具有读写权限
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-                {
-                    // 获得存储卡的路径
-                    String sdpath = Environment.getExternalStorageDirectory() + File.separator;
-                    mSavePath = sdpath + "download";
-                    URL url = new URL(apkUrl);
-                    // 创建连接
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.connect();
-                    // 获取文件大小
-                    int length = conn.getContentLength();
-                    // 创建输入流
-                    InputStream is = conn.getInputStream();
+                progressTextView.setText(progress + "%");
+                super.onProgressUpdate(values);
 
-                    File file = new File(mSavePath);
-                    // 判断文件目录是否存在
-                    if (!file.exists())
-                    {
-                        file.mkdir();
-                    }
-                    File apkFile = new File(mSavePath,apkName);
-                    FileOutputStream fos = new FileOutputStream(apkFile);
-                    int count = 0;
-                    // 缓存
-                    byte buf[] = new byte[1024];
-                    // 写入到文件中
-                    do
-                    {
-                        int numread = is.read(buf);
-                        count += numread;
-                        // 计算进度条位置
-                        progress = (int) (((float) count / length) * 100);
-
-
-                        // 更新进度
-                        mHandler.sendEmptyMessage(DOWNLOAD);
-                        if (numread <= 0)
-                        {
-                            // 下载完成
-                            mHandler.sendEmptyMessage(DOWNLOAD_FINISH);
-                            break;
-                        }
-                        // 写入文件
-                        fos.write(buf, 0, numread);
-                    } while (!cancelUpdate);// 点击取消就停止下载.
-                    fos.close();
-                    is.close();
-                }
-            } catch (MalformedURLException e)
-            {
-                e.printStackTrace();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
             }
-            // 取消下载对话框显示
-            mDownloadDialog.dismiss();
-        }
-    };
+
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                try {
+                    // 判断SD卡是否存在，并且是否具有读写权限
+                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        // 获得存储卡的路径
+                        String sdpath = Environment.getExternalStorageDirectory() + File.separator;
+                        mSavePath = sdpath + "download";
+                        URL url = new URL(apkUrl);
+                        // 创建连接
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.connect();
+                        // 获取文件大小
+                        int length = conn.getContentLength();
+                        // 创建输入流
+                        InputStream is = conn.getInputStream();
+
+                        File file = new File(mSavePath);
+                        // 判断文件目录是否存在
+                        if (!file.exists()) {
+                            file.mkdir();
+                        }
+                        File apkFile = new File(mSavePath, apkName);
+                        FileOutputStream fos = new FileOutputStream(apkFile);
+                        int count = 0;
+                        // 缓存
+                        byte buf[] = new byte[1024];
+                        // 写入到文件中
+                        do {
+                            int numread = is.read(buf);
+                            count += numread;
+                            // 计算进度条位置
+                            progress = (count / length) * 100;
+                            // 更新进度
+                            publishProgress(progress);
+
+                            // 写入文件
+                            fos.write(buf, 0, numread);
+                        } while (count<length&&!cancelUpdate);// 点击取消就停止下载.
+                        fos.close();
+                        is.close();
+                    } else {
+                        Log.e("jwjw", "not exist fils ");
+                    }
+                } catch (MalformedURLException e) {
+                    Log.e("jwjw", "MalformedURLException" + e.toString());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Log.e("jwjw", "IOException" + e.toString());
+                    e.printStackTrace();
+                }
+                return cancelUpdate;
+
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aVoid) {
+                super.onPostExecute(aVoid);
+                // 取消下载对话框显示
+                mDownloadDialog.dismiss();
+                if(!aVoid)
+                {
+                    installApk();
+                }
+            }
+        }.execute();
+    }
 
     /**
      * 安装APK文件
      */
-    private void installApk()
-    {
-        File apkfile = new File(mSavePath,apkName);
-        if (!apkfile.exists())
-        {
+    private void installApk() {
+        File apkfile = new File(mSavePath, apkName);
+        if (!apkfile.exists()) {
             return;
         }
         // 通过Intent安装APK文件

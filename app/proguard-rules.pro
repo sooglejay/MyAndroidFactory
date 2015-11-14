@@ -302,3 +302,7 @@ java.lang.Object readResolve ();
 -keep class com.jsb.receiver.XiaomiReceiver {*;}
 
 
+-keepclassmembers class * {
+   public <init>(org.json.JSONObject);
+}
+

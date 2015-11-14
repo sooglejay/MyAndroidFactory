@@ -36,6 +36,7 @@ import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.PopWindowUtils;
 import com.jsb.widget.TitleBar;
+import com.umeng.analytics.MobclickAgent;
 
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
@@ -70,7 +71,14 @@ public class MeFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_4, container, false);
     }
 
-
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
+    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         setUp(view, savedInstanceState);

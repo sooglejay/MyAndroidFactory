@@ -13,6 +13,7 @@ import com.jsb.ui.buyinsurance.InsureCarActivity;
 import com.jsb.ui.buyinsurance.InsureJiaBanDogActivity;
 import com.jsb.ui.buyinsurance.InsureOnDrivingActivity;
 import com.jsb.widget.TitleBar;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -27,7 +28,14 @@ public class BuyInsureFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_2, container, false);
     }
-
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
+    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         setUp(view, savedInstanceState);

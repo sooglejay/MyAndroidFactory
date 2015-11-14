@@ -1,13 +1,10 @@
 package com.jsb.ui;
 
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,23 +14,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.event.BusEvent;
-import com.jsb.fragment.ServerConsultorFragment;
-import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.fragment.BuyInsureFragment;
 import com.jsb.fragment.MeFragment;
+import com.jsb.fragment.ServerConsultorFragment;
+import com.jsb.fragment.ShutInsureFragment;
 import com.jsb.model.CommData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.UpdateVersionUtil;
 import com.jsb.widget.ScrollableViewPager;
 import com.jsb.widget.TabBar;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -60,17 +57,19 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUp();
+
+        //友盟自动更新
+        UmengUpdateAgent.update(this);
     }
 
     private void setUp() {
         lineView = findViewById(R.id.line_view);
         tabBar = (TabBar) findViewById(R.id.home_bottomBar);
         initViewPager();
-        checkUpdate();
     }
 
     /**
-     * 检查版本更新
+     * 检查版本更新   Version code =2  版本 中就开始去掉原生更新，转而使用友盟自动更新
      */
     private void checkUpdate() {
         UserRetrofitUtil.checkUpdate(this, new NetCallback<NetWorkResultBean<CommData>>(this) {
@@ -219,6 +218,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         registerTabBarStatusReceiver();
+        MobclickAgent.onResume(this);       //统计时长
     }
 
     @Override
@@ -227,6 +227,7 @@ public class MainActivity extends BaseActivity {
         if (tabBarStatusReceiver != null) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(tabBarStatusReceiver);
         }
+        MobclickAgent.onPause(this);
     }
 
     @Override

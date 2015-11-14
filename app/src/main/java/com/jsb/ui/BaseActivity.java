@@ -9,6 +9,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -21,6 +24,9 @@ public class BaseActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         //初始化eventBus
         EventBus.getDefault().register(this);
+
+        UmengUpdateAgent.setUpdateOnlyWifi(false);
+        UmengUpdateAgent.update(this);
     }
 
     public void onStart() {
@@ -28,21 +34,10 @@ public class BaseActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
 
 
     public void onEvent(Object object){

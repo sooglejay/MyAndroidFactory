@@ -47,6 +47,7 @@ import com.jsb.ui.stopinsurance.PullMoneyActivity;
 import com.jsb.ui.stopinsurance.TimePickerActivity;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.TitleBar;
+import com.umeng.analytics.MobclickAgent;
 
 
 import java.text.ParseException;
@@ -127,18 +128,23 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     private AdapterView.OnItemSelectedListener myCarSpinnerItemSelectedListener, myWeekSpinnerItemSelectedListener;
 
-
     private Context context;//作为公用的 上下文引用，必须在Activity的UI初始化前对其初始化
 
     private ProgressDialogUtil progressDialogUtil;//阻塞用户操作
 
     private boolean isSwitchTouchedOrTriggeredByCode = false;//Switch 的 状态位，标识用户操作还是代码操作
 
-
     private String outerPwdString;//提现，开启/关闭滑动按钮等重要操作需要 输入密码
 
     private DialogFragmentCreater dialogFragmentController;//注意清除掉 mPasswordString 才能公用
-
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_1, container, false);

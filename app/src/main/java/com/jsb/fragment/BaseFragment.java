@@ -4,6 +4,8 @@ package com.jsb.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.umeng.analytics.MobclickAgent;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -24,4 +26,5 @@ public class BaseFragment extends Fragment {
 
     public void onEvent(Object object){
     }
+
 }
