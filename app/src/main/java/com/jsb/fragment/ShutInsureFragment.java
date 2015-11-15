@@ -206,7 +206,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             }
         });
 
-
         //用户点击 提现
         tvPullMoney.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,8 +288,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         }
                     });
                     dialogFragmentController.showDialog(context, DialogFragmentCreater.DialogShowInputPasswordDialog);
-
-
                 }
             }
         });
@@ -375,7 +372,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         checkIsLoginAndRefreshUI();
 
         realNumber = 4567.00f;
-        maxNumber =10000;
+        maxNumber =4567.00f;
     }
 
     private void loginDialog() {

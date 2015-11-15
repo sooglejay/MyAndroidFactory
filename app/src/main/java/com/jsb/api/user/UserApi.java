@@ -123,6 +123,9 @@ public interface UserApi {
     public void searchTeam(@Field("param") String params ,NetCallback<NetWorkResultBean<List<FreedomData>>> NetCallback);
 
 
+
+
+
     /**
      * 加入团队时，给用户展示4个团队供选择
      * @param params
@@ -295,7 +298,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getJoinRequest/")
-    public void getJoinRequest(@Field("param") String params ,NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void getJoinRequest(@Field("param") String params ,NetCallback<NetWorkResultBean<TeamData>> NetCallback);
 
     /**
      发送时机	团长搜索团员

@@ -63,6 +63,7 @@
 
     <color name="light_green_color_trans">#32d094</color>
     <color name="base_color">#50a165</color>
+    <color name="transparent_base_color">#73b483</color>
     <color name="dark_base_color">#ff316a40</color>
     <color name="most_black_tv_color">#444444</color>
     <color name="middle_black_tv_color">#525252</color>

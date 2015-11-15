@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +23,8 @@ import com.jsb.adapter.MyTeamForMemberAdapter;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.constant.StringConstant;
+import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.RangeData;
 import com.jsb.model.RangeRecord;
@@ -31,7 +34,9 @@ import com.jsb.model.Userstable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.ModifyUserInfoActivity;
+import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;
 import com.jsb.widget.PopWindowUtils;
@@ -127,6 +132,13 @@ public class MyTeamForLeaderActivity extends BaseActivity {
     private List<SelfRecord> mDatas_Search = new ArrayList<>();
     private MyTeamForMemberAdapter adapter;
     private LeaderSearchMemberAdapter leaderSearchMemberAdapter;
+
+    private List<Userstable> userstableList = new ArrayList<>();//团长查看加团请求等消息
+    private DialogFragmentCreater dialogFragmentController;
+
+    private TeamData teamData;//团长查看团队信息，这个对象就是团队信息对象
+    private PopWindowUtils popWindowUtilsLeaderConsiderRequest;//leader  check  the request
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,13 +146,15 @@ public class MyTeamForLeaderActivity extends BaseActivity {
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
         mPopWindow = new PopWindowUtils(this);
         userstable = getIntent().getExtras().getParcelable(ExtraKey);
-
+        popWindowUtilsLeaderConsiderRequest = new PopWindowUtils(this);
+        dialogFragmentController = new DialogFragmentCreater();
         //顺序必须是这样
         findViews();
         findViewsInHeaderView();
         setUpViews();
         setUpListener();
     }
+
     private void setUpViews() {
         activity = this;
         UIUtils.initSwipeRefreshLayout(swipeLayout);
@@ -173,6 +187,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                     listView.setAdapter(adapter);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -182,6 +197,10 @@ public class MyTeamForLeaderActivity extends BaseActivity {
 
         //团长获取本团队的信息
         getMyTeamInfo();
+
+
+
+
     }
 
     private void setUpListener() {
@@ -219,7 +238,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                                 ModifyUserInfoActivity.startActivity(activity, userstable);
                                 break;
                             case R.id.layout_check_rule:
-                                BrowserActivity.startActivity(activity,true);
+                                BrowserActivity.startActivity(activity, true);
                                 break;
                         }
                         mPopWindow.dismiss();
@@ -230,9 +249,8 @@ public class MyTeamForLeaderActivity extends BaseActivity {
 
         findViewById(R.id.layout_notification).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(activity, "点击消息", Toast.LENGTH_SHORT).show();
-                ivNotification.setImageResource(R.drawable.icon_no_notification);
+            public void onClick(final View v) {
+                getJoinRequest();
             }
         });
 
@@ -296,36 +314,38 @@ public class MyTeamForLeaderActivity extends BaseActivity {
 
             @Override
             public void success(NetWorkResultBean<TeamData> teamDataNetWorkResultBean, Response response) {
-                TeamData bean = teamDataNetWorkResultBean.getData();
-                if (bean != null) {
+                teamData = teamDataNetWorkResultBean.getData();
+
+                if (teamData != null) {
 
                     //团队人数
-                    if (bean.getPersons() != null) {
-                        tvMemberAmount.setText(bean.getPersons() + "人");
+                    if (teamData.getPersons() != null) {
+                        tvMemberAmount.setText(teamData.getPersons() + "人");
                     } else {
                         tvMemberAmount.setText("");
                     }
 
                     //月度保费
-                    if (bean.getTotalFeeOfMonth() != null) {
-                        tvMonthAmount.setText(bean.getTotalFeeOfMonth() + "");
+                    if (teamData.getTotalFeeOfMonth() != null) {
+                        tvMonthAmount.setText(teamData.getTotalFeeOfMonth() + "");
                     } else {
                         tvMonthAmount.setText("");
                     }
 
                     //年度保费
-                    if (bean.getTotalFeeOfYear() != null) {
-                        tvYearAmount.setText(bean.getTotalFeeOfYear() + "");
+                    if (teamData.getTotalFeeOfYear() != null) {
+                        tvYearAmount.setText(teamData.getTotalFeeOfYear() + "");
                     } else {
                         tvYearAmount.setText("");
                     }
-
                 }
+                getJoinRequest();//团长获取加团信息
             }
         });
     }
 
 
+    //团长搜索团员
     private void searchMember(int userid, String searchParam) {
         UserRetrofitUtil.searchMember(this, userid, searchParam, new NetCallback<NetWorkResultBean<List<SelfRecord>>>(this) {
             @Override
@@ -340,12 +360,45 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                 List<SelfRecord> datas = selfRecordNetWorkResultBean.getData();
                 if (datas != null) {
                     mDatas_Search.addAll(datas);
-                }else {
-                       Toast.makeText(activity,selfRecordNetWorkResultBean.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 }
                 leaderSearchMemberAdapter.notifyDataSetChanged();
             }
         });
     }
 
+    //团长查看入团请求，网络请求方法
+    private void getJoinRequest() {
+        if (teamData == null) {
+            Toast.makeText(activity, "团队信息不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        UserRetrofitUtil.getJoinRequest(activity, userid, new NetCallback<NetWorkResultBean<TeamData>>(activity) {
+            @Override
+            public void onFailure(RetrofitError error, String message) {
+                Userstable userstable = new Userstable();
+                userstable.setName("jiangwei");
+                userstable.setId(13);
+                userstableList.add(userstable);
+                popWindowUtilsLeaderConsiderRequest.showPopWindowInMyTeamForLeaderConsiderRequest(container,activity, userstableList, teamData);
+                if (!TextUtils.isEmpty(message)) {
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void success(NetWorkResultBean<TeamData> stringNetWorkResultBean, Response response) {
+                userstableList.clear();
+                TeamData bean = stringNetWorkResultBean.getData();
+                if (bean != null && bean.getNewMembers() != null) {
+                    userstableList.addAll(bean.getNewMembers());
+                    popWindowUtilsLeaderConsiderRequest.showPopWindowInMyTeamForLeaderConsiderRequest(container,activity, userstableList, teamData);
+                    ivNotification.setImageResource(R.drawable.icon_has_notification);
+                } else {
+                    ivNotification.setImageResource(R.drawable.icon_no_notification);
+                }
+            }
+        });
+    }
 }

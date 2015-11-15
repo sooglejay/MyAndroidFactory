@@ -150,9 +150,9 @@ public class LoginActivity extends BaseActivity {
                             CommData bean = commDataNetWorkResultBean.getData();
                             //保存用户信息
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserInfo().getName());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserstable().getName());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserstable().getPhone());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserstable().getPwd());
                             mProgressUtil.hide();
                             EventBus.getDefault().post(new BusEvent(BusEvent.MSG_Login_Success));
                             LoginActivity.this.finish();

@@ -1,18 +1,18 @@
 package com.jsb.widget;
 
 import android.app.Activity;
-import android.app.SearchManager;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.jsb.R;
+import com.jsb.adapter.LeaderConsiderRequestAdapter;
+import com.jsb.fragment.DialogFragmentCreater;
+import com.jsb.model.TeamData;
+import com.jsb.model.Userstable;
 import com.jsb.util.UIUtils;
-import com.jsb.widget.wheel.WheelView;
 
 import java.util.List;
 
@@ -88,8 +88,7 @@ public class PopWindowUtils {
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(onPopWindowDismissListener!=null)
-                {
+                if (onPopWindowDismissListener != null) {
                     onPopWindowDismissListener.onDismissListener();
                 }
             }
@@ -122,13 +121,48 @@ public class PopWindowUtils {
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(onPopWindowDismissListener!=null)
-                {
+                if (onPopWindowDismissListener != null) {
                     onPopWindowDismissListener.onDismissListener();
                 }
             }
         });
 
+        return pop;
+    }
+
+
+    //团长查看入团请求
+    public PopupWindow showPopWindowInMyTeamForLeaderConsiderRequest(View v,Activity activity, List<Userstable> userstableList,TeamData teamData) {
+        View view = mContext.getLayoutInflater().inflate(R.layout.pop_up_window_my_team_for_leader_consider_request, null);
+        ListView listView = (ListView) view.findViewById(R.id.list_view);
+
+        pop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LeaderConsiderRequestAdapter adapter = new LeaderConsiderRequestAdapter(userstableList, activity,teamData);
+        listView.setAdapter(adapter);
+        ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
+        pop.setBackgroundDrawable(dw);
+        pop.setOutsideTouchable(true);
+        pop.setAnimationStyle(R.style.popupwindow_animation);
+        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        UIUtils.setWindowAlpla(mContext, 1f);
+        //取消不透明的效果
+        pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (onPopWindowDismissListener != null) {
+                    onPopWindowDismissListener.onDismissListener();
+                }
+            }
+        });
+        adapter.setOnClickInterface(new LeaderConsiderRequestAdapter.OnClickInterface() {
+            @Override
+            public void onClick(View v) {
+                if(pop!=null)
+                {
+                    pop.dismiss();
+                }
+            }
+        });
         return pop;
     }
 
@@ -146,10 +180,10 @@ public class PopWindowUtils {
         return false;
     }
 
-    public interface OnPopWindowDismissListener
-    {
+    public interface OnPopWindowDismissListener {
         public void onDismissListener();
     }
+
     public OnPopWindowDismissListener onPopWindowDismissListener;
 
     public void setOnPopWindowDismissListener(OnPopWindowDismissListener onPopWindowDismissListener) {

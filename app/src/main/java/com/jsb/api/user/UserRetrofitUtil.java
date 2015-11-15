@@ -572,7 +572,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getJoinRequest(Context mContext,
                                       int userid,
-                                      NetCallback<NetWorkResultBean<String>> callback) {
+                                      NetCallback<NetWorkResultBean<TeamData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
