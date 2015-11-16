@@ -53,20 +53,7 @@ public class CardListAdapter extends BaseAdapter {
             holder.tvCardName = (TextView) convertView.findViewById(R.id.tv_card_name);
             holder.iv_choose = (ImageView) convertView.findViewById(R.id.iv_choose);
             holder.tv_card_end_number = (TextView) convertView.findViewById(R.id.tv_card_end_number);
-            holder.item = (LinearLayout) convertView.findViewById(R.id.item);
-            holder.listener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Object obj = v.getTag();
-                    if (obj instanceof FinancialAccount) {
-                        for (FinancialAccount financialAccount : mDatas) {
-                            financialAccount.setSuperFlag(false);
-                        }
-                        ((FinancialAccount) obj).setSuperFlag(true);
-                    }
-                    notifyDataSetChanged();
-                }
-            };
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -84,8 +71,6 @@ public class CardListAdapter extends BaseAdapter {
         }
 
         holder.iv_choose.setVisibility(bean.getSuperFlag() ? View.VISIBLE : View.GONE);
-        holder.item.setTag(bean);
-        holder.item.setOnClickListener(holder.listener);
         return convertView;
     }
 
@@ -93,8 +78,6 @@ public class CardListAdapter extends BaseAdapter {
         TextView tvCardName;
         TextView tv_card_end_number;
         ImageView iv_choose;
-        LinearLayout item;
-        View.OnClickListener listener;
     }
 
     private static final int getEndNum(int length) {

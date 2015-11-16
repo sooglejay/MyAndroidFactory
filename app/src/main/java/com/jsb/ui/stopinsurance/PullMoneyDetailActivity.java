@@ -1,6 +1,7 @@
 package com.jsb.ui.stopinsurance;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -14,9 +15,11 @@ import com.jsb.widget.TitleBar;
  */
 public class PullMoneyDetailActivity extends BaseActivity{
 
+    private static final String ExtraKey = "moneyStr";
     private Activity activity;
     private TitleBar titleBar;
     private TextView tvConfirm;
+    private TextView tv_pull_money_amount;
 
     /**
      * Find the Views in the layout<br />
@@ -27,8 +30,17 @@ public class PullMoneyDetailActivity extends BaseActivity{
     private void findViews() {
         titleBar = (TitleBar)findViewById( R.id.title_bar );
         tvConfirm = (TextView)findViewById( R.id.tv_confirm );
+        tv_pull_money_amount = (TextView) findViewById(R.id.tv_pull_money_amount);
     }
 
+
+    private String moneyStr;
+
+    public static void startActivity(Activity activity, String money) {
+        Intent intent = new Intent(activity, PullMoneyDetailActivity.class);
+        intent.putExtra(ExtraKey, money);
+        activity.startActivity(intent);
+    }
 
 
     @Override
@@ -36,6 +48,7 @@ public class PullMoneyDetailActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pull_money_detail);
         activity = this;
+        moneyStr = getIntent().getExtras().getString(ExtraKey, "0");
         findViews();
         setUpViews();
     }
@@ -63,5 +76,6 @@ public class PullMoneyDetailActivity extends BaseActivity{
                 activity.finish();
             }
         });
+        tv_pull_money_amount.setText("提现金额:" + moneyStr);
     }
 }

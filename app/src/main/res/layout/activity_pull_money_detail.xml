@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="@dimen/middle_padding"
-            android:text="操作已成功！\n24小时内到帐。"
+            android:text="操作已成功！\n工作人员会在24小时内审核。"
             android:textColor="#222222"
             android:textSize="24sp" />
     </LinearLayout>
@@ -50,6 +50,7 @@
     <TextView
         android:textColor="#222222"
         android:textSize="20sp"
+        android:id="@+id/tv_pull_money_amount"
         android:paddingLeft="@dimen/middle_padding"
         android:gravity="left|center"
         android:background="@color/white_color"

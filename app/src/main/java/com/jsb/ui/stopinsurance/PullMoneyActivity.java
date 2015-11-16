@@ -19,7 +19,6 @@ import com.jsb.adapter.CardListAdapter;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
-import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.model.FinancialAccount;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.ui.BaseActivity;
@@ -45,7 +44,7 @@ public class PullMoneyActivity extends BaseActivity {
 
     //提现相关
     private int type;
-    private String amount;
+    private String amountStr;
     private String realname;
     private String withdrawlPwd;
     private String account;
@@ -93,6 +92,12 @@ public class PullMoneyActivity extends BaseActivity {
         withdrawlPwd = PreferenceUtil.load(this, PreferenceConstant.pwd, "");//提现用，提现属于特殊操作需要输入密码
         setUp();
         setLisenter();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getWithdrawlAccount();//获取用户的银行卡信息
     }
 
@@ -148,21 +153,19 @@ public class PullMoneyActivity extends BaseActivity {
                     }
                     final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
                     progressDialogUtil.show("正在提现...");
-                    UserRetrofitUtil.saveWithdrawlInfo(activity, userid, 1, amount, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<String>>(activity) {
+                    UserRetrofitUtil.saveWithdrawlInfo(activity, userid, 1, amountStr, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<String>>(activity) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             progressDialogUtil.hide();
                             if (!TextUtils.isEmpty(message)) {
                                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                             }
-
                         }
-
                         @Override
                         public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                             progressDialogUtil.hide();
                             Toast.makeText(activity, "提现成功！", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(PullMoneyActivity.this, PullMoneyDetailActivity.class));
+                            PullMoneyDetailActivity.startActivity(activity, amountStr);
                             activity.finish();
                         }
                     });
@@ -172,11 +175,19 @@ public class PullMoneyActivity extends BaseActivity {
             }
         });
         etInputNumber.addTextChangedListener(textWatcher);
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (id == -1 || position > mDatas.size()) {
+                    return;
+                }
                 FinancialAccount bean = mDatas.get(position);
+                for (FinancialAccount financialAccount : mDatas) {
+                    financialAccount.setSuperFlag(false);
+                }
+                bean.setSuperFlag(true);
+                cardListAdapter.notifyDataSetChanged();
+
                 account = bean.getAccount_num();//收款帐号
                 realname = bean.getAccount_name();//收款人名字
                 union = bean.getBank_name();//收款的方式；银行；银行名字
@@ -188,12 +199,10 @@ public class PullMoneyActivity extends BaseActivity {
     TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
-
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            amount = etInputNumber.getText().toString();
+            amountStr = etInputNumber.getText().toString();
             if (TextUtils.isEmpty(etInputNumber.getText())) {
                 tvConfirmPullMoney.setEnabled(false);
                 isPullMoneyAllowed = false;
@@ -213,17 +222,27 @@ public class PullMoneyActivity extends BaseActivity {
 
 
     private void getWithdrawlAccount() {
+        final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(this);
+        progressDialogUtil.show("正在获取账户信息...");
         UserRetrofitUtil.getWithdrawlAccount(this, userid, new NetCallback<NetWorkResultBean<List<FinancialAccount>>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
+                progressDialogUtil.hide();
+                if (!TextUtils.isEmpty(message)) {
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void success(NetWorkResultBean<List<FinancialAccount>> financialAccountNetWorkResultBean, Response response) {
+
                 if (financialAccountNetWorkResultBean != null && financialAccountNetWorkResultBean.getData() != null) {
+                    mDatas.clear();
                     mDatas.addAll(financialAccountNetWorkResultBean.getData());
                     cardListAdapter.notifyDataSetChanged();
                 }
+                progressDialogUtil.hide();
+
             }
         });
     }
