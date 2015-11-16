@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import com.jsb.adapter.MyTeamForMemberAdapter;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
+import com.jsb.model.InviteInfo;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.RangeData;
 import com.jsb.model.RangeRecord;
@@ -57,10 +60,16 @@ public class MyTeamForMemberActivity extends BaseActivity {
 
     private ImageView iv_notification;
     private TextView tv_title;
+    private RelativeLayout container;
     private LinearLayout layout_notification;
     private LinearLayout right_iv_operation;
 
     private PopWindowUtils mPopWindow;
+
+    private PopWindowUtils popWindowUtilsMemberConsiderRequest;//团员 处理请求
+    private List<InviteInfo> inviteInfoList = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +78,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
         userstable = getIntent().getExtras().getParcelable(ExtraKey);
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
         mPopWindow = new PopWindowUtils(this);
+        popWindowUtilsMemberConsiderRequest = new PopWindowUtils(this);
         setUpViews();
         setUpListener();
     }
@@ -102,10 +112,10 @@ public class MyTeamForMemberActivity extends BaseActivity {
                     public void onClick(View v) {
                         switch (v.getId()) {
                             case R.id.layout_create_team:
-                                activity.startActivity(new Intent(activity,CreateTeamActivity.class));
+                                activity.startActivity(new Intent(activity, CreateTeamActivity.class));
                                 break;
                             case R.id.layout_modify_info:
-                                ModifyUserInfoActivity.startActivity(activity,userstable);
+                                ModifyUserInfoActivity.startActivity(activity, userstable);
                                 break;
                             case R.id.layout_check_rule:
                                 break;
@@ -120,8 +130,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
         findViewById(R.id.layout_notification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, "点击消息", Toast.LENGTH_SHORT).show();
-                iv_notification.setImageResource(R.drawable.icon_no_notification);
+                getInviteInfo();
             }
         });
     }
@@ -132,6 +141,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
         UIUtils.initSwipeRefreshLayout(swipeLayout);
         listView = (AutoListView) findViewById(R.id.list_view);
 
+        container = (RelativeLayout) findViewById(R.id.container);
         layout_notification = (LinearLayout) findViewById(R.id.layout_notification);
         iv_notification = (ImageView) findViewById(R.id.iv_notification);
         tv_title = (TextView) findViewById(R.id.title_tv);
@@ -179,6 +189,40 @@ public class MyTeamForMemberActivity extends BaseActivity {
         } else {
             swipeLayout.setRefreshing(false);
         }
+    }
+
+
+    private void getInviteInfo() {
+        UserRetrofitUtil.getInviteInfo(this, userid, new NetCallback<NetWorkResultBean<List<InviteInfo>>>(this) {
+            @Override
+            public void onFailure(RetrofitError error, String message) {
+                if (!TextUtils.isEmpty(message)) {
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void success(NetWorkResultBean<List<InviteInfo>> listNetWorkResultBean, Response response) {
+                inviteInfoList.clear();
+                if (listNetWorkResultBean != null) {
+                    List<InviteInfo> inviteInfos = listNetWorkResultBean.getData();
+                    if (inviteInfos != null) {
+                        inviteInfoList.addAll(inviteInfos);
+                        popWindowUtilsMemberConsiderRequest.showPopWindowInMyTeamForMemberConsiderRequest(container, activity, inviteInfoList);
+                        iv_notification.setImageResource(R.drawable.icon_has_notification);
+                    } else {
+                        InviteInfo inviteInfo = new InviteInfo();
+                        inviteInfo.setId(1);
+                        inviteInfo.setInviterid(100);
+                        inviteInfo.setInvitername("看到我就说明你是团员，但是没有任何加团邀请");
+                        inviteInfoList.add(inviteInfo);
+                        popWindowUtilsMemberConsiderRequest.showPopWindowInMyTeamForMemberConsiderRequest(container, activity, inviteInfoList);
+
+                    }
+                }
+
+            }
+        });
     }
 
 }

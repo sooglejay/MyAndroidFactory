@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/no_result"
+            android:text="没有可添加的团员"
             android:textColor="#d8595959"
             android:textSize="20sp"
             android:visibility="gone" />

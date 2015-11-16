@@ -382,7 +382,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 Userstable userstable = new Userstable();
-                userstable.setName("jiangwei");
+                userstable.setName("看到我就说明你是团长，但是没有你任何邀请信息");
                 userstable.setId(13);
                 userstableList.add(userstable);
                 popWindowUtilsLeaderConsiderRequest.showPopWindowInMyTeamForLeaderConsiderRequest(container,activity, userstableList, teamData);

@@ -9,7 +9,9 @@ import android.widget.PopupWindow;
 
 import com.jsb.R;
 import com.jsb.adapter.LeaderConsiderRequestAdapter;
+import com.jsb.adapter.MemberConsiderInviteAdapter;
 import com.jsb.fragment.DialogFragmentCreater;
+import com.jsb.model.InviteInfo;
 import com.jsb.model.TeamData;
 import com.jsb.model.Userstable;
 import com.jsb.util.UIUtils;
@@ -132,12 +134,12 @@ public class PopWindowUtils {
 
 
     //团长查看入团请求
-    public PopupWindow showPopWindowInMyTeamForLeaderConsiderRequest(View v,Activity activity, List<Userstable> userstableList,TeamData teamData) {
+    public PopupWindow showPopWindowInMyTeamForLeaderConsiderRequest(View v, Activity activity, List<Userstable> userstableList, TeamData teamData) {
         View view = mContext.getLayoutInflater().inflate(R.layout.pop_up_window_my_team_for_leader_consider_request, null);
         ListView listView = (ListView) view.findViewById(R.id.list_view);
 
         pop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        LeaderConsiderRequestAdapter adapter = new LeaderConsiderRequestAdapter(userstableList, activity,teamData);
+        LeaderConsiderRequestAdapter adapter = new LeaderConsiderRequestAdapter(userstableList, activity, teamData);
         listView.setAdapter(adapter);
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
         pop.setBackgroundDrawable(dw);
@@ -157,8 +159,42 @@ public class PopWindowUtils {
         adapter.setOnClickInterface(new LeaderConsiderRequestAdapter.OnClickInterface() {
             @Override
             public void onClick(View v) {
-                if(pop!=null)
-                {
+                if (pop != null) {
+                    pop.dismiss();
+                }
+            }
+        });
+        return pop;
+    }
+
+    //团员查看入团邀请
+    public PopupWindow showPopWindowInMyTeamForMemberConsiderRequest(View v, Activity activity, List<InviteInfo> inviteInfos) {
+        //下面的xml文件和上面团长审核可以共用
+        View view = mContext.getLayoutInflater().inflate(R.layout.pop_up_window_my_team_for_leader_consider_request, null);
+        ListView listView = (ListView) view.findViewById(R.id.list_view);
+
+        pop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        MemberConsiderInviteAdapter adapter = new MemberConsiderInviteAdapter(inviteInfos, activity);
+        listView.setAdapter(adapter);
+        ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
+        pop.setBackgroundDrawable(dw);
+        pop.setOutsideTouchable(true);
+        pop.setAnimationStyle(R.style.popupwindow_animation);
+        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        UIUtils.setWindowAlpla(mContext, 1f);
+        //取消不透明的效果
+        pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (onPopWindowDismissListener != null) {
+                    onPopWindowDismissListener.onDismissListener();
+                }
+            }
+        });
+        adapter.setOnClickInterface(new MemberConsiderInviteAdapter.OnClickInterface() {
+            @Override
+            public void onClick(View v) {
+                if (pop != null) {
                     pop.dismiss();
                 }
             }

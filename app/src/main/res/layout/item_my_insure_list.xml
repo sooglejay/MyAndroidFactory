@@ -23,7 +23,7 @@
                 android:id="@+id/tv_insure_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginLeft="18dp"
                 android:textColor="@color/tv_black_color_level_0"
                 android:textSize="@dimen/big_textsize" />
 
@@ -31,7 +31,7 @@
                 android:id="@+id/tv_buy_insure_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginLeft="18dp"
                 android:textColor="@color/tv_gray_color_level_2"
                 android:textSize="@dimen/middle_textsize" />
         </LinearLayout>
@@ -67,11 +67,12 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
+            android:layout_marginRight="18dp"
             android:background="@drawable/arrow_right" />
     </LinearLayout>
     <View
-        android:layout_marginRight="@dimen/middle_padding"
-        android:layout_marginLeft="@dimen/middle_padding"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/line_e0_e5"/>

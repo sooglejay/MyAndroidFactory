@@ -52,7 +52,6 @@
                 android:text="立即报案"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
-                android:layout_marginRight="@dimen/middle_padding"
                 android:textColor="@color/light_red"
                 android:textSize="@dimen/big_textsize" />
 
