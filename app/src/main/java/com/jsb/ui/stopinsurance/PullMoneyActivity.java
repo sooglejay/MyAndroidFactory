@@ -165,7 +165,7 @@ public class PullMoneyActivity extends BaseActivity {
                         public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                             progressDialogUtil.hide();
                             Toast.makeText(activity, "提现成功！", Toast.LENGTH_SHORT).show();
-                            PullMoneyDetailActivity.startActivity(activity, amountStr);
+                            PullMoneyDetailActivity.startActivity(activity, amountStr, union, account);
                             activity.finish();
                         }
                     });

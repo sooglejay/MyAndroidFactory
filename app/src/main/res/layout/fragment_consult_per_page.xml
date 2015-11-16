@@ -8,6 +8,7 @@
     android:paddingRight="68dp">
 
     <LinearLayout
+        android:id="@+id/layout_background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -22,13 +23,13 @@
             android:src="@drawable/test" />
 
         <TextView
+            android:textColor="@color/white_color"
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/middle_padding"
             android:gravity="center"
             android:text="周波"
-            android:textColor="#222222"
             android:textSize="24sp" />
 
         <TextView
@@ -36,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/white_color"
             android:gravity="center"
             android:text="成都三和广本4S店"
             android:textSize="20sp" />
@@ -45,8 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:textColor="@color/white_color"
             android:text="成都市高新区机场路109号\n附1号"
-            android:textSize="@dimen/big_textsize" />
+            android:textSize="@dimen/small_textsize" />
     </LinearLayout>
 
     <LinearLayout

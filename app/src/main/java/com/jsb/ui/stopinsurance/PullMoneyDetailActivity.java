@@ -15,11 +15,14 @@ import com.jsb.widget.TitleBar;
  */
 public class PullMoneyDetailActivity extends BaseActivity{
 
-    private static final String ExtraKey = "moneyStr";
+    private static final String ExtraKeyMoneyStr = "ExtraKeyMoneyStr";
+    private static final String ExtraKeyBankName = "ExtraKeyBankName";
+    private static final String ExtraKeyAccountNum = "ExtraKeyAccountNum";
     private Activity activity;
     private TitleBar titleBar;
     private TextView tvConfirm;
     private TextView tv_pull_money_amount;
+    private TextView tv_bank_name;
 
     /**
      * Find the Views in the layout<br />
@@ -31,14 +34,19 @@ public class PullMoneyDetailActivity extends BaseActivity{
         titleBar = (TitleBar)findViewById( R.id.title_bar );
         tvConfirm = (TextView)findViewById( R.id.tv_confirm );
         tv_pull_money_amount = (TextView) findViewById(R.id.tv_pull_money_amount);
+        tv_bank_name = (TextView) findViewById(R.id.tv_bank_name);
     }
 
 
     private String moneyStr;
+    private String bankNameStr;
+    private String accountNumStr;
 
-    public static void startActivity(Activity activity, String money) {
+    public static void startActivity(Activity activity, String money, String bankNameStr, String accountNumStr) {
         Intent intent = new Intent(activity, PullMoneyDetailActivity.class);
-        intent.putExtra(ExtraKey, money);
+        intent.putExtra(ExtraKeyMoneyStr, money);
+        intent.putExtra(ExtraKeyBankName, bankNameStr);
+        intent.putExtra(ExtraKeyAccountNum, accountNumStr);
         activity.startActivity(intent);
     }
 
@@ -48,7 +56,9 @@ public class PullMoneyDetailActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pull_money_detail);
         activity = this;
-        moneyStr = getIntent().getExtras().getString(ExtraKey, "0");
+        moneyStr = getIntent().getExtras().getString(ExtraKeyMoneyStr, "0");
+        bankNameStr = getIntent().getExtras().getString(ExtraKeyBankName, "0");
+        accountNumStr = getIntent().getExtras().getString(ExtraKeyAccountNum, "0");
         findViews();
         setUpViews();
     }
@@ -77,5 +87,6 @@ public class PullMoneyDetailActivity extends BaseActivity{
             }
         });
         tv_pull_money_amount.setText("提现金额:" + moneyStr);
+        tv_bank_name.setText(bankNameStr + "  尾号为  " + accountNumStr);
     }
 }
