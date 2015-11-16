@@ -289,8 +289,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 realNumber = maxNumber;
                 createAnimation();
                 getPauseInfoAndThenRefreshData(context, outerUserId);
-                swipeRefreshLayout.setRefreshing(false);
-                swipeRefreshLayout.setEnabled(true);
+
             }
         });
         //titleBar 的点击事件
