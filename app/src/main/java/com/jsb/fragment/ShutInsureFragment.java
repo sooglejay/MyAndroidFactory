@@ -6,9 +6,9 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -35,22 +36,23 @@ import com.jsb.constant.StringConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.PauseData;
+import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.LoginActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
+import com.jsb.ui.stopinsurance.PullMoneyActivity;
+import com.jsb.ui.stopinsurance.TimePickerActivity;
 import com.jsb.util.DiditUtil;
+import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.ShareUtilsTest;
 import com.jsb.util.SpannableStringUtil;
+import com.jsb.util.UIUtils;
+import com.jsb.widget.TitleBar;
+import com.jsb.widget.customswitch.SwitchButton;
 import com.jsb.widget.decoview.decoviewlib.DecoView;
 import com.jsb.widget.decoview.decoviewlib.charts.SeriesItem;
 import com.jsb.widget.decoview.decoviewlib.events.DecoEvent;
-import com.jsb.ui.BrowserActivity;
-import com.jsb.ui.stopinsurance.PullMoneyActivity;
-import com.jsb.ui.stopinsurance.TimePickerActivity;
-import com.jsb.util.PreferenceUtil;
-import com.jsb.widget.TitleBar;
 import com.umeng.analytics.MobclickAgent;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -69,10 +72,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     public static final int ACTION_CHOOSE_TIME = 1000;
 
     private TitleBar titleBar;
-    private TextView tvPullMoney;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    private Spinner week_number_spinner;
-    private Spinner car_number_spinner;
 
     private List<String> mCarNumbersStringList = new ArrayList<>();
     private List<String> mWeekNumbersStringList = new ArrayList<>();
@@ -80,12 +81,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private SpinnerDropDownAdapter mWeekNumbersListAdapter;
 
     private List<PauseData> mPauseDataList = new ArrayList<>();
-    private TextView tv_start_date;
-    private TextView tv_end_date;
-    private TextView tv_date_interval;
-    private Switch weekSwitchTabView;
-    private Switch dateSwitchTabView;
-    private LinearLayout datePickerLayout;
+
 
 //spinner  :if has not invoked setCheck(position) ,then,its itemSelectedListener will never be invoked,even if has been set itemSelectedlistener
 
@@ -109,18 +105,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     //圆形动画
     private String mProgress;//  进度条
     private int mBigCircleSeriesIndex;//外围大环序列号
-    private TextView tv_follow_decoView;//TextView 显示进度
 
     private SpannableString unitSpanString;
 
-    private TextView tv_yytb;//
-    private TextView tv_xxtb;//
-
-    private LinearLayout layout_week_number_spinner;//
-    private LinearLayout layout_car_number_spinner;//
-
-    private TextView tv_pausePrice;//
-    private TextView tv_usefulPauseFee;//
 
     private PauseData outerPauseBean;//这个是作为首页的公用 停保对象，作为用户正在使用的停保对象
     private int outerWeekthPosition = 0;//这个是作为首页的公用 限行停保 周几字符串，请求网络的时候使用这个外部对象
@@ -140,6 +127,74 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     private DialogFragmentCreater dialogFragmentController;//注意清除掉 mPasswordString 才能公用
 
+
+    private LinearLayout layoutCarNumberSpinner;
+    private Spinner carNumberSpinner;
+    private RelativeLayout layoutHistory;
+    private DecoView dynamicArcView;
+    private TextView tvDescribe;
+    private TextView tvFollowDecoView;
+    private TextView tvPausePrice;
+    private TextView tvUsefulPauseFee;
+    private TextView tvPullMoney;
+    private LinearLayout layoutRule;
+    private TextView tvXxtb;
+    private SwitchButton weekSwitchTabView;
+    private LinearLayout layoutWeekNumberSpinner;
+    private Spinner weekNumberSpinner;
+    private TextView tvYytb;
+    private SwitchButton dateSwitchTabView;
+    private LinearLayout layoutDatePicker;
+    private LinearLayout layoutTotalDays;
+    private TextView tvDateInterval;
+    private TextView tvStartText;
+    private TextView tvStartDate;
+    private TextView tv00Start;
+    private TextView tvEndText;
+    private TextView tvEndDate;
+    private TextView tv00End;
+
+    /**
+     * Find the Views in the layout<br />
+     * <br />
+     * Auto-created on 2015-11-16 13:07:31 by Android Layout Finder
+     * (http://www.buzzingandroid.com/tools/android-layout-finder)
+     */
+    private void findViews(View viewFromOuter) {
+        //自定义View，作为界面的顶部View，封装具体操作
+        titleBar = (TitleBar) viewFromOuter.findViewById(R.id.title_bar);
+        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, R.drawable.icon_share, "", "");
+        swipeRefreshLayout = (SwipeRefreshLayout) viewFromOuter.findViewById(R.id.swipe_layout);
+        UIUtils.initSwipeRefreshLayout(swipeRefreshLayout);
+
+        layoutCarNumberSpinner = (LinearLayout) viewFromOuter.findViewById(R.id.layout_car_number_spinner);
+        carNumberSpinner = (Spinner) viewFromOuter.findViewById(R.id.car_number_spinner);
+        layoutHistory = (RelativeLayout) viewFromOuter.findViewById(R.id.layout_history);
+        dynamicArcView = (DecoView) viewFromOuter.findViewById(R.id.dynamicArcView);
+        tvDescribe = (TextView) viewFromOuter.findViewById(R.id.tv_describe);
+        tvFollowDecoView = (TextView) viewFromOuter.findViewById(R.id.tv_follow_decoView);
+        tvPausePrice = (TextView) viewFromOuter.findViewById(R.id.tv_pausePrice);
+        tvUsefulPauseFee = (TextView) viewFromOuter.findViewById(R.id.tv_usefulPauseFee);
+        tvPullMoney = (TextView) viewFromOuter.findViewById(R.id.tv_pull_money);
+        layoutRule = (LinearLayout) viewFromOuter.findViewById(R.id.layout_rule);
+        tvXxtb = (TextView) viewFromOuter.findViewById(R.id.tv_xxtb);
+        weekSwitchTabView = (SwitchButton) viewFromOuter.findViewById(R.id.week_switch_tab_view);
+        layoutWeekNumberSpinner = (LinearLayout) viewFromOuter.findViewById(R.id.layout_week_number_spinner);
+        weekNumberSpinner = (Spinner) viewFromOuter.findViewById(R.id.week_number_spinner);
+        tvYytb = (TextView) viewFromOuter.findViewById(R.id.tv_yytb);
+        dateSwitchTabView = (SwitchButton) viewFromOuter.findViewById(R.id.date_switch_tab_view);
+        layoutDatePicker = (LinearLayout) viewFromOuter.findViewById(R.id.layout_date_picker);
+        layoutTotalDays = (LinearLayout) viewFromOuter.findViewById(R.id.layout_total_days);
+        tvDateInterval = (TextView) viewFromOuter.findViewById(R.id.tv_date_interval);
+        tvStartText = (TextView) viewFromOuter.findViewById(R.id.tv_start_text);
+        tvStartDate = (TextView) viewFromOuter.findViewById(R.id.tv_start_date);
+        tv00Start = (TextView) viewFromOuter.findViewById(R.id.tv_00_start);
+        tvEndText = (TextView) viewFromOuter.findViewById(R.id.tv_end_text);
+        tvEndDate = (TextView) viewFromOuter.findViewById(R.id.tv_end_date);
+        tv00End = (TextView) viewFromOuter.findViewById(R.id.tv_00_end);
+    }
+
+
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("MainScreen"); //统计页面
@@ -157,19 +212,92 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        setUp(view, savedInstanceState);
+        context = this.getActivity();
+        findViews(view);
+        setUp(view);
         setUpLisenter();
     }
 
-    private void setUpLisenter() {
+    private void setUp(View view) {
+        //作为Dialog的生成器
+        dialogFragmentController = new DialogFragmentCreater();//涉及到权限操作时，需要临时输入密码并验证
+        dialogFragmentController.setDialogContext(getActivity(), getFragmentManager());
+        //人民币单位的字符
+        unitSpanString = SpannableStringUtil.getSpannableString(getActivity(), "¥", 30);//单位
+        //用户的密码字符串
+        outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
+        //用户的id
+        outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
 
+        //包装耗时操作
+        progressDialogUtil = new ProgressDialogUtil(context);
+        tvUsefulPauseFee.setText(unitSpanString);
+        tvUsefulPauseFee.append("0");
+
+        tvPausePrice.setText(unitSpanString);
+        tvPausePrice.append("0");
+
+        //停保规则
+        layoutRule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BrowserActivity.startActivity(getActivity(), true);
+            }
+        });
+
+        //时间控件  先显示为当前时间
+        tvStartDate.setText(todayString_yyyy_m_d + "");
+        tvEndDate.setText(todayString_yyyy_m_d + "");
+        tvDateInterval.setText("共0天");
+        //时间控件
+        layoutDatePicker = (LinearLayout) view.findViewById(R.id.layout_date_picker);
+        refreshCarSpinnerLayout(false);
+
+        //车牌号Spinner
+        mCarNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mCarNumbersStringList);
+        carNumberSpinner.setAdapter(mCarNumbersListAdapter);
+
+        //限行停保的 Spinner
+        mWeekNumbersStringList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.weekArray)));
+        mWeekNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mWeekNumbersStringList);
+        weekNumberSpinner.setAdapter(mWeekNumbersListAdapter);
+
+
+        //默认先设置为false,并且其父Layout设置为不可点击
+        weekSwitchTabView.setChecked(false);
+        refreshLimitPauseUI(false);
+
+
+        // 滑动按钮-选择预约停保的时间
+        dateSwitchTabView.setChecked(false);//默认是关闭
+
+    }
+
+    public boolean createAnimation() {
+
+        return super.createAnimation();
+
+    }
+
+    private void setUpLisenter() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setEnabled(false);
+                Random random = new Random(47);
+                maxNumber = random.nextInt(10000) + 1;
+                realNumber = maxNumber;
+                createAnimation();
+                getPauseInfoAndThenRefreshData(context, outerUserId);
+                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setEnabled(true);
+            }
+        });
         //titleBar 的点击事件
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-
             }
-
             @Override
             public void onRightButtonClick(View v) {
                 ShareUtilsTest shareUtilsTest = new ShareUtilsTest();
@@ -177,17 +305,14 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             }
         });
 
-
         //预约停保  时间控件 点击事件
-        datePickerLayout.setOnClickListener(new View.OnClickListener() {
+        layoutDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //通过userid来判断用户是否登录，-1就是未登录状态
                 if (outerUserId < 0) {
                     loginDialog();
-
                 } else {
-
                     long orderStartDateFromServer = 0, orderEndDateFromServer = 0;
                     if (outerPauseBean != null) {
                         if (outerPauseBean.getStartdate() != null && outerPauseBean.getEnddate() != null) {
@@ -294,10 +419,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
         //车牌号Layout ，包裹Spinner，并且设置Layout 的点击事件，触发Spinner 的下拉操作
-        layout_car_number_spinner.setOnClickListener(new View.OnClickListener() {
+        layoutCarNumberSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                car_number_spinner.performClick();
+                carNumberSpinner.performClick();
             }
         });
 
@@ -323,7 +448,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             }
         };
-
         myWeekSpinnerItemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -339,6 +463,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 isWeekSpinnerControlledByCode = false;
@@ -347,16 +472,16 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
         //车牌号码Spinner 的Item选中事件
-        car_number_spinner.setOnItemSelectedListener(myCarSpinnerItemSelectedListener);
+        carNumberSpinner.setOnItemSelectedListener(myCarSpinnerItemSelectedListener);
         //周Spinner 的下拉Item 选中事件
-        week_number_spinner.setOnItemSelectedListener(myWeekSpinnerItemSelectedListener);
+        weekNumberSpinner.setOnItemSelectedListener(myWeekSpinnerItemSelectedListener);
 
 
         //限行停保 - 周Spinner 的父Layout 的点击事件，并触发Spinner 的下拉事件
-        layout_week_number_spinner.setOnClickListener(new View.OnClickListener() {
+        layoutWeekNumberSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                week_number_spinner.performClick();
+                weekNumberSpinner.performClick();
             }
         });
 
@@ -372,7 +497,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         checkIsLoginAndRefreshUI();
 
         realNumber = 4567.00f;
-        maxNumber =4567.00f;
+        maxNumber = 4567.00f;
     }
 
     private void loginDialog() {
@@ -401,7 +526,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     /**
      * @param isChecked true 就是打开，false 就是关闭滑动开关
      */
-    private void checkIsLoginOrHasPassword(final boolean isChecked, final Switch switchView) {
+    private void checkIsLoginOrHasPassword(final boolean isChecked, final SwitchButton switchView) {
         //通过userid来判断用户是否登录，-1就是未登录状态,弹出登录对话框
         if (outerUserId < 0) {
             loginDialog();
@@ -409,7 +534,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         //如果用户已经登录
         else if (TextUtils.isEmpty(outerPwdString)) {
             //但是没有设置过密码
-             setPassword();
+            setPassword();
         } else {
             dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
                 @Override
@@ -447,20 +572,20 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                 //如果密码验证成功才真正去操作Switch
                                 setSwitchChecked(isChecked, switchView);
                                 if (switchView == weekSwitchTabView) {
-                                    tv_xxtb.setAlpha(isChecked ? 1 : 0.5f);
-                                    layout_week_number_spinner.setAlpha(isChecked ? 1 : 0.5f);
-                                    layout_week_number_spinner.setClickable(isChecked);
-                                    layout_week_number_spinner.setEnabled(isChecked);
+                                    tvXxtb.setAlpha(isChecked ? 1 : 0.5f);
+                                    layoutWeekNumberSpinner.setAlpha(isChecked ? 1 : 0.5f);
+                                    layoutWeekNumberSpinner.setClickable(isChecked);
+                                    layoutWeekNumberSpinner.setEnabled(isChecked);
                                     if (isChecked) {//如果是打开操作，就保存信息
                                         saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
                                     } else {//如果是关闭操作，就取消上一次保存的信息
                                         cancelPause(outerUserId, IntConstant.cancelPauseType_LimitPause);
                                     }
                                 } else {
-                                    tv_yytb.setAlpha(isChecked ? 1 : 0.5f);
-                                    datePickerLayout.setAlpha(isChecked ? 1 : 0.5f);
-                                    datePickerLayout.setClickable(isChecked);
-                                    datePickerLayout.setEnabled(isChecked);
+                                    tvYytb.setAlpha(isChecked ? 1 : 0.5f);
+                                    layoutDatePicker.setAlpha(isChecked ? 1 : 0.5f);
+                                    layoutDatePicker.setClickable(isChecked);
+                                    layoutDatePicker.setEnabled(isChecked);
                                     if (isChecked) {//如果是打开操作，就保存信息
                                         saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
                                     } else {//如果是关闭操作，就取消上一次保存的信息
@@ -549,100 +674,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         }
     }
 
-    public void setSwitchChecked(boolean isChecked, Switch switchView) {
+    public void setSwitchChecked(boolean isChecked, SwitchButton switchView) {
         isSwitchTouchedOrTriggeredByCode = true;
         switchView.setChecked(isChecked);
         isSwitchTouchedOrTriggeredByCode = false;
     }
-
-    private void setUp(View view, Bundle savedInstanceState) {
-        context = ShutInsureFragment.this.getActivity();
-
-        //作为Dialog的生成器
-        dialogFragmentController = new DialogFragmentCreater();//涉及到权限操作时，需要临时输入密码并验证
-        dialogFragmentController.setDialogContext(getActivity(), getFragmentManager());
-        //人民币单位的字符
-        unitSpanString = SpannableStringUtil.getSpannableString(getActivity(), "¥",30);//单位
-        //用户的密码字符串
-        outerPwdString = PreferenceUtil.load(context, PreferenceConstant.pwd, "");//提现等操作密码
-        //用户的id
-        outerUserId = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
-
-        //包装耗时操作
-        progressDialogUtil = new ProgressDialogUtil(context);
-
-        //几个View的引用，由于 滑动开关的开闭操作设计到这些View的UI效果，使用透明度来表现
-        tv_yytb = (TextView) view.findViewById(R.id.tv_yytb);
-        tv_xxtb = (TextView) view.findViewById(R.id.tv_xxtb);
-
-        //UI界面上的文本显示，每日停保费用和可用保费
-        tv_usefulPauseFee = (TextView) view.findViewById(R.id.tv_usefulPauseFee);
-        tv_usefulPauseFee.setText(unitSpanString);
-        tv_usefulPauseFee.append("0");
-        tv_pausePrice = (TextView) view.findViewById(R.id.tv_pausePrice);
-        tv_pausePrice.setText(unitSpanString);
-        tv_pausePrice.append("0");
-        //圆形动画 文本跟随器，跟踪画圆圈的进度
-        tv_follow_decoView = (TextView) view.findViewById(R.id.tv_follow_decoView);
-        //自定义View，作为界面的顶部View，封装具体操作
-        titleBar = (TitleBar) view.findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, R.drawable.icon_share, "", "");
-        //提现
-        tvPullMoney = (TextView) view.findViewById(R.id.tv_pull_money);
-        //停保规则
-        view.findViewById(R.id.layout_rule).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BrowserActivity.startActivity(getActivity(), true);
-            }
-        });
-
-
-        //预约停保 的文本时间显示，表达用户选择的时间
-        tv_start_date = (TextView) view.findViewById(R.id.tv_start_date);
-        tv_end_date = (TextView) view.findViewById(R.id.tv_end_date);
-        tv_date_interval = (TextView) view.findViewById(R.id.tv_date_interval);
-
-        //时间控件  先显示为当前时间
-        tv_start_date.setText(todayString_yyyy_m_d + "");
-        tv_end_date.setText(todayString_yyyy_m_d + "");
-        tv_date_interval.setText("共0天");
-        //时间控件
-        datePickerLayout = (LinearLayout) view.findViewById(R.id.layout_date_picker);
-        //车牌号Spinner的父Layout
-        layout_car_number_spinner = (LinearLayout) view.findViewById(R.id.layout_car_number_spinner);
-        refreshCarSpinnerLayout(false);
-
-        //限行停保的 Spinner 的父Layout
-        layout_week_number_spinner = (LinearLayout) view.findViewById(R.id.layout_week_number_spinner);
-
-        //车牌号Spinner
-        car_number_spinner = (Spinner) view.findViewById(R.id.car_number_spinner);
-        mCarNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mCarNumbersStringList);
-        car_number_spinner.setAdapter(mCarNumbersListAdapter);
-
-
-        //限行停保的 Spinner
-        week_number_spinner = (Spinner) view.findViewById(R.id.week_number_spinner);
-        mWeekNumbersStringList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.weekArray)));
-        mWeekNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mWeekNumbersStringList);
-        week_number_spinner.setAdapter(mWeekNumbersListAdapter);
-
-
-        //限行停保 滑动按钮
-        weekSwitchTabView = (Switch) view.findViewById(R.id.week_switch_tab_view);
-
-        //默认先设置为false,并且其父Layout设置为不可点击
-        weekSwitchTabView.setChecked(false);
-        refreshLimitPauseUI(false);
-
-
-        // 滑动按钮-选择预约停保的时间
-        dateSwitchTabView = (Switch) view.findViewById(R.id.date_switch_tab_view);
-        dateSwitchTabView.setChecked(false);//默认是关闭
-
-    }
-
 
     /**
      * 保存预约停保
@@ -660,6 +696,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                         outerPauseBean.setReservePaused(false);
@@ -670,6 +707,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                                 }
                             }
+
                             @Override
                             public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                                 outerPauseBean.setReservePaused(true);
@@ -686,6 +724,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                         outerPauseBean.setReservePaused(true);
@@ -710,11 +749,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                         outerPauseBean.setLimitPaused(false);
-                        if (week_number_spinner != null) {
-                            outerWeekthPosition = week_number_spinner.getSelectedItemPosition();
+                        if (weekNumberSpinner != null) {
+                            outerWeekthPosition = weekNumberSpinner.getSelectedItemPosition();
                             UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
@@ -722,6 +762,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                                     }
                                 }
+
                                 @Override
                                 public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                                     outerPauseBean.setLimitPaused(true);
@@ -732,8 +773,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     }
                 });
             } else if (!outerPauseBean.getLimitPaused()) {
-                if (week_number_spinner != null) {
-                    outerWeekthPosition = week_number_spinner.getSelectedItemPosition();
+                if (weekNumberSpinner != null) {
+                    outerWeekthPosition = weekNumberSpinner.getSelectedItemPosition();
                     UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
@@ -741,6 +782,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                             }
                         }
+
                         @Override
                         public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                             outerPauseBean.setLimitPaused(true);
@@ -778,36 +820,36 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             refreshLimitPauseUI(false);
 
             //没有登录时的可用停保余额
-            if (tv_usefulPauseFee != null) {
+            if (tvUsefulPauseFee != null) {
 
-                tv_usefulPauseFee.setText(unitSpanString);
-                tv_usefulPauseFee.append("0");//¥
+                tvUsefulPauseFee.setText(unitSpanString);
+                tvUsefulPauseFee.append("0");//¥
             }
 
             //没有登录时的每日停保费用
-            if (tv_pausePrice != null) {
-                tv_pausePrice.setText(unitSpanString);
-                tv_pausePrice.append("0");//¥
+            if (tvPausePrice != null) {
+                tvPausePrice.setText(unitSpanString);
+                tvPausePrice.append("0");//¥
             }
 
             //没有登录时的累计节省保费
-            if (tv_follow_decoView != null) {
-                tv_follow_decoView.setText(unitSpanString);
-                tv_follow_decoView.append("0");//¥
+            if (tvFollowDecoView != null) {
+                tvFollowDecoView.setText(unitSpanString);
+                tvFollowDecoView.append("0");//¥
             }
 
             //没有登录时的预约停保开始时间
-            if (tv_start_date != null) {
-                tv_start_date.setText(todayString_yyyy_m_d);
+            if (tvStartDate != null) {
+                tvStartDate.setText(todayString_yyyy_m_d);
 
             }
             //没有登录时的预约停保结束时间
-            if (tv_end_date != null) {
-                tv_end_date.setText(todayString_yyyy_m_d);
+            if (tvEndDate != null) {
+                tvEndDate.setText(todayString_yyyy_m_d);
             }
             //没有登录时的预约停保时间间隔
-            if (tv_date_interval != null) {
-                tv_date_interval.setText("共0天");
+            if (tvDateInterval != null) {
+                tvDateInterval.setText("共0天");
             }
         }
     }
@@ -833,9 +875,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     }
 
     private void refreshCarSpinnerLayout(boolean isVisible) {
-        if (layout_car_number_spinner != null) {
+        if (layoutCarNumberSpinner != null) {
             //车牌号码
-            layout_car_number_spinner.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
+            layoutCarNumberSpinner.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -907,12 +949,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 .setShowPointWhenEmpty(true)
                 .build();
         mBigCircleSeriesIndex = decoView.addSeries(series1Item);
-        addFitListener(series1Item, tv_follow_decoView);
+        addFitListener(series1Item, tvFollowDecoView);
     }
 
     /**
      * 圆形滚动动画
-     *
      * @param arcView
      * @param series
      * @param moveTo
@@ -1024,16 +1065,17 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      * 预约停保的ui 刷新
      */
     public void refreshReservePauseInsurance() {
-        tv_start_date.setText(startTimeStr);
-        tv_end_date.setText(endTimeStr);
-        tv_date_interval.setText(timeIntvalStr);
+        tvStartDate.setText(startTimeStr);
+        tvEndDate.setText(endTimeStr);
+        tvDateInterval.setText(timeIntvalStr);
         //若果没有值，就不显示
         if (TextUtils.isEmpty(startTimeStr)) {
-            tv_start_date.setText(todayString_yyyy_m_d + "");
-            tv_end_date.setText(todayString_yyyy_m_d + "");
-            tv_date_interval.setText("共0天");
+            tvStartDate.setText(todayString_yyyy_m_d + "");
+            tvEndDate.setText(todayString_yyyy_m_d + "");
+            tvDateInterval.setText("共0天");
         }
     }
+
     /**
      * 获取服务端 userid 的值
      *
@@ -1041,13 +1083,16 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      * @param userid
      */
     private void getPauseInfoAndThenRefreshData(final Context context, int userid) {
+        swipeRefreshLayout.setEnabled(false);
         UserRetrofitUtil.getPauseInfo(context, userid, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
             @Override
             public void onFailure(RetrofitError error, String message) {
+                swipeRefreshLayout.setEnabled(true);
                 if (!TextUtils.isEmpty(message)) {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void success(NetWorkResultBean<List<PauseData>> objectNetWorkResultBean, Response response) {
                 mPauseDataList.clear();
@@ -1061,9 +1106,14 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     outerPauseBean = mPauseDataList.get(0);
                     refreshData(outerPauseBean);
                 }
+
+                swipeRefreshLayout.setEnabled(true);
+                swipeRefreshLayout.setRefreshing(false);
+
             }
         });
     }
+
     /**
      * 刷新首页的停保对象
      *
@@ -1102,21 +1152,21 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                 int selectedPosition = bean.getLimitday() - 1;
                 if (selectedPosition < 1) {
-                    week_number_spinner.setSelection(0);
+                    weekNumberSpinner.setSelection(0);
                     isWeekSpinnerControlledByCode = false;
                 } else {//如果只有一个，调用setSelection方法时，不会进入itemSelectedListener方法中
-                    week_number_spinner.setSelection(selectedPosition);
+                    weekNumberSpinner.setSelection(selectedPosition);
                 }
             } else {
                 isWeekSpinnerControlledByCode = true;
-                week_number_spinner.setSelection(0);
+                weekNumberSpinner.setSelection(0);
                 isWeekSpinnerControlledByCode = false;
             }
             if (bean.getPausePrice() != null) {
-                tv_pausePrice.setText(unitSpanString.toString() + bean.getPausePrice() + "");
+                tvPausePrice.setText(unitSpanString.toString() + bean.getPausePrice() + "");
             }
             if (bean.getUsefulPauseFee() != null) {
-                tv_usefulPauseFee.setText(unitSpanString.toString()+ bean.getUsefulPauseFee() + "");
+                tvUsefulPauseFee.setText(unitSpanString.toString() + bean.getUsefulPauseFee() + "");
             }
 
             if (bean.getReservePaused() != null) {
@@ -1140,34 +1190,37 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             }
         }
     }
+
     /**
      * @param isLimitedPause 为true说明之前限行停保过；false代表没有，则ui不可点击，有半透明效果
      */
     private void refreshLimitPauseUI(boolean isLimitedPause) {
-        tv_xxtb.setAlpha(isLimitedPause ? 1 : 0.5f);
-        layout_week_number_spinner.setAlpha(isLimitedPause ? 1 : 0.5f);
-        layout_week_number_spinner.setClickable(isLimitedPause ? true : false);
-        layout_week_number_spinner.setEnabled(isLimitedPause ? true : false);
+        tvXxtb.setAlpha(isLimitedPause ? 1 : 0.5f);
+        layoutWeekNumberSpinner.setAlpha(isLimitedPause ? 1 : 0.5f);
+        layoutWeekNumberSpinner.setClickable(isLimitedPause ? true : false);
+        layoutWeekNumberSpinner.setEnabled(isLimitedPause ? true : false);
     }
 
     /**
      * @param isReservePause 为true说明之前预约停保过；false代表没有，则ui不可点击，有半透明效果
      */
     private void refreshReservePauseUI(boolean isReservePause) {
-        tv_yytb.setAlpha(isReservePause ? 1 : 0.5f);
-        datePickerLayout.setAlpha(isReservePause ? 1 : 0.5f);
-        datePickerLayout.setClickable(isReservePause ? true : false);
-        datePickerLayout.setEnabled(isReservePause ? true : false);
+        tvYytb.setAlpha(isReservePause ? 1 : 0.5f);
+        layoutDatePicker.setAlpha(isReservePause ? 1 : 0.5f);
+        layoutDatePicker.setClickable(isReservePause ? true : false);
+        layoutDatePicker.setEnabled(isReservePause ? true : false);
     }
 
     /**
      * 选择 预约和限行停保的Switch
      */
     private class MySwitchOnCheckedChangeListener implements Switch.OnCheckedChangeListener {
-        Switch aSwitch;
-        public MySwitchOnCheckedChangeListener(Switch aSwitch) {
+        SwitchButton aSwitch;
+
+        public MySwitchOnCheckedChangeListener(SwitchButton aSwitch) {
             this.aSwitch = aSwitch;
         }
+
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             //如果是代码调用了setCheck()就直接跳出，不进行下面的逻辑
@@ -1180,7 +1233,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             checkIsLoginOrHasPassword(isChecked, aSwitch);
         }
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
