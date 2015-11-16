@@ -14,7 +14,7 @@ public class CommData implements Parcelable {
     private Integer userid;//会员编号
     private Integer orderid;//车险订单编号
     private String downLoadUrl;//下载路径
-    private Userstable Userstable;//参见5.3用户信息对象
+    private Userstable userInfo;//参见5.3用户信息对象
     private List<InsuranceCompanyInfo> insurancecompanyInfo;//保险公司信息集合参见5.4.2
     private List<FourService> fourService;//4S店集合  参见5.4.7
 
@@ -26,7 +26,7 @@ public class CommData implements Parcelable {
                 ", userid=" + userid +
                 ", orderid=" + orderid +
                 ", downLoadUrl='" + downLoadUrl + '\'' +
-                ", Userstable=" + Userstable +
+                ", userInfo=" + userInfo +
                 ", insurancecompanyInfo=" + insurancecompanyInfo +
                 ", fourService=" + fourService +
                 '}';
@@ -72,12 +72,12 @@ public class CommData implements Parcelable {
         this.downLoadUrl = downLoadUrl;
     }
 
-    public Userstable getUserstable() {
-        return Userstable;
+    public Userstable getUserInfo() {
+        return userInfo;
     }
 
-    public void setUserstable(Userstable Userstable) {
-        this.Userstable = Userstable;
+    public void setUserInfo(Userstable userInfo) {
+        this.userInfo = userInfo;
     }
 
     public List<InsuranceCompanyInfo> getInsurancecompanyInfo() {
@@ -108,7 +108,7 @@ public class CommData implements Parcelable {
         dest.writeValue(this.userid);
         dest.writeValue(this.orderid);
         dest.writeString(this.downLoadUrl);
-        dest.writeParcelable(this.Userstable, 0);
+        dest.writeParcelable(this.userInfo, 0);
         dest.writeTypedList(insurancecompanyInfo);
         dest.writeTypedList(fourService);
     }
@@ -122,7 +122,7 @@ public class CommData implements Parcelable {
         this.userid = (Integer) in.readValue(Integer.class.getClassLoader());
         this.orderid = (Integer) in.readValue(Integer.class.getClassLoader());
         this.downLoadUrl = in.readString();
-        this.Userstable = in.readParcelable(Userstable.class.getClassLoader());
+        this.userInfo = in.readParcelable(Userstable.class.getClassLoader());
         this.insurancecompanyInfo = in.createTypedArrayList(InsuranceCompanyInfo.CREATOR);
         this.fourService = in.createTypedArrayList(FourService.CREATOR);
     }

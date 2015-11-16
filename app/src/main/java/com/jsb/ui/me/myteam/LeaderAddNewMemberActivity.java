@@ -49,6 +49,8 @@ public class LeaderAddNewMemberActivity extends BaseActivity {
     private SwipeRefreshLayout swipeLayout;
     private AutoListView listView;
 
+    private TextView noResultsView;
+
 
     /**
      * Find the Views in the layout<br />
@@ -62,6 +64,7 @@ public class LeaderAddNewMemberActivity extends BaseActivity {
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         UIUtils.initSwipeRefreshLayout(swipeLayout);
         listView = (AutoListView) findViewById(R.id.list_view);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
         listView.setLoading(false);
 
 
@@ -138,6 +141,7 @@ public class LeaderAddNewMemberActivity extends BaseActivity {
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
         adapter = new CreateTeamAdapter(mDatas, this);
         listView.setAdapter(adapter);
+        listView.setEmptyView(noResultsView);
         dialogFragmentCreater = new DialogFragmentCreater();
         dialogFragmentCreater.setDialogContext(this, getSupportFragmentManager());
         getAvailable();

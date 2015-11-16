@@ -55,10 +55,10 @@ public class LoginActivity extends BaseActivity {
     private ProgressDialogUtil mProgressUtil;
 
 
-    public static void startLoginActivity(Context context)
-    {
+    public static void startLoginActivity(Context context) {
         context.startActivity(new Intent(context, LoginActivity.class));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +68,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void setUp() {
-        mProgressUtil = new ProgressDialogUtil(this,true);
+        mProgressUtil = new ProgressDialogUtil(this, true);
 
 
         titleBar = (TitleBar) findViewById(R.id.title_bar);
@@ -91,7 +91,6 @@ public class LoginActivity extends BaseActivity {
 
         et_verify_code.addTextChangedListener(textWatcher);
         et_phone_number.addTextChangedListener(textWatcher);
-
 
 
         mCountTimer = new CountDownTimer(60 * 1000, 1000) {
@@ -120,6 +119,7 @@ public class LoginActivity extends BaseActivity {
             public void onLeftButtonClick(View v) {
                 LoginActivity.this.finish();
             }
+
             @Override
             public void onRightButtonClick(View v) {
             }
@@ -137,9 +137,9 @@ public class LoginActivity extends BaseActivity {
                     mProgressUtil.show("正在登录...");
                     UserRetrofitUtil.login(LoginActivity.this, phoneString, verifyCodeStringUser, new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
                         @Override
-                        public void onFailure(RetrofitError error,String message) {
+                        public void onFailure(RetrofitError error, String message) {
                             mProgressUtil.hide();
-                            if(!TextUtils.isEmpty(message)) {
+                            if (!TextUtils.isEmpty(message)) {
                                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                             mCountTimer.onFinish();
@@ -150,9 +150,9 @@ public class LoginActivity extends BaseActivity {
                             CommData bean = commDataNetWorkResultBean.getData();
                             //保存用户信息
                             PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserstable().getName());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserstable().getPhone());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserstable().getPwd());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserInfo().getName());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
+                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
                             mProgressUtil.hide();
                             EventBus.getDefault().post(new BusEvent(BusEvent.MSG_Login_Success));
                             LoginActivity.this.finish();
@@ -173,7 +173,7 @@ public class LoginActivity extends BaseActivity {
                     phoneString = et_phone_number.getText().toString();
                     UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
                         @Override
-                        public void onFailure(RetrofitError error,String message) {
+                        public void onFailure(RetrofitError error, String message) {
                             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                             mCountTimer.onFinish();
                             mCountTimer.cancel();
@@ -186,9 +186,6 @@ public class LoginActivity extends BaseActivity {
                             verifyCodeStringService = submitPhoneNetWorkResultBean.getData().getVerifyCode();
                         }
                     });
-
-
-
 
 
                 }
@@ -241,23 +238,19 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void finish() {
         //隐藏键盘
-        if(et_phone_number!=null)
-        {
-            UIUtils.setHideSoftInput(this,et_phone_number);
+        if (et_phone_number != null) {
+            UIUtils.setHideSoftInput(this, et_phone_number);
         }
         super.finish();
     }
 
 
-
     /**
      * 主线程更新ui
      */
-    private class FreshWordsThread extends Thread
-    {
+    private class FreshWordsThread extends Thread {
         @Override
-        public void run()
-        {
+        public void run() {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -270,20 +263,17 @@ public class LoginActivity extends BaseActivity {
 
     //主线程中的handler
     private RefreshUiHandler refreshUiHandler = new RefreshUiHandler();
-    private class RefreshUiHandler extends Handler
-    {
+
+    private class RefreshUiHandler extends Handler {
         /**
          * 接受子线程传递的消息机制
          */
         @Override
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             int what = msg.what;
-            switch (what)
-            {
-                case REFRESH:
-                {
+            switch (what) {
+                case REFRESH: {
                     //手机号码输入框获取焦点
                     UIUtils.showSoftInput(LoginActivity.this, et_phone_number);
                     et_phone_number.requestFocus();
