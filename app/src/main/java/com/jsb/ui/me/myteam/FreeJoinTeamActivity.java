@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
@@ -38,6 +39,7 @@ public class FreeJoinTeamActivity extends BaseActivity {
 
     private TitleBar titleBar;
     private AutoListView list_view;
+    private TextView noResultsView;
     private TeamListAdapter adapter;
     private List<FreedomData> mDatas = new ArrayList<>();
     private SwipeRefreshLayout swipeLayout;
@@ -70,6 +72,8 @@ public class FreeJoinTeamActivity extends BaseActivity {
         list_view.setLoading(false);
         adapter = new TeamListAdapter(this, mDatas);
         list_view.setAdapter(adapter);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        list_view.setEmptyView(noResultsView);
     }
 
     private void setUpListener() {

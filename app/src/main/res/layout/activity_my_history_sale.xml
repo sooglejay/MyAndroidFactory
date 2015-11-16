@@ -3,21 +3,49 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
+
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/title_bar_height" />
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_layout"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title_bar">
-        <com.jsb.widget.AutoListView
-            android:id="@+id/list_view"
+        android:layout_below="@+id/title_bar"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:progressDrawable="@drawable/progress_bar_drawable"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/emptyElement"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="-1dp" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_result"
+            android:textColor="#d8595959"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.jsb.widget.AutoListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="-1dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/layout_operate"
         android:layout_width="match_parent"
@@ -31,8 +59,8 @@
             android:layout_height="48dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:clickable="true"
             android:background="@drawable/btn_select_light_blue_shape_0"
+            android:clickable="true"
             android:gravity="center"
             android:text="删除"
             android:textColor="#a80001"

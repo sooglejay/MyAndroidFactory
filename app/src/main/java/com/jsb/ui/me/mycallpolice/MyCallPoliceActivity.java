@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -44,6 +45,7 @@ public class MyCallPoliceActivity extends BaseActivity implements
     public static final int REQUEST_CODE_CALL = 1000;
     private SwipeRefreshLayout swipeLayout;
     private AutoListView list_view;
+    private TextView noResultsView;
 
     private TitleBar titleBar;
     private MyCallPoliceListAdapter myCallPoliceListAdapter;
@@ -100,7 +102,8 @@ public class MyCallPoliceActivity extends BaseActivity implements
 
         myCallPoliceListAdapter = new MyCallPoliceListAdapter(this, mListDatas, dialogFragmentCreater);
         list_view.setAdapter(myCallPoliceListAdapter);
-
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        list_view.setEmptyView(noResultsView);
         getReportableInsurance(userid);
     }
 

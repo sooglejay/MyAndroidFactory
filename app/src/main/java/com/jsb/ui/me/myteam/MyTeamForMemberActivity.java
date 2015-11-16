@@ -47,6 +47,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
 
     private SwipeRefreshLayout swipeLayout;
     private AutoListView listView;
+    private TextView noResultsView;
 
     private List<Object> mDatas = new ArrayList<>();
     private MyTeamForMemberAdapter adapter;
@@ -140,6 +141,8 @@ public class MyTeamForMemberActivity extends BaseActivity {
         adapter = new MyTeamForMemberAdapter(this, mDatas);
         listView.setAdapter(adapter);
         listView.setLoading(false);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        listView.setEmptyView(noResultsView);
         getTeamRangeInfo();
     }
 

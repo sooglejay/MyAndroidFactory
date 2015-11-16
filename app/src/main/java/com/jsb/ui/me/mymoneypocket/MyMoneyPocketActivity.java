@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.bean.aaa_MyMoneyPocketBean;
@@ -32,6 +33,8 @@ import retrofit.client.Response;
 public class MyMoneyPocketActivity extends BaseActivity {
     private SwipeRefreshLayout swipeLayout;
     private AutoListView list_view;
+    private TextView noResultsView;
+
     private TitleBar titleBar;
     private MyMoneyPacketListAdapter myCallPoliceListAdapter;
     private List<aaa_MyMoneyPocketBean> mListDatas = new ArrayList<>();
@@ -75,7 +78,10 @@ public class MyMoneyPocketActivity extends BaseActivity {
         list_view = (AutoListView) findViewById(R.id.list_view);
         list_view.setAdapter(myCallPoliceListAdapter);
         list_view.setLoading(false);
-         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        list_view.setEmptyView(noResultsView);
+
+        userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
         getMywalletInfo(userid);
     }
 

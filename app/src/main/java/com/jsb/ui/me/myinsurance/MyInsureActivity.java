@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
@@ -36,6 +37,8 @@ public class MyInsureActivity extends BaseActivity {
     private TitleBar titleBar;
     private SwipeRefreshLayout swipeLayout;
     private AutoListView mInsureList;
+    private TextView noResultsView;
+
     private MyInsuresListAdapter myInsuresListAdapter;
     private List<Object> mInsureListDatas = new ArrayList<>();
 
@@ -95,6 +98,8 @@ public class MyInsureActivity extends BaseActivity {
         mInsureList = (AutoListView) findViewById(R.id.list_view);
         mInsureList.setAdapter(myInsuresListAdapter);
         mInsureList.setLoading(false);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        mInsureList.setEmptyView(noResultsView);
 
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

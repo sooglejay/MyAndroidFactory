@@ -89,21 +89,25 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/middle_padding"
         android:background="@color/bg_screen" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_color">
+
         <LinearLayout
             android:id="@+id/layout_search"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:gravity="center">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_search" />
         </LinearLayout>
+
         <EditText
             android:id="@+id/et_search_team"
             android:layout_width="match_parent"
@@ -114,40 +118,56 @@
             android:hint="输入团员姓名/电话"
             android:textColorHint="#d1d1d2"
             android:textSize="@dimen/tv_size_level_1" />
+
         <LinearLayout
             android:id="@+id/layout_clear"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            android:paddingRight="@dimen/small_padding"
-            android:visibility="gone"
-            android:paddingTop="@dimen/small_padding"
             android:paddingBottom="@dimen/small_padding"
             android:paddingLeft="@dimen/small_padding"
-            android:layout_height="wrap_content">
-            <ImageView
+            android:paddingRight="@dimen/small_padding"
+            android:paddingTop="@dimen/small_padding"
+            android:visibility="gone">
+
+        <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/icon_clear" />
         </LinearLayout>
     </FrameLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/middle_padding"
         android:background="@color/bg_screen" />
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_screen"
-        android:orientation="vertical">
+        android:background="@color/bg_screen">
+
+        <TextView
+            android:id="@+id/emptyElement"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_result"
+            android:textColor="#d8595959"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.jsb.widget.AutoListView
+
+        <com.jsb.widget.AutoListView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dividerHeight="-1dp" />
         </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

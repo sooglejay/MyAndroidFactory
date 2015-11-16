@@ -46,6 +46,7 @@ public class CreateTeamActivity extends BaseActivity {
     private EditText etTeamName;
     private SwipeRefreshLayout swipeLayout;
     private AutoListView listView;
+    private TextView noResultsView;
 
 
     /**
@@ -149,6 +150,9 @@ public class CreateTeamActivity extends BaseActivity {
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
         adapter = new CreateTeamAdapter(mDatas, this);
         listView.setAdapter(adapter);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        listView.setEmptyView(noResultsView);
+
         dialogFragmentCreater = new DialogFragmentCreater();
         dialogFragmentCreater.setDialogContext(this, getSupportFragmentManager());
 

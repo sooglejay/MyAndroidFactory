@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class MyHistoryPriceListActivity extends BaseActivity {
 
     private SwipeRefreshLayout swipeLayout;
     private AutoListView list_view;
+    private TextView noResultsView;
 
     private View footerOperationView;
     private TextView tv_delete;
@@ -148,6 +150,10 @@ public class MyHistoryPriceListActivity extends BaseActivity {
 
         mAdapter = new MyHistorySaleAdapter(this, mDatas, footerOperationView, list_view, titleBar,progressDialogUtil);
         list_view.setAdapter(mAdapter);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        list_view.setEmptyView(noResultsView);
+
+
         loadDataFromNet(userid);
     }
 

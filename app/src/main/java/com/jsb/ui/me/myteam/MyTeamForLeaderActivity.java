@@ -102,6 +102,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
     private EditText etSearchTeam;
     private SwipeRefreshLayout swipeLayout;
     private AutoListView listView;
+    private TextView noResultsView;
 
     /**
      * Find the Views in the layout<br />
@@ -162,6 +163,9 @@ public class MyTeamForLeaderActivity extends BaseActivity {
         leaderSearchMemberAdapter = new LeaderSearchMemberAdapter(mDatas_Search, this);
         listView.setAdapter(adapter);
         listView.setLoading(false);
+        noResultsView = (TextView) findViewById(R.id.emptyElement);
+        listView.setEmptyView(noResultsView);
+
 
         //搜索团员
         etSearchTeam.addTextChangedListener(new TextWatcher() {
