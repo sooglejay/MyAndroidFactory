@@ -27,6 +27,7 @@ import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
+import com.umeng.update.UmengUpdateAgent;
 
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
@@ -65,6 +66,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         setUp();
         setLisenter();
+
     }
 
     private void setUp() {

@@ -262,21 +262,16 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         mWeekNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mWeekNumbersStringList);
         weekNumberSpinner.setAdapter(mWeekNumbersListAdapter);
 
-
         //默认先设置为false,并且其父Layout设置为不可点击
         weekSwitchTabView.setChecked(false);
         refreshLimitPauseUI(false);
 
-
         // 滑动按钮-选择预约停保的时间
         dateSwitchTabView.setChecked(false);//默认是关闭
-
     }
 
     public boolean createAnimation() {
-
         return super.createAnimation();
-
     }
 
     private void setUpLisenter() {

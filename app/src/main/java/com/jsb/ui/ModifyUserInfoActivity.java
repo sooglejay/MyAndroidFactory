@@ -22,6 +22,7 @@ import com.jsb.widget.RoundImageView;
 import com.jsb.widget.imagepicker.MultiImageSelectorActivity;
 import com.jsb.widget.imagepicker.bean.Image;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.update.UmengUpdateAgent;
 
 import java.io.File;
 import java.util.ArrayList;

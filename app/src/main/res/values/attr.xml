@@ -66,10 +66,7 @@
 
 
     <color name="holo_blue">#FF33E5B5</color>
-
-
     <item name="jazzy_key" type="id"/>
-
     <declare-styleable name="JazzyViewPager">
         <attr name="style">
             <enum name="standard" value="0" />

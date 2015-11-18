@@ -25,8 +25,6 @@ public class BaseActivity extends FragmentActivity {
         //初始化eventBus
         EventBus.getDefault().register(this);
 
-        UmengUpdateAgent.setUpdateOnlyWifi(false);
-        UmengUpdateAgent.update(this);
     }
 
     public void onStart() {
