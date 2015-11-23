@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
     private boolean isWeekSpinnerControlledByCode = false;//是否是代码设置Spinner
+
+    private boolean isWeekSwitchButtonSelected = false;//增加两个标志位：如果滑动按钮选中，此时再去选择周、日期，就会请求网络。如果没有选中，则，选择周，或者日期，就不会请求网络
+    private boolean isDatePickerSwitchButtonSelected = false;
+
 
     private float maxNumber = 0;//动画的 数字最大值
     private float realNumber = 0;//动画的 数字最大值
@@ -292,6 +297,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             @Override
             public void onLeftButtonClick(View v) {
             }
+
             @Override
             public void onRightButtonClick(View v) {
                 ShareUtilsTest shareUtilsTest = new ShareUtilsTest();
@@ -453,8 +459,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 outerWeekthPosition = position;
                 //如果是真实用户的操作，才会进入下面的逻辑
                 //保存限行停保的信息
-                if (outerUserId > 0) {
-                    saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
+                if (isWeekSwitchButtonSelected) {
+                    //如果 选择周的滑动按钮是打开的，表示可以选择周，此时，选择的周会提交网络
+                    if (outerUserId > 0) {
+                        saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
+                    }
                 }
             }
 
@@ -948,6 +957,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
     /**
      * 圆形滚动动画
+     *
      * @param arcView
      * @param series
      * @param moveTo
@@ -1041,7 +1051,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 timeIntvalStr = event.getInterval_time();
                 timeStringForPostToServer = event.getTimeStringFroServer();
                 refreshReservePauseInsurance();
-                saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
+                Log.e("Retrofit", "123");
+                if (isDatePickerSwitchButtonSelected) {
+                    Log.e("Retrofit", "456");
+                    //如果滑动按钮的状态是打开的，才会请求网络
+                    saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
+                }
                 break;
             case BusEvent.MSG_Login_Success:
                 checkIsLoginAndRefreshUI();
@@ -1185,24 +1200,27 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         }
     }
 
+
+    //新需求：去掉颜色和透明度的变化效果
+
     /**
      * @param isLimitedPause 为true说明之前限行停保过；false代表没有，则ui不可点击，有半透明效果
      */
     private void refreshLimitPauseUI(boolean isLimitedPause) {
-        tvXxtb.setAlpha(isLimitedPause ? 1 : 0.5f);
-        layoutWeekNumberSpinner.setAlpha(isLimitedPause ? 1 : 0.5f);
-        layoutWeekNumberSpinner.setClickable(isLimitedPause ? true : false);
-        layoutWeekNumberSpinner.setEnabled(isLimitedPause ? true : false);
+//        tvXxtb.setAlpha(isLimitedPause ? 1 : 0.5f);
+//        layoutWeekNumberSpinner.setAlpha(isLimitedPause ? 1 : 0.5f);
+//        layoutWeekNumberSpinner.setClickable(isLimitedPause ? true : false);
+//        layoutWeekNumberSpinner.setEnabled(isLimitedPause ? true : false);
     }
 
     /**
      * @param isReservePause 为true说明之前预约停保过；false代表没有，则ui不可点击，有半透明效果
      */
     private void refreshReservePauseUI(boolean isReservePause) {
-        tvYytb.setAlpha(isReservePause ? 1 : 0.5f);
-        layoutDatePicker.setAlpha(isReservePause ? 1 : 0.5f);
-        layoutDatePicker.setClickable(isReservePause ? true : false);
-        layoutDatePicker.setEnabled(isReservePause ? true : false);
+//        tvYytb.setAlpha(isReservePause ? 1 : 0.5f);
+//        layoutDatePicker.setAlpha(isReservePause ? 1 : 0.5f);
+//        layoutDatePicker.setClickable(isReservePause ? true : false);
+//        layoutDatePicker.setEnabled(isReservePause ? true : false);
     }
 
     /**
@@ -1217,6 +1235,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            //获取滑动按钮的状态
+            if (aSwitch == weekSwitchTabView) {
+                isWeekSwitchButtonSelected = isChecked;
+            } else if (aSwitch == dateSwitchTabView) {
+                isDatePickerSwitchButtonSelected = isChecked;
+            }
             //如果是代码调用了setCheck()就直接跳出，不进行下面的逻辑
             if (isSwitchTouchedOrTriggeredByCode) {
                 return;
