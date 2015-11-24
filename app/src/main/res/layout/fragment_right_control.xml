@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,122 +14,33 @@
         android:textColor="@color/tv_black_color_level_1"
         android:textSize="@dimen/big_textsize" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/middle_padding"
-        android:layout_marginRight="@dimen/middle_padding"
-        android:background="@color/light_gray_color" />
-
-    <LinearLayout
+    <com.jungly.gridpasswordview.GridPasswordView
+        android:id="@+id/pswView"
         android:layout_width="280dp"
         android:layout_height="48dp"
+        android:layout_gravity="center"
         android:layout_marginLeft="@dimen/middle_padding"
         android:layout_marginRight="@dimen/middle_padding"
-        android:orientation="horizontal">
+        app:gridColor="#ffffff"
+        app:lineColor="@color/black"
+        app:lineWidth="1dp"
+        app:passwordLength="6"
+        app:passwordTransformation="*"
+        app:passwordType="numberPassword"
+        app:textColor="@color/black"
+        app:textSize="25sp" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray_color" />
-
-        <EditText
-            android:id="@+id/et_1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"  />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray_color" />
-
-        <EditText
-            android:id="@+id/et_2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"  />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray_color" />
-
-        <EditText
-            android:id="@+id/et_3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"  />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray_color" />
-
-        <EditText
-            android:id="@+id/et_4"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray_color" />
-
-        <EditText
-            android:id="@+id/et_5"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"  />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray_color" />
-
-        <EditText
-            android:id="@+id/et_6"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray_color" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="@dimen/huge_big_padding"
-        android:layout_marginLeft="@dimen/middle_padding"
+    <TextView
+        android:id="@+id/tv_forget_psw"
+        android:layout_marginTop="@dimen/middle_padding"
+        android:text="忘记密码？"
+        android:layout_marginBottom="@dimen/middle_padding"
+        android:background="@drawable/btn_select_white"
+        android:padding="@dimen/middle_padding"
+        android:textSize="@dimen/big_textsize"
+        android:textColor="@color/black_color"
+        android:layout_width="wrap_content"
+        android:layout_gravity="right|center"
         android:layout_marginRight="@dimen/middle_padding"
-        android:background="@color/light_gray_color" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

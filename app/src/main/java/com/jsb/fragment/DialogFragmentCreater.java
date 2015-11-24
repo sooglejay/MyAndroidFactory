@@ -3,21 +3,29 @@ package com.jsb.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jsb.R;
 import com.jsb.constant.StringConstant;
+import com.jsb.ui.MyModifyPasswordActivity;
+import com.jungly.gridpasswordview.GridPasswordView;
 
 /**
  * Created by Administrator on 2015/10/18.
@@ -60,21 +68,13 @@ public class DialogFragmentCreater extends DialogFragment {
 
     //专为密码  设置的回调
     public interface OnPasswordDialogClickListener {
-        public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6);
+        public void getPassword(String psw);
 
         public void onDialogDismiss(EditText view);
     }
 
-
-    private String mPasswordString = "";
-    private EditText et_1;
-    private EditText et_2;
-    private EditText et_3;
-    private EditText et_4;
-    private EditText et_5;
-    private EditText et_6;
-    private EditText[] mEditTexts;
-
+    private TextView tv_forget_psw;//找回密码
+    private GridPasswordView inputView;//密码输入框
 
     @Override
     public void onDismiss(android.content.DialogInterface dialog) {
@@ -143,87 +143,27 @@ public class DialogFragmentCreater extends DialogFragment {
      */
     private Dialog showInputPasswordDialog(final Context mContext) {
         View convertView = LayoutInflater.from(mContext).inflate(R.layout.fragment_right_control, null);
-        mPasswordString = "";
-
-        et_1 = (EditText) convertView.findViewById(R.id.et_1);
-        et_2 = (EditText) convertView.findViewById(R.id.et_2);
-        et_3 = (EditText) convertView.findViewById(R.id.et_3);
-        et_4 = (EditText) convertView.findViewById(R.id.et_4);
-        et_5 = (EditText) convertView.findViewById(R.id.et_5);
-        et_6 = (EditText) convertView.findViewById(R.id.et_6);
-
-        View.OnKeyListener onKeyListener = new View.OnKeyListener() {
+        tv_forget_psw = (TextView) convertView.findViewById(R.id.tv_forget_psw);
+        tv_forget_psw.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    mPasswordString = "";
-                    int i = 5;
-                    while (i >= 0) {
-                        mEditTexts[i].setText("");
-                        mEditTexts[i].clearFocus();
-                        i--;
-                    }
-                    mEditTexts[0].requestFocus();
-
-                    return true;
-
-                }
-                return false;
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, MyModifyPasswordActivity.class));
             }
-        };
-
-        mEditTexts = new EditText[]{et_1, et_2, et_3, et_4, et_5, et_6};
-
-
-        TextWatcher textWatcher = new TextWatcher() {
+        });
+        inputView = (GridPasswordView) convertView.findViewById(R.id.pswView);
+        inputView.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onChanged(String psw) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPasswordString = mPasswordString + s;
-                if (mPasswordString.length() < 6) {
-                    int index = mPasswordString.length();
-                    if(index>1)
-                    {
-                        mEditTexts[index-1].clearFocus();
-                        mEditTexts[index].requestFocus();
-                    }
-                    else {
-                        mEditTexts[0].clearFocus();
-                        mEditTexts[index].requestFocus();
-                    }
-
-                } else if (mPasswordString.length() == 6) {
-
-                    if (onPasswordDialogClickListener != null) {
-                        onPasswordDialogClickListener.getPassword(et_1, et_2, et_3, et_4, et_5, et_6);
-                    }
+            public void onMaxLength(String psw) {
+                if (onPasswordDialogClickListener != null) {
+                    onPasswordDialogClickListener.getPassword(psw);
                 }
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        et_1.addTextChangedListener(textWatcher);
-        et_2.addTextChangedListener(textWatcher);
-        et_3.addTextChangedListener(textWatcher);
-        et_4.addTextChangedListener(textWatcher);
-        et_5.addTextChangedListener(textWatcher);
-        et_6.addTextChangedListener(textWatcher);
-
-        et_1.setOnKeyListener(onKeyListener);
-        et_2.setOnKeyListener(onKeyListener);
-        et_3.setOnKeyListener(onKeyListener);
-        et_4.setOnKeyListener(onKeyListener);
-        et_5.setOnKeyListener(onKeyListener);
-        et_6.setOnKeyListener(onKeyListener);
-
+        });
 
         final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
 //        dialog.setCanceledOnTouchOutside(false);//要求触碰到外面能够消失
@@ -250,9 +190,9 @@ public class DialogFragmentCreater extends DialogFragment {
                     protected void onPostExecute(Void value) {
                         super.onPostExecute(value);
                         if (outerDialog.isShowing())
-                            if (et_1 != null) {
-                                et_1.requestFocus();
-                                InputMethodManager imm = (InputMethodManager) et_1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            if (inputView != null) {
+                                inputView.requestFocus();
+                                InputMethodManager imm = (InputMethodManager) inputView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                             }
                     }
@@ -263,7 +203,6 @@ public class DialogFragmentCreater extends DialogFragment {
         outerDialog = dialog;
         return dialog;
     }
-
 
     /**
      * 我要报案=点击item 弹出对话框

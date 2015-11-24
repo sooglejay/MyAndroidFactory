@@ -1,1 +1,1 @@
-include ':app', ':umengshare', ':bdwallet_pay_sdk'
+include ':app', ':umengshare', ':bdwallet_pay_sdk', ':GridPasswordView'

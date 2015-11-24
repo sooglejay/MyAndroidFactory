@@ -40,6 +40,7 @@ import com.jsb.model.PauseData;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.LoginActivity;
 import com.jsb.ui.MyModifyPasswordActivity;
+import com.jsb.ui.stopinsurance.InComeDetailActivity;
 import com.jsb.ui.stopinsurance.PullMoneyActivity;
 import com.jsb.ui.stopinsurance.TimePickerActivity;
 import com.jsb.util.DiditUtil;
@@ -168,7 +169,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private void findViews(View viewFromOuter) {
         //自定义View，作为界面的顶部View，封装具体操作
         titleBar = (TitleBar) viewFromOuter.findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, R.drawable.icon_share, "", "");
+        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, R.drawable.icon_share_white, "", "");
         swipeRefreshLayout = (SwipeRefreshLayout) viewFromOuter.findViewById(R.id.swipe_layout);
         UIUtils.initSwipeRefreshLayout(swipeRefreshLayout);
 
@@ -367,19 +368,10 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     //弹出输入密码对话框，输入密码正确才能提现
                     dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
                         @Override
-                        public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6) {
+                        public void getPassword(String psw) {
                             progressDialogUtil.show("正在验证密码...");
-                            String p1 = ((EditText) v1).getText().toString();
-                            String p2 = ((EditText) v2).getText().toString();
-                            String p3 = ((EditText) v3).getText().toString();
-                            String p4 = ((EditText) v4).getText().toString();
-                            String p5 = ((EditText) v5).getText().toString();
-                            String p6 = ((EditText) v6).getText().toString();
-                            String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
-
                             String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
-
-                            UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
+                            UserRetrofitUtil.verifyPwd(context, phoneStr, psw, new NetCallback<NetWorkResultBean<String>>(context) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
@@ -499,6 +491,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         //检查如果登录就刷新UI
         checkIsLoginAndRefreshUI();
 
+        layoutHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(getActivity(), InComeDetailActivity.class));
+            }
+        });
         realNumber = 4567.00f;
         maxNumber = 4567.00f;
     }
@@ -541,20 +539,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         } else {
             dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
                 @Override
-                public void getPassword(View v1, View v2, View v3, View v4, View v5, View v6) {
+                public void getPassword(String psw) {
                     progressDialogUtil.show("正在验证密码...");
-
-                    String p1 = ((EditText) v1).getText().toString();
-                    String p2 = ((EditText) v2).getText().toString();
-                    String p3 = ((EditText) v3).getText().toString();
-                    String p4 = ((EditText) v4).getText().toString();
-                    String p5 = ((EditText) v5).getText().toString();
-                    String p6 = ((EditText) v6).getText().toString();
-                    String passwordStr = p1 + p2 + p3 + p4 + p5 + p6;
 
                     String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
 
-                    UserRetrofitUtil.verifyPwd(context, phoneStr, passwordStr, new NetCallback<NetWorkResultBean<String>>(context) {
+                    UserRetrofitUtil.verifyPwd(context, phoneStr, psw, new NetCallback<NetWorkResultBean<String>>(context) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             progressDialogUtil.hide();

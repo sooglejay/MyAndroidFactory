@@ -104,6 +104,7 @@
                     android:id="@+id/et_id_card_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:digits="@string/id_card"
                     android:inputType="text"
                     android:layout_marginBottom="@dimen/middle_padding"
                     android:layout_marginLeft="@dimen/middle_padding"
