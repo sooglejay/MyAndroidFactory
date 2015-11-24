@@ -86,7 +86,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:background="@drawable/shape_0_transparent"
             android:orientation="vertical"
+
             android:layout_height="wrap_content">
             <View
                 android:layout_width="match_parent"
@@ -171,33 +173,32 @@
                     android:text="提现"
                     android:textColor="@color/white_color" />
             </LinearLayout>
-        </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c0c0c1" />
 
+            <LinearLayout
+                android:id="@+id/layout_rule"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_select_bg_screen"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:text="查看停保规则"
+                    android:textColor="@color/base_color" />
+            </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c0c0c1" />
-
-        <LinearLayout
-            android:id="@+id/layout_rule"
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:background="@drawable/btn_select_bg_screen"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="22dp"
-                android:text="查看停保规则"
-                android:textColor="@color/base_color" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:background="@drawable/shape_0_transparent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -207,7 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#fafafa"
+                android:background="@drawable/shape_0_shut_fragment_background"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -278,7 +279,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#fafafa"
+                android:background="@drawable/shape_0_shut_fragment_background"
                 android:orientation="vertical">
 
                 <LinearLayout
