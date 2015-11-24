@@ -124,7 +124,8 @@
     <orderEntry type="library" exported="" name="okio-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="design-22.2.1" level="project" />
     <orderEntry type="module" module-name="umengshare" exported="" />
-    <orderEntry type="module" module-name="GridPasswordView" exported="" />
+    <orderEntry type="module" module-name="pull_to_refresh" exported="" />
+    <orderEntry type="module" module-name="grid_password_view" exported="" />
     <orderEntry type="module" module-name="bdwallet_pay_sdk" exported="" />
   </component>
 </module>

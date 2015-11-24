@@ -108,6 +108,7 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile project(':umengshare')
     compile project(':bdwallet_pay_sdk')
-    compile project(':GridPasswordView')
+    compile project(':grid_password_view')
+    compile project(':pull_to_refresh')
     compile(name: 'android-gif-drawable-1.1.10', ext: 'aar')
 }

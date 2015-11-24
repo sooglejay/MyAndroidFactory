@@ -6,7 +6,6 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,6 +26,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshLinearLayout;
 import com.jsb.R;
 import com.jsb.adapter.SpinnerDropDownAdapter;
 import com.jsb.api.callback.NetCallback;
@@ -74,7 +75,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     public static final int ACTION_CHOOSE_TIME = 1000;
 
     private TitleBar titleBar;
-    private SwipeRefreshLayout swipeRefreshLayout;
+
 
 
     private List<String> mCarNumbersStringList = new ArrayList<>();
@@ -134,6 +135,11 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private DialogFragmentCreater dialogFragmentController;//注意清除掉 mPasswordString 才能公用
 
 
+    PullToRefreshLinearLayout mPullRefreshLinearLayout;
+    LinearLayout mTopLayout;
+
+
+
     private LinearLayout layoutCarNumberSpinner;
     private Spinner carNumberSpinner;
     private RelativeLayout layoutHistory;
@@ -170,8 +176,22 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         //自定义View，作为界面的顶部View，封装具体操作
         titleBar = (TitleBar) viewFromOuter.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, R.drawable.icon_share_white, "", "");
-        swipeRefreshLayout = (SwipeRefreshLayout) viewFromOuter.findViewById(R.id.swipe_layout);
-        UIUtils.initSwipeRefreshLayout(swipeRefreshLayout);
+
+
+        mPullRefreshLinearLayout = (PullToRefreshLinearLayout) viewFromOuter.findViewById(R.id.top_layout);
+        mPullRefreshLinearLayout.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<LinearLayout>() {
+
+            @Override
+            public void onRefresh(PullToRefreshBase<LinearLayout> refreshView) {
+//                Random random = new Random(47);
+//                maxNumber = random.nextInt(10000) + 1;
+//                realNumber = maxNumber;
+                createAnimation();
+                getPauseInfoAndThenRefreshData(context, outerUserId);
+            }
+        });
+        mTopLayout = mPullRefreshLinearLayout.getRefreshableView();
+
 
         layoutCarNumberSpinner = (LinearLayout) viewFromOuter.findViewById(R.id.layout_car_number_spinner);
         carNumberSpinner = (Spinner) viewFromOuter.findViewById(R.id.car_number_spinner);
@@ -281,18 +301,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     }
 
     private void setUpLisenter() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setEnabled(false);
-                Random random = new Random(47);
-                maxNumber = random.nextInt(10000) + 1;
-                realNumber = maxNumber;
-                createAnimation();
-                getPauseInfoAndThenRefreshData(context, outerUserId);
 
-            }
-        });
         //titleBar 的点击事件
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
@@ -1082,14 +1091,13 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      * @param userid
      */
     private void getPauseInfoAndThenRefreshData(final Context context, int userid) {
-        swipeRefreshLayout.setEnabled(false);
         UserRetrofitUtil.getPauseInfo(context, userid, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-                swipeRefreshLayout.setEnabled(true);
                 if (!TextUtils.isEmpty(message)) {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 }
+                mPullRefreshLinearLayout.onRefreshComplete();
             }
 
             @Override
@@ -1105,9 +1113,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     outerPauseBean = mPauseDataList.get(0);
                     refreshData(outerPauseBean);
                 }
-
-                swipeRefreshLayout.setEnabled(true);
-                swipeRefreshLayout.setRefreshing(false);
+                mPullRefreshLinearLayout.onRefreshComplete();
 
             }
         });
