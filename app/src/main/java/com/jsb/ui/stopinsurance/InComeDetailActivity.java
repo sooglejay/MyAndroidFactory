@@ -153,7 +153,7 @@ public class InComeDetailActivity extends BaseActivity {
                     SonBean dayBean = new SonBean();
                     dayBean.setDateStr(thisYearNumber + "-" + (thisMonthNumber + i) + "-" + dayS);
                     //设置 时间状态
-                    dayBean.setStatus(k / 4 == 0 ? IncomeCalenderAdapter.CHOOSE : IncomeCalenderAdapter.OTHERS);
+                    dayBean.setStatus(k % 4 == 0 ? IncomeCalenderAdapter.CHOOSE : IncomeCalenderAdapter.OTHERS);
 
                     dayBean.setDayNumberString(k + "");
                     daysList.add(dayBean);
