@@ -1,1 +1,1 @@
-include ':app', ':umengshare', ':bdwallet_pay_sdk', ':grid_password_view', ':pull_to_refresh'
+include ':app', ':umengshare', ':bdwallet_pay_sdk', ':grid_password_view', ':pull_to_refresh',":ptr-lib"

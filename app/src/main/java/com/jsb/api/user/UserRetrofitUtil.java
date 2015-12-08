@@ -363,6 +363,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                         String service,
                                         String worknum,
                                         TypedFile imagesData,
+                                        TypedFile photoData,
                                         NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -375,7 +376,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                         "&companyid=" + companyid +
                         "&fourServiceId=" + fourServiceId +
                         "&service=" + service +
-                        "&worknum=" + worknum
+                        "&worknum=" + worknum+
+                        "&photoData=" + photoData
                 ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);

@@ -110,5 +110,7 @@ dependencies {
     compile project(':bdwallet_pay_sdk')
     compile project(':grid_password_view')
     compile project(':pull_to_refresh')
+    compile project(':ptr-lib')
     compile(name: 'android-gif-drawable-1.1.10', ext: 'aar')
+
 }

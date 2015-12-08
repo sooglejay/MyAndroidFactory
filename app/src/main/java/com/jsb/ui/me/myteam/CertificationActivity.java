@@ -215,7 +215,7 @@ public class CertificationActivity extends BaseActivity implements
                             if (!TextUtils.isEmpty(compressPath)) {
                                 File file = new File(compressPath);
                                 TypedFile fileToSend = new TypedFile(ImageUtils.mimeType, file);
-                                UserRetrofitUtil.fillInfoJoinTeam(context, userid, userName, cityNameStr, idCardNumber, 0 + "", -1, -1, serverDescribe, "-1", fileToSend, new NetCallback<NetWorkResultBean<String>>(context) {
+                                UserRetrofitUtil.fillInfoJoinTeam(context, userid, userName, cityNameStr, idCardNumber, 0 + "", -1, -1, serverDescribe, "-1", fileToSend,fileToSend, new NetCallback<NetWorkResultBean<String>>(context) {
                                     @Override
                                     public void onFailure(RetrofitError error, String message) {
                                         progressDialogUtil.hide();
