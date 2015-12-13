@@ -109,7 +109,7 @@ public class PengciActivity extends BaseActivity {
 
                 findViewById(R.id.title_bar);
 
-        titleBar.initTitleBarInfo("加班狗", R.drawable.arrow_left, -1, "", "");
+        titleBar.initTitleBarInfo("碰瓷险", R.drawable.arrow_left, -1, "", "");
         cb_agree_license = (CheckBox)
 
                 findViewById(R.id.cb_agree_license);
