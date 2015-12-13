@@ -1,0 +1,154 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <com.jsb.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:id="@+id/iv_take_car_picture"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_insure_jiaban_dog_describe" />
+
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:padding="@dimen/middle_padding"
+        android:text="本期商品数还剩7份"
+        android:textColor="#8e8e8e"
+        android:textSize="@dimen/middle_textsize" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_select_white"
+        android:clickable="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="@dimen/middle_padding"
+            android:text="防碰瓷必备"
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/big_textsize" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/middle_padding"
+            android:src="@drawable/arrow_right" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_e0_e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/middle_padding"
+        android:paddingTop="@dimen/middle_padding">
+
+        <TextView
+            android:id="@+id/tv_time_shengxiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#585858"
+            android:textSize="@dimen/big_textsize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/middle_padding"
+        android:paddingLeft="@dimen/middle_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保障时间："
+            android:textColor="#585858"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="365天"
+            android:textColor="#585858"
+            android:textSize="@dimen/big_textsize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/middle_padding">
+
+        <CheckBox
+            android:id="@+id/cb_agree_license"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:button="@drawable/icon_choose_selected"
+            android:gravity="center_vertical"
+            android:text="同意《约定保障条款》"
+            android:textColor="#a7a7a7" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#c2dcca"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="1元/月"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/big_textsize" />
+
+        <TextView
+            android:id="@+id/tv_buy_insure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_select_base_shape_0"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="我要购买"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/big_textsize" />
+    </LinearLayout>
+</LinearLayout>

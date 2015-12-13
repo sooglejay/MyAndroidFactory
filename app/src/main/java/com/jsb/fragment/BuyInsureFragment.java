@@ -12,6 +12,7 @@ import com.jsb.R;
 import com.jsb.ui.buyinsurance.InsureCarActivity;
 import com.jsb.ui.buyinsurance.InsureJiaBanDogActivity;
 import com.jsb.ui.buyinsurance.InsureOnDrivingActivity;
+import com.jsb.ui.buyinsurance.PengciActivity;
 import com.jsb.widget.TitleBar;
 import com.umeng.analytics.MobclickAgent;
 
@@ -59,10 +60,10 @@ public class BuyInsureFragment extends BaseFragment {
 
             }
         });
-        view.findViewById(R.id.layout_insure_line).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.layout_insure_pengci).setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 getActivity().startActivity(new Intent(getActivity(), InsureJiaBanDogActivity.class));
+                 getActivity().startActivity(new Intent(getActivity(), PengciActivity.class));
              }
          });
 
@@ -74,6 +75,8 @@ public class BuyInsureFragment extends BaseFragment {
 
             }
         });
+
+
     }
 
     @Override

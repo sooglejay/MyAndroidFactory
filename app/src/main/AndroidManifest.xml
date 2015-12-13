@@ -29,7 +29,6 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
 
-
     <!-- 通用权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -57,12 +56,10 @@
         android:theme="@style/AppTheme">
         <service
             android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" >
-        </service>
+            android:process=":DownloadingService"></service>
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <!-- 高德地图 -->
         <meta-data
@@ -91,53 +88,45 @@
         <activity android:name=".ui.stopinsurance.InComeDetailActivity"></activity>
 
 
-
-        <activity android:name=".ui.me.myteam.FreeJoinTeamActivity"
+        <activity
+            android:name=".ui.me.myteam.FreeJoinTeamActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${CHANNEL_NAME}" />
+
         <activity
             android:name=".ui.me.myteam.MyTeamForLeaderActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.me.myteam.MyTeamForMemberActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".ui.me.myteam.CreateTeamActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".ui.me.myteam.LeaderAddNewMemberActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
 
         <activity
             android:name=".ui.stopinsurance.PullMoneyDetailActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
 
         <activity
             android:name=".ui.ModifyUserInfoActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
-
-
+            android:screenOrientation="portrait"></activity>
 
 
         <activity
@@ -169,6 +158,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.buyinsurance.InsureJiaBanDogActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.buyinsurance.PengciActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity

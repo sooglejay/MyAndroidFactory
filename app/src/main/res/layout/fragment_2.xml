@@ -7,8 +7,7 @@
     <com.jsb.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
-
+        android:layout_height="wrap_content" />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -101,7 +100,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_driving_insurance" />
+                    android:src="@drawable/icon_jiaban_dog" />
 
                 <TextView
                     android:id="@+id/tv_insure_jiaban"
@@ -161,7 +160,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_jiaban_dog" />
+                    android:src="@drawable/icon_driving_insurance" />
 
                 <TextView
                     android:id="@+id/tv_insure_driving"
@@ -184,7 +183,7 @@
                 android:background="@color/gray_color" />
 
             <LinearLayout
-                android:id="@+id/layout_insure_line"
+                android:id="@+id/layout_insure_pengci"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
 
@@ -204,7 +203,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_extending" />
+                    android:src="@drawable/icon_jiaban_dog" />
 
                 <TextView
                     android:id="@+id/tv_insure_line"
@@ -212,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@string/line_insure"
+                    android:text="@string/pengci_insure"
                     android:textSize="@dimen/big_textsize" />
 
                 <Space

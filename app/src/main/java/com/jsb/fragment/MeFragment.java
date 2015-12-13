@@ -177,7 +177,6 @@ public class MeFragment extends BaseFragment {
                                 if (userBean != null) {
                                     if (userBean.getType() != null) {
                                         int userType = userBean.getType();
-                                        userType = IntConstant.USER_TYPE_FREE;
                                         switch (userType) {
                                             case IntConstant.USER_TYPE_FREE:
                                                 MyTeamForFreeActivity.startActivity(context, userBean);
