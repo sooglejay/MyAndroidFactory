@@ -60,7 +60,7 @@ public class MyTeamForFreeActivity extends BaseActivity {
         findViewById(R.id.layout_join_team).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this,CertificationActivity.class));
+                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this, FreeJoinTeamActivity.class));
             }
         });
     }

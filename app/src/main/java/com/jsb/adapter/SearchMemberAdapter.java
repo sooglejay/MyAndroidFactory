@@ -17,12 +17,12 @@ import java.util.List;
 /**
  * Created by JammyQtheLab on 2015/11/12.
  */
-public class LeaderSearchMemberAdapter extends BaseAdapter {
+public class SearchMemberAdapter extends BaseAdapter {
     private ViewHolder holder;
     private List<SelfRecord> mDatas;
     private Activity activity;
 
-    public LeaderSearchMemberAdapter(List<SelfRecord> mDatas, Activity activity) {
+    public SearchMemberAdapter(List<SelfRecord> mDatas, Activity activity) {
         this.mDatas = mDatas;
         this.activity = activity;
     }

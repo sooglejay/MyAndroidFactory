@@ -22,6 +22,7 @@ import com.jsb.R;
 import com.jsb.event.BusEvent;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Userstable;
+import com.jsb.ui.ApplyEcoActivity;
 import com.jsb.ui.LoginActivity;
 import com.jsb.ui.me.mycallpolice.MyCallPoliceActivity;
 import com.jsb.ui.me.historyprice.MyHistoryPriceListActivity;
@@ -301,6 +302,14 @@ public class MeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), ShareActivity.class));
+            }
+        });
+
+        //申请合作
+        view.findViewById(R.id.layout_apply_eco).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), ApplyEcoActivity.class));
             }
         });
 

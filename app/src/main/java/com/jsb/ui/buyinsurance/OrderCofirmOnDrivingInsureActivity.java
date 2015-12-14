@@ -21,7 +21,9 @@ public class OrderCofirmOnDrivingInsureActivity extends BaseActivity {
     private boolean tvPayFlag = false;
     private TitleBar titleBar;
     private TextView tv_pay;
-    private EditText et_insure_user_name;
+    private EditText et_insure_user_name;//用户姓名
+    private EditText et_car_number;//车牌号码
+    private EditText et_insure_user_id_number;////身份证号码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

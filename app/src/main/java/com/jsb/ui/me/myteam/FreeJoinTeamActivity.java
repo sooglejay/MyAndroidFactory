@@ -1,7 +1,6 @@
 package com.jsb.ui.me.myteam;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
@@ -9,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +18,6 @@ import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.model.FreedomData;
 import com.jsb.model.NetWorkResultBean;
-import com.jsb.model.OvertimeData;
-import com.jsb.model.Userstable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
@@ -48,6 +46,7 @@ public class FreeJoinTeamActivity extends BaseActivity {
     private ProgressDialogUtil progressDialogUtil;
 
     private EditText et_search_team;
+    private LinearLayout layout_clear;
 
 
 
@@ -73,6 +72,8 @@ public class FreeJoinTeamActivity extends BaseActivity {
         adapter = new TeamListAdapter(this, mDatas);
         list_view.setAdapter(adapter);
         noResultsView = (TextView) findViewById(R.id.emptyElement);
+        layout_clear = (LinearLayout) findViewById(R.id.layout_clear);
+        layout_clear.setVisibility(View.GONE);
         list_view.setEmptyView(noResultsView);
     }
 
@@ -90,12 +91,18 @@ public class FreeJoinTeamActivity extends BaseActivity {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mDatas.clear();
                 loadData();
             }
         });
         et_search_team.addTextChangedListener(textWatcher);
         loadData();
+
+        layout_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                et_search_team.setText("");
+            }
+        });
       }
 
     private void loadData()
@@ -117,6 +124,7 @@ public class FreeJoinTeamActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 List<FreedomData> datas = listNetWorkResultBean.getData();
                 if (datas != null) {
+                    mDatas.clear();
                     mDatas.addAll(datas);
                     adapter.notifyDataSetChanged();
                 }
@@ -142,6 +150,7 @@ public class FreeJoinTeamActivity extends BaseActivity {
             public void success(NetWorkResultBean<List<FreedomData>> listNetWorkResultBean, Response response) {
                 List<FreedomData> datas = listNetWorkResultBean.getData();
                 if (datas != null) {
+                    mDatas.clear();
                     mDatas.addAll(datas);
                     adapter.notifyDataSetChanged();
                 }
@@ -159,7 +168,11 @@ public class FreeJoinTeamActivity extends BaseActivity {
 
             if (!TextUtils.isEmpty(s))
             {
+                layout_clear.setVisibility(View.VISIBLE);
                 searchTeam(s.toString());
+            } else {
+                layout_clear.setVisibility(View.GONE);
+
             }
         }
 

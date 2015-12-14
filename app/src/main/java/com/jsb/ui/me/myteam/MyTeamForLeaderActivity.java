@@ -8,22 +8,19 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
-import com.jsb.adapter.LeaderSearchMemberAdapter;
+import com.jsb.adapter.SearchMemberAdapter;
 import com.jsb.adapter.MyTeamForMemberAdapter;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
-import com.jsb.constant.StringConstant;
 import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.RangeData;
@@ -34,13 +31,10 @@ import com.jsb.model.Userstable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.ui.BrowserActivity;
 import com.jsb.ui.ModifyUserInfoActivity;
-import com.jsb.ui.MyModifyPasswordActivity;
 import com.jsb.util.PreferenceUtil;
-import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;
 import com.jsb.widget.PopWindowUtils;
-import com.jsb.widget.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +126,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
     private List<Object> mDatas = new ArrayList<>();
     private List<SelfRecord> mDatas_Search = new ArrayList<>();
     private MyTeamForMemberAdapter adapter;
-    private LeaderSearchMemberAdapter leaderSearchMemberAdapter;
+    private SearchMemberAdapter searchMemberAdapter;
 
     private List<Userstable> userstableList = new ArrayList<>();//团长查看加团请求等消息
     private DialogFragmentCreater dialogFragmentController;
@@ -160,7 +154,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
         activity = this;
         UIUtils.initSwipeRefreshLayout(swipeLayout);
         adapter = new MyTeamForMemberAdapter(this, mDatas);
-        leaderSearchMemberAdapter = new LeaderSearchMemberAdapter(mDatas_Search, this);
+        searchMemberAdapter = new SearchMemberAdapter(mDatas_Search, this);
         listView.setAdapter(adapter);
         listView.setLoading(false);
         noResultsView = (TextView) findViewById(R.id.emptyElement);
@@ -181,7 +175,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                     if (listView.getHeaderViewsCount() > 0) {
                         listView.removeHeaderView(headerView);
                     }
-                    listView.setAdapter(leaderSearchMemberAdapter);
+                    listView.setAdapter(searchMemberAdapter);
                     searchMember(userid, s.toString());
                 } else {
                     layout_clear.setVisibility(View.GONE);
@@ -367,7 +361,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                 } else {
                     Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 }
-                leaderSearchMemberAdapter.notifyDataSetChanged();
+                searchMemberAdapter.notifyDataSetChanged();
             }
         });
     }

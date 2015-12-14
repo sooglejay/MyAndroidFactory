@@ -1,6 +1,7 @@
 package com.jsb.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.jsb.R;
 import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.model.FourService;
 import com.jsb.model.FreedomData;
+import com.jsb.ui.me.myteam.CertificationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,7 @@ public class TeamListAdapter extends BaseAdapter {
                         switch (v.getId()) {
                             case R.id.layout_i_want_to_join:
                                 Toast.makeText(mContext, "我要加入！", Toast.LENGTH_SHORT).show();
+                                mContext.startActivity(new Intent(mContext, CertificationActivity.class));
                                 break;
                             case R.id.item:
                                 Toast.makeText(mContext, "点击一条记录！", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipChildren="true"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
@@ -44,6 +46,23 @@
             android:hint="输入推荐人的姓名/电话"
             android:textColorHint="#d1d1d2"
             android:textSize="@dimen/tv_size_level_1" />
+
+        <LinearLayout
+            android:id="@+id/layout_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:paddingBottom="@dimen/small_padding"
+            android:paddingLeft="@dimen/small_padding"
+            android:paddingRight="@dimen/small_padding"
+            android:paddingTop="@dimen/small_padding"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/icon_clear" />
+        </LinearLayout>
     </FrameLayout>
 
     <View
