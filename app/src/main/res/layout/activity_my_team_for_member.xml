@@ -69,6 +69,7 @@
         <LinearLayout
             android:id="@+id/right_iv_operation"
             android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/small_padding"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"

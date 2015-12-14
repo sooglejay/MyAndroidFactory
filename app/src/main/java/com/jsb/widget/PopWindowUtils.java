@@ -115,6 +115,7 @@ public class PopWindowUtils {
         pop = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
         pop.setBackgroundDrawable(dw);
+        pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
         pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
@@ -143,6 +144,7 @@ public class PopWindowUtils {
         listView.setAdapter(adapter);
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
         pop.setBackgroundDrawable(dw);
+        pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
         pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
@@ -178,6 +180,7 @@ public class PopWindowUtils {
         listView.setAdapter(adapter);
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
         pop.setBackgroundDrawable(dw);
+        pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
         pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后

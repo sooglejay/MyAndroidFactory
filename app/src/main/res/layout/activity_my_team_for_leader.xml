@@ -73,6 +73,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/small_padding"
             android:background="@drawable/btn_select_transparent_darkgreen"
             android:paddingRight="@dimen/small_padding">
 
