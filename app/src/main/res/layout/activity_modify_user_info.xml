@@ -153,6 +153,46 @@
                     android:src="@drawable/arrow_right" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_e0_e5" />
+
+            <LinearLayout
+                android:id="@+id/layout_employee_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_select_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/middle_padding"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_marginTop="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="员工工号"
+                    android:textColor="#2e2e2e"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_employ_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="731"
+                    android:textColor="#8c8c8c"
+                    android:textSize="@dimen/big_textsize" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="@dimen/middle_padding"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/arrow_right" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"

@@ -99,7 +99,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
         String k = "phone=" + phone;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
-        git.jugeOvertimeInsuranceOrder("", callback);
+        git.jugeOvertimeInsuranceOrder(s, callback);
     }
 
 
