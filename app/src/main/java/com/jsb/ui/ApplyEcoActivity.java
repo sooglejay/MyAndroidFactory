@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -75,7 +76,7 @@ public class ApplyEcoActivity extends BaseActivity implements
     }
 
     private void setUpViews() {
-        titleBar.initTitleBarInfo("申请合作", R.drawable.arrow_left, -1, "", "");
+        titleBar.initTitleBarInfo("申请合作", R.drawable.arrow_left, -1, "", "确定");
 
     }
 
@@ -88,7 +89,7 @@ public class ApplyEcoActivity extends BaseActivity implements
 
             @Override
             public void onRightButtonClick(View v) {
-
+                Toast.makeText(activity, "没有接口可用！", Toast.LENGTH_SHORT).show();
             }
         });
 

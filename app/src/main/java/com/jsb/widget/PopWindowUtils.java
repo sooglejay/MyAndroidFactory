@@ -50,7 +50,9 @@ public class PopWindowUtils {
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
-        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        if (!mContext.isFinishing()) {
+            pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        }
         UIUtils.setWindowAlpla(mContext, 1f);
         //取消不透明的效果
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -84,7 +86,9 @@ public class PopWindowUtils {
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
-        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        if (!mContext.isFinishing()) {
+            pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        }
         UIUtils.setWindowAlpla(mContext, 1f);
         //取消不透明的效果
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -118,7 +122,9 @@ public class PopWindowUtils {
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
-        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        if (!mContext.isFinishing()) {
+            pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        }
         UIUtils.setWindowAlpla(mContext, 1f);
         //取消不透明的效果
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -147,7 +153,11 @@ public class PopWindowUtils {
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
-        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+
+        if (!activity.isFinishing()) {
+            pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        }
+
         UIUtils.setWindowAlpla(mContext, 1f);
         //取消不透明的效果
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -183,7 +193,9 @@ public class PopWindowUtils {
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.popupwindow_animation);
-        pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        if (!activity.isFinishing()) {
+            pop.showAsDropDown(v, 0, 0);//必须放在setBackgroundDrawable和setOutsideTouchable之后
+        }
         UIUtils.setWindowAlpla(mContext, 1f);
         //取消不透明的效果
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
