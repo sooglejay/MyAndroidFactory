@@ -32,6 +32,7 @@ import com.jsb.R;
 import com.jsb.adapter.SpinnerDropDownAdapter;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.ExtraConstants;
 import com.jsb.constant.IntConstant;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
@@ -503,7 +504,14 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         layoutHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(getActivity(), InComeDetailActivity.class));
+                int orderid = -1;
+                if (outerPauseBean != null) {
+                    orderid = outerPauseBean.getOrderid();
+                }
+                Intent intent = new Intent(context, InComeDetailActivity.class);
+                intent.putExtra(ExtraConstants.EXTRA_orderid, orderid);
+                context.startActivity(intent);
+
             }
         });
         realNumber = 4567.00f;

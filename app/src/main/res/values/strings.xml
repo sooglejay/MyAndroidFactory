@@ -91,6 +91,7 @@
     <string name="msg_amount_limit">已经达到最高选择数量</string>
     <string name="no_result">没有数据</string>
     <string name="id_card">0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="phone_number">0123456789</string>
 
 
     <!-- Viewpager -->

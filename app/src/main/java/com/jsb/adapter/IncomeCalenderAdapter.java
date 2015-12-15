@@ -32,9 +32,23 @@ public class IncomeCalenderAdapter extends BaseAdapter {
     private static final int Header = 1;
     private static final int ViewTypeCount = 2;
 
-
     private Activity mContext;
     private List<Object> mDatas = new ArrayList<>();
+    private List<SonBean> dayListBean = new ArrayList<>();//我把子Adapter的 数据源拿到了外面来了
+
+    public void setmReserverDaysStr(List<String> mReserverDaysStr) {
+        this.mReserverDaysStr = mReserverDaysStr;
+        for (String str : mReserverDaysStr) {
+            for (SonBean bean : dayListBean) {
+                if (str.equals(bean.getDateStr())) {
+                    bean.setStatus(CHOOSE);//由于之前所有的设置为OTHERs，所以现在只需要设置CHOOSE就行了
+                }
+            }
+        }
+        notifyDataSetChanged();//由于我在Adapter里面写了Adapter,所以，我不确定能够刷新子Adapter
+    }
+
+    private List<String> mReserverDaysStr = new ArrayList<>();
     private LayoutInflater inflater;
     private int tvWhiteColorResId, tvBlackColorResId;//日历 数字本身的颜色值
     private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
@@ -121,7 +135,7 @@ public class IncomeCalenderAdapter extends BaseAdapter {
     }
 
     private class InnerGridViewAdapter extends BaseAdapter {
-        private List<SonBean> dayListBean = new ArrayList<>();
+
 
         @Override
         public int getCount() {
@@ -223,8 +237,8 @@ public class IncomeCalenderAdapter extends BaseAdapter {
         }
 
         public void setYmDatas(FatherBean ymDatas) {
-            this.dayListBean.clear();
-            this.dayListBean.addAll(ymDatas.getDaysList());
+            dayListBean.clear();
+            dayListBean.addAll(ymDatas.getDaysList());
         }
     }
 

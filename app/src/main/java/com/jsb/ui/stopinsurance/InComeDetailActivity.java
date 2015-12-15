@@ -7,9 +7,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.ExtraConstants;
+import com.jsb.constant.PreferenceConstant;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.PauseHistory;
+import com.jsb.model.Reservepausetable;
 import com.jsb.ui.BaseActivity;
+import com.jsb.util.PreferenceUtil;
 import com.jsb.util.SpannableStringUtil;
 import com.jsb.widget.TitleBar;
 import com.jsb.widget.timepicker.CalenderAdapter;
@@ -25,17 +34,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Created by JammyQtheLab on 2015/11/24.
  */
 public class InComeDetailActivity extends BaseActivity {
     private List<Object> mDatas = new ArrayList<>();
+    private List<String> mDatasTimeStr = new ArrayList<>();
     private IncomeCalenderAdapter mAdapter;
     private Calendar calendar = Calendar.getInstance(Locale.CHINA);//全局日历对象
 
     private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
     private String todayString_yyyy_m_d = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
+
+    private int userid = -1;
+    private int orderid = -1;
 
     private Activity activity;
     private SpannableString unitSpanString;
@@ -81,9 +97,12 @@ public class InComeDetailActivity extends BaseActivity {
         activity = this;
         //人民币单位的字符
         unitSpanString = SpannableStringUtil.getSpannableString(activity, "¥", 30);//单位
+        userid = PreferenceUtil.load(activity, PreferenceConstant.userid, -1);
+        orderid = getIntent().getIntExtra(ExtraConstants.EXTRA_orderid, -1);
         findViews();
         setUpView();
         setUpLisenter();
+        getPauseHistory();
     }
 
     private void setUpLisenter() {
@@ -151,7 +170,7 @@ public class InComeDetailActivity extends BaseActivity {
                     SonBean dayBean = new SonBean();
                     dayBean.setDateStr(thisYearNumber + "-" + (thisMonthNumber + i) + "-" + dayS);
                     //设置 时间状态
-                    dayBean.setStatus(k % 4 == 0 ? IncomeCalenderAdapter.CHOOSE : IncomeCalenderAdapter.OTHERS);
+                    dayBean.setStatus(IncomeCalenderAdapter.OTHERS);
 
                     dayBean.setDayNumberString(k + "");
                     daysList.add(dayBean);
@@ -191,5 +210,39 @@ public class InComeDetailActivity extends BaseActivity {
             e.printStackTrace();
         }
         return CalenderAdapter.OTHERS;
+    }
+
+    private void getPauseHistory() {
+        if (orderid == -1) {
+            Toast.makeText(activity, "订单号为-1", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //只写了预约停保，接口很难实现 效果图的 效果
+        UserRetrofitUtil.getPauseHistory(activity, userid, orderid, new NetCallback<NetWorkResultBean<PauseHistory>>(activity) {
+            @Override
+            public void onFailure(RetrofitError error, String message) {
+
+            }
+
+            @Override
+            public void success(NetWorkResultBean<PauseHistory> pauseHistoryNetWorkResultBean, Response response) {
+
+                if (pauseHistoryNetWorkResultBean.getData() != null && pauseHistoryNetWorkResultBean.getData().getLimithistory() != null) {
+                    List<Reservepausetable> reservehistory = pauseHistoryNetWorkResultBean.getData().getReservehistory();
+                    mDatasTimeStr.clear();
+                    String array[];
+
+                    //根据接口，拼凑出 预约过的日期字符串
+                    for (Reservepausetable bean : reservehistory) {
+                        array = bean.getReservedays().split(",");
+                        for (String str : array) {
+                            mDatasTimeStr.add(str);
+                        }
+                    }
+                    //更新Adapter，我不确定能够正确的更新
+                    mAdapter.setmReserverDaysStr(mDatasTimeStr);
+                }
+            }
+        });
     }
 }

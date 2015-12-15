@@ -16,8 +16,12 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.ExtraConstants;
 import com.jsb.util.ImageUtils;
+import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.widget.TitleBar;
 import com.jsb.widget.imagepicker.MultiImageSelectorActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -25,6 +29,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by JammyQtheLab on 2015/12/14.
@@ -39,16 +46,53 @@ public class ApplyEcoActivity extends BaseActivity implements
     private String resultPath;//图片最终位置
 
 
+    //    1、string name;//4s店名字
+//    2、int brand;//品牌编号
+//    3、string address;//4s店地址
+//    4、string phone;//电话
+//    5、string service;//服务介绍
+//    6、string managername;//服务经理姓名
+//    7、string certification_num;//执照编号
+//    8、float lat;//4s店纬度
+//    9、float lng;//4s店经度
+    private String name;
+    private String address;
+    private String phone;
+    private String service;
+    private String managername;
+    private String certification_num;
+    private int brand;
+    private double lat;
+    private double lng;
+
+
     private TitleBar titleBar;
-    private EditText etPhoneNumber;
+    private EditText etCompanyName;
     private EditText etCompanyAddress;
     private ImageView ivLocation;
     private EditText etZhizhaobianhao;
-    private EditText etManage;
+    private EditText etManageName;
     private EditText etManagePhone;
     private EditText etServerDescribe;
     private ImageView ivCard;
 
+    /**
+     * Find the Views in the layout<br />
+     * <br />
+     * Auto-created on 2015-12-15 23:25:58 by Android Layout Finder
+     * (http://www.buzzingandroid.com/tools/android-layout-finder)
+     */
+    private void findViews() {
+        titleBar = (TitleBar) findViewById(R.id.title_bar);
+        etCompanyName = (EditText) findViewById(R.id.et_company_name);
+        etCompanyAddress = (EditText) findViewById(R.id.et_company_address);
+        ivLocation = (ImageView) findViewById(R.id.iv_location);
+        etZhizhaobianhao = (EditText) findViewById(R.id.et_zhizhaobianhao);
+        etManageName = (EditText) findViewById(R.id.et_manage_name);
+        etManagePhone = (EditText) findViewById(R.id.et_manage_phone);
+        etServerDescribe = (EditText) findViewById(R.id.et_server_describe);
+        ivCard = (ImageView) findViewById(R.id.iv_card);
+    }
 
 
     @Override
@@ -62,18 +106,6 @@ public class ApplyEcoActivity extends BaseActivity implements
         initLocationManager();
     }
 
-    private void findViews() {
-        titleBar = (TitleBar) findViewById(R.id.title_bar);
-        etPhoneNumber = (EditText) findViewById(R.id.et_phone_number);
-        etCompanyAddress = (EditText) findViewById(R.id.et_company_address);
-        ivLocation = (ImageView) findViewById(R.id.iv_location);
-        etZhizhaobianhao = (EditText) findViewById(R.id.et_zhizhaobianhao);
-        etManage = (EditText) findViewById(R.id.et_manage);
-        etManagePhone = (EditText) findViewById(R.id.et_manage_phone);
-        etServerDescribe = (EditText) findViewById(R.id.et_server_describe);
-        ivCard = (ImageView) findViewById(R.id.iv_card);
-
-    }
 
     private void setUpViews() {
         titleBar.initTitleBarInfo("申请合作", R.drawable.arrow_left, -1, "", "确定");
@@ -89,7 +121,39 @@ public class ApplyEcoActivity extends BaseActivity implements
 
             @Override
             public void onRightButtonClick(View v) {
-                Toast.makeText(activity, "没有接口可用！", Toast.LENGTH_SHORT).show();
+
+                final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
+                progressDialogUtil.show("正在请求网络...");
+
+
+                name = etCompanyName.getText().toString();
+                brand = 1;//不知道是什么，乱写的
+                address = etCompanyAddress.getText().toString();
+                phone = etManagePhone.getText().toString();
+                service = etServerDescribe.getText().toString();
+                managername = etManageName.getText().toString();
+                certification_num = etZhizhaobianhao.getText().toString();
+
+
+                UserRetrofitUtil.applyCooperation(activity, name, brand, address, phone, service, managername, certification_num, lat, lng, new NetCallback<Integer>(activity) {
+                    @Override
+                    public void onFailure(RetrofitError error, String message) {
+                        progressDialogUtil.hide();
+                    }
+
+                    @Override
+                    public void success(Integer integer, Response response) {
+                        progressDialogUtil.hide();
+                        switch (integer) {
+                            case 0://您已经提交过申请，正在审核中！
+                                break;
+                            case 1://您已经提交过申请，审核通过！
+                                break;
+                            case 3://提交成功
+                                break;
+                        }
+                    }
+                });
 
             }
         });
@@ -174,6 +238,8 @@ public class ApplyEcoActivity extends BaseActivity implements
             // 定位成功回调信息，设置相关消息
             if (aMapLocation != null) {
                 etCompanyAddress.setText(aMapLocation.getPoiName());
+                lat = aMapLocation.getLatitude();
+                lng = aMapLocation.getLongitude();
             }
         }
     }

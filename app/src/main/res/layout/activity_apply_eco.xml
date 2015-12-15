@@ -59,7 +59,7 @@
                     android:textSize="@dimen/tv_size_level_1" />
 
                 <EditText
-                    android:id="@+id/et_phone_number"
+                    android:id="@+id/et_company_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/middle_padding"
@@ -235,7 +235,7 @@
                     android:textSize="@dimen/tv_size_level_1" />
 
                 <EditText
-                    android:id="@+id/et_manage"
+                    android:id="@+id/et_manage_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/middle_padding"
@@ -286,8 +286,9 @@
                     android:layout_marginLeft="@dimen/middle_padding"
                     android:layout_marginTop="@dimen/middle_padding"
                     android:background="@null"
+                    android:digits="@string/phone_number"
                     android:hint="请输入电话号码"
-                    android:inputType="phone"
+                    android:inputType="numberSigned"
                     android:maxLength="11"
                     android:maxLines="1"
                     android:textColorHint="#d1d1d2"

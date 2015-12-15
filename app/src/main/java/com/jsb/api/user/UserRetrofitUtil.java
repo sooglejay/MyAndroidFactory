@@ -1464,4 +1464,52 @@ public class UserRetrofitUtil extends RetrofitUtil {
     }
 
 
+    /**
+     * 接口名称	applyCooperation
+     * 发送时机	提交申请合作
+     * 参数说明
+     * 1、string name;//4s店名字
+     * 2、int brand;//品牌编号
+     * 3、string address;//4s店地址
+     * 4、string phone;//电话
+     * 5、string service;//服务介绍
+     * 6、string managername;//服务经理姓名
+     * 7、string certification_num;//执照编号
+     * 8、float lat;//4s店纬度
+     * 9、float lng;//4s店经度
+     * 本接口还有一个参数imagesData,放图片(营业执照图片)，图片名字每次加个随机数上防止名字冲突，post要设置请求体格式。
+     * 限制条件	参数1、2、3、4、5、6、7、8、9为必填。
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void applyCooperation(Context mContext,
+                                        String name,
+                                        int brand,
+                                        String address,
+                                        String phone,
+                                        String service,
+                                        String managername,
+                                        String certification_num,
+                                        double lat,
+                                        double lng,
+                                        NetCallback<Integer> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "name=" + name +
+                        "&brand=" + brand +
+                        "&address=" + address +
+                        "&phone=" + phone +
+                        "&service=" + service +
+                        "&managername=" + managername +
+                        "&certification_num=" + certification_num +
+                        "&lat=" + lat +
+                        "&lng=" + lng;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.applyCooperation(s, callback);
+    }
+
+
 }

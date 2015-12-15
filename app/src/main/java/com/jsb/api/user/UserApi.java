@@ -776,5 +776,28 @@ public interface UserApi {
     public void getCharge(@Field("param") String params ,NetCallback<ChargeBean> NetCallback);
 
 
+    /**
+     * 接口名称	applyCooperation
+     * 发送时机	提交申请合作
+     * 参数说明
+     * 1、string name;//4s店名字
+     * 2、int brand;//品牌编号
+     * 3、string address;//4s店地址
+     * 4、string phone;//电话
+     * 5、string service;//服务介绍
+     * 6、string managername;//服务经理姓名
+     * 7、string certification_num;//执照编号
+     * 8、float lat;//4s店纬度
+     * 9、float lng;//4s店经度
+     * 本接口还有一个参数imagesData,放图片(营业执照图片)，图片名字每次加个随机数上防止名字冲突，post要设置请求体格式。
+     *
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/applyCooperation/")
+    public void applyCooperation(@Field("param") String params, NetCallback<Integer> NetCallback);
+
+
 
 }
