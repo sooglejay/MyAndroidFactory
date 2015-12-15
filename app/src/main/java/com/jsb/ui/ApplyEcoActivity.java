@@ -90,6 +90,7 @@ public class ApplyEcoActivity extends BaseActivity implements
             @Override
             public void onRightButtonClick(View v) {
                 Toast.makeText(activity, "没有接口可用！", Toast.LENGTH_SHORT).show();
+
             }
         });
 

@@ -2,6 +2,7 @@ package com.jsb.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -69,6 +70,7 @@ public class ServerConsultorFragment extends BaseFragment {
 
         viewPagerAdapter = new ViewPagerAdapter(this.getActivity(), this.getActivity().getSupportFragmentManager(), viewPager);
         viewPager.setAdapter(viewPagerAdapter);
+
         viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -122,6 +124,26 @@ public class ServerConsultorFragment extends BaseFragment {
 
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if (viewPager != null) {
+                    viewPager.setCurrentItem(1);
+                }
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+
 
 
     }
