@@ -286,7 +286,7 @@
                 android:id="@+id/et_server_describe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
+                android:background="@color/white_color"
                 android:gravity="top|left"
                 android:hint="请输入30字以内的服务介绍"
                 android:inputType="text"

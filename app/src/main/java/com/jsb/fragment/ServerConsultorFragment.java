@@ -66,6 +66,7 @@ public class ServerConsultorFragment extends BaseFragment {
         iv_dot_2 = (ImageView) view.findViewById(R.id.dot_2);
         iv_dot_3 = (ImageView) view.findViewById(R.id.dot_3);
         viewPager.setOffscreenPageLimit(20);
+        viewPager.setCurrentItem(1, true);
         viewPager.setPageMargin(-140);
 
         viewPagerAdapter = new ViewPagerAdapter(this.getActivity(), this.getActivity().getSupportFragmentManager(), viewPager);
@@ -124,25 +125,7 @@ public class ServerConsultorFragment extends BaseFragment {
 
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (viewPager != null) {
-                    viewPager.setCurrentItem(1);
-                }
-            }
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    Thread.sleep(25);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
 
 
 
