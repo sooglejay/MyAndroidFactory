@@ -3,61 +3,103 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    android:weightSum="1.4"
-    android:paddingLeft="68dp"
-    android:paddingRight="68dp">
+    android:paddingLeft="64dp"
+    android:paddingBottom="24dp"
+    android:paddingRight="64dp">
 
     <LinearLayout
         android:id="@+id/layout_background"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="#a98bbc"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <com.jsb.widget.RoundImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/test" />
-
-        <TextView
-            android:textColor="@color/white_color"
-            android:id="@+id/tv_user_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/middle_padding"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="李明"
+                android:textColor="@color/white_color"
+                android:textSize="@dimen/big_textsize" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="维修顾问"
+                android:textColor="@color/white_color"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_marginTop="@dimen/middle_padding"
-            android:gravity="center"
-            android:text="周波"
-            android:textSize="24sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
+            android:layout_marginBottom="@dimen/middle_padding"
+            android:layout_marginLeft="@dimen/middle_padding"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:textColor="@color/white_color"
-            android:gravity="center"
-            android:text="成都三和广本4S店"
-            android:textSize="20sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/white_color"
-            android:text="成都市高新区机场路109号\n附1号"
-            android:textSize="@dimen/small_textsize" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:gravity="center|left"
+                android:text="成都锦城奔驰4S店"
+                android:textColor="@color/white_color"
+                android:textSize="@dimen/middle_textsize" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginTop="@dimen/little_padding"
+                android:gravity="center|left"
+                android:text="成都市高新区创业路19号附3号..."
+                android:textColor="@color/white_color"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/little_padding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:gravity="center|left"
+                    android:text="13678054215"
+                    android:textColor="@color/white_color"
+                    android:textSize="@dimen/middle_textsize" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="@dimen/little_padding"
+                    android:src="@drawable/gif_call" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="0.3"
-        android:layout_height="0dp"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
         android:orientation="horizontal">
 
         <View
@@ -66,16 +108,19 @@
             android:background="@drawable/line_e0_e5" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/middle_padding"
                 android:gravity="center"
-                android:text="4S店维修服务经验丰富\n我帮您省钱省心\n最好的服务，最优的质量\n小周在这里，您在哪里？" />
+                android:text="4S店维修服务经验丰富,我帮您省钱省心,最好的服务，最优的质量.小周在这里，您在哪里？"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -84,6 +129,7 @@
             android:background="@drawable/line_e0_e5" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

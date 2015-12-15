@@ -11,6 +11,88 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/middle_padding">
+
+        <LinearLayout
+            android:id="@+id/layout_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_padding"
+            android:layout_marginLeft="48dp"
+            android:orientation="vertical">
+
+            <com.jsb.widget.RoundImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/test" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/little_padding"
+                android:text="王军"
+                android:textColor="@color/black_color"
+                android:textSize="@dimen/middle_textsize" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/little_padding"
+                android:text="保险顾问"
+                android:textColor="@color/black_color"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_toRightOf="@id/layout_avatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:text="景泰保险四川分公司"
+                android:textColor="@color/black_color"
+                android:textSize="@dimen/middle_textsize" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginTop="@dimen/small_padding"
+                android:text="新光华街7号航天科技大厦11层"
+                android:textColor="@color/black_color"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="18014513902"
+                android:textColor="@color/black_color"
+                android:textSize="@dimen/middle_textsize" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
     <FrameLayout
         android:id="@+id/layout_viewpager"
         android:layout_width="match_parent"
@@ -41,7 +123,8 @@
                 android:layout_gravity="top"
                 android:gravity="center"
                 android:orientation="horizontal">
-                <ImageView
+
+            <ImageView
                     android:id="@+id/dot_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
