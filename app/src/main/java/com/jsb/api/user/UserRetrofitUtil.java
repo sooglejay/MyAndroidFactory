@@ -337,6 +337,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
 
 
     /**
+     接口名称	fillInfoJoinTeam
      发送时机	加入团队保存个人身份信息
      参数说明
      1、int userid ; //用户编号
@@ -348,8 +349,9 @@ public class UserRetrofitUtil extends RetrofitUtil {
      7、int fourServiceId;//4s店编号  无则传-1
      8、String service;//服务介绍
      9、String worknum;//保险公司，员工工号，无传 “-1”
-     本接口还有两个参数：一个imagesData,放图片（可多张身份证jpg），图片名字每次加个随机数上防止名字冲突，另一个photoData(一张头像图jpg)
-     *
+     10、String otherCompanyName;//其他公司的名字，无传 “-1”
+     11、String companyAddress; //公司地址，无传 “-1”
+     本接口还有两个单独的参数：一个imagesData,放图片（可多张身份证jpg），图片名字每次加个随机数上防止名字冲突，另一个photoData(一张头像图jpg),请求体要设置提交格式。   *
      * @param mContext
      */
     public static void fillInfoJoinTeam(Context mContext,
@@ -362,6 +364,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                         int fourServiceId,
                                         String service,
                                         String worknum,
+                                        String otherCompanyName,
+                                        String companyAddress,
                                         TypedFile imagesData,
                                         TypedFile photoData,
                                         NetCallback<NetWorkResultBean<String>> callback) {
@@ -377,11 +381,12 @@ public class UserRetrofitUtil extends RetrofitUtil {
                         "&fourServiceId=" + fourServiceId +
                         "&service=" + service +
                         "&worknum=" + worknum+
-                        "&photoData=" + photoData
+                        "&otherCompanyName=" + otherCompanyName +
+                        "&companyAddress=" + companyAddress
                 ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
-        git.fillInfoJoinTeam(s, imagesData, callback);
+        git.fillInfoJoinTeam(s, imagesData, photoData, callback);
     }
 
     /**
