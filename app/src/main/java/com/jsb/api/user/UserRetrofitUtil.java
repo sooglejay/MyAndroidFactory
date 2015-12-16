@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.jsb.api.callback.NetCallback;
 import com.jsb.model.AccountData;
+import com.jsb.model.Brand;
 import com.jsb.model.Charge;
 import com.jsb.model.ChargeBean;
 import com.jsb.model.CommData;
@@ -1498,7 +1499,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                         String certification_num,
                                         double lat,
                                         double lng,
-                                        NetCallback<Integer> callback) {
+                                        TypedFile typedFile,
+                                        NetCallback<NetWorkResultBean<Integer>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1513,7 +1515,49 @@ public class UserRetrofitUtil extends RetrofitUtil {
                         "&lng=" + lng;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
-        git.applyCooperation(s, callback);
+        git.applyCooperation(s, typedFile, callback);
+    }
+
+
+    /**
+     * 发送时机	判断是否提交过入团请求，结合用户角色可以判断是否可以提交申请
+     * 参数说明	1、int userid; //用户id
+     * 限制条件	参数1为必填。
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void jugeJoinRequest(Context mContext,
+                                       int userid,
+                                       NetCallback<NetWorkResultBean<Object>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "userid=" + userid;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.jugeJoinRequest(s, callback);
+    }
+
+
+    /**
+     * 接口名称	getFourServiceBrands
+     * 发送时机	获取所有4S品牌
+     * 参数说明	1、String brand;// 品牌名字
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getFourServiceBrands(Context mContext,
+                                            String brand,
+                                            NetCallback<NetWorkResultBean<List<Brand>>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "brand=" + brand;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getFourServiceBrands(s, callback);
     }
 
 

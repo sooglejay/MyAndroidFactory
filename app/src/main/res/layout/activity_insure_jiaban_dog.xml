@@ -33,7 +33,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@color/very_light_gray_color" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@color/very_light_gray_color" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,12 +106,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_screen"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/middle_padding">
+        android:orientation="vertical">
 
         <CheckBox
             android:id="@+id/cb_agree_license"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:button="@drawable/icon_choose_selected"
@@ -124,7 +123,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_margin="24dp"
         android:orientation="horizontal">
 
         <TextView

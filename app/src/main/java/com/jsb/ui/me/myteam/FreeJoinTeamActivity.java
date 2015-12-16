@@ -107,7 +107,6 @@ public class FreeJoinTeamActivity extends BaseActivity {
 
     private void loadData()
     {
-
         progressDialogUtil.show("正在获取数据...");
         UserRetrofitUtil.getFourTeamInfo(activity, new NetCallback<NetWorkResultBean<List<FreedomData>>>(activity) {
             @Override
@@ -143,17 +142,19 @@ public class FreeJoinTeamActivity extends BaseActivity {
         UserRetrofitUtil.searchTeam(activity, key, new NetCallback<NetWorkResultBean<List<FreedomData>>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-
+                mDatas.clear();
+                adapter.notifyDataSetChanged();
+                Toast.makeText(activity, "没有搜索到任何团队信息！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void success(NetWorkResultBean<List<FreedomData>> listNetWorkResultBean, Response response) {
                 List<FreedomData> datas = listNetWorkResultBean.getData();
+                mDatas.clear();
                 if (datas != null) {
-                    mDatas.clear();
                     mDatas.addAll(datas);
-                    adapter.notifyDataSetChanged();
                 }
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -168,11 +169,13 @@ public class FreeJoinTeamActivity extends BaseActivity {
 
             if (!TextUtils.isEmpty(s))
             {
+                swipeLayout.setEnabled(false);
                 layout_clear.setVisibility(View.VISIBLE);
                 searchTeam(s.toString());
             } else {
+                swipeLayout.setEnabled(true);
+                loadData();
                 layout_clear.setVisibility(View.GONE);
-
             }
         }
 

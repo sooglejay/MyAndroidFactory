@@ -68,6 +68,7 @@
 -keep class com.tencent.open.PKDialog$* {*;}
 
 -keep class com.tencent.mm.sdk.** {*;}
+-keep class com.tencent.smtt.utils.TbsLog.** {*;}
 
 -dontwarn com.squareup.okhttp.**
 

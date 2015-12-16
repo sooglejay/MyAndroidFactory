@@ -16,7 +16,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@color/very_light_gray_color" />
     <!--保障人-->
     <LinearLayout
         android:background="@color/white_color"
@@ -48,7 +48,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@color/very_light_gray_color" />
 
     <!--保障人身份证号码-->
     <LinearLayout
@@ -83,7 +83,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@color/very_light_gray_color" />
     <!--车牌号码-->
     <LinearLayout
         android:background="@color/white_color"
@@ -117,7 +117,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5" />
+        android:background="@color/very_light_gray_color" />
     <!--保险期限-->
     <LinearLayout
         android:background="@color/white_color"
@@ -148,7 +148,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_e0_e5"/>
+        android:background="@color/very_light_gray_color" />
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/bg_screen"
