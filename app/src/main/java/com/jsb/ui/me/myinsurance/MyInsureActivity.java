@@ -154,6 +154,7 @@ public class MyInsureActivity extends BaseActivity {
         UserRetrofitUtil.getVehicleOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
             @Override
             public void onFailure(RetrofitError error,String message) {
+                progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
@@ -199,7 +200,7 @@ public class MyInsureActivity extends BaseActivity {
         UserRetrofitUtil.getDriverOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
             @Override
             public void onFailure(RetrofitError error,String message) {
-
+                progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
@@ -244,6 +245,7 @@ public class MyInsureActivity extends BaseActivity {
         UserRetrofitUtil.getOvertimeOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
             @Override
             public void onFailure(RetrofitError error,String message) {
+                progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
