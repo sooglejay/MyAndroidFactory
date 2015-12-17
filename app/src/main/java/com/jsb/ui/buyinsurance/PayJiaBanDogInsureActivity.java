@@ -21,6 +21,7 @@ import com.jsb.constant.PaymentChannel;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.constant.StringConstant;
 import com.jsb.model.ChargeBean;
+import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.Overtimeordertable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.IpUtil;

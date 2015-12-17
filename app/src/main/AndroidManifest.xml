@@ -143,6 +143,11 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
 
+        <activity
+            android:name=".ui.BrandListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+
 
         <activity
             android:name=".widget.imagepicker.MultiImageSelectorActivity"

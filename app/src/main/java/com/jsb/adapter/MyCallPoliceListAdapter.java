@@ -181,7 +181,7 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
                         });
                     } else if (outerTagBean instanceof Overtimeordertable) {
                         //还没有做 加班险报案
-                        EventBus.getDefault().post(new BusEvent(BusEvent.MSG_RefreshDataInCallPolice));
+                        callBack.onClick((Overtimeordertable) outerTagBean);
                     }
                 }
             };
@@ -278,5 +278,16 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
         TextView tv_buy_insure_agent;
         LinearLayout item;
         View.OnClickListener onClickListener;
+    }
+
+    private JiaBanGouBaoAnCallBack callBack;
+
+    public void setCallBack(JiaBanGouBaoAnCallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    public interface JiaBanGouBaoAnCallBack {
+        public void onClick(Overtimeordertable object);
+
     }
 }

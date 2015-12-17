@@ -59,7 +59,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
+                android:background="@color/very_light_gray_color">
 
             </View>
 
@@ -100,7 +100,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
+                android:background="@color/very_light_gray_color">
 
             </View>
 
@@ -141,7 +141,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_color" />
+            android:background="@color/very_light_gray_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -187,7 +187,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
+                android:background="@color/very_light_gray_color">
 
             </View>
 
@@ -228,7 +228,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
+                android:background="@color/very_light_gray_color">
 
             </View>
 
@@ -268,7 +268,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_color" />
+            android:background="@color/very_light_gray_color" />
 
 
         <LinearLayout
@@ -316,7 +316,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/gray_color">
+                android:background="@color/very_light_gray_color">
 
             </View>
 
@@ -341,7 +341,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/gray_color" />
+                android:background="@color/very_light_gray_color" />
         </LinearLayout>
 
 

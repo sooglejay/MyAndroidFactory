@@ -159,10 +159,13 @@ public class MeFragment extends BaseFragment {
                     final int userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
                     if (userid != -1) {
 
+                        final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(context);
+                        progressDialogUtil.show("正在获取用户身份信息...");
+
                         UserRetrofitUtil.getSelfInfo(context, userid, new NetCallback<NetWorkResultBean<Userstable>>(context) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
-
+                                progressDialogUtil.hide();
                                 if (TextUtils.isEmpty(message)) {
                                     Toast.makeText(context, "无法连接网络", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -173,6 +176,7 @@ public class MeFragment extends BaseFragment {
 
                             @Override
                             public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                                progressDialogUtil.hide();
                                 userBean = userstableNetWorkResultBean.getData();
                                 //进入我的 团队之前先获取用户的信息
                                 if (userBean != null) {

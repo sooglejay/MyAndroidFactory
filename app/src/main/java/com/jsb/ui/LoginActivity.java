@@ -168,10 +168,11 @@ public class LoginActivity extends BaseActivity {
         tv_obtain_verify_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCountTimer.start();
+
                 if (!checkPhoneNumberValid(et_phone_number.getText().toString())) {
                     Toast.makeText(LoginActivity.this, "请输入正确的手机号码!", Toast.LENGTH_SHORT).show();
                 } else {
+                    mCountTimer.start();
                     phoneString = et_phone_number.getText().toString();
                     UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
                         @Override

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 **
 ** Copyright 2013, The Android Open Source Project
 **
@@ -32,8 +33,7 @@
         android:addStatesFromChildren="true"
         android:background="?attr/actionBarItemBackground">
 
-        <ImageView
-            android:id="@+id/image"
+        <ImageView android:id="@+id/image"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_gravity="center"
@@ -55,8 +55,7 @@
         android:addStatesFromChildren="true"
         android:background="?attr/actionBarItemBackground">
 
-        <ImageView
-            android:id="@+id/image"
+        <ImageView android:id="@+id/image"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_gravity="center"
@@ -69,4 +68,5 @@
 
     </FrameLayout>
 
-</view><!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/lmp-mr1-supportlib-release/frameworks/support/v7/appcompat/res/layout/abc_activity_chooser_view.xml --><!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/grid_password_view/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/layout/abc_activity_chooser_view.xml -->
+</view>
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/lmp-mr1-supportlib-release/frameworks/support/v7/appcompat/res/layout/abc_activity_chooser_view.xml --><!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/grid_password_view/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/layout/abc_activity_chooser_view.xml -->

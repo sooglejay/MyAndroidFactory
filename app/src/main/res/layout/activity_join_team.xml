@@ -66,6 +66,7 @@
     </FrameLayout>
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/middle_padding"
         android:background="@color/bg_screen" />
@@ -80,11 +81,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_marginTop="@dimen/middle_padding"
+            android:gravity="center|top"
             android:text="@string/no_result"
+            android:visibility="gone"
             android:textColor="#d8595959"
-            android:textSize="20sp"
-            android:visibility="gone" />
+            android:textSize="20sp" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_layout"

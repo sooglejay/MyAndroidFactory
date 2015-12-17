@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +44,15 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
     private ViewHolder holder;
     private TeamData teamData;
     private DialogFragmentCreater dialogFragmentController;
+    private PopupWindow popupWindow;
     private int teamId = 0;
-    public LeaderConsiderRequestAdapter(List<Userstable> mDatas, Activity activity, TeamData teamData) {
+
+    public LeaderConsiderRequestAdapter(List<Userstable> mDatas, Activity activity, TeamData teamData, PopupWindow popupWindow) {
         this.mDatas = mDatas;
         this.activity = activity;
         this.teamData = teamData;
         teamId = teamData != null && teamData.getTeamid() != null ? teamData.getTeamid() : 0;
+        this.popupWindow = popupWindow;
     }
     @Override
     public int getCount() {
@@ -83,6 +87,7 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
                                 final int requestUserId = bean.getId();
                                 Log.e("jwjw", teamData.toString() + "\n teamId;" + teamId);
                                 if (teamId != 0) {
+
                                     showConfirmOrCancelDialog(activity, bean.getName(), requestUserId, teamId).show();
                                 }
                             }
@@ -165,6 +170,9 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
                 UserRetrofitUtil.auditJoinRequest(activity, memberId, teamId, auditResult, new NetCallback<NetWorkResultBean<String>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
+                        if (popupWindow != null && popupWindow.isShowing()) {
+                            popupWindow.dismiss();
+                        }
                         progressDialogUtil.hide();
                         if (!TextUtils.isEmpty(message)) {
                             Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
@@ -172,6 +180,9 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
                     }
                     @Override
                     public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                        if (popupWindow != null && popupWindow.isShowing()) {
+                            popupWindow.dismiss();
+                        }
                         progressDialogUtil.hide();
                         Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }

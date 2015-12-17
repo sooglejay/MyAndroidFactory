@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="22dp"
-                android:background="@drawable/line_e0_e5" />
+                android:background="@color/very_light_gray_color" />
             <!--保障人-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_e0_e5" />
+                android:background="@color/very_light_gray_color" />
             <!--公司名称-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,7 +89,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_e0_e5" />
+                android:background="@color/very_light_gray_color" />
             <!--公司地址-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,7 +130,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_e0_e5" />
+                android:background="@color/very_light_gray_color" />
             <!--家庭地址-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -162,7 +162,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_e0_e5" />
+                android:background="@color/very_light_gray_color" />
             <!--保险期限-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -193,7 +193,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_e0_e5" />
+                android:background="@color/very_light_gray_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"

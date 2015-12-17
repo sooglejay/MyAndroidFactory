@@ -17,6 +17,7 @@ import com.jsb.model.MyWalletData;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
@@ -39,10 +40,13 @@ public class MyMoneyPocketActivity extends BaseActivity {
     private MyMoneyPacketListAdapter myCallPoliceListAdapter;
     private List<aaa_MyMoneyPocketBean> mListDatas = new ArrayList<>();
     private int userid;
+
+    ProgressDialogUtil progressDialogUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_pocket);
+        progressDialogUtil = new ProgressDialogUtil(this);
         setUp();
         setLisenter();
     }
@@ -86,6 +90,7 @@ public class MyMoneyPocketActivity extends BaseActivity {
     }
 
     private void getMywalletInfo(int userid) {
+        progressDialogUtil.show("正在获取数据...");
         UserRetrofitUtil.getMywalletInfo(this, 1, new NetCallback<NetWorkResultBean<MyWalletData>>(this) {
             @Override
             public void onFailure(RetrofitError error,String message) {
@@ -93,10 +98,12 @@ public class MyMoneyPocketActivity extends BaseActivity {
                     Toast.makeText(MyMoneyPocketActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
                 swipeLayout.setRefreshing(false);
+                progressDialogUtil.hide();
             }
 
             @Override
             public void success(NetWorkResultBean<MyWalletData> myWalletDataNetWorkResultBean, Response response) {
+
                 MyWalletData bean = myWalletDataNetWorkResultBean.getData();
                 mListDatas.clear();
 
@@ -149,6 +156,7 @@ public class MyMoneyPocketActivity extends BaseActivity {
 
                 myCallPoliceListAdapter.notifyDataSetChanged();
                 swipeLayout.setRefreshing(false);
+                progressDialogUtil.hide();
 
             }
         });

@@ -19,6 +19,7 @@ import com.jsb.model.Overtimeordertable;
 import com.jsb.model.Vehicleordertable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
@@ -61,11 +62,13 @@ public class MyInsureActivity extends BaseActivity {
     private int success_count_o = 0;//加班险
 
     private int userid = -1;
+    ProgressDialogUtil progressDialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_insure);
+        progressDialogUtil = new ProgressDialogUtil(this);
         setUp();
         setLisenter();
     }
@@ -123,6 +126,7 @@ public class MyInsureActivity extends BaseActivity {
             }
         });
 
+        progressDialogUtil.show("正在获取数据...");
         loadDataFromNet(userid);
     }
 
@@ -173,6 +177,7 @@ public class MyInsureActivity extends BaseActivity {
                     success_count_v = 1;
                     if(success_count_d+success_count_o+success_count_v==3)
                     {
+                        progressDialogUtil.hide();
                         myInsuresListAdapter.notifyDataSetChanged();
                     }
                 }
@@ -218,6 +223,7 @@ public class MyInsureActivity extends BaseActivity {
                     success_count_d = 1;
                     if(success_count_d+success_count_o+success_count_v==3)
                     {
+                        progressDialogUtil.hide();
                         myInsuresListAdapter.notifyDataSetChanged();
                     }
                 }
@@ -263,6 +269,7 @@ public class MyInsureActivity extends BaseActivity {
                     success_count_o = 1;
                     if(success_count_d+success_count_o+success_count_v==3)
                     {
+                        progressDialogUtil.hide();
                         myInsuresListAdapter.notifyDataSetChanged();
                     }
                 }

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="E:\JiangWei\Projects\Android\jsb\App\GridPasswordView\src\main\assets"/></dataSet><dataSet config="debug"><source path="E:\JiangWei\Projects\Android\jsb\App\GridPasswordView\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="E:\JiangWei\Projects\Android\jsb\App\grid_password_view\src\main\assets"/></dataSet><dataSet config="debug"><source path="E:\JiangWei\Projects\Android\jsb\App\grid_password_view\src\debug\assets"/></dataSet></merger>

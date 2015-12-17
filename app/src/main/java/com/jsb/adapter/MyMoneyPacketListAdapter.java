@@ -1,6 +1,7 @@
 package com.jsb.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.jsb.R;
 import com.jsb.bean.aaa_MyMoneyPocketBean;
 import com.jsb.constant.StringConstant;
+import com.jsb.ui.stopinsurance.PullMoneyActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +63,7 @@ public class MyMoneyPacketListAdapter extends BaseAdapter {
             holder.onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
+                    mContext.startActivity(new Intent(mContext, PullMoneyActivity.class));
                 }
             };
             convertView.setTag(holder);

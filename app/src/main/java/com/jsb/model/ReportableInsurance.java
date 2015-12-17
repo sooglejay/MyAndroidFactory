@@ -11,7 +11,7 @@ import java.util.List;
 public class ReportableInsurance implements Parcelable {
     private List<Vehicleordertable> vehicleReportableData;
     private List<Driverordertable> driverReportableData;
-    private List<Overtimeordertable> overtimeReportableData;
+    private Overtimeordertable overtimeReportableData;
 
     @Override
     public String toString() {
@@ -38,12 +38,15 @@ public class ReportableInsurance implements Parcelable {
         this.driverReportableData = driverReportableData;
     }
 
-    public List<Overtimeordertable> getOvertimeReportableData() {
+    public Overtimeordertable getOvertimeReportableData() {
         return overtimeReportableData;
     }
 
-    public void setOvertimeReportableData(List<Overtimeordertable> overtimeReportableData) {
+    public void setOvertimeReportableData(Overtimeordertable overtimeReportableData) {
         this.overtimeReportableData = overtimeReportableData;
+    }
+
+    public ReportableInsurance() {
     }
 
     @Override
@@ -55,16 +58,13 @@ public class ReportableInsurance implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(vehicleReportableData);
         dest.writeTypedList(driverReportableData);
-        dest.writeTypedList(overtimeReportableData);
-    }
-
-    public ReportableInsurance() {
+        dest.writeParcelable(this.overtimeReportableData, 0);
     }
 
     protected ReportableInsurance(Parcel in) {
         this.vehicleReportableData = in.createTypedArrayList(Vehicleordertable.CREATOR);
         this.driverReportableData = in.createTypedArrayList(Driverordertable.CREATOR);
-        this.overtimeReportableData = in.createTypedArrayList(Overtimeordertable.CREATOR);
+        this.overtimeReportableData = in.readParcelable(Overtimeordertable.class.getClassLoader());
     }
 
     public static final Creator<ReportableInsurance> CREATOR = new Creator<ReportableInsurance>() {

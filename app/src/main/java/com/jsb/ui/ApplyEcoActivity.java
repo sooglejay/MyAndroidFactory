@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -19,6 +20,8 @@ import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.ExtraConstants;
+import com.jsb.model.Brand;
+import com.jsb.model.NetWorkResultBean;
 import com.jsb.util.ImageUtils;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
@@ -32,12 +35,14 @@ import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by JammyQtheLab on 2015/12/14.
  */
 public class ApplyEcoActivity extends BaseActivity implements
         AMapLocationListener {
+    private static final int ACTION_CHOOSE_BRAND = 2;
     private LocationManagerProxy mLocationManagerProxy;
 
 
@@ -61,13 +66,14 @@ public class ApplyEcoActivity extends BaseActivity implements
     private String service;
     private String managername;
     private String certification_num;
-    private int brand;
+    private int brand = -1;
     private double lat;
     private double lng;
 
 
     private TitleBar titleBar;
     private EditText etCompanyName;
+    private TextView tv_brand_name;
     private EditText etCompanyAddress;
     private ImageView ivLocation;
     private EditText etZhizhaobianhao;
@@ -91,6 +97,7 @@ public class ApplyEcoActivity extends BaseActivity implements
         etManageName = (EditText) findViewById(R.id.et_manage_name);
         etManagePhone = (EditText) findViewById(R.id.et_manage_phone);
         etServerDescribe = (EditText) findViewById(R.id.et_server_describe);
+        tv_brand_name = (TextView) findViewById(R.id.tv_brand_name);
         ivCard = (ImageView) findViewById(R.id.iv_card);
     }
 
@@ -122,12 +129,23 @@ public class ApplyEcoActivity extends BaseActivity implements
             @Override
             public void onRightButtonClick(View v) {
 
+                if (brand == -1) {
+                    Toast.makeText(activity, "请选择品牌!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(resultPath)) {
+                    Toast.makeText(activity, "请选择营业执照!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                File file = new File(resultPath);
+                TypedFile fileToSend = new TypedFile(ImageUtils.mimeType, file);
+
                 final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
                 progressDialogUtil.show("正在请求网络...");
 
 
                 name = etCompanyName.getText().toString();
-                brand = 1;//不知道是什么，乱写的
+
                 address = etCompanyAddress.getText().toString();
                 phone = etManagePhone.getText().toString();
                 service = etServerDescribe.getText().toString();
@@ -135,21 +153,24 @@ public class ApplyEcoActivity extends BaseActivity implements
                 certification_num = etZhizhaobianhao.getText().toString();
 
 
-                UserRetrofitUtil.applyCooperation(activity, name, brand, address, phone, service, managername, certification_num, lat, lng, new NetCallback<Integer>(activity) {
+                UserRetrofitUtil.applyCooperation(activity, name, brand, address, phone, service, managername, certification_num, lat, lng, fileToSend, new NetCallback<NetWorkResultBean<Integer>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         progressDialogUtil.hide();
                     }
 
                     @Override
-                    public void success(Integer integer, Response response) {
+                    public void success(NetWorkResultBean<Integer> integer, Response response) {
                         progressDialogUtil.hide();
-                        switch (integer) {
+                        switch (integer.getData()) {
                             case 0://您已经提交过申请，正在审核中！
+                                Toast.makeText(activity, "您已经提交过申请，正在审核中！", Toast.LENGTH_SHORT).show();
                                 break;
                             case 1://您已经提交过申请，审核通过！
                                 break;
                             case 3://提交成功
+                                Toast.makeText(activity, "提交成功!", Toast.LENGTH_SHORT).show();
+                                finish();
                                 break;
                         }
                     }
@@ -173,6 +194,18 @@ public class ApplyEcoActivity extends BaseActivity implements
                 initLocationManager();
             }
         });
+
+
+        tv_brand_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str = tv_brand_name.getText().toString();
+                Intent intent = new Intent(activity, BrandListActivity.class);
+                intent.putExtra("brand_name", str);
+                activity.startActivityForResult(intent, ACTION_CHOOSE_BRAND);
+            }
+        });
+
 
 
     }
@@ -222,6 +255,13 @@ public class ApplyEcoActivity extends BaseActivity implements
                     if (!TextUtils.isEmpty(resultPath)) {
                         ImageLoader.getInstance().displayImage("file://" + resultPath, ivCard, ImageUtils.getOptions());
                     }
+                }
+                break;
+            case ACTION_CHOOSE_BRAND:
+                if (resultCode == Activity.RESULT_OK) {
+                    String brand_name = data.getStringExtra("brand_name");
+                    brand = data.getIntExtra("id", -1);
+                    tv_brand_name.setText(brand_name);
                 }
                 break;
             default:
@@ -274,5 +314,6 @@ public class ApplyEcoActivity extends BaseActivity implements
             mLocationManagerProxy.destroy();
         }
     }
+
 
 }

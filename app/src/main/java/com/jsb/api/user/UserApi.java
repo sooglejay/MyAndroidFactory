@@ -2,6 +2,7 @@ package com.jsb.api.user;
 
 import com.jsb.api.callback.NetCallback;
 import com.jsb.model.AccountData;
+import com.jsb.model.Brand;
 import com.jsb.model.Charge;
 import com.jsb.model.ChargeBean;
 import com.jsb.model.CommData;
@@ -152,7 +153,7 @@ public interface UserApi {
      */
     @Multipart
     @POST("/fillInfoJoinTeam/")
-    public void fillInfoJoinTeam(@Part("param") String params ,@Part("imagesData") TypedFile imagesData ,NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void fillInfoJoinTeam(@Part("param") String params, @Part("imagesData") TypedFile imagesData, @Part("photoData") TypedFile photoData, NetCallback<NetWorkResultBean<String>> NetCallback);
 
 
     /**
@@ -794,9 +795,35 @@ public interface UserApi {
      * @param params
      * @param NetCallback
      */
-    @FormUrlEncoded
+    @Multipart
     @POST("/applyCooperation/")
-    public void applyCooperation(@Field("param") String params, NetCallback<Integer> NetCallback);
+    public void applyCooperation(@Part("param") String params, @Part("imagesData") TypedFile typedFile, NetCallback<NetWorkResultBean<Integer>> NetCallback);
+
+
+    /**
+     * 发送时机	判断是否提交过入团请求，结合用户角色可以判断是否可以提交申请
+     * 参数说明	1、int userid; //用户id
+     * 限制条件	参数1为必填。
+     *
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/jugeJoinRequest/")
+    public void jugeJoinRequest(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
+
+
+    /**
+     * 接口名称	getFourServiceBrands
+     * 发送时机	获取所有4S品牌
+     * 参数说明	1、String brand;// 品牌名字
+     *
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getFourServiceBrands/")
+    public void getFourServiceBrands(@Field("param") String params, NetCallback<NetWorkResultBean<List<Brand>>> NetCallback);
 
 
 

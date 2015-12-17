@@ -33,7 +33,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_e0_e5" />
+                android:background="@color/very_light_gray_color" />
 
             <!-- 公司名称 -->
             <LinearLayout
@@ -76,7 +76,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
 
             <!--公司地址-->
             <LinearLayout
@@ -123,7 +123,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_e5_e0" />
+                android:background="@color/very_light_gray_color" />
 
 
             <!-- 执照编号 -->
@@ -167,7 +167,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
 
 
             <!-- 代理品牌 -->
@@ -189,6 +189,7 @@
                     android:textSize="@dimen/tv_size_level_1" />
 
                 <TextView
+                    android:id="@+id/tv_brand_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
@@ -208,7 +209,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
 
 
             <!-- 服务经理 -->
@@ -252,7 +253,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
 
 
             <!-- 服务热线 -->
@@ -299,7 +300,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
 
 
             <!--服务介绍-->
@@ -317,7 +318,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -352,7 +353,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
             <!--上传证照-->
             <TextView
                 android:layout_width="match_parent"
@@ -368,7 +369,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#d2d2d2" />
+                android:background="@color/very_light_gray_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"

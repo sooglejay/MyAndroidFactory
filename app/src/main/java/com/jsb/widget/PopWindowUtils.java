@@ -146,7 +146,7 @@ public class PopWindowUtils {
         ListView listView = (ListView) view.findViewById(R.id.list_view);
 
         pop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        LeaderConsiderRequestAdapter adapter = new LeaderConsiderRequestAdapter(userstableList, activity, teamData);
+        LeaderConsiderRequestAdapter adapter = new LeaderConsiderRequestAdapter(userstableList, activity, teamData, pop);
         listView.setAdapter(adapter);
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.transparent));
         pop.setBackgroundDrawable(dw);

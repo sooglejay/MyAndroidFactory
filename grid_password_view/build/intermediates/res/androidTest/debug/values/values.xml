@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/GridPasswordView/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/grid_password_view/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -1110,7 +1110,7 @@
         <item name="android:scaleType">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
-    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/GridPasswordView/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/grid_password_view/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <style name="GridPasswordView"/>
     <style name="GridPasswordView.Divider">
@@ -1130,7 +1130,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:singleLine">true</item>
     </style>
-    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/GridPasswordView/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/grid_password_view/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>

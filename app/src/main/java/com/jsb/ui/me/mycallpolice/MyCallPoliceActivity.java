@@ -1,5 +1,6 @@
 package com.jsb.ui.me.mycallpolice;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -21,10 +22,12 @@ import com.jsb.constant.PreferenceConstant;
 import com.jsb.event.BusEvent;
 import com.jsb.fragment.DialogFragmentCreater;
 import com.jsb.model.NetWorkResultBean;
+import com.jsb.model.Overtimeordertable;
 import com.jsb.model.ReportData;
 import com.jsb.model.ReportableInsurance;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
+import com.jsb.util.ProgressDialogUtil;
 import com.jsb.util.UIUtils;
 import com.jsb.widget.AutoListView;
 import com.jsb.widget.TitleBar;
@@ -55,14 +58,17 @@ public class MyCallPoliceActivity extends BaseActivity implements
     private int userid = -1;
 
     double lat,lng;
-
+    private Overtimeordertable overtimeReportableData;
+    private Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_call_police);
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
+        activity = this;
         setUp();
         setLisenter();
+        getReportableInsurance(userid);
     }
 
     private void setLisenter() {
@@ -101,10 +107,17 @@ public class MyCallPoliceActivity extends BaseActivity implements
         list_view.setLoading(false);
 
         myCallPoliceListAdapter = new MyCallPoliceListAdapter(this, mListDatas, dialogFragmentCreater);
+        myCallPoliceListAdapter.setCallBack(new MyCallPoliceListAdapter.JiaBanGouBaoAnCallBack() {
+            @Override
+            public void onClick(Overtimeordertable object) {
+                overtimeReportableData = object;
+                initLocationManager();
+            }
+        });
         list_view.setAdapter(myCallPoliceListAdapter);
         noResultsView = (TextView) findViewById(R.id.emptyElement);
         list_view.setEmptyView(noResultsView);
-        getReportableInsurance(userid);
+
     }
 
     /**
@@ -137,9 +150,12 @@ public class MyCallPoliceActivity extends BaseActivity implements
 
 
     private void getReportableInsurance(int userid) {
+        final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
+        progressDialogUtil.show("正在获取信息...");
         UserRetrofitUtil.getReportableInsurance(this, userid, new NetCallback<NetWorkResultBean<ReportData>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
+                progressDialogUtil.hide();
                 if (!TextUtils.isEmpty(message)) {
                     Toast.makeText(MyCallPoliceActivity.this, message, Toast.LENGTH_SHORT).show();
 
@@ -149,11 +165,14 @@ public class MyCallPoliceActivity extends BaseActivity implements
 
             @Override
             public void success(NetWorkResultBean<ReportData> reportDataNetWorkResultBean, Response response) {
+                progressDialogUtil.hide();
+
                 ReportData data = reportDataNetWorkResultBean.getData();
                 if (data.getReportableInsurance() != null) {
                     ReportableInsurance reportableInsurance = data.getReportableInsurance();
                     if (reportableInsurance.getOvertimeReportableData() != null) {
-                        mListDatas.addAll(data.getReportableInsurance().getOvertimeReportableData());
+                        overtimeReportableData = reportableInsurance.getOvertimeReportableData();
+                        mListDatas.add(overtimeReportableData);
                     }
                     if (reportableInsurance.getDriverReportableData() != null) {
                         mListDatas.addAll(data.getReportableInsurance().getDriverReportableData());
@@ -174,7 +193,13 @@ public class MyCallPoliceActivity extends BaseActivity implements
             // 定位成功回调信息，设置相关消息
             lat = aMapLocation.getLatitude();
             lng = aMapLocation.getLongitude();
-            myCallPoliceListAdapter.checkLocation(lat,lng);
+            double lat_o = overtimeReportableData.getLat();
+            double lng_o = overtimeReportableData.getLng();
+            if (Math.abs(lat_o - lat) < 0.1 && Math.abs(lng_o - lng) < 0.1) {
+                Toast.makeText(activity, "报案成功！经纬度差在0.1之内", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(activity, "报案失败！经度差：" + Math.abs(lat_o - lat) + "    纬度差：" + Math.abs(lng_o - lng), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -206,21 +231,6 @@ public class MyCallPoliceActivity extends BaseActivity implements
             mLocationManagerProxy.removeUpdates(this);
             // 销毁定位
             mLocationManagerProxy.destroy();
-        }
-    }
-
-    /**
-     * EventBus 广播
-     *
-     * @param event
-     */
-    public void onEventMainThread(BusEvent event) {
-        switch (event.getMsg()) {
-            case BusEvent.MSG_RefreshDataInCallPolice:
-                initLocationManager();
-                break;
-            default:
-                break;
         }
     }
 
