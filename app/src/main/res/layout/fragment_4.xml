@@ -90,7 +90,7 @@
                         android:id="@+id/my_history_sale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/my_history_sale"
+                        android:text="@string/my_order"
                         android:textSize="@dimen/big_textsize" />
                 </LinearLayout>
 

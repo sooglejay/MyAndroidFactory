@@ -1,8 +1,12 @@
 package com.jsb.ui.stopinsurance;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -26,7 +30,12 @@ import com.jsb.ui.BrowserActivity;
 import com.jsb.util.FilterUtil;
 import com.jsb.util.PreferenceUtil;
 import com.jsb.util.ProgressDialogUtil;
+import com.jsb.util.UIUtils;
 import com.jsb.widget.TitleBar;
+import com.jsb.widget.swipemenulistview.SwipeMenu;
+import com.jsb.widget.swipemenulistview.SwipeMenuCreator;
+import com.jsb.widget.swipemenulistview.SwipeMenuItem;
+import com.jsb.widget.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +62,7 @@ public class PullMoneyActivity extends BaseActivity {
 
 
     private TitleBar titleBar;
-    private ListView mListView;
+    private SwipeMenuListView mListView;
     private CardListAdapter cardListAdapter;
     private List<FinancialAccount> mDatas = new ArrayList<>();
 
@@ -102,13 +111,125 @@ public class PullMoneyActivity extends BaseActivity {
     }
 
     private void setUp() {
-        mListView = (ListView) findViewById(R.id.card_listview);
+        mListView = (SwipeMenuListView) findViewById(R.id.card_listview);
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("取钱", R.drawable.arrow_left, -1, "", "取钱说明");
 
         cardListAdapter = new CardListAdapter(this, mDatas);
+        initListViewMenu();
         mListView.setAdapter(cardListAdapter);
         findViews();
+
+    }
+
+    public void initListViewMenu() {
+        // step 1. create a MenuCreator
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+
+				// create "open" item
+				SwipeMenuItem openItem = new SwipeMenuItem(
+						getApplicationContext());
+				// set item background
+				openItem.setBackground(R.drawable.btn_select_dark_gray);
+				// set item width
+				openItem.setWidth((int) UIUtils.dp2px(activity, 90));
+				// set item title
+				openItem.setTitle("编辑");
+				// set item title fontsize
+				openItem.setTitleSize(18);
+				// set item title font color
+				openItem.setTitleColor(Color.WHITE);
+				// add to menu
+				menu.addMenuItem(openItem);
+
+
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(R.drawable.btn_select_red);
+                // set item width
+                deleteItem.setTitle("删除");
+                // set item title fontsize
+                deleteItem.setTitleSize(18);
+                // set item title font color
+                deleteItem.setTitleColor(Color.WHITE);
+
+                deleteItem.setWidth((int) UIUtils.dp2px(activity, 90));
+                // set a icon
+//                deleteItem.setIcon(R.drawable.wallet_base_delete);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+        // set creator
+        mListView.setMenuCreator(creator);
+
+        // step 2. listener item click event
+        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        //只有一个Item，所以其实，它是进入了 case 0这个语句了
+                        //open
+                        //open(item);
+                        Toast.makeText(activity, "没有接口！", Toast.LENGTH_SHORT).show();
+
+                        break;
+                    case 1:
+                        // delete
+                        //	delete(deleteItem);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                        dialog.setTitle("小安提醒你").setIcon(android.R.drawable.ic_dialog_info).setMessage("你确定要删除这条银行卡信息么？").setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(activity, "没有接口！", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();//取消弹出框
+                            }
+                        }).create().show();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        mListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+
+            @Override
+            public void onSwipeStart(int position) {
+                // swipe start
+                //测试用
+                // Toast.makeText(getApplicationContext(),position+":Start",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSwipeEnd(int position) {
+                // swipe end
+                //测试用
+                // Toast.makeText(getApplicationContext(),position+":End",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // other setting
+//		listView.setCloseInterpolator(new BounceInterpolator());
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                //测试用
+                // Toast.makeText(getApplicationContext(), position + " long click", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
 
     }
 
@@ -161,6 +282,7 @@ public class PullMoneyActivity extends BaseActivity {
                                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                             }
                         }
+
                         @Override
                         public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                             progressDialogUtil.hide();
@@ -200,6 +322,7 @@ public class PullMoneyActivity extends BaseActivity {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             amountStr = etInputNumber.getText().toString();

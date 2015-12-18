@@ -13,17 +13,6 @@ public class Overtimeordertable implements Parcelable {
     private Integer userid;//int	用户编号（被保险人）	Y
     private Integer charegeid;//int	支付对象id
     private Integer compensated;//int	是否赔付 0未赔 1已赔	Y
-    private Float money;//Float	金额	Y
-    private Long startdate;//起效时间	Y
-    private Long enddate;//timestamp	结束时间	Y
-    private Float reportdate;//timestamp	报案时间
-    private String companyaddress;//String	公司地址	Y
-    private String homeaddress;//String	家庭地址
-    //    lat	Float	公司纬度
-//    lng	Float	公司经度
-    private Float lat;
-    private Float lng;
-    private int super_status = 0;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
 
     @Override
     public String toString() {
@@ -34,16 +23,48 @@ public class Overtimeordertable implements Parcelable {
                 ", charegeid=" + charegeid +
                 ", compensated=" + compensated +
                 ", money=" + money +
+                ", coverage=" + coverage +
                 ", startdate=" + startdate +
                 ", enddate=" + enddate +
                 ", reportdate=" + reportdate +
                 ", companyaddress='" + companyaddress + '\'' +
+                ", companyname='" + companyname + '\'' +
                 ", homeaddress='" + homeaddress + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
                 ", super_status=" + super_status +
                 '}';
     }
+
+    public Float getCoverage() {
+        return coverage;
+    }
+
+    public void setCoverage(Float coverage) {
+        this.coverage = coverage;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
+    private Float money;//Float	金额	Y  你给保险公司
+    private Float coverage;//Float	金额	Y    保险公司给你
+    private Long startdate;//起效时间	Y
+    private Long enddate;//timestamp	结束时间	Y
+    private Long reportdate;//timestamp	报案时间
+    private String companyaddress;//String	公司地址	Y
+    private String companyname;//String	公司名字	Y
+    private String homeaddress;//String	家庭地址
+    //    lat	Float	公司纬度
+//    lng	Float	公司经度
+    private Float lat;
+    private Float lng;
+    private int super_status = 0;//妥协的设计，增加一个 超级状态变量，作为 客户端 ui 设计的辅助变量
 
     public Float getLat() {
         return lat;
@@ -77,11 +98,11 @@ public class Overtimeordertable implements Parcelable {
         return enddate;
     }
 
-    public Float getReportdate() {
+    public Long getReportdate() {
         return reportdate;
     }
 
-    public void setReportdate(Float reportdate) {
+    public void setReportdate(Long reportdate) {
         this.reportdate = reportdate;
     }
 
@@ -178,15 +199,15 @@ public class Overtimeordertable implements Parcelable {
         dest.writeValue(this.charegeid);
         dest.writeValue(this.compensated);
         dest.writeValue(this.money);
+        dest.writeValue(this.coverage);
         dest.writeValue(this.startdate);
         dest.writeValue(this.enddate);
         dest.writeValue(this.reportdate);
         dest.writeString(this.companyaddress);
+        dest.writeString(this.companyname);
         dest.writeString(this.homeaddress);
-        if (this.lat != null)
-            dest.writeFloat(this.lat);
-        if (this.lng != null)
-            dest.writeFloat(this.lng);
+        dest.writeValue(this.lat);
+        dest.writeValue(this.lng);
         dest.writeInt(this.super_status);
     }
 
@@ -197,15 +218,15 @@ public class Overtimeordertable implements Parcelable {
         this.charegeid = (Integer) in.readValue(Integer.class.getClassLoader());
         this.compensated = (Integer) in.readValue(Integer.class.getClassLoader());
         this.money = (Float) in.readValue(Float.class.getClassLoader());
+        this.coverage = (Float) in.readValue(Float.class.getClassLoader());
         this.startdate = (Long) in.readValue(Long.class.getClassLoader());
         this.enddate = (Long) in.readValue(Long.class.getClassLoader());
-        this.reportdate = (Float) in.readValue(Float.class.getClassLoader());
+        this.reportdate = (Long) in.readValue(Float.class.getClassLoader());
         this.companyaddress = in.readString();
+        this.companyname = in.readString();
         this.homeaddress = in.readString();
-        if (this.lat != null)
-            this.lat = in.readFloat();
-        if (this.lng != null)
-            this.lng = in.readFloat();
+        this.lat = (Float) in.readValue(Float.class.getClassLoader());
+        this.lng = (Float) in.readValue(Float.class.getClassLoader());
         this.super_status = in.readInt();
     }
 

@@ -163,40 +163,7 @@
             android:textSize="@dimen/big_textsize" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white_color"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/middle_padding"
-        android:paddingRight="@dimen/middle_padding">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/small_padding"
-            android:text="加班赔付"
-            android:textColor="@color/tv_black_color_level_0"
-            android:textSize="@dimen/big_textsize" />
-
-        <TextView
-            android:id="@+id/tv_jbpf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10元"
-            android:textColor="#888888"
-            android:textSize="@dimen/big_textsize" />
-
-        <TextView
-            android:id="@+id/tv_jbpf_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:text="2015-09-22"
-            android:textColor="#888888"
-            android:textSize="@dimen/small_textsize" />
-    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -245,20 +212,16 @@
             android:textSize="@dimen/big_textsize" />
 
         <TextView
+            android:id="@+id/tv_coverage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10"
-            android:textColor="#888888"
+            android:textColor="@color/tv_black_color_level_0"
             android:textSize="@dimen/big_textsize" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=",00"
-            android:textColor="#888888"
-            android:textSize="@dimen/small_textsize" />
 
         <TextView
+            android:id="@+id/tv_reportdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/middle_padding"
@@ -291,10 +254,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/middle_padding"
+                android:text="产品售价：￥"
+                android:textColor="@color/tv_black_color_level_0"
+                android:textSize="@dimen/middle_textsize" />
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/middle_padding"
                 android:layout_marginTop="@dimen/middle_padding"
-                android:text="产品售价：Y1,00元"
-                android:textColor="#888888"
+                android:text="12"
+                android:textColor="@color/tv_black_color_level_0"
                 android:textSize="@dimen/middle_textsize" />
         </LinearLayout>
 

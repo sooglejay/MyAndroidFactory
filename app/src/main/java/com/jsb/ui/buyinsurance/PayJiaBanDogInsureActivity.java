@@ -134,7 +134,7 @@ public class PayJiaBanDogInsureActivity extends BaseActivity implements View.OnC
                 break;
             case R.id.tv_confirm_pay:
                 progressDialogUtil.show("正在处理...");
-                int overtimeInsuranceId = 1;
+                int overtimeInsuranceId = overtimeordertable.getId();
                 float fee = 1.00f;
                 String phone = PreferenceUtil.load(this, PreferenceConstant.phone, "");
                 String channelStr = "";
@@ -178,8 +178,6 @@ public class PayJiaBanDogInsureActivity extends BaseActivity implements View.OnC
                                     Toast.makeText(PayJiaBanDogInsureActivity.this, "您已经买过加班险了，每周只能买一次，下周再来吧！等你哟！", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
-
-
                                 Intent intent = new Intent();
                                 String packageName = getPackageName();
                                 ComponentName componentName = new ComponentName(packageName, packageName + ".wxapi.WXPayEntryActivity");
@@ -230,7 +228,7 @@ public class PayJiaBanDogInsureActivity extends BaseActivity implements View.OnC
         AlertDialog.Builder builder = new AlertDialog.Builder(PayJiaBanDogInsureActivity.this);
         builder.setMessage(str);
         builder.setTitle("提示");
-        builder.setPositiveButton("OK", null);
+        builder.setPositiveButton("支付成功！", null);
         builder.create().show();
     }
 

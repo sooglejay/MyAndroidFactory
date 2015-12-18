@@ -14,12 +14,7 @@ import com.jsb.R;
  * Created by JammyQtheLab on 2015/11/12.
  */
 public class ConsultFragmentPerPage extends BaseFragment{
-    final int color_array[] =
-            {
-                    Color.parseColor("#aa89bd"),
-                    Color.parseColor("#da8f8f"),
-                    Color.parseColor("#5fb1d0"),
-            };
+
     private LinearLayout layout_background;
     private int pagePosition;
 
@@ -40,16 +35,16 @@ public class ConsultFragmentPerPage extends BaseFragment{
         findViews(view);
         switch (pagePosition) {
             case 0:
-                layout_background.setBackgroundColor(color_array[0]);
+                layout_background.setBackgroundColor(Color.parseColor("#aa89bd"));
                 break;
             case 1:
-                layout_background.setBackgroundColor(color_array[1]);
+                layout_background.setBackgroundColor(Color.parseColor("#da8f8f"));
                 break;
             case 2:
-                layout_background.setBackgroundColor(color_array[2]);
+                layout_background.setBackgroundColor(Color.parseColor("#5fb1d0"));
                 break;
             case 3:
-                layout_background.setBackgroundColor(color_array[0]);
+                layout_background.setBackgroundColor(Color.parseColor("#aa89bd"));
                 break;
             default:
                 break;

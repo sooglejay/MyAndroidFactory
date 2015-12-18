@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,7 +140,7 @@ public class MyHistoryPriceListActivity extends BaseActivity {
         tv_delete = (TextView) findViewById(R.id.tv_delete);
         tv_cancel = (TextView) findViewById(R.id.tv_cancel);
 
-        titleBar.initTitleBarInfo("历史报价", R.drawable.arrow_left, -1, "", "");
+        titleBar.initTitleBarInfo(context.getResources().getString(R.string.my_order), R.drawable.arrow_left, -1, "", "");
 
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         UIUtils.initSwipeRefreshLayout(swipeLayout);

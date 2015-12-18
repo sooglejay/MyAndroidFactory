@@ -1,5 +1,6 @@
 package com.jsb.ui.buyinsurance;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,10 +22,12 @@ public class InsureOnDrivingActivity extends BaseActivity {
     private TextView tv_buy_insure;
     private ProgressDialogUtil progressDialogUtil;
 
+    private Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_on_driving_activity);
+        activity = this;
         progressDialogUtil = new ProgressDialogUtil(this,true);
         setUp();
         setLisenter();
@@ -34,7 +37,7 @@ public class InsureOnDrivingActivity extends BaseActivity {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                InsureOnDrivingActivity.this.finish();
+                finish();
             }
 
             @Override
@@ -52,7 +55,7 @@ public class InsureOnDrivingActivity extends BaseActivity {
         tv_buy_insure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InsureOnDrivingActivity.this, OrderCofirmOnDrivingInsureActivity.class));
+                startActivity(new Intent(activity, OrderCofirmOnDrivingInsureActivity.class));
             }
         });
         titleBar = (TitleBar) findViewById(R.id.title_bar);

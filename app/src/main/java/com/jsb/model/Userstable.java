@@ -7,42 +7,6 @@ import android.os.Parcelable;
  * Created by JammyQtheLab on 2015/10/28.
  */
 public class Userstable implements Parcelable {
-//    id	int	用户ID	Y
-//    phone	String	电话	Y
-//    registertime	timestamp	注册时间
-//    name	String	姓名
-//    sex	int	性别  0女  1男
-//    city	String	城市
-//    contactaddress	String	联系地址
-//    idnumber	String	身份证号
-//    pwd	String	提现密码
-//    idcardpicname	String	身份证图片名字
-//    type	int	用户角色 0 一般用户，1 业务员 2团长	Y
-//    last_login_time	timestamp	最近一次登录时间
-//    account	String	提现账号
-//    company	Insurancecompanytable	保险公司信息5.4.6
-//    fourservice	FourService	4S店信息5.4.7
-//    service	String	个人服务介绍
-//    worknum	String	工号
-    private Integer id;//int	用户ID	Y
-    private String phone;//电话	Y
-    private Long registertime;//注册时间
-    private Long last_login_time;//timestamp	最近一次登录时间
-    private String name;//String	姓名
-    private String contactaddress;//String	联系地址
-    private String account;//String	提现账号
-    private String idnumber;//	String	身份证号
-    private String pwd;//	String	提现密码
-    private String idcardpicname;//String	身份证图片名字
-    private Integer type;//int	用户角色 0 一般用户，1 业务员 2团长	Y
-    private String city;//String	城市
-    private Integer sex;//int	性别  0女  1男
-
-    private InsuranceCompanyInfo company ;
-    private FourService fourservice;
-    private String service;
-    private String worknum;
-
     @Override
     public String toString() {
         return "Userstable{" +
@@ -63,9 +27,54 @@ public class Userstable implements Parcelable {
                 ", fourservice=" + fourservice +
                 ", service='" + service + '\'' +
                 ", worknum='" + worknum + '\'' +
+                ", audit=" + audit +
                 ", superFlag=" + superFlag +
                 '}';
     }
+
+    //    5.3.用户信息Userstable
+//    名称	类型	说明	不可为空
+//    id	int	用户ID	Y
+//    phone	String	电话	Y
+//    registertime	timestamp	注册时间
+//    name	String	姓名
+//    sex	int	性别  0女  1男
+//    city	String	城市
+//    contactaddress	String	联系地址
+//    idnumber	String	身份证号
+//    pwd	String	提现密码
+//    idcardpicname	String	身份证图片名字
+//    type	int	用户角色 0 一般用户，1 业务员 2团长	Y
+//    last_login_time	timestamp	最近一次登录时间
+//    account	String	提现账号
+//    company	Insurancecompanytable	保险公司信息5.4.6
+//    fourservice	FourService	4S店信息5.4.7
+//    service	String	个人服务介绍
+//    worknum	String	工号
+//    audit	int	实名认证状态：0未认证   1等待审核  2 通过审核  3未通过
+public int getAudit() {
+    return audit;
+}public void setAudit(int audit) {
+    this.audit = audit;
+}private Integer id;//int	用户ID	Y
+    private String phone;//电话	Y
+    private Long registertime;//注册时间
+    private Long last_login_time;//timestamp	最近一次登录时间
+    private String name;//String	姓名
+    private String contactaddress;//String	联系地址
+    private String account;//String	提现账号
+    private String idnumber;//	String	身份证号
+    private String pwd;//	String	提现密码
+    private String idcardpicname;//String	身份证图片名字
+    private Integer type;//int	用户角色 0 一般用户，1 业务员 2团长	Y
+    private String city;//String	城市
+    private Integer sex;//int	性别  0女  1男
+
+    private InsuranceCompanyInfo company ;
+    private FourService fourservice;
+    private String service;
+    private String worknum;
+    private int audit;
 
     public Boolean getSuperFlag() {
         return superFlag;
@@ -244,6 +253,7 @@ public class Userstable implements Parcelable {
         dest.writeParcelable(this.fourservice, 0);
         dest.writeString(this.service);
         dest.writeString(this.worknum);
+        dest.writeInt(this.audit);
         dest.writeValue(this.superFlag);
     }
 
@@ -265,6 +275,7 @@ public class Userstable implements Parcelable {
         this.fourservice = in.readParcelable(FourService.class.getClassLoader());
         this.service = in.readString();
         this.worknum = in.readString();
+        this.audit = in.readInt();
         this.superFlag = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 

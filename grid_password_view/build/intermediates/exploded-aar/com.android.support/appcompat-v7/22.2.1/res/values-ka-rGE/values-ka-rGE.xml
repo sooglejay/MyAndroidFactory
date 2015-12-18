@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/lmp-mr1-supportlib-release/frameworks/support/v7/appcompat/res/values-ka-rGE/strings.xml -->
-    <eat-comment />
+    <eat-comment/>
     <string msgid="4600421777120114993" name="abc_action_bar_home_description">"მთავარზე ნავიგაცია"</string>
     <string msgid="1594238315039666878" name="abc_action_bar_up_description">"ზემოთ ნავიგაცია"</string>
     <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"მეტი ვარიანტები"</string>

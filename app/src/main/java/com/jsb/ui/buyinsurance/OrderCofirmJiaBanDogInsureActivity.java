@@ -24,6 +24,7 @@ import com.jsb.api.user.UserRetrofitUtil;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.model.NetWorkResultBean;
 import com.jsb.model.OvertimeData;
+import com.jsb.model.Overtimeinsurance;
 import com.jsb.model.Overtimeordertable;
 import com.jsb.ui.BaseActivity;
 import com.jsb.util.PreferenceUtil;
@@ -39,6 +40,7 @@ import retrofit.client.Response;
 public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         AMapLocationListener {
     private static final String ExtraKey = "ExtraKey";
+    private static final String ExtraKey_overtimeordertable = "ExtraKey_overtimeordertable";
     private LocationManagerProxy mLocationManagerProxy;
 
 
@@ -53,9 +55,10 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
     private ProgressDialogUtil progressDialogUtil;
 
 
-    private Context context;
+    private Activity context;
 
     private OvertimeData overtimeData;//加班险的具体信息
+    private Overtimeordertable overtimeordertable;//从订单界面跳过来的
 
 
     private double lat = 0;//
@@ -67,13 +70,20 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         context.startActivity(intent);
     }
 
+    public static void startActivity(Activity context, Overtimeordertable overtimeordertable) {
+        Intent intent = new Intent(context, OrderCofirmJiaBanDogInsureActivity.class);
+        intent.putExtra(ExtraKey_overtimeordertable, overtimeordertable);
+        context.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirm_jiaban_dog_insure);
-
+        context = this;
         overtimeData = getIntent().getParcelableExtra(ExtraKey);
+        overtimeordertable = getIntent().getParcelableExtra(ExtraKey_overtimeordertable);
         setUp();
         setLisenter();
         initLocationManager();
@@ -123,7 +133,7 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
         titleBar.initTitleBarInfo("确认订单", R.drawable.arrow_left, -1, "", "");
 
 
-        context = this;
+
         progressDialogUtil = new ProgressDialogUtil(this);
 
         et_insure_user_name = (EditText) findViewById(R.id.et_insure_user_name);
@@ -148,9 +158,12 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
                 if (tvPayFlag) {
                     //如果输入框都有输入
 
-                    int overtimeInsuranceId = 0;
+                    int overtimeInsuranceId=0;
                     if (overtimeData != null && overtimeData.getOvertimeInsurance() != null) {
                         overtimeInsuranceId = overtimeData.getOvertimeInsurance().getId();
+                    }else {
+                        Toast.makeText(context,"订单号为空，无法购买，请联系客服！",Toast.LENGTH_SHORT).show();
+                        return;
                     }
                     progressDialogUtil.show("正在保存订单...");
                     UserRetrofitUtil.saveOvertimeInsuranceOrder(context,
@@ -173,8 +186,8 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
                                 @Override
                                 public void success(NetWorkResultBean<Overtimeordertable> stringNetWorkResultBean, Response response) {
                                     progressDialogUtil.hide();
-                                    PayJiaBanDogInsureActivity.startActivity(OrderCofirmJiaBanDogInsureActivity.this, stringNetWorkResultBean.getData());
-                                    OrderCofirmJiaBanDogInsureActivity.this.finish();
+                                    PayJiaBanDogInsureActivity.startActivity(context, stringNetWorkResultBean.getData());
+                                    finish();
                                 }
                             });
 
@@ -185,6 +198,12 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
             }
         });
 
+
+//
+//        if(overtimeordertable!=null)
+//        {
+//            et_insure_user_name.setText(overtimeordertable.get);
+//        }
     }
 
 

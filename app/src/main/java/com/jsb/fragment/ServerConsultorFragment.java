@@ -1,5 +1,6 @@
 package com.jsb.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -17,9 +18,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.jsb.R;
+import com.jsb.api.callback.NetCallback;
+import com.jsb.api.user.UserRetrofitUtil;
+import com.jsb.constant.PreferenceConstant;
+import com.jsb.model.ConsultantData;
+import com.jsb.model.NetWorkResultBean;
+import com.jsb.util.PreferenceUtil;
 import com.jsb.widget.TitleBar;
 import com.jsb.widget.jazzyviewpager.JazzyViewPager;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ServerConsultorFragment extends BaseFragment {
     private ImageView iv_dot_0;
@@ -32,6 +45,11 @@ public class ServerConsultorFragment extends BaseFragment {
     private TitleBar titleBar;
     private FrameLayout layout_viewpager;
 
+    private List<ConsultFragmentPerPage>fragmentPerPages = new ArrayList<>();
+    private ConsultantData consultantData;
+    private int userid = -1;
+    private Activity activity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_3, container, false);
@@ -39,6 +57,8 @@ public class ServerConsultorFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        activity = getActivity();
+        userid = PreferenceUtil.load(activity, PreferenceConstant.userid,-1);
         setUp(view, savedInstanceState);
     }
 
@@ -126,20 +146,40 @@ public class ServerConsultorFragment extends BaseFragment {
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
 
+        loadConsults();
 
+    }
 
+    private void loadConsults() {
+        UserRetrofitUtil.getMyConsultant(activity, userid, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
+            @Override
+            public void onFailure(RetrofitError error, String message) {
 
+            }
+
+            @Override
+            public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
+                consultantData = consultantDataNetWorkResultBean.getData();
+                for (int i = 0; i < 4; i++) {
+                    ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
+                    fragmentPerPage.setPosition(i);
+                    fragmentPerPages.add(fragmentPerPage);
+
+                }
+                viewPagerAdapter.notifyDataSetChanged();
+
+            }
+        });
     }
 
     /**
      * 首页viewpager的adapter
      */
-    private static final class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    private  final class ViewPagerAdapter extends FragmentStatePagerAdapter {
         public ViewPagerAdapter(Context context, FragmentManager fm, JazzyViewPager mJazzy) {
             super(fm);
             this.mJazzy = mJazzy;
         }
-
         private JazzyViewPager mJazzy;
 
         @Override
@@ -156,37 +196,12 @@ public class ServerConsultorFragment extends BaseFragment {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
-            switch (position) {
-                case 0:
-                    ConsultFragmentPerPage page0 = new ConsultFragmentPerPage();
-                    page0.setPosition(position);
-                    fragment = page0;
-                    break;
-                case 1:
-                    ConsultFragmentPerPage page1 = new ConsultFragmentPerPage();
-                    page1.setPosition(position);
-                    fragment = page1;
-                    break;
-                case 2:
-                    ConsultFragmentPerPage page2 = new ConsultFragmentPerPage();
-                    page2.setPosition(position);
-                    fragment = page2;
-                    break;
-                case 3:
-                    ConsultFragmentPerPage page3 = new ConsultFragmentPerPage();
-                    page3.setPosition(position);
-                    fragment = page3;
-                    break;
-                default:
-                    break;
-            }
-            return fragment;
+           return fragmentPerPages.get(position);
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return fragmentPerPages.size();
         }
     }
 

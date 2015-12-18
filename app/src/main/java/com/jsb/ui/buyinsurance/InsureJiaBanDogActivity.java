@@ -106,9 +106,11 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                                                                                                  jugeOvertimeInsuranceOrder, Response response) {
                                                                          String message = jugeOvertimeInsuranceOrder.getMessage();
                                                                          if (message.equals(StringConstant.buyed)) {
-                                                                             Toast.makeText(context, "您已经买过加班险了，每周只能买一次，下次老地方见吧！", Toast.LENGTH_SHORT).show();
-                                                                         } else {
+                                                                             Toast.makeText(context, "您已经买过加班险了，每周只能买一次，下周再来吧！等你哟！", Toast.LENGTH_SHORT).show();
+                                                                         } else if (overtimeData!=null){
                                                                              OrderCofirmJiaBanDogInsureActivity.startActivity(InsureJiaBanDogActivity.this, overtimeData);
+                                                                         }else {
+                                                                             Toast.makeText(context,"加保险信息为空！无法购买！",Toast.LENGTH_SHORT).show();
                                                                          }
                                                                      }
                                                                  }

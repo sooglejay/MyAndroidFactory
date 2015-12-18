@@ -30,13 +30,13 @@
     android:background="@color/bg_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ListView
+    <com.jsb.widget.swipemenulistview.SwipeMenuListView
         android:id="@+id/card_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/gray_color"
+        android:divider="@color/very_light_gray_color"
         android:dividerHeight="@dimen/listview_divider"
-        android:scrollbars="none"></ListView>
+        android:scrollbars="none"></com.jsb.widget.swipemenulistview.SwipeMenuListView>
 </LinearLayout>
 
 </LinearLayout>

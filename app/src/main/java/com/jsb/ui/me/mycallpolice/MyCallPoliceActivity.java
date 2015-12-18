@@ -195,7 +195,7 @@ public class MyCallPoliceActivity extends BaseActivity implements
             lng = aMapLocation.getLongitude();
             double lat_o = overtimeReportableData.getLat();
             double lng_o = overtimeReportableData.getLng();
-            if (Math.abs(lat_o - lat) < 0.1 && Math.abs(lng_o - lng) < 0.1) {
+            if (Math.abs(lat_o - lat) < 0.5 && Math.abs(lng_o - lng) < 0.5) {
                 Toast.makeText(activity, "报案成功！经纬度差在0.1之内", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(activity, "报案失败！经度差：" + Math.abs(lat_o - lat) + "    纬度差：" + Math.abs(lng_o - lng), Toast.LENGTH_SHORT).show();

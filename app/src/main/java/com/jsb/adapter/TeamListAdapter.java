@@ -15,6 +15,7 @@ import com.baidu.wallet.base.datamodel.AccountManager;
 import com.jsb.R;
 import com.jsb.api.callback.NetCallback;
 import com.jsb.api.user.UserRetrofitUtil;
+
 import com.jsb.constant.IntConstant;
 import com.jsb.constant.PreferenceConstant;
 import com.jsb.fragment.DialogFragmentCreater;
@@ -115,40 +116,52 @@ public class TeamListAdapter extends BaseAdapter {
                                                     int userType = userBean.getType();
                                                     switch (userType) {
                                                         case IntConstant.USER_TYPE_FREE:
-                                                            if (TextUtils.isEmpty(userBean.getIdnumber())) {
-                                                                Toast.makeText(mContext, "请先提交实名认证！", Toast.LENGTH_SHORT).show();
-                                                                mContext.startActivity(new Intent(mContext, CertificationActivity.class));
-                                                            } else {
+                                                            switch (userBean.getAudit()) {
+                                                                //   0未认证
+                                                                //   1等待审核
+                                                                //   2 通过审核
+                                                                //   3未通过
+                                                                case 0:
+                                                                    Toast.makeText(mContext, "请先提交实名认证！", Toast.LENGTH_SHORT).show();
+                                                                    mContext.startActivity(new Intent(mContext, CertificationActivity.class));
+                                                                    break;
+                                                                case 1:
+                                                                    Toast.makeText(mContext, "加团失败！您提交了实名认证，请等待审核！", Toast.LENGTH_SHORT).show();
+                                                                    break;
+                                                                case 3:
+                                                                    Toast.makeText(mContext, "加团失败！您的实名认证未通过审核！请重新提交实名认证！", Toast.LENGTH_SHORT).show();
+                                                                    mContext.startActivity(new Intent(mContext, CertificationActivity.class));
+                                                                    break;
+                                                                case 2:
 
-                                                                UserRetrofitUtil.jugeJoinRequest(mContext, userid, new NetCallback<NetWorkResultBean<Object>>(mContext) {
-                                                                    @Override
-                                                                    public void onFailure(RetrofitError error, String message) {
+                                                                    //判断是否已经提交过加团请求
+                                                                    UserRetrofitUtil.jugeJoinRequest(mContext, userid, new NetCallback<NetWorkResultBean<Object>>(mContext) {
+                                                                        @Override
+                                                                        public void onFailure(RetrofitError error, String message) {
 
-                                                                    }
-
-                                                                    @Override
-                                                                    public void success(NetWorkResultBean<Object> integer, Response response) {
-
-                                                                        if (integer.getData() instanceof Integer)//未提交任何加团请求
-                                                                        {
-                                                                            UserRetrofitUtil.submitJoinRequest(mContext, userid, data.getTeamid(), new NetCallback<NetWorkResultBean<String>>(mContext) {
-                                                                                @Override
-                                                                                public void onFailure(RetrofitError error, String message) {
-                                                                                    Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
-                                                                                }
-
-                                                                                @Override
-                                                                                public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                                                                                    Toast.makeText(mContext, "人团申请已经提交！请等待团长审核！", Toast.LENGTH_SHORT).show();
-                                                                                }
-                                                                            });
-
-                                                                        } else {
-                                                                            Toast.makeText(mContext, integer.getMessage().toString(), Toast.LENGTH_SHORT).show();
                                                                         }
 
-                                                                    }
-                                                                });
+                                                                        @Override
+                                                                        public void success(NetWorkResultBean<Object> integer, Response response) {
+                                                                            if (integer.getData() instanceof Integer)//未提交任何加团请求
+                                                                            {
+                                                                                UserRetrofitUtil.submitJoinRequest(mContext, userid, data.getTeamid(), new NetCallback<NetWorkResultBean<String>>(mContext) {
+                                                                                    @Override
+                                                                                    public void onFailure(RetrofitError error, String message) {
+                                                                                        Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
+                                                                                    }
+
+                                                                                    @Override
+                                                                                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                                                                        Toast.makeText(mContext, "人团申请已经提交！请等待团长审核！", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                });
+                                                                            } else {
+                                                                                Toast.makeText(mContext, integer.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                                            }
+
+                                                                        }
+                                                                    });
                                                             }
                                                             return;
                                                         case IntConstant.USER_TYPE_MEMBER:

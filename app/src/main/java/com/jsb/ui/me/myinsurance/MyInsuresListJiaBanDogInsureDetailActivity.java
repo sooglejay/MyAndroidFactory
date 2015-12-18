@@ -10,8 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsb.R;
+import com.jsb.model.OvertimeData;
 import com.jsb.model.Overtimeordertable;
 import com.jsb.ui.BaseActivity;
+import com.jsb.ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity;
 import com.jsb.ui.buyinsurance.OrderCofirmOnDrivingInsureActivity;
 import com.jsb.util.TimeUtil;
 import com.jsb.widget.TitleBar;
@@ -35,7 +37,9 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
     private TextView tv_insurance_agent_name;
     private TextView tv_company_address;
     private TextView tv_home_address;
-    private TextView tv_jbpf;
+    private TextView tv_coverage;//保险公司给你
+    private TextView tv_money;//你给保险公司
+    private TextView tv_reportdate;//出险时间
 
     public static void startActivity(Activity context,Overtimeordertable bean)
     {
@@ -72,7 +76,9 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
         tv_insurance_agent_name = (TextView)findViewById(R.id.tv_insurance_agent_name);
         tv_company_address = (TextView)findViewById(R.id.tv_company_address);
         tv_home_address = (TextView)findViewById(R.id.tv_home_address);
-        tv_jbpf = (TextView)findViewById(R.id.tv_jbpf);
+        tv_money = (TextView)findViewById(R.id.tv_money);
+        tv_coverage = (TextView)findViewById(R.id.tv_coverage);
+        tv_reportdate = (TextView)findViewById(R.id.tv_reportdate);
 
         //许可协议
         cb_agree_license = (CheckBox) findViewById(R.id.cb_agree_license);
@@ -81,17 +87,24 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
 
 
         // 传递过来的model   并 显示
-        overtimeordertable = getIntent().getParcelableExtra(MyInsuresListCarInsureDetailActivity.ExtrasKeyName);
+        overtimeordertable = getIntent().getParcelableExtra(ExtrasKeyName);
         if (overtimeordertable != null) {
             if(overtimeordertable.getUserid()!=null)
             {
                 tv_insurant_name.setText(overtimeordertable.getUserid()+"");
             }
             tv_insurance_duration.setText(TimeUtil.getTimeString(overtimeordertable.getStartdate()) + "起，" + TimeUtil.getTimeString(overtimeordertable.getEnddate()) + "止");
-            tv_insurance_agent_name.setText("没有字段");
+            tv_insurance_agent_name.setText(overtimeordertable.getCompanyname()+"");
             tv_company_address.setText(overtimeordertable.getCompanyaddress()+"");
-            tv_home_address.setText(overtimeordertable.getHomeaddress()+"");
-            tv_jbpf.setText(overtimeordertable.getMoney()+"");
+            tv_home_address.setText(overtimeordertable.getHomeaddress() + "");
+            tv_coverage.setText(overtimeordertable.getCoverage()+"");
+            tv_money.setText(overtimeordertable.getMoney()+"");
+            if(overtimeordertable.getReportdate()!=null)
+            {
+                tv_reportdate.setText(TimeUtil.getTimeString(overtimeordertable.getReportdate())+"");
+            }else {
+                tv_reportdate.setText("");
+            }
         }
 
     }
@@ -100,7 +113,7 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
         mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                MyInsuresListJiaBanDogInsureDetailActivity.this.finish();
+               finish();
             }
 
             @Override
@@ -116,7 +129,8 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (isAgreeWithLicence) {
-                    startActivity(new Intent(context, OrderCofirmOnDrivingInsureActivity.class));
+
+                    OrderCofirmJiaBanDogInsureActivity.startActivity(context,overtimeordertable);
                 } else {
                     Toast.makeText(context, "请您勾选同意保障条款！", Toast.LENGTH_SHORT).show();
                 }
