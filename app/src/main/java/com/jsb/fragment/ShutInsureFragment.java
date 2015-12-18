@@ -940,7 +940,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 .build();
         decoView.addSeries(seriesBack1Item);
 
-        float inset = getDimension(10);
+        float inset = getDimension(6);
         SeriesItem smallCircle = new SeriesItem.Builder(COLOR_SMALL_CIRCLE)
                 .setRange(0, mSeriesMax, mSeriesMax)
                 .setInset(new PointF(inset, inset))

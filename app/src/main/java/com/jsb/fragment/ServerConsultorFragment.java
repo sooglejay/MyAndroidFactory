@@ -160,16 +160,17 @@ public class ServerConsultorFragment extends BaseFragment {
             @Override
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
                 consultantData = consultantDataNetWorkResultBean.getData();
-                for (int i = 0; i < 4; i++) {
-                    ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
-                    fragmentPerPage.setPosition(i);
-                    fragmentPerPages.add(fragmentPerPage);
 
-                }
-                viewPagerAdapter.notifyDataSetChanged();
 
             }
         });
+        for (int i = 0; i < 4; i++) {
+            ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
+            fragmentPerPage.setPosition(i);
+            fragmentPerPages.add(fragmentPerPage);
+
+        }
+        viewPagerAdapter.notifyDataSetChanged();
     }
 
     /**
