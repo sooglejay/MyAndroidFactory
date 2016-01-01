@@ -22,6 +22,7 @@ public class ConsultFragmentPerPage extends BaseFragment {
         pagePosition = postition;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_consult_per_page, container, false);
