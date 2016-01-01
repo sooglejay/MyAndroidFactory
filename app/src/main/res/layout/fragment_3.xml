@@ -6,7 +6,7 @@
     android:background="@color/bg_screen"
     android:orientation="vertical">
 
-    <com.jsb.widget.TitleBar
+    <com.jiandanbaoxian.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -25,7 +25,7 @@
             android:layout_marginLeft="48dp"
             android:orientation="vertical">
 
-            <com.jsb.widget.RoundImageView
+            <com.jiandanbaoxian.widget.RoundImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
@@ -99,7 +99,7 @@
         android:layout_height="match_parent"
         android:clipChildren="false">
 
-        <com.jsb.widget.jazzyviewpager.JazzyViewPager
+        <com.jiandanbaoxian.widget.jazzyviewpager.JazzyViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

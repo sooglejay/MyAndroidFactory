@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.jsb.widget.TitleBar
+    <com.jiandanbaoxian.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -51,7 +51,7 @@
             android:layout_height="0dp"
             android:layout_weight="4">
 
-            <com.jsb.widget.decoview.decoviewlib.DecoView
+            <com.jiandanbaoxian.widget.decoview.decoviewlib.DecoView
                 android:id="@+id/dynamicArcView"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" />
@@ -234,7 +234,7 @@
                         android:layout_height="1dp"
                         android:layout_weight="1" />
 
-                    <com.jsb.widget.customswitch.SwitchButton
+                    <com.jiandanbaoxian.widget.customswitch.SwitchButton
                         android:id="@+id/week_switch_tab_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
                         android:layout_height="1dp"
                         android:layout_weight="1" />
 
-                    <com.jsb.widget.customswitch.SwitchButton
+                    <com.jiandanbaoxian.widget.customswitch.SwitchButton
                         android:id="@+id/date_switch_tab_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

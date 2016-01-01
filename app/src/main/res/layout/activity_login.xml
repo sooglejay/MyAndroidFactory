@@ -6,10 +6,10 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.jsb.widget.TitleBar
+    <com.jiandanbaoxian.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
+        android:layout_height="wrap_content"></com.jiandanbaoxian.widget.TitleBar>
 
     <TextView
         android:layout_width="match_parent"

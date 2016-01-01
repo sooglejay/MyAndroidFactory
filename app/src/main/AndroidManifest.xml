@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jsb">
+    package="com.jiandanbaoxian">
 
+    <uses-sdk android:minSdkVersion="15" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
@@ -49,7 +50,7 @@
 
 
     <application
-        android:name=".application.JieShiBaoApplication"
+        android:name="com.jiandanbaoxian.application.JieShiBaoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -64,12 +65,12 @@
         <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="90e5f6f7e41b6fa631338d14ba86928f" />
+            android:value="aae78287a044fc1fb0be30ac0f2f3ea6" />
 
         <!-- meta-data需要写在application中 -->
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.jiandanbaoxian.ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
@@ -80,16 +81,16 @@
 
         </activity>
 
-        <activity android:name=".test.GifTest">
+        <activity android:name="com.jiandanbaoxian.test.GifTest">
 
         </activity>
-        <activity android:name=".widget.citypicker.ChooseCityActivity"></activity>
+        <activity android:name="com.jiandanbaoxian.widget.citypicker.ChooseCityActivity"></activity>
 
-        <activity android:name=".ui.stopinsurance.InComeDetailActivity"></activity>
+        <activity android:name="com.jiandanbaoxian.ui.stopinsurance.InComeDetailActivity"></activity>
 
 
         <activity
-            android:name=".ui.me.myteam.FreeJoinTeamActivity"
+            android:name="com.jiandanbaoxian.ui.me.myteam.FreeJoinTeamActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
 
@@ -98,74 +99,74 @@
             android:value="${CHANNEL_NAME}" />
 
         <activity
-            android:name=".ui.me.myteam.MyTeamForLeaderActivity"
+            android:name="com.jiandanbaoxian.ui.me.myteam.MyTeamForLeaderActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".ui.me.myteam.MyTeamForMemberActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
-
-        <activity
-            android:name=".ui.me.myteam.CreateTeamActivity"
+            android:name="com.jiandanbaoxian.ui.me.myteam.MyTeamForMemberActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".ui.me.myteam.LeaderAddNewMemberActivity"
+            android:name="com.jiandanbaoxian.ui.me.myteam.CreateTeamActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
 
-
         <activity
-            android:name=".ui.stopinsurance.PullMoneyDetailActivity"
+            android:name="com.jiandanbaoxian.ui.me.myteam.LeaderAddNewMemberActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
 
 
         <activity
-            android:name=".ui.ModifyUserInfoActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
-
-        <activity
-            android:name=".ui.ApplyEcoActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
-
-        <activity
-            android:name=".ui.ModifyUserPhoneNumberActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
-
-        <activity
-            android:name=".ui.ModifyEmployeeNumberActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
-
-        <activity
-            android:name=".ui.BrandListActivity"
+            android:name="com.jiandanbaoxian.ui.stopinsurance.PullMoneyDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
 
 
         <activity
-            android:name=".widget.imagepicker.MultiImageSelectorActivity"
+            android:name="com.jiandanbaoxian.ui.ModifyUserInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.jiandanbaoxian.ui.ApplyEcoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.jiandanbaoxian.ui.ModifyUserPhoneNumberActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.jiandanbaoxian.ui.ModifyEmployeeNumberActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.jiandanbaoxian.ui.BrandListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+
+
+        <activity
+            android:name="com.jiandanbaoxian.widget.imagepicker.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.BrowserActivity"
+            android:name="com.jiandanbaoxian.ui.BrowserActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.me.share.ShareActivity"
+            android:name="com.jiandanbaoxian.ui.me.share.ShareActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.stopinsurance.PullMoneyActivity"
+            android:name="com.jiandanbaoxian.ui.stopinsurance.PullMoneyActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.stopinsurance.AddCardActivity"
+            android:name="com.jiandanbaoxian.ui.stopinsurance.AddCardActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
@@ -173,81 +174,81 @@
 
         <!-- 买保险 页面-->
         <activity
-            android:name=".ui.buyinsurance.InsureCarActivity"
+            android:name="com.jiandanbaoxian.ui.buyinsurance.InsureCarActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.buyinsurance.InsureJiaBanDogActivity"
+            android:name="com.jiandanbaoxian.ui.buyinsurance.InsureJiaBanDogActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.buyinsurance.PengciActivity"
+            android:name="com.jiandanbaoxian.ui.buyinsurance.PengciActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.buyinsurance.InsureOnDrivingActivity"
+            android:name="com.jiandanbaoxian.ui.buyinsurance.InsureOnDrivingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.me.myinsurance.MyInsureActivity"
+            android:name="com.jiandanbaoxian.ui.me.myinsurance.MyInsureActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.me.historyprice.MyHistoryPriceListActivity"
+            android:name="com.jiandanbaoxian.ui.me.historyprice.MyHistoryPriceListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.me.mycallpolice.MyCallPoliceActivity"
+            android:name="com.jiandanbaoxian.ui.me.mycallpolice.MyCallPoliceActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.me.mymoneypocket.MyMoneyPocketActivity"
+            android:name="com.jiandanbaoxian.ui.me.mymoneypocket.MyMoneyPocketActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.MyModifyPasswordActivity"
+            android:name="com.jiandanbaoxian.ui.MyModifyPasswordActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name="com.jiandanbaoxian.ui.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name=".ui.me.myteam.MyTeamForFreeActivity"
+            android:name="com.jiandanbaoxian.ui.me.myteam.MyTeamForFreeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
         </activity>
 
         <activity
-            android:name=".ui.me.myteam.CertificationActivity"
+            android:name="com.jiandanbaoxian.ui.me.myteam.CertificationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
 
         <!-- Activities responsible for gathering payment info -->
-        <activity android:name=".ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity"></activity>
-        <activity android:name=".ui.buyinsurance.OrderCofirmOnDrivingInsureActivity"></activity>
-        <activity android:name=".ui.buyinsurance.PayJiaBanDogInsureActivity"></activity>
+        <activity android:name="com.jiandanbaoxian.ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity"></activity>
+        <activity android:name="com.jiandanbaoxian.ui.buyinsurance.OrderCofirmOnDrivingInsureActivity"></activity>
+        <activity android:name="com.jiandanbaoxian.ui.buyinsurance.PayJiaBanDogInsureActivity"></activity>
         <activity
-            android:name=".ui.me.myinsurance.MyInsuresListCarInsureDetailActivity"
+            android:name="com.jiandanbaoxian.ui.me.myinsurance.MyInsuresListCarInsureDetailActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".ui.me.myinsurance.MyInsuresListJiaBanDogInsureDetailActivity"
+            android:name="com.jiandanbaoxian.ui.me.myinsurance.MyInsuresListJiaBanDogInsureDetailActivity"
             android:label="@string/app_name"></activity>
-        <activity android:name=".ui.stopinsurance.TimePickerActivity" />
+        <activity android:name="com.jiandanbaoxian.ui.stopinsurance.TimePickerActivity" />
         <activity
-            android:name=".ui.me.myinsurance.MyInsuresListDrivingInsureDetailActivity"
+            android:name="com.jiandanbaoxian.ui.me.myinsurance.MyInsuresListDrivingInsureDetailActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".ui.me.historyprice.MyHistoryPriceItemActivity"
+            android:name="com.jiandanbaoxian.ui.me.historyprice.MyHistoryPriceItemActivity"
             android:label="@string/app_name">
 
         </activity>
 
         <activity
-            android:name=".test.PingPlusPlusTest"
+            android:name="com.jiandanbaoxian.test.PingPlusPlusTest"
             android:label="@string/app_name">
 
         </activity>

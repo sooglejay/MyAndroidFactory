@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_weight="4">
 
-        <com.jsb.widget.decoview.decoviewlib.DecoView
+        <com.jiandanbaoxian.widget.decoview.decoviewlib.DecoView
             android:id="@+id/dynamicArcView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

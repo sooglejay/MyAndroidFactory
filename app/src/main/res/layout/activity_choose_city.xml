@@ -5,7 +5,8 @@
     android:clipChildren="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.jsb.widget.TitleBar
+
+    <com.jiandanbaoxian.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -34,7 +35,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <com.jsb.widget.citypicker.view.SideBar
+        <com.jiandanbaoxian.widget.citypicker.view.SideBar
         android:id="@+id/sidrbar"
         android:layout_width="24dp"
         android:layout_height="match_parent"

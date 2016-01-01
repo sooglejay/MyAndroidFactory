@@ -6,7 +6,7 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.jsb.widget.TitleBar
+    <com.jiandanbaoxian.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/title_bar_height" />
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.jsb.widget.AutoListView
+            <com.jiandanbaoxian.widget.AutoListView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

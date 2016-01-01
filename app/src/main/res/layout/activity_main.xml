@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.jsb.widget.ScrollableViewPager
+        <com.jiandanbaoxian.widget.ScrollableViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,8 +24,8 @@
         android:layout_height="1dp"
         android:background="@color/very_light_gray_color" />
 
-    <com.jsb.widget.TabBar
+    <com.jiandanbaoxian.widget.TabBar
         android:id="@+id/home_bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.jsb.widget.TabBar>
+        android:layout_height="wrap_content"></com.jiandanbaoxian.widget.TabBar>
 </LinearLayout>

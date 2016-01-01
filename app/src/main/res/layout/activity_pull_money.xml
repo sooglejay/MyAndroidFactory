@@ -7,10 +7,10 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.jsb.widget.TitleBar
+    <com.jiandanbaoxian.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
+        android:layout_height="wrap_content"></com.jiandanbaoxian.widget.TitleBar>
 
     <TextView
         android:layout_width="match_parent"
@@ -30,13 +30,14 @@
     android:background="@color/bg_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.jsb.widget.swipemenulistview.SwipeMenuListView
+
+    <com.jiandanbaoxian.widget.swipemenulistview.SwipeMenuListView
         android:id="@+id/card_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@color/very_light_gray_color"
         android:dividerHeight="@dimen/listview_divider"
-        android:scrollbars="none"></com.jsb.widget.swipemenulistview.SwipeMenuListView>
+        android:scrollbars="none"></com.jiandanbaoxian.widget.swipemenulistview.SwipeMenuListView>
 </LinearLayout>
 
 </LinearLayout>

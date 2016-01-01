@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jsb.widget.TitleBar
+    <com.jiandanbaoxian.widget.TitleBar
         android:layout_width="match_parent"
         android:id="@+id/title_bar"
-        android:layout_height="wrap_content"></com.jsb.widget.TitleBar>
+        android:layout_height="wrap_content"></com.jiandanbaoxian.widget.TitleBar>
 
     <EditText
         android:layout_width="match_parent"

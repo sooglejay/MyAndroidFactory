@@ -18,7 +18,8 @@
             android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.jsb.widget.AutoListView
+
+            <com.jiandanbaoxian.widget.AutoListView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

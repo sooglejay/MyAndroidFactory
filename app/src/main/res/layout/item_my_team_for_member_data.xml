@@ -24,7 +24,8 @@
               android:layout_marginLeft="@dimen/middle_padding"
               android:layout_gravity="center_vertical"
               android:layout_height="wrap_content">
-              <com.jsb.widget.RoundImageView
+
+              <com.jiandanbaoxian.widget.RoundImageView
                   android:layout_width="30dp"
                   android:layout_gravity="center"
                   android:src="@color/orange_color"
