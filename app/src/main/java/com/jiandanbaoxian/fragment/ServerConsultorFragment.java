@@ -49,6 +49,7 @@ public class ServerConsultorFragment extends BaseFragment {
     private ViewPagerAdapter viewPagerAdapter = null;
     private TitleBar titleBar;
     private FrameLayout layout_viewpager;
+    View layout_circle_dot;
 
     private List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<>();
     private ConsultantData consultantData;
@@ -94,6 +95,7 @@ public class ServerConsultorFragment extends BaseFragment {
         tv_company_address = (TextView) view.findViewById(R.id.tv_company_address);
         tv_company_name = (TextView) view.findViewById(R.id.tv_company_name);
         tv_phone_number = (TextView) view.findViewById(R.id.tv_phone_number);
+        layout_circle_dot = view.findViewById(R.id.layout_circle_dot);
 
 
         iv_dot_0 = (ImageView) view.findViewById(R.id.dot_0);
@@ -185,8 +187,6 @@ public class ServerConsultorFragment extends BaseFragment {
                 List<Userstable> myConsultant = new ArrayList<Userstable>();
 
                 myConsultant.addAll(consultantData.getMyConsultant());//
-
-
                 if (myConsultant.size() > 0) {
                     Userstable userstable = myConsultant.get(0);
                     tv_name.setText(TextUtils.isEmpty(userstable.getName()) ? "" : userstable.getName());
@@ -219,7 +219,11 @@ public class ServerConsultorFragment extends BaseFragment {
                     fragmentPerPage.setPosition(i);
                     fragmentPerPage.setUserstable(otherConsultant.get(i));
                     fragmentPerPages.add(fragmentPerPage);
-
+                }
+                if (otherConsultant.size() < 1) {
+                    layout_circle_dot.setVisibility(View.GONE);
+                } else {
+                    layout_circle_dot.setVisibility(View.VISIBLE);
                 }
                 viewPagerAdapter.notifyDataSetChanged();
             }
