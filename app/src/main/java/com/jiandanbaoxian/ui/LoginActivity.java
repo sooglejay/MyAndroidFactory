@@ -140,8 +140,13 @@ public class LoginActivity extends BaseActivity {
                             mProgressUtil.hide();
                             if (!TextUtils.isEmpty(message)) {
                                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(LoginActivity.this, "服务器404错误，无法响应！", Toast.LENGTH_SHORT).show();
                             }
                             mCountTimer.onFinish();
+                            mCountTimer.cancel();
+
+
                         }
 
                         @Override

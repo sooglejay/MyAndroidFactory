@@ -53,9 +53,9 @@ public class ImageUtils {
      * @return
      */
     public static DisplayImageOptions getOptions(int... imgs) {
-        int loadingImg = R.color.very_light_gray_color;
-        int emptyImg = R.color.very_light_gray_color;
-        int failImg = R.color.very_light_gray_color;
+        int loadingImg = R.drawable.ic_launcher;
+        int emptyImg = R.drawable.ic_launcher;
+        int failImg = R.drawable.ic_launcher;
         if (imgs.length == 3) {
             loadingImg = imgs[0];
             emptyImg = imgs[1];

@@ -77,4 +77,10 @@ public class StringConstant {
     //创建团队：  createTeamRule.jpg
     public static final String CreateTeamRule = "http://120.25.227.69:8080/insurance/rule/createTeamRule.jpg";
 
+
+
+    //访问头像原图：http://120.25.227.69:8080/insurance/photo/original/XXX.jpg；访问头像缩略图：http://120.25.227.69:8080/insurance/photo/thum/XXX.jpg。
+    public static final String Avatar_original = "http://120.25.227.69:8080/insurance/photo/original/XXX.jpg";
+
+
 }

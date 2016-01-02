@@ -21,12 +21,16 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
+import com.jiandanbaoxian.util.ImageUtils;
 import com.jiandanbaoxian.util.PreferenceUtil;
+import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.jazzyviewpager.JazzyViewPager;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -40,6 +44,7 @@ public class ServerConsultorFragment extends BaseFragment {
     private TextView tv_company_address;
     private TextView tv_company_name;
     private TextView tv_phone_number;
+    private ImageView iv_avatar;
     private ImageView iv_dot_0;
     private ImageView iv_dot_1;
     private ImageView iv_dot_2;
@@ -53,6 +58,9 @@ public class ServerConsultorFragment extends BaseFragment {
 
     private List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<>();
     private ConsultantData consultantData;
+
+
+    private Userstable myConsult;//用于显示的 我的顾问
     private int userid = -1;
     private Activity activity;
 
@@ -97,6 +105,9 @@ public class ServerConsultorFragment extends BaseFragment {
         tv_phone_number = (TextView) view.findViewById(R.id.tv_phone_number);
         layout_circle_dot = view.findViewById(R.id.layout_circle_dot);
 
+
+        iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
+        ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX", userid + ""), iv_avatar, ImageUtils.getOptions());
 
         iv_dot_0 = (ImageView) view.findViewById(R.id.dot_0);
         iv_dot_0.setImageResource(R.drawable.dot_0);
@@ -169,6 +180,16 @@ public class ServerConsultorFragment extends BaseFragment {
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
 
+
+        //点击我的顾问的电话号码，打电话
+        view.findViewById(R.id.layout_server_call).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myConsult != null)
+                    UIUtils.takePhoneCall(activity, myConsult.getPhone(), 100);
+            }
+        });
+
         getOtherConsultant();
         loadConsults();
 
@@ -188,16 +209,16 @@ public class ServerConsultorFragment extends BaseFragment {
 
                 myConsultant.addAll(consultantData.getMyConsultant());//
                 if (myConsultant.size() > 0) {
-                    Userstable userstable = myConsultant.get(0);
-                    tv_name.setText(TextUtils.isEmpty(userstable.getName()) ? "" : userstable.getName());
-                    tv_company_address.setText(TextUtils.isEmpty(userstable.getContactaddress()) ? "" : userstable.getContactaddress());
+                    myConsult = myConsultant.get(0);
+                    tv_name.setText(TextUtils.isEmpty(myConsult.getName()) ? "" : myConsult.getName());
+                    tv_company_address.setText(TextUtils.isEmpty(myConsult.getContactaddress()) ? "" : myConsult.getContactaddress());
 
-                    if (userstable.getCompany() != null) {
-                        tv_company_name.setText(TextUtils.isEmpty(userstable.getCompany().getCompanyname()) ? "" : userstable.getCompany().getCompanyname());
+                    if (myConsult.getCompany() != null) {
+                        tv_company_name.setText(TextUtils.isEmpty(myConsult.getCompany().getCompanyname()) ? "" : myConsult.getCompany().getCompanyname());
                     } else {
                         tv_company_name.setText("null");
                     }
-                    tv_phone_number.setText(TextUtils.isEmpty(userstable.getPhone()) ? "" : userstable.getPhone());
+                    tv_phone_number.setText(TextUtils.isEmpty(myConsult.getPhone()) ? "" : myConsult.getPhone());
 
                 }
             }

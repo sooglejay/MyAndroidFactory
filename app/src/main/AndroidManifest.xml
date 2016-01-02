@@ -276,5 +276,16 @@
 
         <!-- 银联支付 sdk -->
         <activity android:name="com.unionpay.uppay.PayActivity"></activity>
+      <!--微信分享 -->
+
+
+        <activity android:name="com.jiandanbaoxian.util.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            >
+
+        </activity>
     </application>
 </manifest>
