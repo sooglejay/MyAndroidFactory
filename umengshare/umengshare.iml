@@ -14,9 +14,14 @@
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
         <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileDebugAndroidTestSources" />
+        <afterSyncTasks>
+          <task>generateDebugAndroidTestSources</task>
+          <task>generateDebugSources</task>
+        </afterSyncTasks>
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
         <option name="LIBRARY_PROJECT" value="true" />
       </configuration>
@@ -60,6 +65,17 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/resources" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
@@ -76,13 +92,11 @@
     <orderEntry type="library" exported="" name="SocialSDK_tencentWB_1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_laiwang_2" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_foursquare" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_laiwang_1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_comment" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_pocket" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_sdk" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_facebook_2" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_facebook_1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_actionbarview" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_pinterest" level="project" />
@@ -98,13 +112,12 @@
     <orderEntry type="library" exported="" name="SocialSDK_WeiXin_2" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_WeiXin_1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_evernote" level="project" />
-    <orderEntry type="library" exported="" name="SocialSDK_whatsapp" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_Sina" level="project" />
+    <orderEntry type="library" exported="" name="SocialSDK_whatsapp" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_AtFriends" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_shake" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_scrshot" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.4" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_tumblr" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_yixin_1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_yixin_2" level="project" />

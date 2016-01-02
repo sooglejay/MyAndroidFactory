@@ -1,0 +1,1 @@
+include ':app',':grid_password_view', ':photoView', ':ptr-lib', ':pull_to_refresh', ':umengshare'
