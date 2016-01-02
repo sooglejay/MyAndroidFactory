@@ -140,7 +140,7 @@
                 <LinearLayout
                     android:id="@+id/layout_choose_city"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/middle_padding"
                     android:background="@drawable/btn_select_white"
                     android:gravity="center">

@@ -243,13 +243,12 @@ public class CertificationActivity extends BaseActivity implements
             case ACTION_CHOOSE_CITY:
                 if (resultCode == Activity.RESULT_OK) {
                     String provinceNameStr = data.getExtras().getString(ExtraConstants.EXTRA_PROVINCE_NAME);
-
                     cityNameStr = data.getExtras().getString(ExtraConstants.EXTRA_CITY_NAME);
-
-                     cityNameStr = TextUtils.isEmpty(provinceNameStr)?cityNameStr:provinceNameStr+cityNameStr;
-
+                    if (!cityNameStr.contains(provinceNameStr)) {
+                        cityNameStr = provinceNameStr + cityNameStr;
+                    }
                     if (tvCity != null) {
-                        tvCity.setText(provinceNameStr + "" + cityNameStr);
+                        tvCity.setText(cityNameStr);
                     }
                 } else {
                     initLocationManager();
@@ -295,7 +294,7 @@ public class CertificationActivity extends BaseActivity implements
             if (aMapLocation != null) {
                 String province = aMapLocation.getProvince();
                 String city = aMapLocation.getCity();
-                if (city.equals(province)) {
+                if (city.contains(province)) {
                     cityNameStr = city;
                     tvCity.setText(city);
                 } else {
