@@ -63,6 +63,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_company_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
@@ -71,6 +72,8 @@
                 android:textSize="@dimen/middle_textsize" />
 
             <TextView
+                android:id="@+id/tv_company_address"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"

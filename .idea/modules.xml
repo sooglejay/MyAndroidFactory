@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" filepath="$PROJECT_DIR$/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/grid_password_view/grid_password_view.iml" filepath="$PROJECT_DIR$/grid_password_view/grid_password_view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/photoView/photoView.iml" filepath="$PROJECT_DIR$/photoView/photoView.iml" />
       <module fileurl="file://$PROJECT_DIR$/ptr-lib/ptr-lib.iml" filepath="$PROJECT_DIR$/ptr-lib/ptr-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/pull_to_refresh/pull_to_refresh.iml" filepath="$PROJECT_DIR$/pull_to_refresh/pull_to_refresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/umengshare/umengshare.iml" filepath="$PROJECT_DIR$/umengshare/umengshare.iml" />

@@ -7,8 +7,10 @@ import android.view.View;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.BrowserActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -26,6 +28,8 @@ public class MyTeamForFreeActivity extends BaseActivity {
     private int userid = -1;
     private Userstable userstable;
 
+    private Activity activity;
+
     public static void startActivity(Activity context, Userstable userstable) {
         Intent intent = new Intent(context, MyTeamForFreeActivity.class);
         intent.putExtra(ExtraKey, userstable);
@@ -38,22 +42,19 @@ public class MyTeamForFreeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_team_for_free);
         userstable = getIntent().getParcelableExtra(ExtraKey);
-
+        activity = this;
         setUp();
         setLisenter();
     }
-
-
     private void setLisenter() {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
                 MyTeamForFreeActivity.this.finish();
             }
-
             @Override
             public void onRightButtonClick(View v) {
-                MyTeamForFreeActivity.this.startActivity(new Intent(MyTeamForFreeActivity.this, FreeJoinTeamActivity.class));
+                BrowserActivity.startActivity(activity, StringConstant.JoinTeamRule, "加入团队规则");
             }
         });
 

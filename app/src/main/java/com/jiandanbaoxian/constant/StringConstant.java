@@ -63,4 +63,18 @@ public class StringConstant {
 
     public static final String RMB = "¥";
 
+
+    public static final String PauseRule = "http://120.25.227.69:8080/insurance/rule/pauseRule.jpg";
+
+    //加班险购买：overtimeRule.jpg ；
+    public static final String OvertimeRule = "http://120.25.227.69:8080/insurance/rule/overtimeRule.jpg";
+
+
+    //加入团队： joinTeamRule.jpg
+    public static final String JoinTeamRule = "http://120.25.227.69:8080/insurance/rule/joinTeamRule.jpg";
+
+
+    //创建团队：  createTeamRule.jpg
+    public static final String CreateTeamRule = "http://120.25.227.69:8080/insurance/rule/createTeamRule.jpg";
+
 }

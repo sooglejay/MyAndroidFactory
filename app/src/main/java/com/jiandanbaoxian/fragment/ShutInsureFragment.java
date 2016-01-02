@@ -74,8 +74,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     public static final int ACTION_CHOOSE_TIME = 1000;
 
     private TitleBar titleBar;
-
-
     private List<String> mCarNumbersStringList = new ArrayList<>();
     private List<String> mWeekNumbersStringList = new ArrayList<>();
     private SpinnerDropDownAdapter mCarNumbersListAdapter;
@@ -264,7 +262,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         layoutRule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BrowserActivity.startActivity(getActivity(), true);
+                BrowserActivity.startActivity(getActivity(), StringConstant.PauseRule, "停保规则");
             }
         });
 

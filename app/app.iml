@@ -126,6 +126,7 @@
     <orderEntry type="module" module-name="ptr-lib" exported="" />
     <orderEntry type="module" module-name="umengshare" exported="" />
     <orderEntry type="module" module-name="pull_to_refresh" exported="" />
+    <orderEntry type="module" module-name="photoView" exported="" />
     <orderEntry type="module" module-name="grid_password_view" exported="" />
     <orderEntry type="module" module-name="bdwallet_pay_sdk" exported="" />
   </component>
