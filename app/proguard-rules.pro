@@ -1,46 +1,44 @@
-## Add project specific ProGuard rules here.
-## By default, the flags in this file are appended to flags specified
-## in F:\NewLifeFor2015\Android Studio\sdk install location/tools/proguard/proguard-android.txt
-## You can edit the include path and order by changing the proguardFiles
-## directive in build.gradle.
-##
-## For more details, see
-##   http://developer.android.com/guide/developing/tools/proguard.html
+# Add project specific ProGuard rules here.
+# By default, the flags in this file are appended to flags specified
+# in F:\NewLifeFor2015\Android Studio\sdk install location/tools/proguard/proguard-android.txt
+# You can edit the include path and order by changing the proguardFiles
+# directive in build.gradle.
 #
-## Add any project specific keep options here:
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Add any project specific keep options here:
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+
+# Add project specific ProGuard rules here.
+# By default, the flags in this file are appended to flags specified
+# in C:\Android\sdk/tools/proguard/proguard-android.txt
+# You can edit the include path and order by changing the proguardFiles
+# directive in build.gradle.
 #
-## If your project uses WebView with JS, uncomment the following
-## and specify the fully qualified class name to the JavaScript interface
-## class:
-##-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-##   public *;
-##}
-#
-## Add project specific ProGuard rules here.
-## By default, the flags in this file are appended to flags specified
-## in C:\Android\sdk/tools/proguard/proguard-android.txt
-## You can edit the include path and order by changing the proguardFiles
-## directive in build.gradle.
-##
-## For more details, see
-##   http://developer.android.com/guide/developing/tools/proguard.html
-#
-## Add any project specific keep options here:
-#
-## If your project uses WebView with JS, uncomment the following
-## and specify the fully qualified class name to the JavaScript interface
-## class:
-##-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-##   public *;
-##}
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Add any project specific keep options here:
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
 #-optimizationpasses 5
 #-dontusemixedcaseclassnames
 #-dontskipnonpubliclibraryclasses
 #-dontoptimize
 #-verbose
 #-optimizations !code/simplification/arithmetic
-#-keepattributes *Annotation*
-#-keepattributes EnclosingMethod
 #-keep public class * extends android.app.Activity
 #-keep public class * extends android.app.Application
 #-keep public class * extends android.app.Service
@@ -62,6 +60,24 @@
 #-keep class cn.aow.** { *; }
 #
 #-keep class com.tencent.open.TDialog$*
+#
+##-keep class android.webkit.**
+##-keep class ndroid.webkit.WebSettings$*
+##
+##-keep class javax.**
+##-keep class retrofit.client.OkClient$1 { void writeTo(okio.BufferedSink); }
+##-keep class pl.droidsonroids.gif.GifTextureView { void setInputSource(pl.droidsonroids.gif.InputSource); }
+##-keep class pl.droidsonroids.gif.GifTextureView { void setSuperSurfaceTextureListener(pl.droidsonroids.gif.GifTextureView$RenderThread); }
+##
+##-keep class okio.ForwardingSource { long read(okio.Buffer,long); }
+##-keep class okio.ForwardingSource { ForwardingSource(okio.Source); }
+##-keep class okio.ForwardingSink { void write(okio.Buffer,long); }
+##-keep class okio.ForwardingSink { ForwardingSink(okio.Sink); }
+##-keep class okio.AsyncTimeout { okio.Source source(okio.Source); }
+##-keep class okio.AsyncTimeout { okio.Sink sink(okio.Sink); }
+#
+#
+#
 #-keep class com.tencent.open.TDialog$* {*;}
 #-keep class com.tencent.open.PKDialog
 #-keep class com.tencent.open.PKDialog {*;}
@@ -308,4 +324,84 @@
 #-keepclassmembers class * {
 #   public <init>(org.json.JSONObject);
 #}
-#
+
+
+-dontshrink
+-dontoptimize
+-dontwarn com.google.android.maps.**
+-dontwarn android.webkit.WebView
+-dontwarn com.umeng.**
+-dontwarn com.tencent.weibo.sdk.**
+-dontwarn com.facebook.**
+
+
+-keep enum com.facebook.**
+-keepattributes Exceptions,InnerClasses,Signature
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+
+-keep public interface com.facebook.**
+-keep public interface com.tencent.**
+-keep public interface com.umeng.socialize.**
+-keep public interface com.umeng.socialize.sensor.**
+-keep public interface com.umeng.scrshot.**
+
+-keep public class com.umeng.socialize.* {*;}
+-keep public class javax.**
+-keep public class android.webkit.**
+
+-keep class com.facebook.**
+-keep class com.umeng.scrshot.**
+-keep public class com.tencent.** {*;}
+-keep class com.umeng.socialize.sensor.**
+
+-keep class com.tencent.mm.sdk.modelmsg.WXMediaMessage {*;}
+
+-keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
+
+-keep class im.yixin.sdk.api.YXMessage {*;}
+-keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
+
+-keep public class [your_pkg].R$*{
+    public static final int *;
+}
+
+
+
+
+
+
+
+
+# 3D 地图
+
+    -keep   class com.amap.api.mapcore.**{*;}
+
+    -keep   class com.amap.api.maps.**{*;}
+
+    -keep   class com.autonavi.amap.mapcore.*{*;}
+
+
+#    定位
+
+    -keep   class com.amap.api.location.**{*;}
+
+    -keep   class com.aps.**{*;}
+
+
+#    搜索
+
+    -keep   class com.amap.api.services.**{*;}
+
+
+#    2D地图
+
+    -keep class com.amap.api.maps2d.**{*;}
+
+    -keep class com.amap.api.mapcore2d.**{*;}
+
+#  导航
+
+    -keep class com.amap.api.navi.**{*;}
+
+    -keep class com.autonavi.**{*;}
