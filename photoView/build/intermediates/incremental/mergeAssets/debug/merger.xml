@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="E:\JiangWei\Projects\Android\jsb\App\photoView\src\main\assets"/></dataSet><dataSet config="debug"><source path="E:\JiangWei\Projects\Android\jsb\App\photoView\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/sooglejay/AndroidStudioProjects/wanbaoyi/photoView/src/main/assets"/></dataSet><dataSet config="debug"><source path="/Users/sooglejay/AndroidStudioProjects/wanbaoyi/photoView/src/debug/assets"/></dataSet></merger>
