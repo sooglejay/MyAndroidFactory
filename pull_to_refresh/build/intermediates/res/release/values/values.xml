@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -170,21 +170,21 @@
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/src/main/res/values/dimens.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="header_footer_left_right_padding">24dp</dimen>
     <dimen name="header_footer_top_bottom_padding">12dp</dimen>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <item format="float" name="highlight_alpha_material_colored" type="dimen">0.26</item>
     <item format="float" name="highlight_alpha_material_dark" type="dimen">0.20</item>
     <item format="float" name="highlight_alpha_material_light" type="dimen">0.12</item>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/src/main/res/values/dimens.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="indicator_corner_radius">12dp</dimen>
     <dimen name="indicator_internal_padding">4dp</dimen>
     <dimen name="indicator_right_padding">10dp</dimen>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <dimen name="notification_large_icon_height">64dp</dimen>
     <dimen name="notification_large_icon_width">64dp</dimen>
@@ -194,30 +194,30 @@
     <item name="action_bar_spinner" type="id"/>
     <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/src/main/res/values/ids.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/src/main/res/values/ids.xml -->
     <eat-comment/>
     <item name="gridview" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <item name="home" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/src/main/res/values/ids.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/src/main/res/values/ids.xml -->
     <eat-comment/>
     <item name="linearlayout" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <item name="progress_circular" type="id"/>
     <item name="progress_horizontal" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/src/main/res/values/ids.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/src/main/res/values/ids.xml -->
     <eat-comment/>
     <item name="scrollview" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <item name="split_action_bar" type="id"/>
     <item name="up" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/src/main/res/values/ids.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/src/main/res/values/ids.xml -->
     <eat-comment/>
     <item name="webview" type="id"/>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <integer name="abc_config_activityDefaultDur">220</integer>
     <integer name="abc_config_activityShortDur">150</integer>
@@ -243,7 +243,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/src/main/res/values/pull_refresh_strings.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/src/main/res/values/pull_refresh_strings.xml -->
     <eat-comment/>
     <string name="pull_to_refresh_from_bottom_pull_label">@string/pull_to_refresh_pull_label</string>
     <string name="pull_to_refresh_from_bottom_refreshing_label">@string/pull_to_refresh_refreshing_label</string>
@@ -251,7 +251,7 @@
     <string name="pull_to_refresh_pull_label">Pull to refresh…</string>
     <string name="pull_to_refresh_refreshing_label">Loading…</string>
     <string name="pull_to_refresh_release_label">Release to refresh…</string>
-    <!-- From: file:/Users/sooglejay/AndroidStudioProjects/wanbaoyi/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
+    <!-- From: file:/E:/JiangWei/Projects/Android/jsb/App/pull_to_refresh/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
