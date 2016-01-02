@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.model.Userstable;
 
 /**
  * Created by JammyQtheLab on 2015/11/12.
@@ -17,9 +18,13 @@ public class ConsultFragmentPerPage extends BaseFragment {
 
     private LinearLayout layout_background;
     private int pagePosition;
-
+    private Userstable userstable;
     public void setPosition(int postition) {
         pagePosition = postition;
+    }
+
+    public void setUserstable(Userstable userstable) {
+        this.userstable = userstable;
     }
 
 

@@ -8,12 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
@@ -21,6 +23,7 @@ import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.jazzyviewpager.JazzyViewPager;
@@ -33,6 +36,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ServerConsultorFragment extends BaseFragment {
+    private TextView tv_name;
+    private TextView tv_company_address;
+    private TextView tv_company_name;
+    private TextView tv_phone_number;
     private ImageView iv_dot_0;
     private ImageView iv_dot_1;
     private ImageView iv_dot_2;
@@ -42,11 +49,17 @@ public class ServerConsultorFragment extends BaseFragment {
     private ViewPagerAdapter viewPagerAdapter = null;
     private TitleBar titleBar;
     private FrameLayout layout_viewpager;
+    View layout_circle_dot;
 
     private List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<>();
     private ConsultantData consultantData;
     private int userid = -1;
     private Activity activity;
+
+
+    //分页获取其他顾问（维修顾问）
+    private int pageNum = 0;
+    private int pageSize = 20;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +91,13 @@ public class ServerConsultorFragment extends BaseFragment {
     private void setUp(View view, Bundle savedInstanceState) {
         viewPager = (JazzyViewPager) view.findViewById(R.id.pager);
         layout_viewpager = (FrameLayout) view.findViewById(R.id.layout_viewpager);
+        tv_name = (TextView) view.findViewById(R.id.tv_name);
+        tv_company_address = (TextView) view.findViewById(R.id.tv_company_address);
+        tv_company_name = (TextView) view.findViewById(R.id.tv_company_name);
+        tv_phone_number = (TextView) view.findViewById(R.id.tv_phone_number);
+        layout_circle_dot = view.findViewById(R.id.layout_circle_dot);
+
+
         iv_dot_0 = (ImageView) view.findViewById(R.id.dot_0);
         iv_dot_0.setImageResource(R.drawable.dot_0);
         iv_dot_1 = (ImageView) view.findViewById(R.id.dot_1);
@@ -99,7 +119,12 @@ public class ServerConsultorFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position) {
+//                pageNum = position;
+//                if (fragmentPerPages.size() == pageNum)
+//                {
+//                    loadConsults();
+//                }
+                switch (position % 4) {
                     case 0:
                         iv_dot_0.setImageResource(R.drawable.dot_0);
                         iv_dot_1.setImageResource(R.drawable.dot_4);
@@ -144,6 +169,7 @@ public class ServerConsultorFragment extends BaseFragment {
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
 
+        getOtherConsultant();
         loadConsults();
 
     }
@@ -158,17 +184,50 @@ public class ServerConsultorFragment extends BaseFragment {
             @Override
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
                 consultantData = consultantDataNetWorkResultBean.getData();
+                List<Userstable> myConsultant = new ArrayList<Userstable>();
 
+                myConsultant.addAll(consultantData.getMyConsultant());//
+                if (myConsultant.size() > 0) {
+                    Userstable userstable = myConsultant.get(0);
+                    tv_name.setText(TextUtils.isEmpty(userstable.getName()) ? "" : userstable.getName());
+                    tv_company_address.setText(TextUtils.isEmpty(userstable.getContactaddress()) ? "" : userstable.getContactaddress());
 
+                    if (userstable.getCompany() != null) {
+                        tv_company_name.setText(TextUtils.isEmpty(userstable.getCompany().getCompanyname()) ? "" : userstable.getCompany().getCompanyname());
+                    } else {
+                        tv_company_name.setText("null");
+                    }
+                    tv_phone_number.setText(TextUtils.isEmpty(userstable.getPhone()) ? "" : userstable.getPhone());
+
+                }
             }
         });
-        for (int i = 0; i < 4; i++) {
-            ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
-            fragmentPerPage.setPosition(i);
-            fragmentPerPages.add(fragmentPerPage);
+    }
 
-        }
-        viewPagerAdapter.notifyDataSetChanged();
+    private void getOtherConsultant() {
+        UserRetrofitUtil.getOtherConsultant(activity, userid, 20, 1, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
+            @Override
+            public void onFailure(RetrofitError error, String message) {
+
+            }
+
+            @Override
+            public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
+                List<Userstable> otherConsultant = new ArrayList<Userstable>();
+                for (int i = 0; i < otherConsultant.size(); i++) {
+                    ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
+                    fragmentPerPage.setPosition(i);
+                    fragmentPerPage.setUserstable(otherConsultant.get(i));
+                    fragmentPerPages.add(fragmentPerPage);
+                }
+                if (otherConsultant.size() < 1) {
+                    layout_circle_dot.setVisibility(View.GONE);
+                } else {
+                    layout_circle_dot.setVisibility(View.VISIBLE);
+                }
+                viewPagerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
@@ -204,5 +263,6 @@ public class ServerConsultorFragment extends BaseFragment {
             return fragmentPerPages.size();
         }
     }
+
 
 }

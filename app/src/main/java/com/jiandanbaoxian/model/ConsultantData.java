@@ -9,6 +9,8 @@ import java.util.List;
  * 5.1.18.我的顾问对象ConsultantData
  */
 public class ConsultantData implements Parcelable {
+//上面显示的保险顾问，下面显示的是其他顾问
+
 
     /**
      * amount	Int	其他顾问总数

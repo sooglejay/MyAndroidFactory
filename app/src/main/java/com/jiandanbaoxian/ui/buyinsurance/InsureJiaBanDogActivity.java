@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +21,12 @@ import com.jiandanbaoxian.model.OvertimeData;
 import com.jiandanbaoxian.model.Overtimeinsurance;
 import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.BrowserActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
+import com.jiandanbaoxian.widget.imagepicker.bean.Image;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +39,8 @@ import retrofit.client.Response;
  */
 public class InsureJiaBanDogActivity extends BaseActivity {
     private TitleBar titleBar;
-    private CheckBox cb_agree_license;
+    private ImageView iv_choose;
+    private TextView tv_rule;
     private TextView tv_buy_insure;
     private TextView tv_time_shengxiao;
     private TextView tv_amount;
@@ -78,6 +82,14 @@ public class InsureJiaBanDogActivity extends BaseActivity {
     private void setUp() {
         tv_time_shengxiao = (TextView) findViewById(R.id.tv_time_shengxiao);
         tv_amount = (TextView) findViewById(R.id.tv_amount);
+        tv_rule = (TextView) findViewById(R.id.tv_rule);
+        tv_rule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BrowserActivity.startActivity(context, StringConstant.OvertimeRule, "加班险购买规则");
+
+            }
+        });
         tv_buy_insure = (TextView) findViewById(R.id.tv_buy_insure);
         tv_buy_insure.setEnabled(true);
         tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
@@ -131,31 +143,24 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                 findViewById(R.id.title_bar);
 
         titleBar.initTitleBarInfo("加班狗", R.drawable.arrow_left, -1, "", "");
-        cb_agree_license = (CheckBox)
-
-                findViewById(R.id.cb_agree_license);
-
-        cb_agree_license.setChecked(true);
-        cb_agree_license.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-
-                                                    {
-                                                        @Override
-                                                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                                            if (isChecked) {
-                                                                isAgreeWithLicence = true;
-                                                                cb_agree_license.setButtonDrawable(R.drawable.icon_choose_selected);
-                                                                tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
-                                                                tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
-                                                            } else {
-                                                                cb_agree_license.setButtonDrawable(R.drawable.icon_choose);
-                                                                isAgreeWithLicence = false;
-                                                                tv_buy_insure.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
-                                                                tv_buy_insure.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
-                                                            }
-                                                        }
-                                                    }
-
-        );
+        iv_choose = (ImageView) findViewById(R.id.iv_choose);
+        iv_choose.setImageResource(R.drawable.icon_choose_selected);
+        iv_choose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isAgreeWithLicence) {
+                    isAgreeWithLicence = true;
+                    iv_choose.setImageResource(R.drawable.icon_choose_selected);
+                    tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
+                    tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
+                } else {
+                    iv_choose.setImageResource(R.drawable.icon_choose);
+                    isAgreeWithLicence = false;
+                    tv_buy_insure.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
+                    tv_buy_insure.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+                }
+            }
+        });
 
         progressDialogUtil.show("正在获取加班险信息...");
         UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<OvertimeData>>(InsureJiaBanDogActivity.this)

@@ -106,17 +106,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_screen"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/cb_agree_license"
+        <ImageView
+            android:layout_width="28dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/iv_choose"
+
+            android:layout_marginLeft="@dimen/middle_padding"
+            android:layout_marginTop="@dimen/middle_padding"
+            android:layout_marginBottom="@dimen/middle_padding"
+            android:src="@drawable/icon_choose_selected"
+            android:layout_height="28dp" />
+
+        <TextView
+            android:textColor="#a7a7a7"
+            android:id="@+id/tv_rule"
+            android:paddingRight="@dimen/middle_padding"
+            android:paddingTop="@dimen/middle_padding"
+            android:paddingBottom="@dimen/middle_padding"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:button="@drawable/icon_choose_selected"
-            android:gravity="center_vertical"
+            android:textSize="@dimen/big_textsize"
             android:text="同意《约定保障条款》"
-            android:textColor="#a7a7a7" />
+            android:layout_height="wrap_content" />
+
 
     </LinearLayout>
 
