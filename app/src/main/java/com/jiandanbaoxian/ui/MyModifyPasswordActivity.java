@@ -95,7 +95,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
                     Toast.makeText(MyModifyPasswordActivity.this, "请输入正确的手机号码!", Toast.LENGTH_SHORT).show();
                 } else {
                     phoneString = et_phone_number.getText().toString();
-                    UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, new NetCallback<NetWorkResultBean<CommData>>(MyModifyPasswordActivity.this) {
+                    UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, 2,new NetCallback<NetWorkResultBean<CommData>>(MyModifyPasswordActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             if (!TextUtils.isEmpty(message)) {

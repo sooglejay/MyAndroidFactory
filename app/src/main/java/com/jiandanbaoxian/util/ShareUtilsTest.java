@@ -81,9 +81,13 @@ import com.umeng.socialize.ynote.media.YNoteShareContent;
  */
 public class ShareUtilsTest {
 
+    /***
+     AppID：wxfd96806031dd55eb
+     AppSecret：2fdc0ad3055464f642c46b7ac37858a0重置
+     */
     public static final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
     private final static String AppID_WX="wxfd96806031dd55eb";
-    private final static String AppSecret_WX="154be4dd6d9bd0cb250d0eceebd492a5";
+    private final static String AppSecret_WX="2fdc0ad3055464f642c46b7ac37858a0";
 
     private final static String AppID_QQ="1104959839";
     private final static String AppSecret_QQ="Z5bXtqD4ZYy3dxwK";
@@ -302,7 +306,7 @@ public class ShareUtilsTest {
         WeiXinShareContent weixinContent = new WeiXinShareContent();
         weixinContent
                 .setShareContent("这里设置分享内容-微信。http://www.wanbaoe.com/");
-        weixinContent.setTitle("友盟社会化分享组件-微信");
+        weixinContent.setTitle("简单保险分享测试-微信");
         weixinContent.setTargetUrl("http://www.wanbaoe.com/");
         weixinContent.setShareMedia(urlImage);
         mController.setShareMedia(weixinContent);
@@ -311,7 +315,7 @@ public class ShareUtilsTest {
         CircleShareContent circleMedia = new CircleShareContent();
         circleMedia
                 .setShareContent("这里设置分享内容-朋友圈。http://www.wanbaoe.com/");
-        circleMedia.setTitle("友盟社会化分享组件-朋友圈");
+        circleMedia.setTitle("简单保险分享测试-朋友圈");
         circleMedia.setShareMedia(urlImage);
         // circleMedia.setShareMedia(uMusic);
         // circleMedia.setShareMedia(video);

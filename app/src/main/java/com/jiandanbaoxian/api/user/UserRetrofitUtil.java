@@ -44,12 +44,14 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param phone
      * @param callback
+     * String phone； //手机号
+    Int type;//0 登陆获取验证码，1 设置密码获取验证码，2 重置密码，3添加提现账号
      */
-    public static void obtainVerifyCode(Context mContext, String phone, NetCallback<NetWorkResultBean<CommData>> callback) {
+    public static void obtainVerifyCode(Context mContext, String phone,int type, NetCallback<NetWorkResultBean<CommData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String p = new String("phone=");
-        String k = p + phone;
+        String k = p + phone+"&type="+type;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "s=" + s);
         git.obtainVerifyCode(s, callback);
@@ -396,16 +398,21 @@ public class UserRetrofitUtil extends RetrofitUtil {
 
     /**
      * 发送时机	用户点击加入团队时，调用此接口获取默认信息，有则用户可以不重新填写
-     * 参数说明	1、int userid ; //用户编号
+     * 参数说明
+     * int userid; //用户id
+     * int  pageSize;//容量
+     * int pageNum;//页码
      * 限制条件	参数1为必填。
      *
      * @param mContext
      * @param callback
      */
-    public static void getTeamRangeInfo(Context mContext, int userid, NetCallback<NetWorkResultBean<RangeData>> callback) {
+    public static void getTeamRangeInfo(Context mContext, int userid, int pageSize, int pageNum, NetCallback<NetWorkResultBean<RangeData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
-        String k = "userid=" + userid;
+        String k = "userid=" + userid +
+                "&pageSize=" + pageSize +
+                "&pageNum=" + pageNum;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
         git.getTeamRangeInfo(s, callback);
@@ -1022,6 +1029,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
         git.modifySelfInfo(s, photoData, callback);
+
     }
 
     /**

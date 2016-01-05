@@ -15,13 +15,13 @@ public class ConsultantData implements Parcelable {
     /**
      * amount	Int	其他顾问总数
      * myConsultant	Userstable	我的顾问(推荐人)
-     * otherConsultant	Userstable	其他顾问集合（4s）
+     * maintainConsultant	Userstable	其他顾问集合（4s）
      * insuranceConsultant	Userstable	保险顾问（保险公司人）
      */
 
     private Integer amount;//
     private List<Userstable> myConsultant;//
-    private List<Userstable> otherConsultant;//
+    private List<FourService> maintainConsultant;//
     private List<Userstable> insuranceConsultant;//
 
     @Override
@@ -29,7 +29,7 @@ public class ConsultantData implements Parcelable {
         return "ConsultantData{" +
                 "amount=" + amount +
                 ", myConsultant=" + myConsultant +
-                ", otherConsultant=" + otherConsultant +
+                ", maintainConsultant=" + maintainConsultant +
                 ", insuranceConsultant=" + insuranceConsultant +
                 '}';
     }
@@ -50,12 +50,12 @@ public class ConsultantData implements Parcelable {
         this.myConsultant = myConsultant;
     }
 
-    public List<Userstable> getOtherConsultant() {
-        return otherConsultant;
+    public List<FourService> getMaintainConsultant() {
+        return maintainConsultant;
     }
 
-    public void setOtherConsultant(List<Userstable> otherConsultant) {
-        this.otherConsultant = otherConsultant;
+    public void setMaintainConsultant(List<FourService> maintainConsultant) {
+        this.maintainConsultant = maintainConsultant;
     }
 
     public List<Userstable> getInsuranceConsultant() {
@@ -75,7 +75,7 @@ public class ConsultantData implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.amount);
         dest.writeTypedList(myConsultant);
-        dest.writeTypedList(otherConsultant);
+        dest.writeTypedList(maintainConsultant);
         dest.writeTypedList(insuranceConsultant);
     }
 
@@ -85,7 +85,7 @@ public class ConsultantData implements Parcelable {
     protected ConsultantData(Parcel in) {
         this.amount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.myConsultant = in.createTypedArrayList(Userstable.CREATOR);
-        this.otherConsultant = in.createTypedArrayList(Userstable.CREATOR);
+        this.maintainConsultant = in.createTypedArrayList(FourService.CREATOR);
         this.insuranceConsultant = in.createTypedArrayList(Userstable.CREATOR);
     }
 

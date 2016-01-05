@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.RangeRecord;
 
 import java.util.List;
@@ -74,8 +75,6 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
             convertView = inflater.inflate(layoutID, parent, false);
             if (type == Header) {
                 holder.tv_type_header = (TextView) convertView.findViewById(R.id.tv_type_header);
-                holder.line_top = convertView.findViewById(R.id.line_top);
-                holder.line_bottom = convertView.findViewById(R.id.line_bottom);
             } else {
                 holder.item = (LinearLayout) convertView.findViewById(R.id.item);
                 holder.tvRangNumber = (TextView) convertView.findViewById(R.id.tv_rang_number);
@@ -100,13 +99,6 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
         }
         if (type == Header) {//如果是标题栏
             holder.tv_type_header.setText(mData.get(position).toString());
-            if (position < 1) {
-                holder.line_top.setVisibility(View.GONE);
-                holder.line_bottom.setVisibility(View.GONE);
-            } else {
-                holder.line_bottom.setVisibility(View.GONE);
-                holder.line_top.setVisibility(View.GONE);
-            }
 
         } else {//如果是数据
             Object obj = mData.get(position);
@@ -116,7 +108,7 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
                 holder.tvUserName.setText(bean.getName());
                 holder.tvRangNumber.setText(position + "");
 
-                if (mData.size() > 0 && position == mData.size() - 1) {
+                if (mData.size() > 0 && position == mData.size() - 1||position<(mData.size()-1)&&mData.get(position+1) instanceof String) {
                     holder.line.setVisibility(View.GONE);
                 } else {
                     holder.line.setVisibility(View.VISIBLE);
@@ -141,8 +133,7 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
 
         //header
         private TextView tv_type_header;
-        private View line_top;
-        private View line_bottom;
+
 
     }
 }

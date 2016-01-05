@@ -109,6 +109,8 @@
                 <EditText
                     android:id="@+id/et_company_address"
                     android:layout_width="0dp"
+                    android:editable="false"
+                    android:cursorVisible="false"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"

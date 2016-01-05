@@ -10,10 +10,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.api.callback.NetCallback;
+import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.ExtraConstants;
+import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.util.CityUtil;
+import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.citypicker.view.CharacterParser;
 import com.jiandanbaoxian.widget.citypicker.view.CitySortModel;
@@ -25,9 +32,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class ChooseCityActivity extends AppCompatActivity {
 
 
+    private boolean isEdit = false;
     private TitleBar title_bar;
     private ListView sortListView;
     private SideBar sideBar;
@@ -53,6 +64,7 @@ public class ChooseCityActivity extends AppCompatActivity {
         cityUtil = new CityUtil(this);
         context = this;
         cityNameStrFromIntent = getIntent().getExtras().getString(ExtraConstants.EXTRA_CITY_NAME, "北京");
+        isEdit = getIntent().getExtras().getBoolean("is_edit", false);
         initViews();
         setUpListener();
     }
@@ -105,11 +117,34 @@ public class ChooseCityActivity extends AppCompatActivity {
                     } else {
                         cityStr = ((CitySortModel) adapter.getItem(position - 1)).getName();
                         //返回上一个 activity ，带着 选中的值
-                        Intent intent = getIntent();
-                        intent.putExtra(ExtraConstants.EXTRA_CITY_NAME, cityStr);
-                        intent.putExtra(ExtraConstants.EXTRA_PROVINCE_NAME, provinceStr);
-                        context.setResult(RESULT_OK, intent);
-                        context.finish();
+                        if (isEdit) {
+                            int userid = PreferenceUtil.load(context, PreferenceConstant.userid, -1);
+                            if (!cityStr.contains(provinceStr)) {
+                                cityStr = provinceStr + cityStr;
+                            }
+                            UserRetrofitUtil.modifySelfInfo(context, userid, -1, -1, "-1", cityStr, "-1", "-1", "-1",null, new NetCallback<NetWorkResultBean<Userstable>>(context) {
+                                @Override
+                                public void onFailure(RetrofitError error, String message) {
+                                    Toast.makeText(context, "服务器无响应，请检查网络！", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                                    Toast.makeText(context, "修改城市成功！", Toast.LENGTH_SHORT).show();
+                                    Intent intent = getIntent();
+                                    intent.putExtra(ExtraConstants.EXTRA_CITY_NAME, cityStr);
+                                    context.setResult(RESULT_OK, intent);
+                                    context.finish();
+                                }
+                            });
+                        } else {
+                            Intent intent = getIntent();
+                            intent.putExtra(ExtraConstants.EXTRA_CITY_NAME, cityStr);
+                            intent.putExtra(ExtraConstants.EXTRA_PROVINCE_NAME, provinceStr);
+                            context.setResult(RESULT_OK, intent);
+                            context.finish();
+                        }
+
                     }
 
                 }

@@ -10,24 +10,20 @@ public class InsuranceCompanyInfo implements Parcelable {
     public static Creator<InsuranceCompanyInfo> getCREATOR() {
         return CREATOR;
     }
+    private boolean isSelected = false;
 
-    @Override
-    public String toString() {
-        return "InsuranceCompanyInfo{" +
-                "id=" + id +
-                ", companyname='" + companyname + '\'' +
-                ", companyphone='" + companyphone + '\'' +
-                ", hotline='" + hotline + '\'' +
-                ", policy='" + policy + '\'' +
-                ", cooperationnetwork='" + cooperationnetwork + '\'' +
-                ", pauserule='" + pauserule + '\'' +
-                ", pauseprice=" + pauseprice +
-                '}';
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 
     private Integer id;
     private String companyname;
     private String companyphone;
+    private String address;
     private String hotline;
     private String policy;
     private String cooperationnetwork;
@@ -107,10 +103,36 @@ public class InsuranceCompanyInfo implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        return "InsuranceCompanyInfo{" +
+                "isSelected=" + isSelected +
+                ", id=" + id +
+                ", companyname='" + companyname + '\'' +
+                ", companyphone='" + companyphone + '\'' +
+                ", address='" + address + '\'' +
+                ", hotline='" + hotline + '\'' +
+                ", policy='" + policy + '\'' +
+                ", cooperationnetwork='" + cooperationnetwork + '\'' +
+                ", pauserule='" + pauserule + '\'' +
+                ", pauseprice=" + pauseprice +
+                '}';
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+
+        this.address = address;
+    }
+
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeString(this.companyname);
         dest.writeString(this.companyphone);
+        dest.writeString(this.address);
         dest.writeString(this.hotline);
         dest.writeString(this.policy);
         dest.writeString(this.cooperationnetwork);
@@ -122,6 +144,7 @@ public class InsuranceCompanyInfo implements Parcelable {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.companyname = in.readString();
         this.companyphone = in.readString();
+        this.address = in.readString();
         this.hotline = in.readString();
         this.policy = in.readString();
         this.cooperationnetwork = in.readString();

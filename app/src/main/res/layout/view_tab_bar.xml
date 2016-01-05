@@ -38,7 +38,7 @@
             <TextView
                 android:id="@+id/tv0"
                 style="@style/home_bottom_bar_tv"
-                android:text="@string/tab_stop_insure" />
+                android:text="@string/tab_buy_insure" />
         </LinearLayout>
 
 
@@ -72,7 +72,7 @@
             <TextView
                 android:id="@+id/tv1"
                 style="@style/home_bottom_bar_tv"
-                android:text="@string/tab_buy_insure" />
+                android:text="@string/tab_stop_insure" />
         </LinearLayout>
 
 

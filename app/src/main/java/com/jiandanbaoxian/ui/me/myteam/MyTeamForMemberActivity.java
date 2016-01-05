@@ -17,12 +17,14 @@ import com.jiandanbaoxian.adapter.MyTeamForMemberAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.InviteInfo;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.RangeData;
 import com.jiandanbaoxian.model.RangeRecord;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.BrowserActivity;
 import com.jiandanbaoxian.ui.ModifyUserInfoActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -118,6 +120,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
                                 ModifyUserInfoActivity.startActivity(activity, userstable);
                                 break;
                             case R.id.layout_check_rule:
+                                BrowserActivity.startActivity(activity, StringConstant.CreateTeamRule, "创建团队规则");
                                 break;
                         }
                         mPopWindow.dismiss();
@@ -158,7 +161,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
 
     private void getTeamRangeInfo() {
         if (userid != -1) {
-            UserRetrofitUtil.getTeamRangeInfo(this, userid, new NetCallback<NetWorkResultBean<RangeData>>(this) {
+            UserRetrofitUtil.getTeamRangeInfo(this, userid, 100,1,new NetCallback<NetWorkResultBean<RangeData>>(this) {
                 @Override
                 public void onFailure(RetrofitError error, String message) {
                     swipeLayout.setRefreshing(false);
@@ -199,6 +202,8 @@ public class MyTeamForMemberActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(message)) {
                     Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                 }
+                iv_notification.setImageResource(R.drawable.icon_no_notification);
+
             }
 
             @Override

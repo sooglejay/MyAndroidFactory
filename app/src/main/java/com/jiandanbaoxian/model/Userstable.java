@@ -7,30 +7,6 @@ import android.os.Parcelable;
  * Created by JammyQtheLab on 2015/10/28.
  */
 public class Userstable implements Parcelable {
-    @Override
-    public String toString() {
-        return "Userstable{" +
-                "id=" + id +
-                ", phone='" + phone + '\'' +
-                ", registertime=" + registertime +
-                ", last_login_time=" + last_login_time +
-                ", name='" + name + '\'' +
-                ", contactaddress='" + contactaddress + '\'' +
-                ", account='" + account + '\'' +
-                ", idnumber='" + idnumber + '\'' +
-                ", pwd='" + pwd + '\'' +
-                ", idcardpicname='" + idcardpicname + '\'' +
-                ", type=" + type +
-                ", city='" + city + '\'' +
-                ", sex=" + sex +
-                ", company=" + company +
-                ", fourservice=" + fourservice +
-                ", service='" + service + '\'' +
-                ", worknum='" + worknum + '\'' +
-                ", audit=" + audit +
-                ", superFlag=" + superFlag +
-                '}';
-    }
 
     //    5.3.用户信息Userstable
 //    名称	类型	说明	不可为空
@@ -78,6 +54,53 @@ public class Userstable implements Parcelable {
     private FourService fourservice;
     private String service;
     private String worknum;
+
+    @Override
+    public String toString() {
+        return "Userstable{" +
+                "id=" + id +
+                ", phone='" + phone + '\'' +
+                ", registertime=" + registertime +
+                ", last_login_time=" + last_login_time +
+                ", name='" + name + '\'' +
+                ", contactaddress='" + contactaddress + '\'' +
+                ", account='" + account + '\'' +
+                ", idnumber='" + idnumber + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", idcardpicname='" + idcardpicname + '\'' +
+                ", type=" + type +
+                ", city='" + city + '\'' +
+                ", sex=" + sex +
+                ", company=" + company +
+                ", fourservice=" + fourservice +
+                ", service='" + service + '\'' +
+                ", worknum='" + worknum + '\'' +
+                ", companyaddress='" + companyaddress + '\'' +
+                ", companyname='" + companyname + '\'' +
+                ", audit=" + audit +
+                ", superFlag=" + superFlag +
+                '}';
+    }
+
+    public String getCompanyaddress() {
+        return companyaddress;
+    }
+
+    public void setCompanyaddress(String companyaddress) {
+        this.companyaddress = companyaddress;
+    }
+
+    private String companyaddress;
+    private String companyname;
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
     private int audit;
 
     public Boolean getSuperFlag() {
@@ -257,6 +280,8 @@ public class Userstable implements Parcelable {
         dest.writeParcelable(this.fourservice, 0);
         dest.writeString(this.service);
         dest.writeString(this.worknum);
+        dest.writeString(this.companyaddress);
+        dest.writeString(this.companyname);
         dest.writeInt(this.audit);
         dest.writeValue(this.superFlag);
     }
@@ -279,6 +304,8 @@ public class Userstable implements Parcelable {
         this.fourservice = in.readParcelable(FourService.class.getClassLoader());
         this.service = in.readString();
         this.worknum = in.readString();
+        this.companyaddress = in.readString();
+        this.companyname = in.readString();
         this.audit = in.readInt();
         this.superFlag = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }

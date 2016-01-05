@@ -24,7 +24,7 @@ public class ShareUtils {
     public static final String QQ_APPID = "1104959839";
     public static final String QQ_APPKEY = "Z5bXtqD4ZYy3dxwK";
     public static final String WeChat_APPID = "wxfd96806031dd55eb";
-    public static final String WeChat_APPSECRET = "154be4dd6d9bd0cb250d0eceebd492a5";
+    public static final String WeChat_APPSECRET = "2fdc0ad3055464f642c46b7ac37858a0";
 
     /**
      * 分享到QQ空间

@@ -155,4 +155,19 @@ public class UIUtils {
             e.printStackTrace();
         }
     }
+
+    public static void showNext(Activity currentAc,Activity nextAc) {
+        Intent intent = new Intent(currentAc, nextAc.getClass());
+        currentAc.startActivity(intent);
+        currentAc.finish();
+        //调用此方法让动画效果生效
+        currentAc.overridePendingTransition(R.anim.tran_next_in, R.anim.tran_next_out);
+    }
+
+    public static void showPre(Activity currentAc,Class preAc) {
+        Intent intent = new Intent(currentAc, preAc);
+        currentAc.startActivity(intent);
+        currentAc.finish();
+        currentAc.overridePendingTransition(R.anim.tran_pre_in, R.anim.tran_pre_out);
+    }
 }

@@ -495,7 +495,7 @@ public interface UserApi {
      */
     @Multipart
     @POST("/modifySelfInfo/")
-    public void modifySelfInfo(@Field("param") String params, @Part("photoData") TypedFile photoData, NetCallback<NetWorkResultBean<Userstable>> NetCallback);
+    public void modifySelfInfo(@Part("param") String params, @Part("photoData") TypedFile photoData, NetCallback<NetWorkResultBean<Userstable>> NetCallback);
 
 
     /**

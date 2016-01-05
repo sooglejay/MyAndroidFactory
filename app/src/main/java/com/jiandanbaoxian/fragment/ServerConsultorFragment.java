@@ -2,6 +2,7 @@ package com.jiandanbaoxian.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
@@ -23,10 +26,14 @@ import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.ConsultantData;
+import com.jiandanbaoxian.model.FourService;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
+import com.jiandanbaoxian.ui.LoginActivity;
+import com.jiandanbaoxian.ui.ModifyUserInfoActivity;
 import com.jiandanbaoxian.util.ImageUtils;
 import com.jiandanbaoxian.util.PreferenceUtil;
+import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.jazzyviewpager.JazzyViewPager;
@@ -49,12 +56,15 @@ public class ServerConsultorFragment extends BaseFragment {
     private ImageView iv_dot_1;
     private ImageView iv_dot_2;
     private ImageView iv_dot_3;
+    private List<ImageView> dotViewList = new ArrayList<>();
+    private LinearLayout layout_dot_list;
     private Context context;
     private JazzyViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter = null;
     private TitleBar titleBar;
     private FrameLayout layout_viewpager;
     View layout_circle_dot;
+    View layout_server_call;
 
     private List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<>();
     private ConsultantData consultantData;
@@ -62,12 +72,17 @@ public class ServerConsultorFragment extends BaseFragment {
 
     private Userstable myConsult;//用于显示的 我的顾问
     private int userid = -1;
+    private int myConsultId = -1;
     private Activity activity;
 
 
     //分页获取其他顾问（维修顾问）
     private int pageNum = 0;
     private int pageSize = 20;
+
+
+    private DialogFragmentCreater dialogFragmentCreater;//打电话时需要确认才能打
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +93,11 @@ public class ServerConsultorFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         activity = getActivity();
         userid = PreferenceUtil.load(activity, PreferenceConstant.userid, -1);
-        setUp(view, savedInstanceState);
+        findViews(view);
+        setUpListener();
+        dialogFragmentCreater = new DialogFragmentCreater();
+        dialogFragmentCreater.setDialogContext(this.getActivity(), this.getActivity().getSupportFragmentManager());
+        loadConsults();
     }
 
     public void onResume() {
@@ -96,29 +115,61 @@ public class ServerConsultorFragment extends BaseFragment {
         MobclickAgent.onPageEnd("MainScreen");
     }
 
-    private void setUp(View view, Bundle savedInstanceState) {
+    private void findViews(View view) {
         viewPager = (JazzyViewPager) view.findViewById(R.id.pager);
         layout_viewpager = (FrameLayout) view.findViewById(R.id.layout_viewpager);
+        layout_dot_list = (LinearLayout) view.findViewById(R.id.layout_dot_list);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_company_address = (TextView) view.findViewById(R.id.tv_company_address);
         tv_company_name = (TextView) view.findViewById(R.id.tv_company_name);
         tv_phone_number = (TextView) view.findViewById(R.id.tv_phone_number);
         layout_circle_dot = view.findViewById(R.id.layout_circle_dot);
+        layout_server_call = view.findViewById(R.id.layout_server_call);
 
 
         iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
-        ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX", userid + ""), iv_avatar, ImageUtils.getOptions());
+//        iv_dot_0 = (ImageView) view.findViewById(R.id.dot_0);
+//        iv_dot_0.setImageResource(R.drawable.dot_0);
+//        iv_dot_1 = (ImageView) view.findViewById(R.id.dot_1);
+//        iv_dot_2 = (ImageView) view.findViewById(R.id.dot_2);
+//        iv_dot_3 = (ImageView) view.findViewById(R.id.dot_3);
+        titleBar = (TitleBar) view.findViewById(R.id.title_bar);
 
-        iv_dot_0 = (ImageView) view.findViewById(R.id.dot_0);
-        iv_dot_0.setImageResource(R.drawable.dot_0);
-        iv_dot_1 = (ImageView) view.findViewById(R.id.dot_1);
-        iv_dot_2 = (ImageView) view.findViewById(R.id.dot_2);
-        iv_dot_3 = (ImageView) view.findViewById(R.id.dot_3);
+    }
+
+    private void setUpListener() {
+
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callMyConsult();
+
+            }
+        });
+
+        //点击我的顾问的电话号码，打电话
+        layout_server_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myConsult.getId() == userid) {
+                    startActivity(new Intent(activity, ModifyUserInfoActivity.class));
+                } else {
+                    callMyConsult();
+                }
+
+            }
+        });
+    }
+
+
+    private void setUp() {
+
+        ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX", myConsultId + ""), iv_avatar, ImageUtils.getOptions());
         viewPager.setOffscreenPageLimit(20);
         viewPager.setCurrentItem(1, true);
         viewPager.setPageMargin(-140);
 
-        viewPagerAdapter = new ViewPagerAdapter(this.getActivity(), this.getActivity().getSupportFragmentManager(), viewPager);
+        viewPagerAdapter = new ViewPagerAdapter(this.getActivity(), this.getActivity().getSupportFragmentManager(), viewPager, fragmentPerPages);
         viewPager.setAdapter(viewPagerAdapter);
 
         viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
@@ -135,34 +186,31 @@ public class ServerConsultorFragment extends BaseFragment {
 //                {
 //                    loadConsults();
 //                }
+                if (dotViewList.size() < 1) {
+                    return;
+                }
+                for (int i = 0; i < dotViewList.size(); i++) {
+                    dotViewList.get(i).setImageResource(R.drawable.dot_4);
+                }
+
                 switch (position % 4) {
                     case 0:
-                        iv_dot_0.setImageResource(R.drawable.dot_0);
-                        iv_dot_1.setImageResource(R.drawable.dot_4);
-                        iv_dot_2.setImageResource(R.drawable.dot_4);
-                        iv_dot_3.setImageResource(R.drawable.dot_4);
+                        dotViewList.get(position).setImageResource(R.drawable.dot_0);
                         break;
                     case 1:
-                        iv_dot_0.setImageResource(R.drawable.dot_4);
-                        iv_dot_1.setImageResource(R.drawable.dot_1);
-                        iv_dot_2.setImageResource(R.drawable.dot_4);
-                        iv_dot_3.setImageResource(R.drawable.dot_4);
+                        dotViewList.get(position).setImageResource(R.drawable.dot_1);
                         break;
                     case 2:
-                        iv_dot_0.setImageResource(R.drawable.dot_4);
-                        iv_dot_1.setImageResource(R.drawable.dot_4);
-                        iv_dot_2.setImageResource(R.drawable.dot_2);
-                        iv_dot_3.setImageResource(R.drawable.dot_4);
+                        dotViewList.get(position).setImageResource(R.drawable.dot_2);
                         break;
                     case 3:
-                        iv_dot_0.setImageResource(R.drawable.dot_4);
-                        iv_dot_1.setImageResource(R.drawable.dot_4);
-                        iv_dot_2.setImageResource(R.drawable.dot_4);
-                        iv_dot_3.setImageResource(R.drawable.dot_0);
+                        dotViewList.get(position).setImageResource(R.drawable.dot_0);
                         break;
                     default:
                         break;
                 }
+
+
             }
 
             @Override
@@ -177,22 +225,40 @@ public class ServerConsultorFragment extends BaseFragment {
             }
         });
 
-        titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
 
-
-        //点击我的顾问的电话号码，打电话
-        view.findViewById(R.id.layout_server_call).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (myConsult != null)
-                    UIUtils.takePhoneCall(activity, myConsult.getPhone(), 100);
-            }
-        });
-
         getOtherConsultant();
-        loadConsults();
 
+
+    }
+
+
+    /**
+     * 给我的顾问打电话
+     */
+    private void callMyConsult() {
+        if (myConsult != null) { //弹出确认对话框
+            dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                @Override
+                public void viewClick(String tag) {
+                    if (tag.equals(StringConstant.tv_confirm)) {
+                        UIUtils.takePhoneCall(activity, myConsult.getPhone(), 1000);
+                    }
+                }
+
+                @Override
+                public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                    if (tv_title instanceof TextView) {
+                        ((TextView) tv_title).setText("提示");
+                    }
+                    if (tv_content instanceof TextView) {
+                        ((TextView) tv_content).setText("您确定要打电话么？\n " + myConsult.getPhone());
+                    }
+                }
+            });
+            dialogFragmentCreater.showDialog(getActivity(), DialogFragmentCreater.DialogShowConfirmOrCancelDialog);
+
+        }
     }
 
     private void loadConsults() {
@@ -210,6 +276,7 @@ public class ServerConsultorFragment extends BaseFragment {
                 myConsultant.addAll(consultantData.getMyConsultant());//
                 if (myConsultant.size() > 0) {
                     myConsult = myConsultant.get(0);
+                    myConsultId = myConsult.getId();
                     tv_name.setText(TextUtils.isEmpty(myConsult.getName()) ? "" : myConsult.getName());
                     tv_company_address.setText(TextUtils.isEmpty(myConsult.getContactaddress()) ? "" : myConsult.getContactaddress());
 
@@ -221,32 +288,61 @@ public class ServerConsultorFragment extends BaseFragment {
                     tv_phone_number.setText(TextUtils.isEmpty(myConsult.getPhone()) ? "" : myConsult.getPhone());
 
                 }
+                setUp();
+
+
             }
         });
     }
 
+    /***
+     * 获取其他保险顾问，然后刷新ViewPager
+     */
     private void getOtherConsultant() {
+        final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
+        progressDialogUtil.show("正在获取数据...");
+
         UserRetrofitUtil.getOtherConsultant(activity, userid, 20, 1, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
+                progressDialogUtil.hide();
 
             }
 
             @Override
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
-                List<Userstable> otherConsultant = new ArrayList<Userstable>();
-                for (int i = 0; i < otherConsultant.size(); i++) {
+                List<FourService> fourServiceList = consultantDataNetWorkResultBean.getData().getMaintainConsultant();
+                fragmentPerPages.clear();
+                layout_dot_list.removeAllViews();
+                dotViewList.clear();
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) UIUtils.dp2px(activity, 8), (int) UIUtils.dp2px(activity, 8), 1.0f);
+                int uiMargin = (int) UIUtils.dp2px(activity, 4);
+                layoutParams.setMargins(uiMargin, uiMargin, uiMargin, uiMargin);
+                for (int i = 0; i < fourServiceList.size(); i++) {
                     ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
                     fragmentPerPage.setPosition(i);
-                    fragmentPerPage.setUserstable(otherConsultant.get(i));
+                    fragmentPerPage.setUserstable(fourServiceList.get(i));
                     fragmentPerPages.add(fragmentPerPage);
+                    ImageView dot = new ImageView(activity);
+                    dot.setTag("dot_" + i);
+                    if (i == 0) {
+                        dot.setImageResource(R.drawable.dot_0);
+                    } else {
+                        dot.setImageResource(R.drawable.dot_4);
+                    }
+                    dot.setLayoutParams(layoutParams);
+                    dotViewList.add(dot);
+                    layout_dot_list.addView(dot);
+
                 }
-                if (otherConsultant.size() < 1) {
+                if (fourServiceList.size() < 1) {
                     layout_circle_dot.setVisibility(View.GONE);
                 } else {
                     layout_circle_dot.setVisibility(View.VISIBLE);
                 }
                 viewPagerAdapter.notifyDataSetChanged();
+                progressDialogUtil.hide();
+
             }
         });
     }
@@ -255,10 +351,14 @@ public class ServerConsultorFragment extends BaseFragment {
      * 首页viewpager的adapter
      */
     private final class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        public ViewPagerAdapter(Context context, FragmentManager fm, JazzyViewPager mJazzy) {
+        private List<ConsultFragmentPerPage> pages = new ArrayList<>();
+
+        public ViewPagerAdapter(Context context, FragmentManager fm, JazzyViewPager mJazzy, List<ConsultFragmentPerPage> pages) {
             super(fm);
             this.mJazzy = mJazzy;
+            this.pages = pages;
         }
+
 
         private JazzyViewPager mJazzy;
 
@@ -276,12 +376,12 @@ public class ServerConsultorFragment extends BaseFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return fragmentPerPages.get(position);
+            return pages.get(position);
         }
 
         @Override
         public int getCount() {
-            return fragmentPerPages.size();
+            return pages.size();
         }
     }
 

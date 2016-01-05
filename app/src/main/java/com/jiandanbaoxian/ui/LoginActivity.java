@@ -1,7 +1,9 @@
 package com.jiandanbaoxian.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -9,6 +11,8 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,7 +55,9 @@ public class LoginActivity extends BaseActivity {
 
 
     private ProgressDialogUtil mProgressUtil;
-
+    protected SharedPreferences sp;
+    protected GestureDetector mGestureDetector;
+    private Activity activity;
 
     public static void startLoginActivity(Context context) {
         context.startActivity(new Intent(context, LoginActivity.class));
@@ -61,8 +67,32 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        activity = this;
         setUp();
         setLisenter();
+
+
+        sp =getSharedPreferences("config", MODE_PRIVATE);
+
+
+        //1.创建一个手势识别器 new 对象，并给这个手势识别器设置监听器
+        mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
+            //当手指在屏幕上滑动的时候 调用的方法.
+            @Override
+            //e1代表的是手指刚开始滑动的事件，e2代表手指滑动完了的事件
+            public boolean onFling(MotionEvent e1, MotionEvent e2,float velocityX, float velocityY) {
+                if(e1.getRawX() - e2.getRawX() > 200){
+//                    UIUtils.showNext();//向右滑动，显示下一个界面
+                    return true;
+                }
+
+                if(e2.getRawX() - e1.getRawX() > 200){
+                    UIUtils.showPre(activity,MainActivity.class);//向左滑动，显示上一个界面
+                    return true;
+                }
+                return super.onFling(e1, e2, velocityX, velocityY);
+            }
+        });
 
     }
 
@@ -176,7 +206,7 @@ public class LoginActivity extends BaseActivity {
                 } else {
                     mCountTimer.start();
                     phoneString = et_phone_number.getText().toString();
-                    UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
+                    UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, 0,new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -288,5 +318,12 @@ public class LoginActivity extends BaseActivity {
             }
         }
 
+    }
+
+    //2.让手势识别器生效，重写Activity的触摸事件，并且将Activity的触摸事件传入到手势识别器中
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }

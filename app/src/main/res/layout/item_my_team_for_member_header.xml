@@ -2,12 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <View
-        android:id="@+id/line_top"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/very_light_gray_color" />
-  <TextView
+    <TextView
          android:id="@+id/tv_type_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,11 +13,6 @@
         android:text="4s店（4家）"
       android:textColor="#868686"
         android:textSize="@dimen/middle_textsize" />
-    <View
-        android:id="@+id/line_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/very_light_gray_color" />
-</LinearLayout>
+  </LinearLayout>
 
 

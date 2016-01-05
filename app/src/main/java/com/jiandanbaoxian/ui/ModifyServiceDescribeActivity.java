@@ -25,22 +25,23 @@ import retrofit.client.Response;
 /**
  * Created by JammyQtheLab on 2015/12/14.
  */
-public class ModifyEmployeeNumberActivity extends BaseActivity {
+public class ModifyServiceDescribeActivity extends BaseActivity {
     public static final int REFRESH = 1000;
 
     private TitleBar titleBar;
     private EditText editText;
     private Activity activity;
     private int userid = -1;
-    private String workNum="";
+
+    private String serviceDescribe="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_number);
+        setContentView(R.layout.activity_modify_service_describe);
         activity = this;
         userid = PreferenceUtil.load(activity, PreferenceConstant.userid,-1);
-        workNum = getIntent().getExtras().getString("workNum","");
+        serviceDescribe = getIntent().getExtras().getString("serviceDescribe","");
         findViews();
         setUpViews();
         setUpListeners();
@@ -57,8 +58,8 @@ public class ModifyEmployeeNumberActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                 final String newPhoneStr = editText.getText().toString();
-                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1, "-1", "-1", "-1", newPhoneStr, "-1", null, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
+                 final String newStr = editText.getText().toString();
+                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1,newStr, "-1", "-1","-1", "-1", null, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         Toast.makeText(activity,"服务器无响应，请检查网络！",Toast.LENGTH_SHORT).show();
@@ -67,7 +68,7 @@ public class ModifyEmployeeNumberActivity extends BaseActivity {
                     @Override
                     public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
                         Intent intent = getIntent();
-                        intent.putExtra("MODIFY_EMPLOYEE_NUMBER", newPhoneStr);
+                        intent.putExtra("MODIFY_SERVICE_DESCRIBE", newStr);
                         setResult(Activity.RESULT_OK, intent);
                         finish();
                     }
@@ -79,15 +80,15 @@ public class ModifyEmployeeNumberActivity extends BaseActivity {
     }
 
     private void setUpViews() {
-        titleBar.initTitleBarInfo("修改员工工号", R.drawable.arrow_left, -1, "", "完成");
+        titleBar.initTitleBarInfo("修改服务介绍", R.drawable.arrow_left, -1, "", "完成");
 
     }
 
     private void findViews() {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         editText = (EditText) findViewById(R.id.et_phone_number);
-        editText.setText(workNum);
-        editText.setSelection(workNum.length());
+        editText.setText(serviceDescribe);
+        editText.setSelection(serviceDescribe.length());
     }
 
 
@@ -119,8 +120,8 @@ public class ModifyEmployeeNumberActivity extends BaseActivity {
             int what = msg.what;
             switch (what) {
                 case REFRESH: {
-                    //手机号码输入框获取焦点
-                    UIUtils.showSoftInput(ModifyEmployeeNumberActivity.this, editText);
+                    //输入框获取焦点
+                    UIUtils.showSoftInput(ModifyServiceDescribeActivity.this, editText);
                     editText.requestFocus();
                     break;
                 }

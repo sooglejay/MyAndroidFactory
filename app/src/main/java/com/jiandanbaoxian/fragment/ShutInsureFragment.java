@@ -170,7 +170,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private void findViews(View viewFromOuter) {
         //自定义View，作为界面的顶部View，封装具体操作
         titleBar = (TitleBar) viewFromOuter.findViewById(R.id.title_bar);
-        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, R.drawable.icon_share_white, "", "");
+        titleBar.initTitleBarInfo(StringConstant.shutInsure, -1, -1, "", "分享");
 
 
         mPullRefreshLinearLayout = (PullToRefreshLinearLayout) viewFromOuter.findViewById(R.id.top_layout);

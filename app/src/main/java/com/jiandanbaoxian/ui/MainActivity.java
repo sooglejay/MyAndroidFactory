@@ -143,10 +143,10 @@ public class MainActivity extends BaseActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = new ShutInsureFragment();
-                    break;
-                case 1:
                     fragment = new BuyInsureFragment();
+                    break;
+                case 1://change  the order
+                    fragment = new ShutInsureFragment();
                     break;
                 case 2:
                     fragment = new ServerConsultorFragment();

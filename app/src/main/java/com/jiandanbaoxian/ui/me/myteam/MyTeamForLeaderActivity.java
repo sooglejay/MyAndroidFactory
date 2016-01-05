@@ -21,6 +21,7 @@ import com.jiandanbaoxian.adapter.MyTeamForMemberAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.fragment.DialogFragmentCreater;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.RangeData;
@@ -234,7 +235,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                                 ModifyUserInfoActivity.startActivity(activity, userstable);
                                 break;
                             case R.id.layout_check_rule:
-                                BrowserActivity.startActivity(activity, true);
+                                BrowserActivity.startActivity(activity, StringConstant.CreateTeamRule,"创建团队规则");
                                 break;
                         }
                         mPopWindow.dismiss();
@@ -266,7 +267,13 @@ public class MyTeamForLeaderActivity extends BaseActivity {
 
     private void getTeamRangeInfo() {
         if (userid != -1) {
-            UserRetrofitUtil.getTeamRangeInfo(this, userid, new NetCallback<NetWorkResultBean<RangeData>>(this) {
+
+            /**
+             int userid; //用户id
+             int  pageSize;//容量
+             int pageNum;//页码
+             **/
+            UserRetrofitUtil.getTeamRangeInfo(this, userid,100,1, new NetCallback<NetWorkResultBean<RangeData>>(this) {
                 @Override
                 public void onFailure(RetrofitError error, String message) {
                     swipeLayout.setRefreshing(false);
@@ -373,14 +380,11 @@ public class MyTeamForLeaderActivity extends BaseActivity {
         UserRetrofitUtil.getJoinRequest(activity, userid, new NetCallback<NetWorkResultBean<TeamData>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-                Userstable userstable = new Userstable();
-                userstable.setName("看到我就说明你是团长，但是没有你任何邀请信息,弹出此对话框，只为测试！");
-                userstable.setId(13);
-                userstableList.add(userstable);
-                popWindowUtilsLeaderConsiderRequest.showPopWindowInMyTeamForLeaderConsiderRequest(container, activity, userstableList, teamData);
                 if (!TextUtils.isEmpty(message)) {
                     Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                 }
+                ivNotification.setImageResource(R.drawable.icon_no_notification);
+
             }
 
             @Override

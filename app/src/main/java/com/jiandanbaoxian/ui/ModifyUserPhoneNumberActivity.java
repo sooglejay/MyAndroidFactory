@@ -7,10 +7,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.api.callback.NetCallback;
+import com.jiandanbaoxian.api.user.UserRetrofitUtil;
+import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.model.Userstable;
+import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by JammyQtheLab on 2015/12/14.
@@ -20,11 +30,15 @@ public class ModifyUserPhoneNumberActivity extends BaseActivity {
 
     private TitleBar titleBar;
     private EditText editText;
+    private Activity activity;
+    private int userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_phone_number);
+        activity = this;
+        userid = PreferenceUtil.load(activity, PreferenceConstant.userid,-1);
         findViews();
         setUpViews();
         setUpListeners();
@@ -42,11 +56,22 @@ public class ModifyUserPhoneNumberActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                Intent intent = getIntent();
-                String newPhoneStr = editText.getText().toString();
-                intent.putExtra("MODIFY_PHONE_NUMBER", newPhoneStr);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+
+                final String newPhoneStr = editText.getText().toString();
+                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1, "-1", "-1", "-1", "-1", "-1", null, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
+                    @Override
+                    public void onFailure(RetrofitError error, String message) {
+                        Toast.makeText(activity, "服务器无响应，请检查网络！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                        Intent intent = getIntent();
+                        intent.putExtra("MODIFY_PHONE_NUMBER", newPhoneStr);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    }
+                });
             }
         });
 
