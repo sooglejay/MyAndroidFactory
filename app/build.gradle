@@ -36,6 +36,7 @@ android {
             signingConfig signingConfigs.config
             proguardFile 'proguard-rules.pro'
         }
+        
     }
     //批量打包--声明
     productFlavors {
