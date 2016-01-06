@@ -32,19 +32,19 @@
             android:layout_marginBottom="@dimen/middle_padding"
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginTop="@dimen/middle_padding"
-            android:text="持卡人姓名:"
+            android:text="卡类型 "
             android:textColor="@color/tv_black_color_level_0"
             android:textSize="@dimen/tv_size_level_1" />
 
         <EditText
-            android:id="@+id/et_user_name"
+            android:id="@+id/et_card_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/middle_padding"
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginTop="@dimen/middle_padding"
             android:background="@null"
-            android:hint="请输入持卡人姓名"
+            android:hint="请输入所属银行的名字"
             android:inputType="text"
             android:maxLines="1"
             android:textColorHint="@color/tv_gray_color_level_1"
@@ -69,20 +69,20 @@
             android:layout_marginBottom="@dimen/middle_padding"
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginTop="@dimen/middle_padding"
-            android:text="卡号:"
+            android:text="手机号 "
             android:textColor="@color/tv_black_color_level_0"
             android:textSize="@dimen/tv_size_level_1" />
 
         <EditText
-            android:id="@+id/et_card_number"
+            android:id="@+id/et_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/middle_padding"
             android:layout_marginLeft="@dimen/middle_padding"
             android:layout_marginTop="@dimen/middle_padding"
             android:background="@null"
-            android:hint="请扫描或输入银行卡号"
-            android:inputType="numberSigned"
+            android:hint="请输入手机号码"
+            android:inputType="phone"
             android:maxLines="1"
             android:textColorHint="@color/tv_gray_color_level_1"
             android:textSize="@dimen/tv_size_level_1" />
@@ -109,11 +109,94 @@
 
     </LinearLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_line" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_padding"
+            android:layout_marginLeft="@dimen/middle_padding"
+            android:layout_marginTop="@dimen/middle_padding"
+            android:text="验证码    "
+            android:textColor="@color/tv_black_color_level_0"
+            android:textSize="@dimen/tv_size_level_1" />
+
+        <EditText
+            android:id="@+id/et_verification_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_padding"
+            android:layout_marginLeft="@dimen/middle_padding"
+            android:layout_marginTop="@dimen/middle_padding"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="numberSigned"
+            android:hint="请输入验证码"
+            android:maxLines="1"
+            android:textColorHint="#d1d1d2"
+            android:textSize="@dimen/tv_size_level_1" />
+
+        <TextView
+            android:id="@+id/tv_obtain_verify_code"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/little_padding"
+            android:layout_marginRight="@dimen/middle_padding"
+            android:layout_marginTop="@dimen/little_padding"
+            android:background="@drawable/btn_select_base"
+            android:gravity="center"
+            android:paddingLeft="@dimen/middle_padding"
+            android:paddingRight="@dimen/middle_padding"
+            android:text="获取验证码"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/tv_size_level_0" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/very_light_gray_color" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_screen"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:gravity="center|left"
+            android:padding="@dimen/middle_padding"
+            android:layout_height="wrap_content">
+
+            <ImageView
+
+                android:layout_width="26dp"
+                android:src="@drawable/icon_choose_selected"
+                android:id="@+id/iv_agree"
+                android:layout_height="26dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="我已阅读并同意"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_licence"
+                android:textColor="#1c7fe8"
+                android:layout_width="wrap_content"
+                android:text="《服务协议》"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
         <Button
             android:id="@+id/btn_next_step"
             android:layout_width="match_parent"

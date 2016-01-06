@@ -86,7 +86,7 @@ public class PullMoneyDetailActivity extends BaseActivity {
                 activity.finish();
             }
         });
-        tv_pull_money_amount.setText("提现金额:" + moneyStr);
+        tv_pull_money_amount.setText("提现金额  " + moneyStr+" 元");
         tv_bank_name.setText(bankNameStr + "  尾号为  " + accountNumStr);
     }
 }

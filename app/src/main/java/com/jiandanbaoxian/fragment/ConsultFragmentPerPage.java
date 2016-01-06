@@ -62,7 +62,12 @@ public class ConsultFragmentPerPage extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_consult_per_page, container, false);
+        return   inflater.inflate(R.layout.fragment_consult_per_page, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         activity = getActivity();
         dialogFragmentCreater = new DialogFragmentCreater();
         dialogFragmentCreater.setDialogContext(this.getActivity(), this.getActivity().getSupportFragmentManager());
@@ -70,7 +75,7 @@ public class ConsultFragmentPerPage extends BaseFragment {
         findViews(view);
         setUpViews();
         setUpListener();
-        switch (pagePosition%4) {
+        switch (pagePosition % 4) {
             case 0:
                 layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
                 break;
@@ -86,8 +91,8 @@ public class ConsultFragmentPerPage extends BaseFragment {
             default:
                 layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
                 break;
+
         }
-        return view;
     }
 
     private void setUpListener() {
@@ -138,30 +143,32 @@ public class ConsultFragmentPerPage extends BaseFragment {
         }
 
     }
-//
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser&&layoutBackground!=null)
-//        {
-//            switch (pagePosition) {
-//                case 0:
-//                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-//                    break;
-//                case 1:
-//                    layoutBackground.setBackgroundColor(Color.parseColor("#da8f8f"));
-//                    break;
-//                case 2:
-//                    layoutBackground.setBackgroundColor(Color.parseColor("#5fb1d0"));
-//                    break;
-//                case 3:
-//                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser&&layoutBackground!=null)
+        {
+            switch (pagePosition%4) {
+                case 0:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
+                    break;
+                case 1:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#da8f8f"));
+                    break;
+                case 2:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#5fb1d0"));
+                    break;
+                case 3:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
+                    break;
+                default:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
+                    break;
+
+            }
+        }
+    }
 
 
 }

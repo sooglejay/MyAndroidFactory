@@ -1144,7 +1144,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&union=" + union +
                 "&accountType=" + accountType;
         String s = Base64Util.encode(k.getBytes());
-        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        Log.e("retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        Log.e("jwjw", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.saveWithdrawlInfo(s, callback);
     }
 
@@ -1152,6 +1153,10 @@ public class UserRetrofitUtil extends RetrofitUtil {
     /**
      * 发送时机	添加提现账号
      * 参数说明
+     *
+     String  verifyCode;//手机验证码
+
+
      * 1、int userid ; //用户编号
      * 2、string bank_name;//银行名字（微信、支付宝就为微信支付宝）
      * 3、string account_num;//账号
@@ -1167,6 +1172,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                            String account_num,
                                            String account_name,
                                            int accountType,
+                                           String verifyCode,
                                            NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -1174,7 +1180,9 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&bank_name=" + bank_name +
                 "&account_num=" + account_num +
                 "&account_name=" + account_name +
-                "&accountType=" + accountType;
+                "&accountType=" + accountType+
+                "&verifyCode=" + verifyCode
+                ;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.addWithdrawlAccount(s, callback);

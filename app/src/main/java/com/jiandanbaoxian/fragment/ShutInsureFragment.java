@@ -371,7 +371,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     //弹出输入密码对话框，输入密码正确才能提现
                     dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
                         @Override
-                        public void getPassword(String psw) {
+                        public void getPassword(final String psw) {
                             progressDialogUtil.show("正在验证密码...");
                             String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
                             UserRetrofitUtil.verifyPwd(context, phoneStr, psw, new NetCallback<NetWorkResultBean<String>>(context) {
@@ -392,7 +392,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                     } else {
                                         Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
                                         dialogFragmentController.dismiss();
-                                        context.startActivity(new Intent(context, PullMoneyActivity.class));
+                                        Intent intent = new Intent(context, PullMoneyActivity.class);
+                                        intent.putExtra("password",psw);
+                                        context.startActivity(intent);
                                     }
 
                                 }

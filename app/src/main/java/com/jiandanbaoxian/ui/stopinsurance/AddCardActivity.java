@@ -1,7 +1,10 @@
 package com.jiandanbaoxian.ui.stopinsurance;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,6 +20,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
+import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 
 import retrofit.RetrofitError;
@@ -26,6 +30,7 @@ import retrofit.client.Response;
  * 主页面-取钱-添加新卡
  */
 public class AddCardActivity extends BaseActivity {
+    public static final int REFRESH = 1000;
 
     private TitleBar titleBar;
     private EditText etUserName;
@@ -82,23 +87,18 @@ public class AddCardActivity extends BaseActivity {
 
                     String name = etUserName.getText().toString();
                     String card = etUserCardNumber.getText().toString();
-                    UserRetrofitUtil.addWithdrawlAccount(activity, userid, "中国的银行", card, name, 0, new NetCallback<NetWorkResultBean<String>>(activity) {
-                        @Override
-                        public void onFailure(RetrofitError error, String message) {
-                            if (!TextUtils.isEmpty(message)) {
-                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-                            }
-                        }
 
-                        @Override
-                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                            Toast.makeText(activity, "添加新卡成功！", Toast.LENGTH_SHORT).show();
-                            activity.finish();
-                        }
-                    });
+                    Intent intent = new Intent(activity, AddCardDetailActivity.class);
+                    intent.putExtra("card", card);
+                    intent.putExtra("name", name);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
+
+        new FreshWordsThread().start();
+
 
     }
 
@@ -125,4 +125,54 @@ public class AddCardActivity extends BaseActivity {
 
         }
     };
+
+
+
+    @Override
+    public void finish() {
+        //隐藏键盘
+        if (etUserName != null) {
+            UIUtils.setHideSoftInput(this, etUserName);
+        }
+        super.finish();
+    }
+
+    /**
+     * 主线程更新ui
+     */
+    private class FreshWordsThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            refreshUiHandler.sendEmptyMessage(REFRESH);
+        }
+    }
+
+
+    //主线程中的handler
+    private RefreshUiHandler refreshUiHandler = new RefreshUiHandler();
+
+    private class RefreshUiHandler extends Handler {
+        /**
+         * 接受子线程传递的消息机制
+         */
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int what = msg.what;
+            switch (what) {
+                case REFRESH: {
+                    //手机号码输入框获取焦点
+                    UIUtils.showSoftInput(AddCardActivity.this, etUserName);
+                    etUserName.requestFocus();
+                    break;
+                }
+
+            }
+        }
+    }
 }

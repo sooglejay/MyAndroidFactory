@@ -66,6 +66,7 @@ public class PullMoneyActivity extends BaseActivity {
 
 
     //footerView
+    private View headerView;
     private View footerView;
     private TextView tvAddNewCard;
     private EditText etInputNumber;
@@ -79,6 +80,7 @@ public class PullMoneyActivity extends BaseActivity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
+        headerView = View.inflate(this, R.layout.header_pull_money_activity, null);
         footerView = View.inflate(this, R.layout.footer_pull_money_activity, null);
         tvAddNewCard = (TextView) footerView.findViewById(R.id.tv_add_new_card);
         tvConfirmPullMoney = (TextView) footerView.findViewById(R.id.tv_confirm_pull_money);
@@ -87,7 +89,11 @@ public class PullMoneyActivity extends BaseActivity {
 
         tvConfirmPullMoney.setEnabled(false);
         tvConfirmPullMoney.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+        mListView.addHeaderView(headerView);
         mListView.addFooterView(footerView);
+
+
+
     }
 
     @Override
@@ -96,7 +102,8 @@ public class PullMoneyActivity extends BaseActivity {
         setContentView(R.layout.activity_pull_money);
         activity = this;
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
-        withdrawlPwd = PreferenceUtil.load(this, PreferenceConstant.pwd, "");//提现用，提现属于特殊操作需要输入密码
+        withdrawlPwd = getIntent().getExtras().getString("password","");//提现用，提现属于特殊操作需要输入密码
+
         setUp();
         setLisenter();
 
@@ -284,9 +291,19 @@ public class PullMoneyActivity extends BaseActivity {
                         @Override
                         public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
                             progressDialogUtil.hide();
-                            Toast.makeText(activity, "提现成功！", Toast.LENGTH_SHORT).show();
-                            PullMoneyDetailActivity.startActivity(activity, amountStr, union, account);
-                            activity.finish();
+                            String message = stringNetWorkResultBean.getMessage().toString();
+                            if (message.equals("余额不足！")) {
+                                Toast.makeText(activity, "提现失败！余额不足！", Toast.LENGTH_SHORT).show();
+                            } else if(message.equals("提现密码不正确！"))
+                            {
+                                Toast.makeText(activity, "提现失败！提现密码不正确！", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else {
+                                PullMoneyDetailActivity.startActivity(activity, amountStr, union, account);
+                                activity.finish();
+
+                            }
                         }
                     });
                 } else {
