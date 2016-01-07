@@ -5,12 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.jiandanbaoxian.constant.ExtraConstants;
@@ -21,14 +16,13 @@ import com.jiandanbaoxian.widget.TitleBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import uk.co.senab.photoview.PhotoView;
 
 /**
  * 浏览器工具类
  */
-public class BrowserActivity extends BaseActivity {
+public class BrowserImageViewActivity extends BaseActivity {
     private String url = "";
     private String title = "";
     private PhotoView iv_rule;
@@ -38,7 +32,7 @@ public class BrowserActivity extends BaseActivity {
     private boolean isShowRule = false;
 
     public static void startActivity(Context context, String url, String title) {
-        Intent intent = new Intent(context, BrowserActivity.class);
+        Intent intent = new Intent(context, BrowserImageViewActivity.class);
         intent.putExtra(ExtraConstants.EXTRA_URL, url);
         intent.putExtra(ExtraConstants.EXTRA_title, title);
         context.startActivity(intent);
@@ -47,7 +41,7 @@ public class BrowserActivity extends BaseActivity {
 
 
     public static void startActivity(Context context, boolean isShowRule) {
-        Intent intent = new Intent(context, BrowserActivity.class);
+        Intent intent = new Intent(context, BrowserImageViewActivity.class);
         intent.putExtra("rule", isShowRule);
         context.startActivity(intent);
     }
@@ -55,7 +49,7 @@ public class BrowserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_browser);
+        setContentView(R.layout.activity_browser_image);
         setUp();
     }
 

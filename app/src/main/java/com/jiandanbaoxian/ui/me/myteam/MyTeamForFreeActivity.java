@@ -10,7 +10,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
-import com.jiandanbaoxian.ui.BrowserActivity;
+import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -54,7 +54,7 @@ public class MyTeamForFreeActivity extends BaseActivity {
             }
             @Override
             public void onRightButtonClick(View v) {
-                BrowserActivity.startActivity(activity, StringConstant.JoinTeamRule, "加入团队规则");
+                BrowserImageViewActivity.startActivity(activity, StringConstant.JoinTeamRule, "加入团队规则");
             }
         });
 

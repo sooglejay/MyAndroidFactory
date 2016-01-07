@@ -128,7 +128,6 @@ public class ServerConsultorFragment extends BaseFragment {
         layout_server_call = view.findViewById(R.id.layout_server_call);
         gif_call = view.findViewById(R.id.gif_call);
 
-
         iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
 //        iv_dot_0 = (ImageView) view.findViewById(R.id.dot_0);
 //        iv_dot_0.setImageResource(R.drawable.dot_0);
@@ -136,6 +135,8 @@ public class ServerConsultorFragment extends BaseFragment {
 //        iv_dot_2 = (ImageView) view.findViewById(R.id.dot_2);
 //        iv_dot_3 = (ImageView) view.findViewById(R.id.dot_3);
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
+        titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
+
 
     }
 
@@ -189,8 +190,7 @@ public class ServerConsultorFragment extends BaseFragment {
 //                    loadConsults();
 //                }
                 //做冗余操作
-                if(fragmentPerPages!=null&&fragmentPerPages.size()>position)
-                {
+                if (fragmentPerPages != null && fragmentPerPages.size() > position) {
                     fragmentPerPages.get(position).updateBackground(position);
                 }
 
@@ -233,7 +233,6 @@ public class ServerConsultorFragment extends BaseFragment {
             }
         });
 
-        titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
 
         getOtherConsultant();
 

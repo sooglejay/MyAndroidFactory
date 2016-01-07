@@ -24,7 +24,7 @@ import com.jiandanbaoxian.model.RangeData;
 import com.jiandanbaoxian.model.RangeRecord;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
-import com.jiandanbaoxian.ui.BrowserActivity;
+import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.ui.ModifyUserInfoActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -120,7 +120,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
                                 ModifyUserInfoActivity.startActivity(activity, userstable);
                                 break;
                             case R.id.layout_check_rule:
-                                BrowserActivity.startActivity(activity, StringConstant.CreateTeamRule, "创建团队规则");
+                                BrowserImageViewActivity.startActivity(activity, StringConstant.CreateTeamRule, "创建团队规则");
                                 break;
                         }
                         mPopWindow.dismiss();

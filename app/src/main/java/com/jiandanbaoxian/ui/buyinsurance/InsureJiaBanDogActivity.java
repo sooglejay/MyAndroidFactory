@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +20,12 @@ import com.jiandanbaoxian.model.OvertimeData;
 import com.jiandanbaoxian.model.Overtimeinsurance;
 import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
 import com.jiandanbaoxian.ui.BaseActivity;
-import com.jiandanbaoxian.ui.BrowserActivity;
+import com.jiandanbaoxian.ui.BrowserImageViewActivity;
+import com.jiandanbaoxian.ui.BrowserWebViewActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
-import com.jiandanbaoxian.widget.imagepicker.bean.Image;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,6 +40,8 @@ public class InsureJiaBanDogActivity extends BaseActivity {
     private TitleBar titleBar;
     private ImageView iv_choose;
     private TextView tv_rule;
+    private LinearLayout layout_rule;
+    private LinearLayout layout_coverage;
     private TextView tv_buy_insure;
     private TextView tv_time_shengxiao;
     private TextView tv_amount;
@@ -84,11 +85,20 @@ public class InsureJiaBanDogActivity extends BaseActivity {
         tv_time_shengxiao = (TextView) findViewById(R.id.tv_time_shengxiao);
         tv_amount = (TextView) findViewById(R.id.tv_amount);
         tv_rule = (TextView) findViewById(R.id.tv_rule);
-        tv_rule.setOnClickListener(new View.OnClickListener() {
+        layout_rule = (LinearLayout) findViewById(R.id.layout_rule);
+        layout_coverage = (LinearLayout) findViewById(R.id.layout_coverage);
+        layout_rule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BrowserActivity.startActivity(context, StringConstant.OvertimeRule, "加班险购买规则");
+                BrowserWebViewActivity.startActivity(context, true);
 
+            }
+        });
+        //加班险规则
+        layout_coverage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BrowserImageViewActivity.startActivity(context, StringConstant.OvertimeRule, "加班险规则");
             }
         });
         tv_coverage = (TextView) findViewById(R.id.tv_coverage);//加班赔付
@@ -140,9 +150,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                                          }
 
         );
-        titleBar = (TitleBar)
-
-                findViewById(R.id.title_bar);
+        titleBar = (TitleBar) findViewById(R.id.title_bar);
 
         titleBar.initTitleBarInfo("加班狗", R.drawable.arrow_left, -1, "", "");
         iv_choose = (ImageView) findViewById(R.id.iv_choose);
@@ -195,9 +203,8 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                         } else {
                             tv_amount.setText("本期商品数还剩" + 0 + "份");
                         }
-                        if(bean!=null&&bean.getCoverage()!=null)
-                        {
-                            tv_coverage.append(""+bean.getCoverage()+"元");
+                        if (bean != null && bean.getCoverage() != null) {
+                            tv_coverage.append("" + bean.getCoverage() + "元");
                         }
                     }
                 }

@@ -39,7 +39,7 @@ import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.event.BusEvent;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.PauseData;
-import com.jiandanbaoxian.ui.BrowserActivity;
+import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.ui.MyModifyPasswordActivity;
 import com.jiandanbaoxian.ui.stopinsurance.InComeDetailActivity;
@@ -262,7 +262,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         layoutRule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BrowserActivity.startActivity(getActivity(), StringConstant.PauseRule, "停保规则");
+                BrowserImageViewActivity.startActivity(getActivity(), StringConstant.PauseRule, "停保规则");
             }
         });
 

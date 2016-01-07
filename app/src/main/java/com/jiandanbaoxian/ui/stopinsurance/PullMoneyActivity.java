@@ -24,7 +24,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.FinancialAccount;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
-import com.jiandanbaoxian.ui.BrowserActivity;
+import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.util.FilterUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
@@ -246,7 +246,7 @@ public class PullMoneyActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                BrowserActivity.startActivity(PullMoneyActivity.this, true);
+                BrowserImageViewActivity.startActivity(PullMoneyActivity.this, true);
             }
         });
 
