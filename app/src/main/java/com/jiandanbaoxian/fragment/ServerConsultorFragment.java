@@ -188,6 +188,12 @@ public class ServerConsultorFragment extends BaseFragment {
 //                {
 //                    loadConsults();
 //                }
+                //做冗余操作
+                if(fragmentPerPages!=null&&fragmentPerPages.size()>position)
+                {
+                    fragmentPerPages.get(position).updateBackground(position);
+                }
+
                 if (dotViewList.size() < 1) {
                     return;
                 }

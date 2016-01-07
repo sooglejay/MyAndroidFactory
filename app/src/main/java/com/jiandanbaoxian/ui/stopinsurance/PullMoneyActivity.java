@@ -93,7 +93,6 @@ public class PullMoneyActivity extends BaseActivity {
         mListView.addFooterView(footerView);
 
 
-
     }
 
     @Override
@@ -102,7 +101,7 @@ public class PullMoneyActivity extends BaseActivity {
         setContentView(R.layout.activity_pull_money);
         activity = this;
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
-        withdrawlPwd = getIntent().getExtras().getString("password","");//提现用，提现属于特殊操作需要输入密码
+        withdrawlPwd = getIntent().getExtras().getString("password", "");//提现用，提现属于特殊操作需要输入密码
 
         setUp();
         setLisenter();
@@ -277,11 +276,15 @@ public class PullMoneyActivity extends BaseActivity {
                         Toast.makeText(activity, "银行名字不能为空！", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if(amountStr.substring(0).equals("0"))
-                    {
+                    if (amountStr.length() > 1 && amountStr.substring(0, 1).equals("0")) {
+                        Toast.makeText(activity, "输入金额数值不合法！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (amountStr.substring(0, 1).equals("0")) {
                         Toast.makeText(activity, "提现金额最低1元！", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
                     progressDialogUtil.show("正在提现...");
                     UserRetrofitUtil.saveWithdrawlInfo(activity, userid, 1, amountStr, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<String>>(activity) {
@@ -299,15 +302,14 @@ public class PullMoneyActivity extends BaseActivity {
                             String message = stringNetWorkResultBean.getMessage().toString();
                             if (message.equals("余额不足！")) {
                                 Toast.makeText(activity, "提现失败！余额不足！", Toast.LENGTH_SHORT).show();
-                            } else if(message.equals("提现密码不正确！"))
-                            {
+                            } else if (message.equals("提现密码不正确！")) {
                                 Toast.makeText(activity, "提现失败！提现密码不正确！", Toast.LENGTH_SHORT).show();
 
-                            }
-                            else {
+                            } else if (!message.contains("ok")) {
+                                Toast.makeText(activity, message.toString(), Toast.LENGTH_SHORT).show();
+                            } else {
                                 PullMoneyDetailActivity.startActivity(activity, amountStr, union, account);
                                 activity.finish();
-
                             }
                         }
                     });
@@ -323,7 +325,7 @@ public class PullMoneyActivity extends BaseActivity {
                 if (id == -1 || position > mDatas.size()) {
                     return;
                 }
-                FinancialAccount bean = mDatas.get(position);
+                FinancialAccount bean = mDatas.get((int) id);
                 for (FinancialAccount financialAccount : mDatas) {
                     financialAccount.setSuperFlag(false);
                 }

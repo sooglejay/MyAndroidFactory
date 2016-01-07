@@ -166,7 +166,7 @@ public class MyCallPoliceActivity extends BaseActivity implements
             @Override
             public void success(NetWorkResultBean<ReportData> reportDataNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
-
+                mListDatas.clear();
                 ReportData data = reportDataNetWorkResultBean.getData();
                 if (data.getReportableInsurance() != null) {
                     ReportableInsurance reportableInsurance = data.getReportableInsurance();
@@ -196,11 +196,28 @@ public class MyCallPoliceActivity extends BaseActivity implements
             double lat_o = overtimeReportableData.getLat();
             double lng_o = overtimeReportableData.getLng();
             if (Math.abs(lat_o - lat) < 0.5 && Math.abs(lng_o - lng) < 0.5) {
-                Toast.makeText(activity, "报案成功！经纬度差在0.1之内", Toast.LENGTH_SHORT).show();
+
+                UserRetrofitUtil.reportOvertime(activity, userid, overtimeReportableData.getId(), new NetCallback<NetWorkResultBean<String>>(activity) {
+                    @Override
+                    public void onFailure(RetrofitError error, String message) {
+                        Toast.makeText(activity, "服务器无响应，请检查网络！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                        if (stringNetWorkResultBean.getMessage().toString().contains("ok")) {
+                            Toast.makeText(activity, "报案成功！经纬度差在0.1之内", Toast.LENGTH_SHORT).show();
+                            getReportableInsurance(userid);
+                        } else {
+                            Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
             } else {
                 Toast.makeText(activity, "报案失败！经度差：" + Math.abs(lat_o - lat) + "    纬度差：" + Math.abs(lng_o - lng), Toast.LENGTH_SHORT).show();
             }
-        }else {
+        } else {
 
         }
     }
