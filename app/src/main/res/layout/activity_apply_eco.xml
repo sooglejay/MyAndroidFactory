@@ -157,6 +157,7 @@
                     android:layout_marginLeft="@dimen/middle_padding"
                     android:layout_marginTop="@dimen/middle_padding"
                     android:background="@null"
+                    android:digits="@string/id_card"
                     android:hint="请输入执照编号"
                     android:inputType="text"
                     android:textColorHint="#d1d1d2"

@@ -44,6 +44,8 @@ public class BrowserActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+
+
     public static void startActivity(Context context, boolean isShowRule) {
         Intent intent = new Intent(context, BrowserActivity.class);
         intent.putExtra("rule", isShowRule);

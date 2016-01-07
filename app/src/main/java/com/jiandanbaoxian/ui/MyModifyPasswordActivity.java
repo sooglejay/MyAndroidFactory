@@ -43,7 +43,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
     private EditText et_verification_number;
     private TextView tv_obtain_verify_code;
     private TextView tv_confirm;
-    private EditText et_phone_number;
+
     private CountDownTimer mCountTimer;
 
     private String phoneString = "";
@@ -72,6 +72,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_modify_password);
+        phoneString=PreferenceUtil.load(this,PreferenceConstant.phone,"");
         setUp();
         setLisenter();
     }
@@ -91,10 +92,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
         tv_obtain_verify_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!checkPhoneNumberValid(et_phone_number.getText().toString())) {
-                    Toast.makeText(MyModifyPasswordActivity.this, "请输入正确的手机号码!", Toast.LENGTH_SHORT).show();
-                } else {
-                    phoneString = et_phone_number.getText().toString();
+
                     UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, 2,new NetCallback<NetWorkResultBean<CommData>>(MyModifyPasswordActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
@@ -127,7 +125,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
                     mCountTimer.start();
                     et_verification_number.requestFocus();
 
-                }
+
             }
         });
 
@@ -137,7 +135,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
 
                 //判断验证码
                 if (TextUtils.isEmpty(verifyCodeStringService)) {
-                    Toast.makeText(MyModifyPasswordActivity.this, "请输入手机号获取验证码！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyModifyPasswordActivity.this, "请点击获取验证码！", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!verifyCodeStringService.equals(verifyCodeStringUser)) {
                     Toast.makeText(MyModifyPasswordActivity.this, "验证码不正确！请重新输入", Toast.LENGTH_SHORT).show();
@@ -194,13 +192,11 @@ public class MyModifyPasswordActivity extends BaseActivity {
         tv_confirm.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
 
         et_verification_number = (EditText) findViewById(R.id.et_verification_number);
-        et_phone_number = (EditText) findViewById(R.id.et_phone_number);
 
         et_re_new_password = (EditText) findViewById(R.id.et_re_new_password);
         et_new_password = (EditText) findViewById(R.id.et_new_password);
 
         et_verification_number.addTextChangedListener(textWatcher);
-        et_phone_number.addTextChangedListener(textWatcher);
         et_new_password.addTextChangedListener(textWatcher);
         et_re_new_password.addTextChangedListener(textWatcher);
 
@@ -217,7 +213,6 @@ public class MyModifyPasswordActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            phoneString = et_phone_number.getText().toString();
             verifyCodeStringUser = et_verification_number.getText().toString();
 
             if (TextUtils.isEmpty(phoneString) || TextUtils.isEmpty(verifyCodeStringUser) || TextUtils.isEmpty(et_new_password.getText().toString()) || TextUtils.isEmpty(et_re_new_password.getText().toString())) {
@@ -251,8 +246,8 @@ public class MyModifyPasswordActivity extends BaseActivity {
     @Override
     public void finish() {
         //隐藏键盘
-        if (et_phone_number != null) {
-            UIUtils.setHideSoftInput(this, et_phone_number);
+        if (et_verification_number != null) {
+            UIUtils.setHideSoftInput(this, et_verification_number);
         }
         super.finish();
     }
@@ -288,8 +283,8 @@ public class MyModifyPasswordActivity extends BaseActivity {
             switch (what) {
                 case REFRESH: {
                     //手机号码输入框获取焦点
-                    UIUtils.showSoftInput(MyModifyPasswordActivity.this, et_phone_number);
-                    et_phone_number.requestFocus();
+                    UIUtils.showSoftInput(MyModifyPasswordActivity.this, et_verification_number);
+                    et_verification_number.requestFocus();
                     break;
                 }
 

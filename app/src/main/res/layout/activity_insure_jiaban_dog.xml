@@ -42,14 +42,23 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:padding="@dimen/middle_padding"
-            android:text="加班就赚10元"
+
+            android:paddingLeft="@dimen/middle_padding"
+            android:paddingTop="@dimen/middle_padding"
+            android:paddingBottom="@dimen/middle_padding"
+            android:text="加班就赚"
             android:textColor="@color/tv_black_color_level_0"
             android:textSize="@dimen/big_textsize" />
+        <TextView
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/tv_coverage"
+            android:text=""
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:layout_width="24dp"

@@ -44,6 +44,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
     private TextView tv_buy_insure;
     private TextView tv_time_shengxiao;
     private TextView tv_amount;
+    private TextView tv_coverage;
 
 
     private boolean isAgreeWithLicence = true;
@@ -90,6 +91,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
 
             }
         });
+        tv_coverage = (TextView) findViewById(R.id.tv_coverage);//加班赔付
         tv_buy_insure = (TextView) findViewById(R.id.tv_buy_insure);
         tv_buy_insure.setEnabled(true);
         tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
@@ -192,6 +194,10 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                             tv_amount.setText("本期商品数还剩" + bean.getResidue() + "份");
                         } else {
                             tv_amount.setText("本期商品数还剩" + 0 + "份");
+                        }
+                        if(bean!=null&&bean.getCoverage()!=null)
+                        {
+                            tv_coverage.append(""+bean.getCoverage()+"元");
                         }
                     }
                 }

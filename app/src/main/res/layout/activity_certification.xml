@@ -63,6 +63,7 @@
                     android:layout_marginLeft="@dimen/middle_padding"
                     android:layout_marginTop="@dimen/middle_padding"
                     android:inputType="text"
+                    android:digits="[^a-zA-Z0-9\u4E00-\u9FA5]"
                     android:background="@null"
                     android:hint="请输入姓名"
                     android:maxLength="11"

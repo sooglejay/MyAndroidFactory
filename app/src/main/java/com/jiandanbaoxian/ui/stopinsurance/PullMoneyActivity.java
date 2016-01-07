@@ -277,6 +277,11 @@ public class PullMoneyActivity extends BaseActivity {
                         Toast.makeText(activity, "银行名字不能为空！", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    if(amountStr.substring(0).equals("0"))
+                    {
+                        Toast.makeText(activity, "提现金额最低1元！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
                     progressDialogUtil.show("正在提现...");
                     UserRetrofitUtil.saveWithdrawlInfo(activity, userid, 1, amountStr, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<String>>(activity) {

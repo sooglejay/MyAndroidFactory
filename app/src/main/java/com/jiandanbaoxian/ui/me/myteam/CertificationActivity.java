@@ -6,7 +6,9 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +40,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -227,6 +232,30 @@ public class CertificationActivity extends BaseActivity implements
                 }
             }
         });
+
+
+        etUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String editable = etUserName.getText().toString();
+                String str = stringFilter(editable.toString());
+                if (editable.equals(str)) {
+                    etUserName.setText(str);
+                    //设置新的光标所在位置
+                    etUserName.setSelection(str.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void setUp() {
@@ -336,5 +365,12 @@ public class CertificationActivity extends BaseActivity implements
         }
     }
 
+    public static String stringFilter(String str) throws PatternSyntaxException {
+        // 只允许字母、数字和汉字
+        String  regEx = "[^a-zA-Z0-9\u4E00-\u9FA5]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return  m.replaceAll("").trim();
+    }
 
 }

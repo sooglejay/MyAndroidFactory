@@ -84,6 +84,7 @@ public class ServerConsultorFragment extends BaseFragment {
     private DialogFragmentCreater dialogFragmentCreater;//打电话时需要确认才能打
 
 
+    View gif_call;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_3, container, false);
@@ -125,6 +126,7 @@ public class ServerConsultorFragment extends BaseFragment {
         tv_phone_number = (TextView) view.findViewById(R.id.tv_phone_number);
         layout_circle_dot = view.findViewById(R.id.layout_circle_dot);
         layout_server_call = view.findViewById(R.id.layout_server_call);
+        gif_call = view.findViewById(R.id.gif_call);
 
 
         iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
@@ -265,11 +267,13 @@ public class ServerConsultorFragment extends BaseFragment {
         UserRetrofitUtil.getMyConsultant(activity, userid, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-
+                gif_call.setVisibility(View.GONE);
             }
 
             @Override
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
+                gif_call.setVisibility(View.VISIBLE);
+
                 consultantData = consultantDataNetWorkResultBean.getData();
                 List<Userstable> myConsultant = new ArrayList<Userstable>();
 
