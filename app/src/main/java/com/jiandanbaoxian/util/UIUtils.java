@@ -8,12 +8,16 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.InputFilter;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.jiandanbaoxian.R;
 
@@ -170,4 +174,60 @@ public class UIUtils {
         currentAc.finish();
         currentAc.overridePendingTransition(R.anim.tran_pre_in, R.anim.tran_pre_out);
     }
+
+    //名字只能输入中文
+   private static InputFilter filter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            boolean keepOriginal = true;
+            StringBuilder sb = new StringBuilder(end - start);
+            for (int i = start; i < end; i++) {
+                char c = source.charAt(i);
+                if (isCharAllowed(c)) // put your condition here
+                    sb.append(c);
+                else
+                    keepOriginal = false;
+            }
+            if (keepOriginal)
+                return null;
+            else {
+                if (source instanceof Spanned) {
+                    SpannableString sp = new SpannableString(sb);
+                    TextUtils.copySpansFrom((Spanned) source, start, sb.length(), null, sp, 0);
+                    return sp;
+                } else {
+                    return sb;
+                }
+            }
+        }
+
+        private boolean isCharAllowed(char c) {
+//            return Character.isLetterOrDigit(c) || Character.isSpaceChar(c);
+            return  isChinese(c);
+        }
+    };
+
+
+    /**
+     * 判定输入汉字
+     * @param c
+     * @return
+     */
+    public static boolean isChinese(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+            return true;
+        }
+        return false;
+    }
+    public static void  filterEditText(EditText editText)
+    {
+        editText.setFilters(new InputFilter[]{filter});
+    }
+
 }

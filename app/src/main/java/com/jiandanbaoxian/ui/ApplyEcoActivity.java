@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +25,7 @@ import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.util.ImageUtils;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
+import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.imagepicker.MultiImageSelectorActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -203,6 +207,7 @@ public class ApplyEcoActivity extends BaseActivity implements
             }
         });
 
+        UIUtils.filterEditText(etCompanyName);
 
     }
 

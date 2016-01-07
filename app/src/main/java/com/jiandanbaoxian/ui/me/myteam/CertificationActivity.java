@@ -31,6 +31,7 @@ import com.jiandanbaoxian.util.CityUtil;
 import com.jiandanbaoxian.util.ImageUtils;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
+import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.PopWindowUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.citypicker.ChooseCityActivity;
@@ -233,29 +234,7 @@ public class CertificationActivity extends BaseActivity implements
             }
         });
 
-
-        etUserName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String editable = etUserName.getText().toString();
-                String str = stringFilter(editable.toString());
-                if (editable.equals(str)) {
-                    etUserName.setText(str);
-                    //设置新的光标所在位置
-                    etUserName.setSelection(str.length());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        UIUtils.filterEditText(etUserName);
     }
 
     private void setUp() {
@@ -365,12 +344,5 @@ public class CertificationActivity extends BaseActivity implements
         }
     }
 
-    public static String stringFilter(String str) throws PatternSyntaxException {
-        // 只允许字母、数字和汉字
-        String  regEx = "[^a-zA-Z0-9\u4E00-\u9FA5]";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(str);
-        return  m.replaceAll("").trim();
-    }
 
 }

@@ -3,21 +3,24 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    android:paddingLeft="64dp"
+    android:paddingLeft="48dp"
     android:paddingBottom="24dp"
-    android:paddingRight="64dp">
+    android:paddingRight="48dp">
 
     <LinearLayout
         android:id="@+id/layout_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:background="#a98bbc"
+
         android:gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_margin="@dimen/middle_padding"
             android:orientation="vertical">
 
@@ -43,7 +46,8 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_width="0dp"
             android:layout_marginTop="@dimen/middle_padding"
             android:layout_marginBottom="@dimen/middle_padding"
             android:layout_marginLeft="@dimen/middle_padding"
@@ -101,8 +105,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center|left"
         android:orientation="horizontal">
 
