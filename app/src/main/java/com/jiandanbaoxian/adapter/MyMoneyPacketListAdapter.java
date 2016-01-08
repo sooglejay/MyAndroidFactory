@@ -1,32 +1,55 @@
 package com.jiandanbaoxian.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.api.callback.NetCallback;
+import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.bean.aaa_MyMoneyPocketBean;
+import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
+import com.jiandanbaoxian.fragment.DialogFragmentCreater;
+import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.stopinsurance.PullMoneyActivity;
+import com.jiandanbaoxian.util.PreferenceUtil;
+import com.jiandanbaoxian.util.ProgressDialogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Administrator on 2015/9/16.
  */
 public class MyMoneyPacketListAdapter extends BaseAdapter {
+    private DialogFragmentCreater dialogFragmentController;//注意清除掉 mPasswordString 才能公用
+    private ProgressDialogUtil progressDialogUtil;
 
-    public MyMoneyPacketListAdapter(final Activity mContext, List<aaa_MyMoneyPocketBean> datas) {
+    public MyMoneyPacketListAdapter(final BaseActivity mContext, List<aaa_MyMoneyPocketBean> datas) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         mDatas = datas;
 
+        //作为Dialog的生成器
+        dialogFragmentController = new DialogFragmentCreater();//涉及到权限操作时，需要临时输入密码并验证
+        dialogFragmentController.setDialogContext(mContext, mContext.getSupportFragmentManager());
+
+        progressDialogUtil = new ProgressDialogUtil(mContext);
     }
 
     private Activity mContext;
@@ -63,7 +86,56 @@ public class MyMoneyPacketListAdapter extends BaseAdapter {
             holder.onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, PullMoneyActivity.class));
+
+                    aaa_MyMoneyPocketBean obj =(aaa_MyMoneyPocketBean)v.getTag();
+                    final int type = obj.getType();
+
+
+                    //弹出输入密码对话框，输入密码正确才能提现
+                    dialogFragmentController.setOnPasswordDialogClickListener(new DialogFragmentCreater.OnPasswordDialogClickListener() {
+                        @Override
+                        public void getPassword(final String psw) {
+                            progressDialogUtil.show("正在验证密码...");
+                            String phoneStr = PreferenceUtil.load(mContext, PreferenceConstant.phone, "");
+                            UserRetrofitUtil.verifyPwd(mContext, phoneStr, psw, new NetCallback<NetWorkResultBean<String>>(mContext) {
+                                @Override
+                                public void onFailure(RetrofitError error, String message) {
+                                    progressDialogUtil.hide();
+                                    if (!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+
+                                @Override
+                                public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                    progressDialogUtil.hide();
+                                    if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                        Toast.makeText(mContext, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(mContext, "验证成功！", Toast.LENGTH_SHORT).show();
+                                        dialogFragmentController.dismiss();
+                                        Intent intent = new Intent(mContext, PullMoneyActivity.class);
+                                        intent.putExtra("password", psw);
+                                        intent.putExtra("type", type);
+                                        mContext.startActivity(intent);
+                                    }
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onDialogDismiss(EditText view) {
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
+                        }
+                    });
+                    dialogFragmentController.showDialog(mContext, DialogFragmentCreater.DialogShowInputPasswordDialog);
+
+
                 }
             };
             convertView.setTag(holder);

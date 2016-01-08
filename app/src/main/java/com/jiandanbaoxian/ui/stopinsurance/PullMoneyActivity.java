@@ -101,8 +101,15 @@ public class PullMoneyActivity extends BaseActivity {
         setContentView(R.layout.activity_pull_money);
         activity = this;
         userid = PreferenceUtil.load(this, PreferenceConstant.userid, -1);
-        withdrawlPwd = getIntent().getExtras().getString("password", "");//提现用，提现属于特殊操作需要输入密码
+        if (TextUtils.isEmpty(withdrawlPwd)) {
+            withdrawlPwd = "";
+        }
 
+        withdrawlPwd = getIntent().getExtras().getString("password", "");//提现用，提现属于特殊操作需要输入密码
+        type = getIntent().getExtras().getInt("type", 1);//提现用，提现属于特殊操作需要输入密码
+        if (TextUtils.isEmpty(withdrawlPwd)) {
+            withdrawlPwd = PreferenceUtil.load(activity,PreferenceConstant.pwd,"");
+        }
         setUp();
         setLisenter();
 
@@ -287,7 +294,7 @@ public class PullMoneyActivity extends BaseActivity {
 
                     final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
                     progressDialogUtil.show("正在提现...");
-                    UserRetrofitUtil.saveWithdrawlInfo(activity, userid, 1, amountStr, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<String>>(activity) {
+                    UserRetrofitUtil.saveWithdrawlInfo(activity, userid, type, amountStr, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<String>>(activity) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             progressDialogUtil.hide();

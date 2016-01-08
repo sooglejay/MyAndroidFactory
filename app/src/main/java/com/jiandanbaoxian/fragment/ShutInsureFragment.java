@@ -394,6 +394,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                         dialogFragmentController.dismiss();
                                         Intent intent = new Intent(context, PullMoneyActivity.class);
                                         intent.putExtra("password",psw);
+                                        intent.putExtra("type",1);
                                         context.startActivity(intent);
                                     }
 
