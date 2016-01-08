@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipChildren="true"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
+    android:clipChildren="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -69,11 +69,11 @@
         <LinearLayout
             android:id="@+id/right_iv_operation"
             android:layout_width="wrap_content"
-            android:paddingLeft="@dimen/small_padding"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/btn_select_transparent_darkgreen"
+            android:paddingLeft="@dimen/small_padding"
             android:paddingRight="@dimen/small_padding">
 
             <ImageView
@@ -92,6 +92,62 @@
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="24dp"-->
     <!--android:background="@color/bg_screen" />-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/middle_padding"
+        android:background="@color/bg_screen" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color">
+
+        <LinearLayout
+            android:id="@+id/layout_search"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_search" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_search_team"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="50dp"
+            android:background="@null"
+            android:hint="输入团员姓名/电话"
+            android:textColorHint="#d1d1d2"
+            android:textSize="@dimen/tv_size_level_1" />
+
+        <LinearLayout
+            android:id="@+id/layout_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:paddingBottom="@dimen/small_padding"
+            android:paddingLeft="@dimen/small_padding"
+            android:paddingRight="@dimen/small_padding"
+            android:paddingTop="@dimen/small_padding"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/icon_clear" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/middle_padding"
+        android:background="@color/bg_screen" />
 
     <FrameLayout
         android:layout_width="match_parent"

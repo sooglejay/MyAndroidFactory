@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.constant.StringConstant;
@@ -25,17 +26,16 @@ public class ConsultFragmentPerPage extends BaseFragment {
     private FourService userstable;
     private DialogFragmentCreater dialogFragmentCreater;//打电话时需要确认才能打
     private String phoneNumStr = "";
-    private Activity activity ;
+    private Activity activity;
 
 
     public void setPosition(int postition) {
         pagePosition = postition;
     }
-    public void updateBackground(int pagePosition)
-    {
-        if (layoutBackground!=null)
-        {
-            switch (pagePosition%4) {
+
+    public void updateBackground(int pagePosition) {
+        if (layoutBackground != null) {
+            switch (pagePosition % 4) {
                 case 0:
                     layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
                     break;
@@ -53,6 +53,8 @@ public class ConsultFragmentPerPage extends BaseFragment {
                     break;
 
             }
+        } else {
+            findViews(null);
         }
     }
 
@@ -60,6 +62,7 @@ public class ConsultFragmentPerPage extends BaseFragment {
     public void setUserstable(FourService userstable) {
         this.userstable = userstable;
     }
+
     private LinearLayout layoutBackground;
     private LinearLayout layout_server_call;
     private TextView tvUserName;
@@ -75,19 +78,19 @@ public class ConsultFragmentPerPage extends BaseFragment {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews(View view) {
-        layoutBackground = (LinearLayout)view.findViewById(R.id.layout_background);
-        layout_server_call = (LinearLayout)view.findViewById(R.id.layout_server_call);
-        tvUserName = (TextView)view.findViewById(R.id.tv_user_name);
-        tvShopName = (TextView)view.findViewById(R.id.tv_shop_name);
-        tvShopAddress = (TextView)view.findViewById(R.id.tv_shop_address);
-        tvPhoneNumber = (TextView)view.findViewById(R.id.tv_phone_number);
-        tvServiceDescribe = (TextView)view.findViewById(R.id.tv_service_describe);
+        layoutBackground = (LinearLayout) getActivity().findViewById(R.id.layout_background);
+        layout_server_call = (LinearLayout) getActivity().findViewById(R.id.layout_server_call);
+        tvUserName = (TextView) getActivity().findViewById(R.id.tv_user_name);
+        tvShopName = (TextView) getActivity().findViewById(R.id.tv_shop_name);
+        tvShopAddress = (TextView) getActivity().findViewById(R.id.tv_shop_address);
+        tvPhoneNumber = (TextView) getActivity().findViewById(R.id.tv_phone_number);
+        tvServiceDescribe = (TextView) getActivity().findViewById(R.id.tv_service_describe);
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return   inflater.inflate(R.layout.fragment_consult_per_page, container, false);
+        return inflater.inflate(R.layout.fragment_consult_per_page, container, false);
     }
 
     @Override
@@ -152,8 +155,7 @@ public class ConsultFragmentPerPage extends BaseFragment {
 
     private void setUpViews() {
 
-        if(userstable!=null)
-        {
+        if (userstable != null) {
             try {
                 phoneNumStr = userstable.getPhone();
                 tvPhoneNumber.setText(phoneNumStr);
@@ -161,8 +163,7 @@ public class ConsultFragmentPerPage extends BaseFragment {
                 tvShopAddress.setText(userstable.getAddress());
                 tvUserName.setText(userstable.getManagername());
                 tvShopName.setText(userstable.getName());
-            }catch (NullPointerException npe)
-            {
+            } catch (NullPointerException npe) {
 
             }
         }
@@ -172,9 +173,8 @@ public class ConsultFragmentPerPage extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser&&layoutBackground!=null)
-        {
-            switch (pagePosition%4) {
+        if (isVisibleToUser && layoutBackground != null) {
+            switch (pagePosition % 4) {
                 case 0:
                     layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
                     break;

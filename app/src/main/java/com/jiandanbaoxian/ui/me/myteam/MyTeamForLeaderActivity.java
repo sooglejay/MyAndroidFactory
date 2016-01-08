@@ -79,9 +79,17 @@ public class MyTeamForLeaderActivity extends BaseActivity {
         tvMonthAmount = (TextView) headerView.findViewById(R.id.tv_month_amount);
         listView.addHeaderView(headerView);
 
-        if (userstable != null) {
-            tvTeamName.setText(!TextUtils.isEmpty(userstable.getName()) ? userstable.getName() : "");
+        try {
+            Userstable leader = userstable.getLeader();
+            tvTeamName.setText(leader.getName());
+            leaderId = leader.getId();
+
+        }catch (NullPointerException npe)
+        {
+
+            leaderId = userid;
         }
+
 
     }
 
@@ -110,6 +118,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
         leftContainer = (LinearLayout) findViewById(R.id.left_container);
         leftIv = (ImageView) findViewById(R.id.left_iv);
         titleTv = (TextView) findViewById(R.id.title_tv);
+        titleTv.setText("我的团队");
         layoutNotification = (LinearLayout) findViewById(R.id.layout_notification);
         ivNotification = (ImageView) findViewById(R.id.iv_notification);
         rightIvOperation = (LinearLayout) findViewById(R.id.right_iv_operation);
@@ -122,6 +131,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
 
     private LinearLayout layout_clear;
     private int userid;
+    private int leaderId;
     private Activity activity;
     private PopWindowUtils mPopWindow;
     private List<Object> mDatas = new ArrayList<>();
@@ -309,7 +319,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
 
 
     private void getMyTeamInfo() {
-        UserRetrofitUtil.getMyTeamInfo(this, userid, new NetCallback<NetWorkResultBean<TeamData>>(this) {
+        UserRetrofitUtil.getMyTeamInfo(this, leaderId, new NetCallback<NetWorkResultBean<TeamData>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
 

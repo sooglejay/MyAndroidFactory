@@ -54,6 +54,7 @@ public class Userstable implements Parcelable {
     private FourService fourservice;
     private String service;
     private String worknum;
+    private Userstable leader;
 
     @Override
     public String toString() {
@@ -75,11 +76,20 @@ public class Userstable implements Parcelable {
                 ", fourservice=" + fourservice +
                 ", service='" + service + '\'' +
                 ", worknum='" + worknum + '\'' +
+                ", leader=" + leader +
                 ", companyaddress='" + companyaddress + '\'' +
                 ", companyname='" + companyname + '\'' +
                 ", audit=" + audit +
                 ", superFlag=" + superFlag +
                 '}';
+    }
+
+    public Userstable getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Userstable leader) {
+        this.leader = leader;
     }
 
     public String getCompanyaddress() {
@@ -280,6 +290,7 @@ public class Userstable implements Parcelable {
         dest.writeParcelable(this.fourservice, 0);
         dest.writeString(this.service);
         dest.writeString(this.worknum);
+        dest.writeParcelable(this.leader, 0);
         dest.writeString(this.companyaddress);
         dest.writeString(this.companyname);
         dest.writeInt(this.audit);
@@ -304,6 +315,7 @@ public class Userstable implements Parcelable {
         this.fourservice = in.readParcelable(FourService.class.getClassLoader());
         this.service = in.readString();
         this.worknum = in.readString();
+        this.leader = in.readParcelable(Userstable.class.getClassLoader());
         this.companyaddress = in.readString();
         this.companyname = in.readString();
         this.audit = in.readInt();
