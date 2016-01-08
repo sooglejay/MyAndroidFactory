@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -119,6 +120,15 @@ public class BrandListActivity extends BaseActivity {
                     if (brand.getBrand_name().equals(default_name)) {
                         brand.setIsSelected(true);
                         break;
+                    }
+                }
+                if(TextUtils.isEmpty(default_name))
+                {
+                    for (Brand brand : brandList) {
+                        if (brand.getBrand_name().equals("修理厂")) {
+                            brand.setIsSelected(true);
+                            break;
+                        }
                     }
                 }
                 adapter.notifyDataSetChanged();
