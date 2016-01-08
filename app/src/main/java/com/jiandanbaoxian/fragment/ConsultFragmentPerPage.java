@@ -54,7 +54,8 @@ public class ConsultFragmentPerPage extends BaseFragment {
 
             }
         } else {
-            findViews(null);
+            layoutBackground = (LinearLayout)getActivity().findViewById(R.id.layout_background);
+            Toast.makeText(activity,"null",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -78,13 +79,13 @@ public class ConsultFragmentPerPage extends BaseFragment {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews(View view) {
-        layoutBackground = (LinearLayout) getActivity().findViewById(R.id.layout_background);
-        layout_server_call = (LinearLayout) getActivity().findViewById(R.id.layout_server_call);
-        tvUserName = (TextView) getActivity().findViewById(R.id.tv_user_name);
-        tvShopName = (TextView) getActivity().findViewById(R.id.tv_shop_name);
-        tvShopAddress = (TextView) getActivity().findViewById(R.id.tv_shop_address);
-        tvPhoneNumber = (TextView) getActivity().findViewById(R.id.tv_phone_number);
-        tvServiceDescribe = (TextView) getActivity().findViewById(R.id.tv_service_describe);
+        layoutBackground = (LinearLayout)view.findViewById(R.id.layout_background);
+        layout_server_call = (LinearLayout)view.findViewById(R.id.layout_server_call);
+        tvUserName = (TextView)view.findViewById(R.id.tv_user_name);
+        tvShopName = (TextView)view.findViewById(R.id.tv_shop_name);
+        tvShopAddress = (TextView)view.findViewById(R.id.tv_shop_address);
+        tvPhoneNumber = (TextView)view.findViewById(R.id.tv_phone_number);
+        tvServiceDescribe = (TextView)view.findViewById(R.id.tv_service_describe);
     }
 
 
@@ -195,5 +196,10 @@ public class ConsultFragmentPerPage extends BaseFragment {
         }
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        activity = getActivity();
+    }
 
 }

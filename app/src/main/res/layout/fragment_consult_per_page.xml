@@ -4,7 +4,6 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical"
     android:paddingLeft="48dp"
-    android:paddingBottom="24dp"
     android:paddingRight="48dp">
 
     <LinearLayout
