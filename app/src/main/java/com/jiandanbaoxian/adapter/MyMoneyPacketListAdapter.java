@@ -23,6 +23,7 @@ import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.fragment.DialogFragmentCreater;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.me.mymoneypocket.MyMoneyPocketActivity;
 import com.jiandanbaoxian.ui.stopinsurance.PullMoneyActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
@@ -118,7 +119,7 @@ public class MyMoneyPacketListAdapter extends BaseAdapter {
                                         Intent intent = new Intent(mContext, PullMoneyActivity.class);
                                         intent.putExtra("password", psw);
                                         intent.putExtra("type", type);
-                                        mContext.startActivity(intent);
+                                        mContext.startActivityForResult(intent, MyMoneyPocketActivity.ACTION_TO_PULL_MONEY);
                                     }
 
                                 }

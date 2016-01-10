@@ -1,5 +1,7 @@
 package com.jiandanbaoxian.ui.me.mymoneypocket;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -32,6 +34,8 @@ import retrofit.client.Response;
  * 我的-我的钱包
  */
 public class MyMoneyPocketActivity extends BaseActivity {
+    public static final int ACTION_TO_PULL_MONEY = 1000;
+
     private SwipeRefreshLayout swipeLayout;
     private AutoListView list_view;
     private TextView noResultsView;
@@ -169,5 +173,19 @@ public class MyMoneyPocketActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK)
+        {
+            switch (requestCode)
+            {
+                case ACTION_TO_PULL_MONEY:
+                    getMywalletInfo(userid);
+                    break;
+            }
+        }
     }
 }
