@@ -120,19 +120,11 @@ public class BrandListActivity extends BaseActivity {
                     if (brand.getBrand_name().equals(default_name)) {
                         brand.setIsSelected(true);
                         break;
-                    }
-                }
-                if(TextUtils.isEmpty(default_name))
-                {
-                    for (Brand brand : brandList) {
-                        if (brand.getBrand_name().equals("修理厂")) {
-                            brand.setIsSelected(true);
-                            break;
-                        }
+                    }else if (brand.getBrand_name().equals("修理厂")) {
+                        brand.setIsSelected(true);
                     }
                 }
                 adapter.notifyDataSetChanged();
-
 
             }
         });
