@@ -48,7 +48,7 @@ import com.jiandanbaoxian.ui.stopinsurance.TimePickerActivity;
 import com.jiandanbaoxian.util.DiditUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
-import com.jiandanbaoxian.util.ShareUtilsTest;
+import com.jiandanbaoxian.util.ShareUtils;
 import com.jiandanbaoxian.util.SpannableStringUtil;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.customswitch.SwitchButton;
@@ -305,7 +305,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             @Override
             public void onRightButtonClick(View v) {
-                new ShareUtilsTest(getActivity(),"http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
+                new ShareUtils(getActivity(),"http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
             }
         });
 
@@ -1118,7 +1118,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     refreshData(outerPauseBean);
                 }
                 mPullRefreshLinearLayout.onRefreshComplete();
-
             }
         });
     }

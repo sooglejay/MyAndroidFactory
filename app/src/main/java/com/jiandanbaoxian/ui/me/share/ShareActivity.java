@@ -7,7 +7,6 @@ import android.view.View;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.util.ShareUtils;
-import com.jiandanbaoxian.util.ShareUtilsTest;
 import com.jiandanbaoxian.widget.TitleBar;
 
 /**
@@ -16,7 +15,7 @@ import com.jiandanbaoxian.widget.TitleBar;
 public class ShareActivity extends BaseActivity {
 
     private TitleBar titleBar = null;
-    private ShareUtilsTest shareUtilsTest;
+    private ShareUtils shareUtils;
     private Activity activity ;
 
     @Override
@@ -38,8 +37,7 @@ public class ShareActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                new ShareUtilsTest(activity,"http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
-//                ShareUtils.openShare(activity,"分享内容","http://wanbaoe.com/","http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
+                new ShareUtils(activity,"http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
 
             }
         });

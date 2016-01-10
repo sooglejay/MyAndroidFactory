@@ -279,7 +279,7 @@
                 android:id="@+id/iv_choose"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/middle_padding"
                 android:layout_marginLeft="@dimen/middle_padding"
                 android:layout_marginTop="@dimen/middle_padding"
@@ -289,6 +289,7 @@
             <LinearLayout
                 android:id="@+id/layout_rule"
                 android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_select_bg_screen"
                 android:orientation="horizontal">
@@ -312,7 +313,7 @@
                     android:paddingRight="@dimen/middle_padding"
                     android:paddingTop="@dimen/middle_padding"
                     android:text="《服务协议》"
-                    android:textColor="#1c7fe8"
+                    android:textColor="@color/base_color"
                     android:textSize="@dimen/big_textsize" />
 
             </LinearLayout>
