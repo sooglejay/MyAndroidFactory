@@ -150,21 +150,33 @@ public class ShareUtils {
      * 配置分享平台参数</br>
      */
     private void configPlatforms() {
-        // 添加新浪SSO授权
-        mController.getConfig().setSsoHandler(new SinaSsoHandler());
-        // 添加腾讯微博SSO授权
-        mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
-        // 添加人人网SSO授权
-        RenrenSsoHandler renrenSsoHandler = new RenrenSsoHandler(activity,
-                "201874", "28401c0964f04a72a14c812d6132fcef",
-                "3bf66e42db1e4fa9829b955cc300b737");
-        mController.getConfig().setSsoHandler(renrenSsoHandler);
-
         // 添加QQ、QZone平台
         addQQQZonePlatform();
 
+
         // 添加微信、微信朋友圈平台
         addWXPlatform();
+
+
+        // 设置短信分享内容
+        SmsShareContent sms = new SmsShareContent();
+        sms.setShareContent("");
+        // sms.setShareImage(urlImage);
+        mController.setShareMedia(sms);
+
+
+
+//        // 添加新浪SSO授权
+//        mController.getConfig().setSsoHandler(new SinaSsoHandler());
+//        // 添加腾讯微博SSO授权
+//        mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
+//        // 添加人人网SSO授权
+//        RenrenSsoHandler renrenSsoHandler = new RenrenSsoHandler(activity,
+//                "201874", "28401c0964f04a72a14c812d6132fcef",
+//                "3bf66e42db1e4fa9829b955cc300b737");
+//        mController.getConfig().setSsoHandler(renrenSsoHandler);
+
+
     }
 
     /**
@@ -172,9 +184,7 @@ public class ShareUtils {
      */
     private void initViewListener() {
         mController.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE,
-                SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.SINA, SHARE_MEDIA.TENCENT,
-                SHARE_MEDIA.DOUBAN,
-                SHARE_MEDIA.RENREN);
+                SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,SHARE_MEDIA.SMS);
         mController.openShare(activity, false);
 
 //        // 分享(先选择平台)
@@ -738,7 +748,7 @@ public class ShareUtils {
         tumblrHandler.addToSocialSDK();
         TumblrShareContent tumblrShareContent = new TumblrShareContent();
         tumblrShareContent.setTitle("主题");
-        tumblrShareContent.setShareContent("设置分析内容");
+        tumblrShareContent.setShareContent("设置分享内容");
         tumblrShareContent.setShareImage(new UMImage(activity,imageBitmap));
         mController.setShareMedia(tumblrShareContent);
         // mController.openShare(activity, false);

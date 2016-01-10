@@ -6,7 +6,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -18,9 +22,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.jiandanbaoxian.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -230,4 +236,42 @@ public class UIUtils {
         editText.setFilters(new InputFilter[]{filter});
     }
 
+    //文件存储根目录
+    private static String getFileRoot(Context context) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File external = context.getExternalFilesDir(null);
+            if (external != null) {
+                return external.getAbsolutePath();
+            }
+        }
+        return context.getFilesDir().getAbsolutePath();
+    }
+    public  static  void generaterQRCode(final Context context, final String content, final ImageView imageView, final int width, final int height)
+    {
+        final String filePath = getFileRoot(context) + File.separator
+                + "qr_" + System.currentTimeMillis() + ".jpg";
+
+        //二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
+         new AsyncTask<String, Boolean, Boolean>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+            }
+            @Override
+            protected Boolean doInBackground(String... params) {
+
+                return QRCodeUtil.createQRImage(content, width,height,
+                        BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher),
+                        filePath);
+            }
+
+            @Override
+            protected void onPostExecute(final Boolean isSuccessful) {
+                imageView.setImageBitmap(BitmapFactory.decodeFile(filePath));
+
+
+            }
+        }.execute("");
+    }
 }

@@ -1,22 +1,34 @@
 package com.jiandanbaoxian.ui.me.share;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.util.ShareUtils;
+import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
+import com.jiandanbaoxian.widget.imagepicker.bean.Image;
 
 /**
  * 首页-分享
  */
 public class ShareActivity extends BaseActivity {
 
-    private TitleBar titleBar = null;
+    private TitleBar titleBar;
+    private ImageView iv_qrcode;
+    private FrameLayout layout_reward_rule;
     private ShareUtils shareUtils;
-    private Activity activity ;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +36,14 @@ public class ShareActivity extends BaseActivity {
         setContentView(R.layout.activity_share);
         activity = this;
         setUp();
+        UIUtils.generaterQRCode(this, "设置二维码的文字内容",iv_qrcode,(int)UIUtils.dp2px(this,180),(int)UIUtils.dp2px(this,180));
+
     }
 
     private void setUp() {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
+        iv_qrcode = (ImageView) findViewById(R.id.iv_qrcode);
+        layout_reward_rule = (FrameLayout) findViewById(R.id.layout_reward_rule);
         titleBar.initTitleBarInfo("", R.drawable.arrow_left, -1, "", "分享");
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
@@ -37,7 +53,15 @@ public class ShareActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                new ShareUtils(activity,"http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
+                new ShareUtils(activity, "http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
+
+            }
+        });
+
+        layout_reward_rule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BrowserImageViewActivity.startActivity(activity, StringConstant.PauseRule, "奖励规则");
 
             }
         });
