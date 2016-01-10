@@ -269,16 +269,55 @@
                 android:textSize="@dimen/middle_textsize" />
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/cb_agree_license"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/middle_padding"
-            android:checked="true"
-            android:button="@drawable/icon_choose_selected"
-            android:gravity="center_vertical"
-            android:text="同意《约定保障条款》"
-            android:textColor="#a7a7a7" />
+            android:background="@color/bg_screen"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_choose"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+
+                android:layout_marginBottom="@dimen/middle_padding"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginTop="@dimen/middle_padding"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_choose_selected" />
+
+            <LinearLayout
+                android:id="@+id/layout_rule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_select_bg_screen"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="同意"
+                    android:textColor="#a7a7a7"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_licence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="《服务协议》"
+                    android:textColor="#1c7fe8"
+                    android:textSize="@dimen/big_textsize" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

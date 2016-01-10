@@ -178,14 +178,10 @@ public class MyMoneyPocketActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK)
-        {
-            switch (requestCode)
-            {
-                case ACTION_TO_PULL_MONEY:
-                    getMywalletInfo(userid);
-                    break;
-            }
+        switch (requestCode) {
+            case ACTION_TO_PULL_MONEY:
+                getMywalletInfo(userid);
+                break;
         }
     }
 }

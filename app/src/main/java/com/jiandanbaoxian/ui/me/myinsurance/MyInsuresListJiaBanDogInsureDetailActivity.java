@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.BrowserWebViewActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
@@ -35,11 +38,12 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
     private TitleBar mTitleBar;
 
     private Activity context;
-    private CheckBox cb_agree_license;
+    private ImageView iv_choose;
     private TextView tv_buy_insure;
     private boolean isAgreeWithLicence = true;
 
     private Overtimeordertable overtimeordertable;
+    private LinearLayout layout_rule;
 
     private TextView tv_insurant_name;
     private TextView tv_insurance_duration;
@@ -88,9 +92,6 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
         tv_coverage = (TextView) findViewById(R.id.tv_coverage);
         tv_reportdate = (TextView) findViewById(R.id.tv_reportdate);
 
-        //许可协议
-        cb_agree_license = (CheckBox) findViewById(R.id.cb_agree_license);
-        cb_agree_license.setChecked(true);
 
 
         // 传递过来的model   并 显示
@@ -169,17 +170,19 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
         });
 
 
-        //协议 点击事件
-        cb_agree_license.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        iv_choose = (ImageView) findViewById(R.id.iv_choose);
+        iv_choose.setImageResource(R.drawable.icon_choose_selected);
+        iv_choose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+            public void onClick(View view) {
+                if (!isAgreeWithLicence) {
                     isAgreeWithLicence = true;
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose_selected);
+                    iv_choose.setImageResource(R.drawable.icon_choose_selected);
                     tv_buy_insure.setBackgroundResource(R.drawable.btn_select_base_shape_0);
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.white_color));
                 } else {
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose);
+                    iv_choose.setImageResource(R.drawable.icon_choose);
                     isAgreeWithLicence = false;
                     tv_buy_insure.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                     tv_buy_insure.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
@@ -187,6 +190,14 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
             }
         });
 
+
+        layout_rule = (LinearLayout) findViewById(R.id.layout_rule);
+        layout_rule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BrowserWebViewActivity.startActivity(context, true);
+            }
+        });
 
     }
 
