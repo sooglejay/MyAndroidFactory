@@ -128,16 +128,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tabs"
-            android:layout_marginBottom="60dp"
+            android:paddingBottom="60dp"
             android:clipChildren="false"
             tools:context=".fragment.ServerConsultorFragment" />
 
         <LinearLayout
             android:id="@+id/layout_circle_dot"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_gravity="bottom|center"
-            android:gravity="center"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:gravity="center|top"
             android:orientation="horizontal">
 
             <LinearLayout

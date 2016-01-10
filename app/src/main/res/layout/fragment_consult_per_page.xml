@@ -59,6 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:gravity="center|left"
+                android:paddingRight="@dimen/middle_padding"
+
                 android:text="成都锦城奔驰4S店"
                 android:textColor="@color/white_color"
                 android:textSize="@dimen/middle_textsize" />
@@ -68,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
+                android:paddingRight="@dimen/middle_padding"
                 android:layout_marginTop="@dimen/little_padding"
                 android:gravity="center|left"
                 android:text="成都市高新区创业路19号附3号..."
