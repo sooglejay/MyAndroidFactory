@@ -1,5 +1,4 @@
 package com.jiandanbaoxian.util;
-
 /**
  * Created by JammyQtheLab on 2015/10/23.
  */
