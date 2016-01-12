@@ -192,30 +192,7 @@ public class ServerConsultorFragment extends BaseFragment {
                 if (position > 0) {
                     oldPosition = position;
                 }
-                if (dotViewList.size() < 1) {
-                    return;
-                }
-                for (int i = 0; i < dotViewList.size(); i++) {
-                    dotViewList.get(i).setImageResource(R.drawable.dot_4);
-                }
-
-                switch (position % 4) {
-                    case 0:
-                        dotViewList.get(position).setImageResource(R.drawable.dot_0);
-                        break;
-                    case 1:
-                        dotViewList.get(position).setImageResource(R.drawable.dot_1);
-                        break;
-                    case 2:
-                        dotViewList.get(position).setImageResource(R.drawable.dot_2);
-                        break;
-                    case 3:
-                        dotViewList.get(position).setImageResource(R.drawable.dot_0);
-                        break;
-                    default:
-                        break;
-                }
-
+                refreshDotList(position);
 
             }
 
@@ -235,6 +212,32 @@ public class ServerConsultorFragment extends BaseFragment {
         getOtherConsultant(true);
 
 
+    }
+
+    private void refreshDotList(int position) {
+        if (dotViewList.size() < 1) {
+            return;
+        }
+        for (int i = 0; i < dotViewList.size(); i++) {
+            dotViewList.get(i).setImageResource(R.drawable.dot_4);
+        }
+
+        switch (position % 4) {
+            case 0:
+                dotViewList.get(position).setImageResource(R.drawable.dot_0);
+                break;
+            case 1:
+                dotViewList.get(position).setImageResource(R.drawable.dot_1);
+                break;
+            case 2:
+                dotViewList.get(position).setImageResource(R.drawable.dot_2);
+                break;
+            case 3:
+                dotViewList.get(position).setImageResource(R.drawable.dot_0);
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -320,6 +323,7 @@ public class ServerConsultorFragment extends BaseFragment {
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
                 List<FourService> fourServiceList = consultantDataNetWorkResultBean.getData().getMaintainConsultant();
                 fragmentPerPages.clear();
+
                 layout_dot_list.removeAllViews();
                 dotViewList.clear();
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) UIUtils.dp2px(activity, 8), (int) UIUtils.dp2px(activity, 8), 1.0f);
@@ -352,6 +356,7 @@ public class ServerConsultorFragment extends BaseFragment {
                 viewPagerAdapter.notifyDataSetChanged();
                 if (oldPosition > 0 && fragmentPerPages.size() > oldPosition) {
                     viewPager.setCurrentItem(oldPosition);
+                    refreshDotList(oldPosition);
                 }
 
             }
