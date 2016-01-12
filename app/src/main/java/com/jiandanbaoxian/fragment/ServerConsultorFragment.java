@@ -68,7 +68,7 @@ public class ServerConsultorFragment extends BaseFragment {
     View layout_server_call;
 
     private ConsultantData consultantData;
-
+    private ViewPagerAdapter viewPagerAdapter;
 
     private Userstable myConsult;//用于显示的 我的顾问
     private int userid = -1;
@@ -83,6 +83,10 @@ public class ServerConsultorFragment extends BaseFragment {
 
     private DialogFragmentCreater dialogFragmentCreater;//打电话时需要确认才能打
 
+
+    List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
+
+    int oldPosition = 0 ;
 
     View gif_call;
     @Override
@@ -171,6 +175,8 @@ public class ServerConsultorFragment extends BaseFragment {
         viewPager.setOffscreenPageLimit(20);
         viewPager.setCurrentItem(1, true);
         viewPager.setPageMargin(-140);
+        viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
+        viewPager.setAdapter(viewPagerAdapter);
 
 
         viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
@@ -182,6 +188,7 @@ public class ServerConsultorFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
+                oldPosition = position;
                 if (dotViewList.size() < 1) {
                     return;
                 }
@@ -297,24 +304,18 @@ public class ServerConsultorFragment extends BaseFragment {
      */
     private void getOtherConsultant(final boolean isDialog) {
         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
-        if(isDialog) {
+        if (isDialog) {
             progressDialogUtil.show("正在获取数据...");
         }
         UserRetrofitUtil.getOtherConsultant(activity, userid, 20, 1, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-                    progressDialogUtil.hide();
+                progressDialogUtil.hide();
             }
 
             @Override
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
-                viewPager.setAdapter(null);
                 List<FourService> fourServiceList = consultantDataNetWorkResultBean.getData().getMaintainConsultant();
-                List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
-//                //做冗余操作
-//                if (fragmentPerPages != null && fragmentPerPages.size() > position) {
-//                    fragmentPerPages.get(position).updateBackground(activity,position);
-//                }
                 fragmentPerPages.clear();
                 layout_dot_list.removeAllViews();
                 dotViewList.clear();
@@ -343,9 +344,13 @@ public class ServerConsultorFragment extends BaseFragment {
                 } else {
                     layout_circle_dot.setVisibility(View.VISIBLE);
                 }
-                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
-                viewPager.setAdapter(viewPagerAdapter);
+
                 progressDialogUtil.hide();
+                viewPagerAdapter.notifyDataSetChanged();
+                if(oldPosition>0 && fragmentPerPages.size()>oldPosition)
+                {
+                    viewPager.setCurrentItem(oldPosition);
+                }
 
             }
         });
@@ -388,15 +393,6 @@ public class ServerConsultorFragment extends BaseFragment {
             return pages.size();
         }
 
-    }
-    @Override
-    public void onDestroyView() {
-        if(viewPager!=null) {
-            viewPager.destroyDrawingCache();
-            viewPager.removeAllViews();
-            viewPager = null;
-        }
-        super.onDestroyView();
     }
 
     @Override
