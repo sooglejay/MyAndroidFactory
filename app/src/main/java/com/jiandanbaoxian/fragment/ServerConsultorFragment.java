@@ -25,6 +25,7 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
+import com.jiandanbaoxian.event.BusEvent;
 import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.FourService;
 import com.jiandanbaoxian.model.NetWorkResultBean;
@@ -43,6 +44,7 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -60,13 +62,11 @@ public class ServerConsultorFragment extends BaseFragment {
     private LinearLayout layout_dot_list;
     private Context context;
     private JazzyViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter = null;
     private TitleBar titleBar;
     private FrameLayout layout_viewpager;
     View layout_circle_dot;
     View layout_server_call;
 
-    private List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<>();
     private ConsultantData consultantData;
 
 
@@ -172,8 +172,6 @@ public class ServerConsultorFragment extends BaseFragment {
         viewPager.setCurrentItem(1, true);
         viewPager.setPageMargin(-140);
 
-        viewPagerAdapter = new ViewPagerAdapter(this.getActivity(), this.getActivity().getSupportFragmentManager(), viewPager, fragmentPerPages);
-        viewPager.setAdapter(viewPagerAdapter);
 
         viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -184,16 +182,6 @@ public class ServerConsultorFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-//                pageNum = position;
-//                if (fragmentPerPages.size() == pageNum)
-//                {
-//                    loadConsults();
-//                }
-                //做冗余操作
-                if (fragmentPerPages != null && fragmentPerPages.size() > position) {
-                    fragmentPerPages.get(position).updateBackground(activity,position);
-                }
-
                 if (dotViewList.size() < 1) {
                     return;
                 }
@@ -234,7 +222,7 @@ public class ServerConsultorFragment extends BaseFragment {
         });
 
 
-        getOtherConsultant();
+        getOtherConsultant(true);
 
 
     }
@@ -307,20 +295,26 @@ public class ServerConsultorFragment extends BaseFragment {
     /***
      * 获取其他保险顾问，然后刷新ViewPager
      */
-    private void getOtherConsultant() {
+    private void getOtherConsultant(final boolean isDialog) {
         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
-        progressDialogUtil.show("正在获取数据...");
-
+        if(isDialog) {
+            progressDialogUtil.show("正在获取数据...");
+        }
         UserRetrofitUtil.getOtherConsultant(activity, userid, 20, 1, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-                progressDialogUtil.hide();
-
+                    progressDialogUtil.hide();
             }
 
             @Override
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
+                viewPager.setAdapter(null);
                 List<FourService> fourServiceList = consultantDataNetWorkResultBean.getData().getMaintainConsultant();
+                List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
+//                //做冗余操作
+//                if (fragmentPerPages != null && fragmentPerPages.size() > position) {
+//                    fragmentPerPages.get(position).updateBackground(activity,position);
+//                }
                 fragmentPerPages.clear();
                 layout_dot_list.removeAllViews();
                 dotViewList.clear();
@@ -330,7 +324,6 @@ public class ServerConsultorFragment extends BaseFragment {
                 for (int i = 0; i < fourServiceList.size(); i++) {
                     ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
                     fragmentPerPage.setPosition(i);
-                    fragmentPerPage.setActivity(activity);
                     fragmentPerPage.setUserstable(fourServiceList.get(i));
                     fragmentPerPages.add(fragmentPerPage);
                     ImageView dot = new ImageView(activity);
@@ -350,7 +343,8 @@ public class ServerConsultorFragment extends BaseFragment {
                 } else {
                     layout_circle_dot.setVisibility(View.VISIBLE);
                 }
-                viewPagerAdapter.notifyDataSetChanged();
+                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
+                viewPager.setAdapter(viewPagerAdapter);
                 progressDialogUtil.hide();
 
             }
@@ -385,7 +379,7 @@ public class ServerConsultorFragment extends BaseFragment {
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public ConsultFragmentPerPage getItem(int position) {
             return pages.get(position);
         }
 
@@ -393,7 +387,24 @@ public class ServerConsultorFragment extends BaseFragment {
         public int getCount() {
             return pages.size();
         }
+
+    }
+    @Override
+    public void onDestroyView() {
+        if(viewPager!=null) {
+            viewPager.destroyDrawingCache();
+            viewPager.removeAllViews();
+            viewPager = null;
+        }
+        super.onDestroyView();
     }
 
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+        {
+            getOtherConsultant(false);
+        }
+    }
 }

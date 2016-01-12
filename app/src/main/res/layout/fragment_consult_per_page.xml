@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="李明"
+                android:text=""
                 android:textColor="@color/white_color"
                 android:textSize="@dimen/big_textsize" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="维修顾问"
+                android:text=""
                 android:textColor="@color/white_color"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -61,7 +61,7 @@
                 android:gravity="center|left"
                 android:paddingRight="@dimen/middle_padding"
 
-                android:text="成都锦城奔驰4S店"
+                android:text=""
                 android:textColor="@color/white_color"
                 android:textSize="@dimen/middle_textsize" />
 
@@ -73,7 +73,7 @@
                 android:paddingRight="@dimen/middle_padding"
                 android:layout_marginTop="@dimen/little_padding"
                 android:gravity="center|left"
-                android:text="成都市高新区创业路19号附3号..."
+                android:text=""
                 android:textColor="@color/white_color"
                 android:textSize="10sp" />
 
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
                     android:gravity="center|left"
-                    android:text="17761209164"
+                    android:text=""
                     android:textColor="@color/white_color"
                     android:textSize="@dimen/middle_textsize" />
 
@@ -132,7 +132,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/middle_padding"
                 android:gravity="center"
-                android:text="4S店维修服务经验丰富,我帮您省钱省心,最好的服务，最优的质量.小周在这里，您在哪里？"
+                android:text=""
                 android:textSize="12sp" />
         </LinearLayout>
 

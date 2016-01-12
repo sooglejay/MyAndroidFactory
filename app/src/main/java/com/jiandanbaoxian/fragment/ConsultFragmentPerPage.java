@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.constant.StringConstant;
+import com.jiandanbaoxian.event.BusEvent;
 import com.jiandanbaoxian.model.FourService;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.util.UIUtils;
@@ -32,56 +33,6 @@ public class ConsultFragmentPerPage extends BaseFragment {
     public void setPosition(int postition) {
         pagePosition = postition;
     }
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
-    public void updateBackground(Activity activity,int pagePosition) {
-        this.activity = activity;
-        this.pagePosition = pagePosition;
-        if (layoutBackground != null) {
-            switch (pagePosition % 4) {
-                case 0:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-                    break;
-                case 1:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#da8f8f"));
-                    break;
-                case 2:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#5fb1d0"));
-                    break;
-                case 3:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-                    break;
-                default:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-                    break;
-
-            }
-        } else {
-
-            layoutBackground = (LinearLayout)activity.findViewById(R.id.layout_background);
-            switch (pagePosition % 4) {
-                case 0:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-                    break;
-                case 1:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#da8f8f"));
-                    break;
-                case 2:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#5fb1d0"));
-                    break;
-                case 3:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-                    break;
-                default:
-                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
-                    break;
-
-            }
-        }
-    }
-
 
     public void setUserstable(FourService userstable) {
         this.userstable = userstable;
@@ -102,13 +53,13 @@ public class ConsultFragmentPerPage extends BaseFragment {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews(View view) {
-        layoutBackground = (LinearLayout)view.findViewById(R.id.layout_background);
-        layout_server_call = (LinearLayout)view.findViewById(R.id.layout_server_call);
-        tvUserName = (TextView)view.findViewById(R.id.tv_user_name);
-        tvShopName = (TextView)view.findViewById(R.id.tv_shop_name);
-        tvShopAddress = (TextView)view.findViewById(R.id.tv_shop_address);
-        tvPhoneNumber = (TextView)view.findViewById(R.id.tv_phone_number);
-        tvServiceDescribe = (TextView)view.findViewById(R.id.tv_service_describe);
+        layoutBackground = (LinearLayout) view.findViewById(R.id.layout_background);
+        layout_server_call = (LinearLayout) view.findViewById(R.id.layout_server_call);
+        tvUserName = (TextView) view.findViewById(R.id.tv_user_name);
+        tvShopName = (TextView) view.findViewById(R.id.tv_shop_name);
+        tvShopAddress = (TextView) view.findViewById(R.id.tv_shop_address);
+        tvPhoneNumber = (TextView) view.findViewById(R.id.tv_phone_number);
+        tvServiceDescribe = (TextView) view.findViewById(R.id.tv_service_describe);
     }
 
 
@@ -178,7 +129,6 @@ public class ConsultFragmentPerPage extends BaseFragment {
 
 
     private void setUpViews() {
-
         if (userstable != null) {
             try {
                 phoneNumStr = userstable.getPhone();
@@ -218,11 +168,4 @@ public class ConsultFragmentPerPage extends BaseFragment {
             }
         }
     }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        activity = getActivity();
-    }
-
 }
