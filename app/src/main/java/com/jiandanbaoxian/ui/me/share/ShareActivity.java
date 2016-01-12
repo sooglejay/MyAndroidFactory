@@ -2,6 +2,7 @@ package com.jiandanbaoxian.ui.me.share;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,13 +31,14 @@ public class ShareActivity extends BaseActivity {
     private ShareUtils shareUtils;
     private Activity activity;
 
+    String  qrCodeImagePath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
         activity = this;
         setUp();
-        UIUtils.generaterQRCode(this, "设置二维码的文字内容",iv_qrcode,(int)UIUtils.dp2px(this,180),(int)UIUtils.dp2px(this,180));
+        qrCodeImagePath =  UIUtils.generaterQRCode(this, "设置二维码的文字内容",iv_qrcode,(int)UIUtils.dp2px(this,180),(int)UIUtils.dp2px(this,180));
 
     }
 
@@ -53,7 +55,7 @@ public class ShareActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                new ShareUtils(activity, "http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
+                new ShareUtils(activity, qrCodeImagePath);
 
             }
         });
@@ -62,7 +64,6 @@ public class ShareActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 BrowserImageViewActivity.startActivity(activity, StringConstant.PauseRule, "奖励规则");
-
             }
         });
     }

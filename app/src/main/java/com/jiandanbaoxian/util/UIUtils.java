@@ -246,7 +246,7 @@ public class UIUtils {
         }
         return context.getFilesDir().getAbsolutePath();
     }
-    public  static  void generaterQRCode(final Context context, final String content, final ImageView imageView, final int width, final int height)
+    public  static  String generaterQRCode(final Context context, final String content, final ImageView imageView, final int width, final int height)
     {
         final String filePath = getFileRoot(context) + File.separator
                 + "qr_" + System.currentTimeMillis() + ".jpg";
@@ -269,9 +269,8 @@ public class UIUtils {
             @Override
             protected void onPostExecute(final Boolean isSuccessful) {
                 imageView.setImageBitmap(BitmapFactory.decodeFile(filePath));
-
-
             }
         }.execute("");
+        return  filePath;
     }
 }

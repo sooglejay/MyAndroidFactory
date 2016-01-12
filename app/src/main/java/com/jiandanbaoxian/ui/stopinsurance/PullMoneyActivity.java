@@ -21,6 +21,7 @@ import com.jiandanbaoxian.adapter.CardListAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.FinancialAccount;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
@@ -253,7 +254,7 @@ public class PullMoneyActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                BrowserImageViewActivity.startActivity(PullMoneyActivity.this, true);
+                BrowserImageViewActivity.startActivity(PullMoneyActivity.this, StringConstant.SERVER_RULE,"提现说明");
             }
         });
 

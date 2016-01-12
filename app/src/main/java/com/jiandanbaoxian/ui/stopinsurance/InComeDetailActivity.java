@@ -14,6 +14,7 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.ExtraConstants;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.model.Limitpausetable;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.PauseHistory;
 import com.jiandanbaoxian.model.Reservepausetable;
@@ -69,6 +70,10 @@ public class InComeDetailActivity extends BaseActivity {
     private ImageView ivAccumulatedDays;
     private ListView listItem;
 
+
+    List<Reservepausetable> reservehistory = new ArrayList<>();
+    private List<Limitpausetable> limithistory = new ArrayList<>();
+
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -116,6 +121,24 @@ public class InComeDetailActivity extends BaseActivity {
             public void onRightButtonClick(View v) {
             }
         });
+
+
+        mAdapter.setOnDateClickCallBack(new IncomeCalenderAdapter.OnDateClickCallBack() {
+            @Override
+            public void callBack(View view, String dateString) {
+                for(Reservepausetable bean :reservehistory)
+                {
+                    if(bean.getReservedays().contains(dateString))
+                    {
+                        tvDailyAmount.append(bean.getDayprice()+"");
+                        tvAccumulatedAmount.append(bean.getTotalfee()+"");
+                        tvAccumulatedDays.append(bean.getDay()+"");
+                    }
+                }
+
+
+            }
+        });
     }
 
     private void setUpView() {
@@ -126,16 +149,14 @@ public class InComeDetailActivity extends BaseActivity {
         listItem.setAdapter(mAdapter);
 
         tvDailyAmount.setText(unitSpanString);
-        tvDailyAmount.append("867.08");
+        tvDailyAmount.append("");
 
         tvAccumulatedAmount.setText(unitSpanString);
-        tvAccumulatedAmount.append("867.08");
+        tvAccumulatedAmount.append("");
 
-        tvDailyAmount.setText(unitSpanString);
-        tvDailyAmount.append("17.08");
 
         tvAccumulatedDays.setText(unitSpanString);
-        tvAccumulatedDays.append("91");
+        tvAccumulatedDays.append("");
 
     }
 
@@ -214,7 +235,10 @@ public class InComeDetailActivity extends BaseActivity {
 
     private void getPauseHistory() {
         if (orderid == -1) {
-            Toast.makeText(activity, "订单号为-1", Toast.LENGTH_SHORT).show();
+            tvDailyAmount.append("0");
+            tvAccumulatedAmount.append("0");
+            tvAccumulatedDays.append("0");
+            Toast.makeText(activity, "亲，你还没有购买过保险哦！历史记录为空", Toast.LENGTH_SHORT).show();
             return;
         }
         //只写了预约停保，接口很难实现 效果图的 效果
@@ -228,7 +252,10 @@ public class InComeDetailActivity extends BaseActivity {
             public void success(NetWorkResultBean<PauseHistory> pauseHistoryNetWorkResultBean, Response response) {
 
                 if (pauseHistoryNetWorkResultBean.getData() != null && pauseHistoryNetWorkResultBean.getData().getLimithistory() != null) {
-                    List<Reservepausetable> reservehistory = pauseHistoryNetWorkResultBean.getData().getReservehistory();
+                    reservehistory.clear();
+                    limithistory.clear();
+                    reservehistory.addAll(pauseHistoryNetWorkResultBean.getData().getReservehistory());
+                    limithistory.addAll(pauseHistoryNetWorkResultBean.getData().getLimithistory());
                     mDatasTimeStr.clear();
                     String array[];
 
@@ -238,7 +265,13 @@ public class InComeDetailActivity extends BaseActivity {
                         for (String str : array) {
                             mDatasTimeStr.add(str);
                         }
+
+                        tvDailyAmount.append(bean.getDayprice()+"");
+                        tvAccumulatedAmount.append(bean.getTotalfee()+"");
+                        tvAccumulatedDays.append(bean.getDay()+"");
+
                     }
+
                     //更新Adapter，我不确定能够正确的更新
                     mAdapter.setmReserverDaysStr(mDatasTimeStr);
                 }

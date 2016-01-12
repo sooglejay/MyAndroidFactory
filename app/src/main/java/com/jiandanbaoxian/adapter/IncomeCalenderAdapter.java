@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.widget.timepicker.FatherBean;
@@ -171,12 +172,7 @@ public class IncomeCalenderAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         SonBean bean = (SonBean) v.getTag();
-                        if (TextUtils.isEmpty(bean.getDateStr())) {
-                            return;//说明是该位置没有日期
-
-                        }
-                        //要手动去通知!
-                        notifyDataSetChanged();
+                        onDateClickCallBack.callBack(v,bean.getDateStr());
                     }
                 };
                 convertView.setTag(innerGridViewHolder);
@@ -248,4 +244,19 @@ public class IncomeCalenderAdapter extends BaseAdapter {
         private View.OnClickListener onClickListener;
     }
 
+
+    private OnDateClickCallBack onDateClickCallBack;
+
+    public OnDateClickCallBack getOnDateClickCallBack() {
+        return onDateClickCallBack;
+    }
+
+    public void setOnDateClickCallBack(OnDateClickCallBack onDateClickCallBack) {
+        this.onDateClickCallBack = onDateClickCallBack;
+    }
+
+    public interface OnDateClickCallBack
+    {
+        void callBack(View view,String dateString);
+    }
 }

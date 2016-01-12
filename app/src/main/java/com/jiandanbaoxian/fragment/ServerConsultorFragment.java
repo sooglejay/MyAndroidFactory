@@ -191,7 +191,7 @@ public class ServerConsultorFragment extends BaseFragment {
 //                }
                 //做冗余操作
                 if (fragmentPerPages != null && fragmentPerPages.size() > position) {
-                    fragmentPerPages.get(position).updateBackground(position);
+                    fragmentPerPages.get(position).updateBackground(activity,position);
                 }
 
                 if (dotViewList.size() < 1) {

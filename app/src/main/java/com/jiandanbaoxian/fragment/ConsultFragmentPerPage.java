@@ -33,7 +33,8 @@ public class ConsultFragmentPerPage extends BaseFragment {
         pagePosition = postition;
     }
 
-    public void updateBackground(int pagePosition) {
+    public void updateBackground(Activity activity,int pagePosition) {
+        this.activity = activity;
         if (layoutBackground != null) {
             switch (pagePosition % 4) {
                 case 0:
@@ -54,8 +55,7 @@ public class ConsultFragmentPerPage extends BaseFragment {
 
             }
         } else {
-            layoutBackground = (LinearLayout)getActivity().findViewById(R.id.layout_background);
-            Toast.makeText(activity,"null",Toast.LENGTH_SHORT).show();
+            layoutBackground = (LinearLayout)activity.findViewById(R.id.layout_background);
         }
     }
 
