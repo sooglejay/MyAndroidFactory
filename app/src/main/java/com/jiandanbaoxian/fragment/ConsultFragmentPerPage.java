@@ -32,9 +32,13 @@ public class ConsultFragmentPerPage extends BaseFragment {
     public void setPosition(int postition) {
         pagePosition = postition;
     }
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public void updateBackground(Activity activity,int pagePosition) {
         this.activity = activity;
+        this.pagePosition = pagePosition;
         if (layoutBackground != null) {
             switch (pagePosition % 4) {
                 case 0:
@@ -55,7 +59,26 @@ public class ConsultFragmentPerPage extends BaseFragment {
 
             }
         } else {
+
             layoutBackground = (LinearLayout)activity.findViewById(R.id.layout_background);
+            switch (pagePosition % 4) {
+                case 0:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
+                    break;
+                case 1:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#da8f8f"));
+                    break;
+                case 2:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#5fb1d0"));
+                    break;
+                case 3:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
+                    break;
+                default:
+                    layoutBackground.setBackgroundColor(Color.parseColor("#aa89bd"));
+                    break;
+
+            }
         }
     }
 

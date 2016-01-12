@@ -330,6 +330,7 @@ public class ServerConsultorFragment extends BaseFragment {
                 for (int i = 0; i < fourServiceList.size(); i++) {
                     ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
                     fragmentPerPage.setPosition(i);
+                    fragmentPerPage.setActivity(activity);
                     fragmentPerPage.setUserstable(fourServiceList.get(i));
                     fragmentPerPages.add(fragmentPerPage);
                     ImageView dot = new ImageView(activity);

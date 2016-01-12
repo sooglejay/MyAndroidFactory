@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipChildren="true"
     android:animateLayoutChanges="true"
+    android:clipChildren="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.jiandanbaoxian.widget.TitleBar
@@ -12,192 +12,200 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:layout_margin="@dimen/middle_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/big_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/middle_padding"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_accumulated_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="869.08"
-                android:textColor="#535353"
-                android:textSize="24sp" />
 
-            <TextView
-                android:layout_margin="@dimen/middle_padding"
-                android:id="@+id/tv_accumulated_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="累计收益"
-                android:textColor="#8f8f8f"
-                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/big_padding"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_accumulated_amount"
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="#bb78ff" />
+                <TextView
+                    android:id="@+id/tv_accumulated_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="869.08"
+                    android:textColor="#535353"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_accumulated_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/middle_padding"
+                    android:text="累计收益"
+                    android:textColor="#8f8f8f"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_accumulated_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="#bb78ff" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/big_padding"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_daily_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="17.08"
+                    android:textColor="#535353"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_daily_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/middle_padding"
+                    android:text="每日收益"
+                    android:textColor="#8f8f8f"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_daily_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="#fead4d" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/big_padding"
+                android:layout_marginRight="@dimen/big_padding"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_accumulated_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="91"
+                    android:textColor="#535353"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_accumulated_days_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/middle_padding"
+                    android:text="累计天数"
+                    android:textColor="#8f8f8f"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_accumulated_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="#4bbcfb" />
+            </LinearLayout>
+
+
         </LinearLayout>
-
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/big_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:background="@color/base_color"
+            android:orientation="horizontal"
+            android:padding="@dimen/little_padding">
 
             <TextView
-                android:id="@+id/tv_daily_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="17.08"
-                android:textColor="#535353"
-                android:textSize="24sp" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="日"
+                android:textColor="@color/light_red"
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_margin="@dimen/middle_padding"
-                android:id="@+id/tv_daily_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="每日收益"
-                android:textColor="#8f8f8f"
-                android:textSize="16sp" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="一"
+                android:textColor="@color/white_color"
+                android:textSize="13sp" />
 
-            <ImageView
-                android:id="@+id/iv_daily_amount"
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="#fead4d" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="二"
+                android:textColor="@color/white_color"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="三"
+                android:textColor="@color/white_color"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="四"
+                android:textColor="@color/white_color"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="五"
+                android:textColor="@color/white_color"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="六"
+                android:textColor="@color/light_red"
+                android:textSize="13sp" />
         </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/big_padding"
-            android:layout_marginRight="@dimen/big_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_accumulated_days"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="91"
-                android:textColor="#535353"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/tv_accumulated_days_text"
-                android:layout_margin="@dimen/middle_padding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="累计天数"
-                android:textColor="#8f8f8f"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/iv_accumulated_days"
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:background="#4bbcfb" />
-        </LinearLayout>
-
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:padding="@dimen/little_padding"
-        android:background="@color/base_color"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="日"
-            android:textColor="@color/light_red"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="一"
-            android:textColor="@color/white_color"
-            android:textSize="13sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="二"
-            android:textColor="@color/white_color"
-            android:textSize="13sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="三"
-            android:textColor="@color/white_color"
-            android:textSize="13sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="四"
-            android:textColor="@color/white_color"
-            android:textSize="13sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="五"
-            android:textColor="@color/white_color"
-            android:textSize="13sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="六"
-            android:textColor="@color/light_red"
-            android:textSize="13sp" />
-    </LinearLayout>
 
     <ListView
         android:id="@+id/list_item"
-        android:background="@color/white_color"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white_color">
 
     </ListView>
 </LinearLayout>
