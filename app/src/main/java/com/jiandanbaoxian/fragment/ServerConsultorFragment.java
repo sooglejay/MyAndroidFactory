@@ -86,9 +86,10 @@ public class ServerConsultorFragment extends BaseFragment {
 
     List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
 
-    int oldPosition = 0 ;
+    int oldPosition = 0;
 
     View gif_call;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_3, container, false);
@@ -188,7 +189,9 @@ public class ServerConsultorFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                oldPosition = position;
+                if (position > 0) {
+                    oldPosition = position;
+                }
                 if (dotViewList.size() < 1) {
                     return;
                 }
@@ -347,8 +350,7 @@ public class ServerConsultorFragment extends BaseFragment {
 
                 progressDialogUtil.hide();
                 viewPagerAdapter.notifyDataSetChanged();
-                if(oldPosition>0 && fragmentPerPages.size()>oldPosition)
-                {
+                if (oldPosition > 0 && fragmentPerPages.size() > oldPosition) {
                     viewPager.setCurrentItem(oldPosition);
                 }
 
@@ -398,8 +400,7 @@ public class ServerConsultorFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser)
-        {
+        if (isVisibleToUser) {
             getOtherConsultant(false);
         }
     }
