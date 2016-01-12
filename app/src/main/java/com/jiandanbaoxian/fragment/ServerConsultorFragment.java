@@ -54,13 +54,8 @@ public class ServerConsultorFragment extends BaseFragment {
     private TextView tv_company_name;
     private TextView tv_phone_number;
     private ImageView iv_avatar;
-    private ImageView iv_dot_0;
-    private ImageView iv_dot_1;
-    private ImageView iv_dot_2;
-    private ImageView iv_dot_3;
     private List<ImageView> dotViewList = new ArrayList<>();
     private LinearLayout layout_dot_list;
-    private Context context;
     private JazzyViewPager viewPager;
     private TitleBar titleBar;
     private FrameLayout layout_viewpager;
@@ -68,7 +63,6 @@ public class ServerConsultorFragment extends BaseFragment {
     View layout_server_call;
 
     private ConsultantData consultantData;
-    private ViewPagerAdapter viewPagerAdapter;
 
     private Userstable myConsult;//用于显示的 我的顾问
     private int userid = -1;
@@ -83,8 +77,6 @@ public class ServerConsultorFragment extends BaseFragment {
 
     private DialogFragmentCreater dialogFragmentCreater;//打电话时需要确认才能打
 
-
-    List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
 
     int oldPosition = 0;
 
@@ -108,7 +100,7 @@ public class ServerConsultorFragment extends BaseFragment {
 
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("MainScreen"); //统计页面
+        MobclickAgent.onPageStart("ServerFragment"); //统计页面
     }
 
     @Override
@@ -118,7 +110,7 @@ public class ServerConsultorFragment extends BaseFragment {
 
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("MainScreen");
+        MobclickAgent.onPageEnd("ServerFragment");
     }
 
     private void findViews(View view) {
@@ -134,24 +126,15 @@ public class ServerConsultorFragment extends BaseFragment {
         gif_call = view.findViewById(R.id.gif_call);
 
         iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
-//        iv_dot_0 = (ImageView) view.findViewById(R.id.dot_0);
-//        iv_dot_0.setImageResource(R.drawable.dot_0);
-//        iv_dot_1 = (ImageView) view.findViewById(R.id.dot_1);
-//        iv_dot_2 = (ImageView) view.findViewById(R.id.dot_2);
-//        iv_dot_3 = (ImageView) view.findViewById(R.id.dot_3);
         titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
-
-
     }
 
     private void setUpListener() {
-
         iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callMyConsult();
-
             }
         });
 
@@ -164,7 +147,6 @@ public class ServerConsultorFragment extends BaseFragment {
                 } else {
                     callMyConsult();
                 }
-
             }
         });
     }
@@ -176,8 +158,6 @@ public class ServerConsultorFragment extends BaseFragment {
         viewPager.setOffscreenPageLimit(20);
         viewPager.setCurrentItem(1, true);
         viewPager.setPageMargin(-140);
-        viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
-        viewPager.setAdapter(viewPagerAdapter);
 
 
         viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
@@ -322,8 +302,9 @@ public class ServerConsultorFragment extends BaseFragment {
             @Override
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
                 List<FourService> fourServiceList = consultantDataNetWorkResultBean.getData().getMaintainConsultant();
+                List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
+                viewPager.setAdapter(null);
                 fragmentPerPages.clear();
-
                 layout_dot_list.removeAllViews();
                 dotViewList.clear();
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) UIUtils.dp2px(activity, 8), (int) UIUtils.dp2px(activity, 8), 1.0f);
@@ -351,14 +332,14 @@ public class ServerConsultorFragment extends BaseFragment {
                 } else {
                     layout_circle_dot.setVisibility(View.VISIBLE);
                 }
-
                 progressDialogUtil.hide();
-                viewPagerAdapter.notifyDataSetChanged();
+                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
+                viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+                viewPager.setAdapter(viewPagerAdapter);
                 if (oldPosition > 0 && fragmentPerPages.size() > oldPosition) {
                     viewPager.setCurrentItem(oldPosition);
                     refreshDotList(oldPosition);
                 }
-
             }
         });
     }
