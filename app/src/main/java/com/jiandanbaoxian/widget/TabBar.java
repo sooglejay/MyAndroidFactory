@@ -170,7 +170,7 @@ public class TabBar extends LinearLayout {
     public void selectTab(int position) {
         switch (position) {
             case 0:
-                tv0.setTextColor(getResources().getColor(R.color.dark_green_color));
+                tv0.setTextColor(getResources().getColor(R.color.base_color));
                 tv1.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv2.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv3.setTextColor(getResources().getColor(R.color.middle_gray_color));
@@ -192,7 +192,7 @@ public class TabBar extends LinearLayout {
             case 1:
 
                 tv0.setTextColor(getResources().getColor(R.color.middle_gray_color));
-                tv1.setTextColor(getResources().getColor(R.color.dark_green_color));
+                tv1.setTextColor(getResources().getColor(R.color.base_color));
                 tv2.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv3.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 iv0Selected.setAlpha(0f);
@@ -213,7 +213,7 @@ public class TabBar extends LinearLayout {
 
                 tv0.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv1.setTextColor(getResources().getColor(R.color.middle_gray_color));
-                tv2.setTextColor(getResources().getColor(R.color.dark_green_color));
+                tv2.setTextColor(getResources().getColor(R.color.base_color));
                 tv3.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 iv0Selected.setAlpha(0f);
                 iv0.setAlpha(1.0f);
@@ -233,7 +233,7 @@ public class TabBar extends LinearLayout {
                 tv0.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv1.setTextColor(getResources().getColor(R.color.middle_gray_color));
                 tv2.setTextColor(getResources().getColor(R.color.middle_gray_color));
-                tv3.setTextColor(getResources().getColor(R.color.dark_green_color));
+                tv3.setTextColor(getResources().getColor(R.color.base_color));
                 iv0Selected.setAlpha(0f);
                 iv0.setAlpha(1.0f);
                 iv1Selected.setAlpha(0f);
