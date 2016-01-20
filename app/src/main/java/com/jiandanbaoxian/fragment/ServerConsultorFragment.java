@@ -3,6 +3,7 @@ package com.jiandanbaoxian.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -130,6 +131,7 @@ public class ServerConsultorFragment extends BaseFragment {
         titleBar.initTitleBarInfo("服务顾问", -1, -1, "", "");
     }
 
+
     private void setUpListener() {
         iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +159,6 @@ public class ServerConsultorFragment extends BaseFragment {
         ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX", myConsultId + ""), iv_avatar, ImageUtils.getOptions());
         viewPager.setOffscreenPageLimit(200);
         viewPager.setCurrentItem(1, true);
-//        viewPager.setPageMargin(-140);
 
 
         viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
@@ -169,7 +170,7 @@ public class ServerConsultorFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                if (position > 0) {
+                if (position >= 0) {
                     oldPosition = position;
                 }
                 refreshDotList(position);
@@ -334,9 +335,8 @@ public class ServerConsultorFragment extends BaseFragment {
                 }
                 progressDialogUtil.hide();
                 ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
-                viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
                 viewPager.setAdapter(viewPagerAdapter);
-                if (oldPosition > 0 && fragmentPerPages.size() > oldPosition) {
+                if (oldPosition >= 0 && fragmentPerPages.size() > oldPosition) {
                     viewPager.setCurrentItem(oldPosition);
                     refreshDotList(oldPosition);
                 }
@@ -388,6 +388,26 @@ public class ServerConsultorFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             getOtherConsultant(false);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    if (viewPager != null) {
+                        viewPager.setPageMargin(-140);
+                        viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+                    }
+                }
+            }.execute();
         }
+
     }
 }
