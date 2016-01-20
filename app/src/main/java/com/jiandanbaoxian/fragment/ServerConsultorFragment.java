@@ -304,6 +304,9 @@ public class ServerConsultorFragment extends BaseFragment {
             public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
                 List<FourService> fourServiceList = consultantDataNetWorkResultBean.getData().getMaintainConsultant();
                 List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
+                viewPager.setPageMargin(-140);
+                viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+
                 viewPager.setAdapter(null);
                 fragmentPerPages.clear();
                 layout_dot_list.removeAllViews();
@@ -392,7 +395,7 @@ public class ServerConsultorFragment extends BaseFragment {
                 @Override
                 protected Void doInBackground(Void... params) {
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
