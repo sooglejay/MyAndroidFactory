@@ -15,8 +15,8 @@
     <com.handmark.pulltorefresh.library.PullToRefreshLinearLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:background="@color/white_color"
         android:layout_height="match_parent"
+        android:background="@color/white_color"
         android:orientation="vertical">
 
         <LinearLayout
@@ -87,7 +87,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_0_transparent"
 
             android:orientation="vertical">
 
@@ -202,15 +201,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/shape_0_transparent"
+            android:background="@color/white_color"
             android:orientation="vertical"
             android:weightSum="2">
             <!--限行停保-->
             <LinearLayout
+                android:id="@+id/layout_xianxing"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_0_shut_fragment_background"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -249,7 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="22dp"
-                    android:background="@drawable/btn_select_little_white"
+                    android:background="@drawable/btn_select_white"
                     android:clickable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -258,7 +257,6 @@
                         android:id="@+id/week_number_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:background="@null"
                         android:clickable="false" />
 
@@ -278,10 +276,10 @@
 
             <!--预约停保-->
             <LinearLayout
+                android:id="@+id/layout_yuyue"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_0_shut_fragment_background"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -321,7 +319,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_select_light_bg_color"
+                    android:background="@drawable/btn_select_white"
                     android:clickable="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical"

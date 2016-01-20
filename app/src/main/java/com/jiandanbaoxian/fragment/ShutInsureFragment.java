@@ -153,6 +153,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private SwitchButton dateSwitchTabView;
     private LinearLayout layoutDatePicker;
     private LinearLayout layoutTotalDays;
+    private LinearLayout layout_yuyue;
+    private LinearLayout layout_xianxing;
     private TextView tvDateInterval;
     private TextView tvStartText;
     private TextView tvStartDate;
@@ -206,6 +208,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         dateSwitchTabView = (SwitchButton) viewFromOuter.findViewById(R.id.date_switch_tab_view);
         layoutDatePicker = (LinearLayout) viewFromOuter.findViewById(R.id.layout_date_picker);
         layoutTotalDays = (LinearLayout) viewFromOuter.findViewById(R.id.layout_total_days);
+        layout_yuyue = (LinearLayout) viewFromOuter.findViewById(R.id.layout_yuyue);
+        layout_xianxing = (LinearLayout) viewFromOuter.findViewById(R.id.layout_xianxing);
         tvDateInterval = (TextView) viewFromOuter.findViewById(R.id.tv_date_interval);
         tvStartText = (TextView) viewFromOuter.findViewById(R.id.tv_start_text);
         tvStartDate = (TextView) viewFromOuter.findViewById(R.id.tv_start_date);
@@ -1210,6 +1214,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 //        layoutWeekNumberSpinner.setAlpha(isLimitedPause ? 1 : 0.5f);
 //        layoutWeekNumberSpinner.setClickable(isLimitedPause ? true : false);
 //        layoutWeekNumberSpinner.setEnabled(isLimitedPause ? true : false);
+//        layout_xianxing.setBackgroundResource(isLimitedPause?R.color.white_color:R.color.shut_fragment_background);
     }
 
     /**
@@ -1220,6 +1225,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 //        layoutDatePicker.setAlpha(isReservePause ? 1 : 0.5f);
 //        layoutDatePicker.setClickable(isReservePause ? true : false);
 //        layoutDatePicker.setEnabled(isReservePause ? true : false);
+//        layout_yuyue.setBackgroundResource(isReservePause ? R.color.white_color : R.color.shut_fragment_background);
+
     }
 
     /**

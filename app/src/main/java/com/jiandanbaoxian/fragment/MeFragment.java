@@ -22,7 +22,7 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.event.BusEvent;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
-import com.jiandanbaoxian.ui.ApplyEcoActivity;
+import com.jiandanbaoxian.ui.me.applyeco.ApplyEcoActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.ui.me.mycallpolice.MyCallPoliceActivity;
 import com.jiandanbaoxian.ui.me.historyprice.MyHistoryPriceListActivity;

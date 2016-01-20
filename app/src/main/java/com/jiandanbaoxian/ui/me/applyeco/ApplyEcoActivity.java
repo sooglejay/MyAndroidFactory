@@ -1,4 +1,4 @@
-package com.jiandanbaoxian.ui;
+package com.jiandanbaoxian.ui.me.applyeco;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.BrandListActivity;
 import com.jiandanbaoxian.util.ImageUtils;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -74,6 +76,7 @@ public class ApplyEcoActivity extends BaseActivity implements
 
     private TitleBar titleBar;
     private EditText etCompanyName;
+    private TextView tv_ball_card;
     private TextView tv_brand_name;
     private EditText etCompanyAddress;
     private ImageView ivLocation;
@@ -99,6 +102,7 @@ public class ApplyEcoActivity extends BaseActivity implements
         etManagePhone = (EditText) findViewById(R.id.et_manage_phone);
         etServerDescribe = (EditText) findViewById(R.id.et_server_describe);
         tv_brand_name = (TextView) findViewById(R.id.tv_brand_name);
+        tv_ball_card = (TextView) findViewById(R.id.tv_ball_card);
         ivCard = (ImageView) findViewById(R.id.iv_card);
     }
 
@@ -255,6 +259,7 @@ public class ApplyEcoActivity extends BaseActivity implements
                     //上传图片
                     if (!TextUtils.isEmpty(resultPath)) {
                         ImageLoader.getInstance().displayImage("file://" + resultPath, ivCard, ImageUtils.getOptions());
+                        tv_ball_card.setText("");
                     }
                 }
                 break;

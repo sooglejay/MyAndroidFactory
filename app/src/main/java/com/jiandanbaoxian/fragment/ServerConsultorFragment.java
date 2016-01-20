@@ -155,9 +155,9 @@ public class ServerConsultorFragment extends BaseFragment {
     private void setUp() {
 
         ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX", myConsultId + ""), iv_avatar, ImageUtils.getOptions());
-        viewPager.setOffscreenPageLimit(20);
+        viewPager.setOffscreenPageLimit(200);
         viewPager.setCurrentItem(1, true);
-        viewPager.setPageMargin(-140);
+//        viewPager.setPageMargin(-140);
 
 
         viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
