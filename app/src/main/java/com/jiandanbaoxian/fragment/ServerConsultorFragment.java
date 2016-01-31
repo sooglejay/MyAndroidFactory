@@ -1,3 +1,7 @@
+/**
+ * 我的顾问
+ * ServerConsultorFragment.java
+ */
 package com.jiandanbaoxian.fragment;
 
 import android.app.Activity;

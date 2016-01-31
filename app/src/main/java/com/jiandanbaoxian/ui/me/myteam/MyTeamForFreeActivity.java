@@ -1,3 +1,7 @@
+/**
+ * 我的团队－自由人界面
+ * MyTeamForFreeActivity.java
+ */
 package com.jiandanbaoxian.ui.me.myteam;
 
 import android.app.Activity;
@@ -17,9 +21,6 @@ import com.jiandanbaoxian.widget.TitleBar;
 
 import pl.droidsonroids.gif.GifImageView;
 
-/**
- * 我的-我的保险
- */
 public class MyTeamForFreeActivity extends BaseActivity {
     private static final String ExtraKey = "ExtraKey";
     private TitleBar titleBar;

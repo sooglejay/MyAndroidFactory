@@ -1,3 +1,7 @@
+/**
+ * 自由人加入团队
+ * FreeJoinTeamActivity.java
+ */
 package com.jiandanbaoxian.ui.me.myteam;
 
 import android.app.Activity;
@@ -30,9 +34,7 @@ import java.util.List;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * 加入团队
- */
+
 public class FreeJoinTeamActivity extends BaseActivity {
 
     private TitleBar titleBar;

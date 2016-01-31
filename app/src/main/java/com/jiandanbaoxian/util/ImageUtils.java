@@ -1,3 +1,8 @@
+/**
+ * 工具类－－图片处理
+ * ImageUtils.java
+ *
+ */
 package com.jiandanbaoxian.util;
 
 import android.app.Activity;

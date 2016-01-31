@@ -1,3 +1,7 @@
+/**
+ * 我的团队－团长界面
+ * MyTeamForLeaderActivity.java
+ */
 package com.jiandanbaoxian.ui.me.myteam;
 
 import android.app.Activity;
