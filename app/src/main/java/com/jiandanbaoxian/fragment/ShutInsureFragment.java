@@ -147,11 +147,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private LinearLayout layoutRule;
     private TextView tvXxtb;
     private SwitchButton weekSwitchTabView;
-    private LinearLayout layoutWeekNumberSpinner;
     private Spinner weekNumberSpinner;
     private TextView tvYytb;
     private SwitchButton dateSwitchTabView;
-    private LinearLayout layoutDatePicker;
     private LinearLayout layoutTotalDays;
     private LinearLayout layout_yuyue;
     private LinearLayout layout_xianxing;
@@ -202,11 +200,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         layoutRule = (LinearLayout) viewFromOuter.findViewById(R.id.layout_rule);
         tvXxtb = (TextView) viewFromOuter.findViewById(R.id.tv_xxtb);
         weekSwitchTabView = (SwitchButton) viewFromOuter.findViewById(R.id.week_switch_tab_view);
-        layoutWeekNumberSpinner = (LinearLayout) viewFromOuter.findViewById(R.id.layout_week_number_spinner);
         weekNumberSpinner = (Spinner) viewFromOuter.findViewById(R.id.week_number_spinner);
         tvYytb = (TextView) viewFromOuter.findViewById(R.id.tv_yytb);
         dateSwitchTabView = (SwitchButton) viewFromOuter.findViewById(R.id.date_switch_tab_view);
-        layoutDatePicker = (LinearLayout) viewFromOuter.findViewById(R.id.layout_date_picker);
         layoutTotalDays = (LinearLayout) viewFromOuter.findViewById(R.id.layout_total_days);
         layout_yuyue = (LinearLayout) viewFromOuter.findViewById(R.id.layout_yuyue);
         layout_xianxing = (LinearLayout) viewFromOuter.findViewById(R.id.layout_xianxing);
@@ -274,9 +270,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
         tvStartDate.setText(todayString_yyyy_m_d + "");
         tvEndDate.setText(todayString_yyyy_m_d + "");
         tvDateInterval.setText("共0天");
-        //时间控件
-        layoutDatePicker = (LinearLayout) view.findViewById(R.id.layout_date_picker);
+
         refreshCarSpinnerLayout(false);
+
 
         //车牌号Spinner
         mCarNumbersListAdapter = new SpinnerDropDownAdapter(getActivity(), mCarNumbersStringList);
@@ -309,12 +305,12 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             @Override
             public void onRightButtonClick(View v) {
-                new ShareUtils(getActivity(),"http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
+                new ShareUtils(getActivity(), "http://img0.imgtn.bdimg.com/it/u=4096430706,2666285308&fm=21&gp=0.jpg");
             }
         });
 
         //预约停保  时间控件 点击事件
-        layoutDatePicker.setOnClickListener(new View.OnClickListener() {
+        layout_yuyue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //通过userid来判断用户是否登录，-1就是未登录状态
@@ -397,8 +393,8 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                         Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
                                         dialogFragmentController.dismiss();
                                         Intent intent = new Intent(context, PullMoneyActivity.class);
-                                        intent.putExtra("password",psw);
-                                        intent.putExtra("type",1);
+                                        intent.putExtra("password", psw);
+                                        intent.putExtra("type", 1);
                                         context.startActivity(intent);
                                     }
 
@@ -483,7 +479,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
 
         //限行停保 - 周Spinner 的父Layout 的点击事件，并触发Spinner 的下拉事件
-        layoutWeekNumberSpinner.setOnClickListener(new View.OnClickListener() {
+        layout_xianxing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 weekNumberSpinner.performClick();
@@ -583,9 +579,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                 setSwitchChecked(isChecked, switchView);
                                 if (switchView == weekSwitchTabView) {
                                     tvXxtb.setAlpha(isChecked ? 1 : 0.5f);
-                                    layoutWeekNumberSpinner.setAlpha(isChecked ? 1 : 0.5f);
-                                    layoutWeekNumberSpinner.setClickable(isChecked);
-                                    layoutWeekNumberSpinner.setEnabled(isChecked);
+                                    layout_xianxing.setAlpha(isChecked ? 1 : 0.5f);
+                                    layout_xianxing.setClickable(isChecked);
+                                    layout_xianxing.setEnabled(isChecked);
                                     if (isChecked) {//如果是打开操作，就保存信息
                                         saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
                                     } else {//如果是关闭操作，就取消上一次保存的信息
@@ -593,9 +589,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                     }
                                 } else {
                                     tvYytb.setAlpha(isChecked ? 1 : 0.5f);
-                                    layoutDatePicker.setAlpha(isChecked ? 1 : 0.5f);
-                                    layoutDatePicker.setClickable(isChecked);
-                                    layoutDatePicker.setEnabled(isChecked);
+                                    layout_yuyue.setAlpha(isChecked ? 1 : 0.5f);
+                                    layout_yuyue.setClickable(isChecked);
+                                    layout_yuyue.setEnabled(isChecked);
                                     if (isChecked) {//如果是打开操作，就保存信息
                                         saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
                                     } else {//如果是关闭操作，就取消上一次保存的信息
@@ -1211,9 +1207,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      */
     private void refreshLimitPauseUI(boolean isLimitedPause) {
 //        tvXxtb.setAlpha(isLimitedPause ? 1 : 0.5f);
-//        layoutWeekNumberSpinner.setAlpha(isLimitedPause ? 1 : 0.5f);
-//        layoutWeekNumberSpinner.setClickable(isLimitedPause ? true : false);
-//        layoutWeekNumberSpinner.setEnabled(isLimitedPause ? true : false);
+//        layout_xianxing.setAlpha(isLimitedPause ? 1 : 0.5f);
+//        layout_xianxing.setClickable(isLimitedPause ? true : false);
+//        layout_xianxing.setEnabled(isLimitedPause ? true : false);
 //        layout_xianxing.setBackgroundResource(isLimitedPause?R.color.white_color:R.color.shut_fragment_background);
     }
 
@@ -1222,9 +1218,9 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      */
     private void refreshReservePauseUI(boolean isReservePause) {
 //        tvYytb.setAlpha(isReservePause ? 1 : 0.5f);
-//        layoutDatePicker.setAlpha(isReservePause ? 1 : 0.5f);
-//        layoutDatePicker.setClickable(isReservePause ? true : false);
-//        layoutDatePicker.setEnabled(isReservePause ? true : false);
+//        layout_yuyue.setAlpha(isReservePause ? 1 : 0.5f);
+//        layout_yuyue.setClickable(isReservePause ? true : false);
+//        layout_yuyue.setEnabled(isReservePause ? true : false);
 //        layout_yuyue.setBackgroundResource(isReservePause ? R.color.white_color : R.color.shut_fragment_background);
 
     }

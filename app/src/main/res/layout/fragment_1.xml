@@ -208,6 +208,7 @@
             <LinearLayout
                 android:id="@+id/layout_xianxing"
                 android:layout_width="match_parent"
+                android:background="@drawable/btn_select_white"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -244,11 +245,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_week_number_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="22dp"
-                    android:background="@drawable/btn_select_white"
                     android:clickable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -278,6 +277,8 @@
             <LinearLayout
                 android:id="@+id/layout_yuyue"
                 android:layout_width="match_parent"
+                android:clickable="true"
+                android:background="@drawable/btn_select_white"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -315,12 +316,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_date_picker"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_select_white"
-                    android:clickable="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:paddingLeft="22dp"
