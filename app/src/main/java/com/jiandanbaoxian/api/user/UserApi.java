@@ -17,12 +17,14 @@ import com.jiandanbaoxian.model.OvertimeData;
 import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.model.PauseData;
 import com.jiandanbaoxian.model.PauseHistory;
+import com.jiandanbaoxian.model.RegionBean;
 import com.jiandanbaoxian.model.RangeData;
 import com.jiandanbaoxian.model.ReportData;
 import com.jiandanbaoxian.model.SelfRecord;
 import com.jiandanbaoxian.model.TeamData;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
+import com.jiandanbaoxian.widget.decoview.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.List;
 
@@ -837,6 +839,142 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/getFourServiceBrands/")
     public void getFourServiceBrands(@Field("param") String params, NetCallback<NetWorkResultBean<List<Brand>>> NetCallback);
+
+
+
+
+    /**
+
+     省级行政区编码
+
+     接口名称	getProvenceNo
+     发送时机	获取省级行政区编码、和市、县级结合可实现三级菜单
+     参数说明
+     *
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getProvenceNo/")
+    public void getProvenceNo(NetCallback<NetWorkResultBean<List<RegionBean>>> NetCallback);
+
+
+    /**
+
+     市级行政区编码
+     接口名称	getCityNo
+     发送时机	获取市级行政区编码
+     参数说明	1、String  provenceNo;//上一接口获取的省的编码
+
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getCityNo/")
+    public void getCityNo(@Field("param") String params, NetCallback<NetWorkResultBean<List<RegionBean>>> NetCallback);
+
+
+
+    /**
+     接口名称	getCountyNo
+     发送时机	获取县级行政区编码
+     参数说明	1、String  cityNo;//上一接口获取的市的编码
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getCountyNo/")
+    public void getCountyNo(@Field("param") String params, NetCallback<NetWorkResultBean<List<RegionBean>>> NetCallback);
+
+
+
+
+    /**
+     接口名称	getC_ly15
+     发送时机	获取免赔额键值对,取得相应的免赔额对应的编码，以便和后台交互
+     参数说明
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/getC_ly15/")
+    public void getC_ly15(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
+
+
+
+    /**
+     接口名称	huanApplyPay
+     发送时机	服务器调用华安支付申请接口，返回支付单号，供手机端去支付。手机端是调用华安的支付接口，完成支付！
+     参数说明
+     "String insureName ;//投保人姓名
+     String compulsoryNo;//交强险保单号，无传0
+     int compulsoryAmount ;//交强险，保费金额，单位分，无传0
+     String commerceNo;//商业险单号 无传0
+     Int commerceAmount;//商业险保费，单位分，无传0
+     String countyNo;//区级行政区域代码
+     Int compulsoryStartDate;//交强险起效时间 毫秒，无传0
+     Int cmmerceStartDate ;// 商业险起效时间 毫秒，无传 0
+     Int  type；//保险公司  0 华安  "
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/huanApplyPay/")
+    public void huanApplyPay(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+    /**
+     接口名称	markPay
+     发送时机	用户支付成功后，手机端调用此接口，修改我们本地数据库订单的支付结果。
+     参数说明	1、int orderId;//我们数据库对应的保险编号
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/markPay/")
+    public void markPay(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
+
+
+
+    /**
+     接口名称	jugeCertify
+     发送时机	判断用户是否实名认证
+     参数说明	1、int userid;//用户编号
+     限制条件	参数1为必填。
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/jugeCertify/")
+    public void jugeCertify(@Field("param") String params, NetCallback<NetWorkResultBean<Integer>> NetCallback);
+
+
+
+
+    /**
+     接口名称	huanDistribution
+     发送时机	如果用户需要配送保单，调此接口，服务器会调用华安的配送接口。
+     参数说明	"String forceNo;//交强险，保单号（华安的），无传0
+     String commerceNo;//商业险保单号（华安的），无传0
+     String address；//配送具体地址
+     String  recieverPhone;//收件人电话
+     String recieverName;//收件人姓名
+     String provence_no;//省级行政区代码
+     String city_no;//市级行政区代码
+     String county_no;//区级行政区代码
+     String  beSuredName;//被保险人姓名"
+     返回结果
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/huanDistribution/")
+    public void huanDistribution(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+
+
+
+
+
 
 
 }

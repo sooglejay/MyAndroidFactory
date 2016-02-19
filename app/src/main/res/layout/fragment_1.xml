@@ -108,6 +108,7 @@
                 android:layout_marginTop="@dimen/middle_padding"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:clickable="true"
                 android:weightSum="1.0">
 
                 <LinearLayout

@@ -21,6 +21,7 @@ import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.model.PauseData;
 import com.jiandanbaoxian.model.PauseHistory;
 import com.jiandanbaoxian.model.RangeData;
+import com.jiandanbaoxian.model.RegionBean;
 import com.jiandanbaoxian.model.ReportData;
 import com.jiandanbaoxian.model.SelfRecord;
 import com.jiandanbaoxian.model.TeamData;
@@ -29,6 +30,7 @@ import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
 import com.jiandanbaoxian.util.Base64Util;
 import com.jiandanbaoxian.util.MD5Util;
 import com.jiandanbaoxian.util.RetrofitUtil;
+import com.jiandanbaoxian.widget.decoview.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.List;
 
@@ -43,15 +45,14 @@ public class UserRetrofitUtil extends RetrofitUtil {
      *
      * @param mContext
      * @param phone
-     * @param callback
-     * String phone； //手机号
-    Int type;//0 登陆获取验证码，1 设置密码获取验证码，2 重置密码，3添加提现账号
+     * @param callback String phone； //手机号
+     *                 Int type;//0 登陆获取验证码，1 设置密码获取验证码，2 重置密码，3添加提现账号
      */
-    public static void obtainVerifyCode(Context mContext, String phone,int type, NetCallback<NetWorkResultBean<CommData>> callback) {
+    public static void obtainVerifyCode(Context mContext, String phone, int type, NetCallback<NetWorkResultBean<CommData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String p = new String("phone=");
-        String k = p + phone+"&type="+type;
+        String k = p + phone + "&type=" + type;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "s=" + s);
         git.obtainVerifyCode(s, callback);
@@ -770,19 +771,39 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * 7.4.车险
      * 7.4.1.保存车辆信息
      * <p/>
-     * 1、int userid； // 用户编号
-     * 2、String licenseplate； // 车牌号
-     * 3、String enginenumber； // 发动机号
-     * 4、String framenumber； // 车架号
-     * 5、Int seatingcapacity； // 几座
-     * 6、Int registrationDate； // 登记时间 （毫秒）
-     * 7、String ownerName； // 车主姓名
-     * 8、Int commercestartdate； //商业险起效日期（毫秒）
-     * 9、Int compulsorystartdate ; //交强险起效日期（毫秒）
-     * 9、Int issueDate ; //发证日期（毫秒）
+     * 接口名称	saveVehicleInfo
+     * 发送时机	用户扫描完后，进入下一步，或者跳转页面时，调此接口保存车辆信息，并生成订单号，服务器会调用华安的车型查询、折旧和报价三个接口，并返回报价结果
+     * 参数说明	"
+     * int userid； // 用户编号（当前登陆者）
+     * String licenseplate； // 车牌号
+     * String enginenumber； // 发动机号
+     * String framenumber； // 车架号
+     * Int seatingcapacity； // 几座
+     * Int registrationDate； // 登记时间 （毫秒）
+     * String ownerName； // 车主姓名
+     * Int commercestartdate； //商业险起效日期（毫秒），没有则给0
+     * Int compulsorystartdate ; //交强险起效日期（毫秒），没有则给0
+     * 10、int issueDate;//发证日期（毫秒）
+     * 11、String provence ;//省名字
+     * 12、String  provnce_no ;//省级行政区域代码，提供了接口
+     * 13、String city_no;//市行政区域代码，提供了接口
+     * 14、String county_no;//省级行政区域代码，提供了接口
+     * 15、int  transfer;//是否过户    0否  1是
+     * 16、int  transferDate;//  若过户   过户日期（毫秒），否则传0
+     * 17、String idcardNum;//   身份证号
+     * 18、String phone;//投保人电话
+     * 19、int compulsoryAmt ;//交强险保额（元）
+     * 20、String insuranceItems ;//对应华安中保险种类
      * <p/>
-     * 参数1、2、4、5、6、7、8、9为必填，若用户未填7 就默认传userid值
-     * 8、9若只选则了一个（至少选择一个），则未选中的给默认值0
+     * 5.4.9对象生成的json数组,d对象中 没有的值就给-1、amt属性给0/0.0。
+     * 只买了两个险的示例：[{"amt":0,"bullet_glass":-1,"c_ly15":-1,"franchise_flag":-1,"insrnc_cde":"030101","insrnc_name":"","number":-1,"premium":0,"remark":"-1"},
+     * {"amt":0,"bullet_glass":-1,"c_ly15":-1,"franchise_flag":-1,"insrnc_cde":"030103","insrnc_name":"","number":-1,"premium":0,"remark":"-1"}]
+     * <p/>
+     * 21、int type;// 0 华安保险"
+     * 限制条件	"参数1--21为必填，若用户未填7(车主姓名) 就默认传userid值
+     * 8、9若只选则了一个（至少选择一个），则未选中的给默认值0"
+     * 返回结果	"参见对象5.4.12
+     * "
      *
      * @param mContext
      * @param callback
@@ -798,6 +819,17 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                        long commercestartdate,
                                        long compulsorystartdate,
                                        long issueDate,
+                                       String provence,
+                                       String provnce_no,
+                                       String city_no,
+                                       String county_no,
+                                       int transfer,
+                                       int transferDate,
+                                       String idcardNum,
+                                       String phone,
+                                       int compulsoryAmt,
+                                       String insuranceItems,
+                                       int type,
 
                                        NetCallback<NetWorkResultBean<CommData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
@@ -811,7 +843,18 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&ownerName=" + ownerName +
                 "&commercestartdate=" + commercestartdate +
                 "&compulsorystartdate=" + compulsorystartdate +
-                "&issueDate=" + issueDate;
+                "&issueDate=" + issueDate +
+                "&provence=" + provence +
+                "&provnce_no=" + provnce_no +
+                "&city_no=" + city_no +
+                "&county_no=" + county_no +
+                "&transfer=" + transfer +
+                "&transferDate=" + transferDate +
+                "&idcardNum=" + idcardNum +
+                "&phone=" + phone +
+                "&compulsoryAmt=" + compulsoryAmt +
+                "&insuranceItems=" + insuranceItems +
+                "&type=" + type;
 
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
@@ -895,17 +938,22 @@ public class UserRetrofitUtil extends RetrofitUtil {
     /**
      * 7.4.3.选择报价方案
      * 发送时机	提交订单时，用于确定选择的是何种报价。
+     * 参数说明	"
+     * 1、Int  priceid； // 报价编号
+     * 2、Int  orderid； // 订单编号"
+     * <p/>
+     * 发送时机	提交订单时，用于确定选择的是何种报价。
      *
      * @param mContext
      * @param callback
      */
     public static void selectPlan(Context mContext,
-                                  int companyid,
+                                  int priceid,
                                   int orderid,
                                   NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
-        String k = "companyid=" + companyid + "&orderid=" + orderid;
+        String k = "priceid=" + priceid + "&orderid=" + orderid;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
         git.selectPlan(s, callback);
@@ -932,6 +980,10 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * 发送时机	提交订单时保存订单信息
      * <p/>
      * 参数说明
+     * <p/>
+     * 接口名称	confirmVehicleOrder
+     * 发送时机	服务器会调用华安的核保接口
+     * 参数说明	"
      * 1、String name； // 被保人姓名
      * 2、Int orderid； // 订单编号
      * 3、String phone； // 被保人电话
@@ -942,6 +994,9 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * 8、String refereephone ; //推荐人手机，无则传3、phone值
      * 9、String operatorphone ;//经办人手机
      * 10、String provence; //出险省，即买保险的省
+     * 11、int type;//  0 华安保险
+     * 12、String cal_app_no;// 华安保险报价返回的报价单号"
+     * 限制条件	参数1、2，3，4、5、6、7、8、9、10、11、12为必填。
      *
      * @param mContext
      * @param callback
@@ -957,6 +1012,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                            String refereephone,
                                            String operatorphone,
                                            String provence,
+                                           int type,
+                                           String cal_app_no,
                                            NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -969,7 +1026,9 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&recieveaddress=" + recieveaddress +
                 "&refereephone=" + refereephone +
                 "&operatorphone=" + operatorphone +
-                "&provence=" + provence;
+                "&provence=" + provence +
+                "&type=" + type +
+                "&cal_app_no=" + cal_app_no;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
         git.confirmVehicleOrder(s, callback);
@@ -1153,10 +1212,10 @@ public class UserRetrofitUtil extends RetrofitUtil {
     /**
      * 发送时机	添加提现账号
      * 参数说明
-     *
-     String  verifyCode;//手机验证码
-
-
+     * <p/>
+     * String  verifyCode;//手机验证码
+     * <p/>
+     * <p/>
      * 1、int userid ; //用户编号
      * 2、string bank_name;//银行名字（微信、支付宝就为微信支付宝）
      * 3、string account_num;//账号
@@ -1180,9 +1239,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&bank_name=" + bank_name +
                 "&account_num=" + account_num +
                 "&account_name=" + account_name +
-                "&accountType=" + accountType+
-                "&verifyCode=" + verifyCode
-                ;
+                "&accountType=" + accountType +
+                "&verifyCode=" + verifyCode;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.addWithdrawlAccount(s, callback);
@@ -1601,14 +1659,14 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void jugeCertify(Context mContext,
                                    int userid,
-                                   NetCallback<NetWorkResultBean<Object>> callback) {
+                                   NetCallback<NetWorkResultBean<Integer>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
                 "userid=" + userid;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
-        git.jugeJoinRequest(s, callback);
+        git.jugeCertify(s, callback);
     }
 
 
@@ -1630,6 +1688,196 @@ public class UserRetrofitUtil extends RetrofitUtil {
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.getFourServiceBrands(s, callback);
+    }
+
+
+    /**
+     * 接口名称	huanDistribution
+     * 发送时机	如果用户需要配送保单，调此接口，服务器会调用华安的配送接口。
+     * 参数说明	"
+     * String forceNo;//交强险，保单号（华安的），无传0
+     * String commerceNo;//商业险保单号（华安的），无传0
+     * String address；//配送具体地址
+     * String recieverPhone;//收件人电话
+     * String recieverName;//收件人姓名
+     * String provence_no;//省级行政区代码
+     * String city_no;//市级行政区代码
+     * String county_no;//区级行政区代码
+     * String beSuredName;//被保险人姓名"
+     * 返回结果
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void huanDistribution(Context mContext,
+                                        String forceNo,
+                                        String commerceNo,
+                                        String address,
+                                        String recieverPhone,
+                                        String recieverName,
+                                        String provence_no,
+                                        String city_no,
+                                        String county_no,
+                                        String beSuredName,
+                                        NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "forceNo=" + forceNo +
+                        "&commerceNo=" + commerceNo +
+                        "&address=" + address +
+                        "&recieverPhone=" + recieverPhone +
+                        "&recieverName=" + recieverName +
+                        "&provence_no=" + provence_no +
+                        "&city_no=" + city_no +
+                        "&county_no=" + county_no +
+                        "&beSuredName=" + beSuredName;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.huanDistribution(s, callback);
+    }
+
+
+    /**
+     * 接口名称	markPay
+     * 发送时机	用户支付成功后，手机端调用此接口，修改我们本地数据库订单的支付结果。
+     * 参数说明	1、int orderId;//我们数据库对应的保险编号
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void markPay(Context mContext,
+                               String orderId,
+                               NetCallback<NetWorkResultBean<Object>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "orderId=" + orderId;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.markPay(s, callback);
+    }
+
+
+    /**
+     * 接口名称	huanApplyPay
+     * 发送时机	服务器调用华安支付申请接口，返回支付单号，供手机端去支付。手机端是调用华安的支付接口，完成支付！
+     * 参数说明
+     * "
+     * String insureName ;//投保人姓名
+     * String compulsoryNo;//交强险保单号，无传0
+     * int compulsoryAmount ;//交强险，保费金额，单位分，无传0
+     * String commerceNo;//商业险单号 无传0
+     * Int commerceAmount;//商业险保费，单位分，无传0
+     * String countyNo;//区级行政区域代码
+     * Int compulsoryStartDate;//交强险起效时间 毫秒，无传0
+     * Int cmmerceStartDate ;// 商业险起效时间 毫秒，无传 0
+     * Int  type；//保险公司  0 华安  "
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void huanApplyPay(Context mContext,
+                                    String insureName,
+                                    String compulsoryNo,
+                                    String compulsoryAmount,
+                                    String commerceNo,
+                                    String commerceAmount,
+                                    String countyNo,
+                                    String compulsoryStartDate,
+                                    String cmmerceStartDate,
+                                    String type,
+                                    NetCallback<NetWorkResultBean<String>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "insureName=" + insureName +
+                        "&compulsoryNo=" + compulsoryNo +
+                        "&compulsoryAmount=" + compulsoryAmount +
+                        "&commerceNo=" + commerceNo +
+                        "&commerceAmount=" + commerceAmount +
+                        "&countyNo=" + countyNo +
+                        "&compulsoryStartDate=" + compulsoryStartDate +
+                        "&cmmerceStartDate=" + cmmerceStartDate +
+                        "&type=" + type;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.huanApplyPay(s, callback);
+    }
+
+
+    /**
+     * 接口名称	getC_ly15
+     * 发送时机	获取免赔额键值对,取得相应的免赔额对应的编码，以便和后台交互
+     * "{
+     * "status": 0,
+     * "message": "获取免赔额列表(编码和值)成功！",
+     * "data": {
+     * "363003": 300,
+     * "363004": 500,
+     * "363006": 1000,
+     * "363008": 2000
+     * }
+     * }"
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getC_ly15(Context mContext,
+                                 NetCallback<NetWorkResultBean<Object>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        git.getC_ly15("", callback);
+    }
+
+    /**
+     * 接口名称	getCountyNo
+     * 发送时机	获取县级行政区编码
+     * 参数说明	1、String  cityNo;//上一接口获取的市的编码
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getCountyNo(Context mContext,
+                                   String cityNo,
+                                   NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        git.getCountyNo("", callback);
+    }
+
+
+    /**
+     * 市级行政区编码
+     * 接口名称	getCityNo
+     * 发送时机	获取市级行政区编码
+     * 参数说明	1、String  provenceNo;//上一接口获取的省的编码
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getCityNo(Context mContext,
+                                 String provenceNo,
+                                 NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        git.getCityNo("", callback);
+    }
+
+
+    /**
+     * 省级行政区编码
+     * 接口名称	getProvenceNo
+     * 发送时机	获取省级行政区编码、和市、县级结合可实现三级菜单
+     * 参数说明
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void getProvenceNo(Context mContext,
+                                     NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        git.getProvenceNo(callback);
     }
 
 
