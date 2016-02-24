@@ -6,22 +6,40 @@ import android.os.Parcelable;
 /**
  * Created by sooglejay on 16/2/18.
  * 车险详情InsuranceItemData
-
  */
 public class InsuranceItemData implements Parcelable {
 
-    /**
-     *
-     insrnc_cde	String	保险类别编号	Y
-     insrnc_name	String	保险类别名字	Y
-     amt	Float	保险金额/赔偿限额
-     premium	Float	保费
-     number	Int	保障天数/人数
-     franchise_flag	Int	是否不计免赔  0否  1是
-     c_ly15	Int	车损绝对免赔额   （有接口可以获取免赔额列表）
-     bullet_glass	Int	是否防弹玻璃 o 否 1是
-     remark	String	备注
+    @Override
+    public String toString() {
+        return "InsuranceItemData{" +
+                "insrnc_cde='" + insrnc_cde + '\'' +
+                ", insrnc_name='" + insrnc_name + '\'' +
+                ", remark='" + remark + '\'' +
+                ", amt=" + amt +
+                ", premium=" + premium +
+                ", number=" + number +
+                ", franchise_flag=" + franchise_flag +
+                ", c_ly15=" + c_ly15 +
+                ", bullet_glass=" + bullet_glass +
+                '}';
+    }
 
+    public String toJson() {
+        return "[{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":-1,\"insrnc_cde\":\"030101\",\"insrnc_name\":\"\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"}," +
+                "{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":-1,\"insrnc_cde\":\"030103\",\"insrnc_name\":\"\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"}]";
+    }
+
+
+    /**
+     * insrnc_cde	String	保险类别编号	Y
+     * insrnc_name	String	保险类别名字	Y
+     * amt	Float	保险金额/赔偿限额
+     * premium	Float	保费
+     * number	Int	保障天数/人数
+     * franchise_flag	Int	是否不计免赔  0否  1是
+     * c_ly15	Int	车损绝对免赔额   （有接口可以获取免赔额列表）
+     * bullet_glass	Int	是否防弹玻璃 o 否 1是
+     * remark	String	备注
      */
     private String insrnc_cde;
     private String insrnc_name;

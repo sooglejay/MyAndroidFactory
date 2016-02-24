@@ -232,7 +232,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("真的要关闭安心车险么?")
+        builder.setTitle("真的要退出么?")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

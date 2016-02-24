@@ -30,6 +30,7 @@ import java.util.List;
 
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
@@ -853,8 +854,7 @@ public interface UserApi {
      *
      * @param NetCallback
      */
-    @FormUrlEncoded
-    @POST("/getProvenceNo/")
+    @GET("/getProvenceNo/")
     public void getProvenceNo(NetCallback<NetWorkResultBean<List<RegionBean>>> NetCallback);
 
 
@@ -892,12 +892,11 @@ public interface UserApi {
      接口名称	getC_ly15
      发送时机	获取免赔额键值对,取得相应的免赔额对应的编码，以便和后台交互
      参数说明
-     * @param params
      * @param NetCallback
      */
     @FormUrlEncoded
     @POST("/getC_ly15/")
-    public void getC_ly15(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
+    public void getC_ly15( NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
 

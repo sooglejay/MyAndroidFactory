@@ -1,6 +1,8 @@
 package com.jiandanbaoxian.ui.buyinsurance;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -18,6 +20,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.me.historyprice.MyHistoryPriceItemActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -25,6 +28,7 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -44,13 +48,13 @@ public class InsureCarActivity extends BaseActivity {
 
     private EditText etUserIdCardNumber;
     private EditText etStartInsureDate;
+    private EditText et_car_cpcxdm_number;
     private TextView tv_sign_in_pick_date;
     private TextView tv_enquiry;
     private TextView tv_fazheng_date;
     private TextView tv_jqx_pick_date;
     private TextView tv_commercial_pick_date;
 
-    private int userid = -1;
     private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
 
 
@@ -62,11 +66,14 @@ public class InsureCarActivity extends BaseActivity {
 
     private ProgressDialogUtil progressDialogUtil;
 
+    private Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_car);
         progressDialogUtil = new ProgressDialogUtil(this, true);
+        activity = this;
         setUp();
         setLisenter();
     }
@@ -92,43 +99,21 @@ public class InsureCarActivity extends BaseActivity {
                 if (!tvEnquiryFlag) {
                     Toast.makeText(InsureCarActivity.this, "请先完善以上信息！", Toast.LENGTH_SHORT).show();
                 } else {
-                    tv_enquiry.setEnabled(false);
-                    tv_enquiry.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
 
-                    progressDialogUtil.show("正在生成订单...");
-                    userid = PreferenceUtil.load(InsureCarActivity.this, PreferenceConstant.userid, -1);
-                    UserRetrofitUtil.saveVehicleInfo(InsureCarActivity.this,
-                            userid,
-                            et_car_number.getText().toString(),
-                            et_car_fadongji_number.getText().toString(),
-                            et_car_jia_number.getText().toString(),
-                            0,
-                            signInTimeLong,
-                            et_user_name.getText().toString(),
+                    String carNumberString = et_car_number.getText().toString();
+                    String carFaDongJiNumber = et_car_fadongji_number.getText().toString();
+                    String carJiaNumber = et_car_jia_number.getText().toString();
+                    String userNameString = et_user_name.getText().toString();
+
+                    MyHistoryPriceItemActivity.startActivity(activity,
+                            carNumberString,
+                            carFaDongJiNumber,
+                            carJiaNumber,
+                            userNameString,
                             commercialTimeLong,
                             jqxTimeLong,
                             fazhengTimeLong,
-                            new NetCallback<NetWorkResultBean<CommData>>(InsureCarActivity.this) {
-                                @Override
-                                public void onFailure(RetrofitError error, String message) {
-                                    if (!TextUtils.isEmpty(message)) {
-                                        Toast.makeText(InsureCarActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(InsureCarActivity.this, "生成订单失败，请检查输入的内容是否合法！", Toast.LENGTH_SHORT).show();
-                                    }
-                                    progressDialogUtil.hide();
-                                    tv_enquiry.setEnabled(true);
-                                    tv_enquiry.setTextColor(getResources().getColor(R.color.white_color));
-
-                                }
-
-                                @Override
-                                public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-                                    progressDialogUtil.hide();
-                                    InsureCarActivity.this.finish();
-                                }
-                            }
-                    );
+                            signInTimeLong);
                 }
             }
         });
@@ -164,7 +149,7 @@ public class InsureCarActivity extends BaseActivity {
         tv_commercial_pick_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
+                final Calendar calendar = Calendar.getInstance();
                 new DatePickerDialog(InsureCarActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -183,7 +168,6 @@ public class InsureCarActivity extends BaseActivity {
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -255,6 +239,7 @@ public class InsureCarActivity extends BaseActivity {
         titleBar.initTitleBarInfo("车险", R.drawable.arrow_left, -1, "", "");
 
 
+        et_car_cpcxdm_number = (EditText) findViewById(R.id.et_car_cpcxdm_number);
         et_user_name = (EditText) findViewById(R.id.et_user_name);
         et_car_number = (EditText) findViewById(R.id.et_car_number);
         et_car_jia_number = (EditText) findViewById(R.id.et_car_jia_number);

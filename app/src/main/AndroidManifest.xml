@@ -196,7 +196,8 @@
         <activity
             android:name=".ui.buyinsurance.InsureCarActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".ui.buyinsurance.InsureJiaBanDogActivity"
             android:label="@string/app_name"
@@ -256,9 +257,18 @@
             android:screenOrientation="portrait"></activity>
 
         <!-- Activities responsible for gathering payment info -->
-        <activity android:name=".ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity"></activity>
-        <activity android:name=".ui.buyinsurance.OrderCofirmOnDrivingInsureActivity"></activity>
-        <activity android:name=".ui.buyinsurance.PayJiaBanDogInsureActivity"></activity>
+        <activity
+            android:name=".ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name=".ui.buyinsurance.OrderCofirmCarInsureActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name=".ui.buyinsurance.OrderCofirmOnDrivingInsureActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name=".ui.buyinsurance.PayJiaBanDogInsureActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".ui.me.myinsurance.MyInsuresListCarInsureDetailActivity"
             android:label="@string/app_name"></activity>

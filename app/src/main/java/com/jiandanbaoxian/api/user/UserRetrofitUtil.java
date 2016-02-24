@@ -814,17 +814,17 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                        String enginenumber,
                                        String framenumber,
                                        int seatingcapacity,
-                                       long registrationDate,
+                                       String registrationDate,
                                        String ownerName,
-                                       long commercestartdate,
-                                       long compulsorystartdate,
-                                       long issueDate,
+                                       String commercestartdate,
+                                       String compulsorystartdate,
+                                       String issueDate,
                                        String provence,
                                        String provnce_no,
                                        String city_no,
                                        String county_no,
-                                       int transfer,
-                                       int transferDate,
+                                       String transfer,
+                                       String transferDate,
                                        String idcardNum,
                                        String phone,
                                        int compulsoryAmt,
@@ -1826,7 +1826,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                  NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
-        git.getC_ly15("", callback);
+        git.getC_ly15(callback);
     }
 
     /**
@@ -1842,7 +1842,11 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                    NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
-        git.getCountyNo("", callback);
+        String k =
+                "cityNo=" + cityNo ;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getCountyNo(s, callback);
     }
 
 
@@ -1860,7 +1864,11 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                  NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
-        git.getCityNo("", callback);
+        String k =
+                "provenceNo=" + provenceNo ;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.getCityNo(s, callback);
     }
 
 
