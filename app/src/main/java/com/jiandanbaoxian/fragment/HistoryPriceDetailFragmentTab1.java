@@ -196,6 +196,7 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
         });
     }
 
+
     private void setUpListener() {
         tv_i_want_to_rebuy_insurance.setOnClickListener(new View.OnClickListener() {
             @Override
