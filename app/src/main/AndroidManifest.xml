@@ -194,7 +194,7 @@
 
         <!-- 买保险 页面-->
         <activity
-            android:name=".ui.buyinsurance.InsureCarActivity"
+            android:name=".ui.buyinsurance.car_insurance.CarInsuranceBaseInfoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
@@ -259,35 +259,50 @@
         <!-- Activities responsible for gathering payment info -->
         <activity
             android:name=".ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".ui.buyinsurance.OrderCofirmCarInsureActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".ui.buyinsurance.OrderCofirmOnDrivingInsureActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".ui.buyinsurance.PayJiaBanDogInsureActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".ui.me.myinsurance.MyInsuresListCarInsureDetailActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.me.myinsurance.MyInsuresListJiaBanDogInsureDetailActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.stopinsurance.TimePickerActivity" />
         <activity
             android:name=".ui.me.myinsurance.MyInsuresListDrivingInsureDetailActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.me.historyprice.MyHistoryPriceItemActivity"
-            android:label="@string/app_name">
-
-        </activity>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.buyinsurance.car_insurance.CarInsurancePickCarTypeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.buyinsurance.car_insurance.CarInsurancePricePlanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".test.PingPlusPlusTest"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
         </activity>
 

@@ -26,16 +26,15 @@ import com.jiandanbaoxian.model.ReportData;
 import com.jiandanbaoxian.model.SelfRecord;
 import com.jiandanbaoxian.model.TeamData;
 import com.jiandanbaoxian.model.Userstable;
+import com.jiandanbaoxian.model.VehicleTypeInfo;
 import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
 import com.jiandanbaoxian.util.Base64Util;
 import com.jiandanbaoxian.util.MD5Util;
 import com.jiandanbaoxian.util.RetrofitUtil;
-import com.jiandanbaoxian.widget.decoview.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.List;
 
 import retrofit.RestAdapter;
-import retrofit.http.Part;
 import retrofit.mime.TypedFile;
 
 public class UserRetrofitUtil extends RetrofitUtil {
@@ -1843,7 +1842,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
-                "cityNo=" + cityNo ;
+                "cityNo=" + cityNo;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.getCountyNo(s, callback);
@@ -1865,7 +1864,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
-                "provenceNo=" + provenceNo ;
+                "provenceNo=" + provenceNo;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
         git.getCityNo(s, callback);
@@ -1886,6 +1885,137 @@ public class UserRetrofitUtil extends RetrofitUtil {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.getProvenceNo(callback);
+    }
+
+
+    /***************** 服务端接口 121  华安保险流程 ********************/
+
+    /**
+     * 接口名称	vehcileTypeInfo
+     * 发送时机	查询华安车型信息，供用户选择具体车型
+     * 参数说明
+     * "1、String provence_no;//省级行政区代码
+     * 2、String licenseplate;//车牌号
+     * 3、String framenumber;//车架号
+     * 4、int  type ;// 0 华安保险"
+     *
+     * @param mContext
+     * @param provenceNo
+     * @param callback
+     */
+    public static void vehcileTypeInfo(Context mContext,
+                                       String provenceNo,
+                                       String licenseplate,
+                                       String framenumber,
+                                       String type,
+                                       NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "provence_no=" + provenceNo +
+                        "&licenseplate=" + licenseplate +
+                        "&framenumber=" + framenumber +
+                        "&type=" + type;
+
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.vehicleTypeInfo(s, callback);
+    }
+
+    /**
+     * 接口名称	quotaPrice
+     * 发送时机	用户扫描完后，进入下一步，或者跳转页面时，调此接口保存车辆信息，并生成报价单号，服务器会调用华安的折旧和报价接口，并返回报价结果
+     * 参数说明	"
+     * int userid； // 用户编号（当前登陆者）
+     * String licenseplate； // 车牌号
+     * String enginenumber； // 发动机号
+     * String framenumber； // 车架号
+     * Int seatingcapacity； // 几座
+     * Float newValue； // 新车购置价
+     * String model_code； // 车型代码
+     * Int registrationDate； // 登记时间 （毫秒）
+     * String ownerName； // 车主姓名
+     * Int commercestartdate； //商业险起效日期（毫秒），没有则给0
+     * Int compulsorystartdate ; //交强险起效日期（毫秒），没有则给0
+     * 12、int issueDate;//发证日期（毫秒）
+     * 13、String provence ;//省名字
+     * 14、String  provnce_no ;//省级行政区域代码，提供了接口
+     * 15、String city_no;//市行政区域代码，提供了接口
+     * 16、String county_no;//县级行政区域代码，提供了接口
+     * 17、int  transfer;//是否过户    0否  1是
+     * 18、int  transferDate;//  若过户   过户日期（毫秒），否则传0
+     * 19、String idcardNum;//   身份证号
+     * 20、String phone;//投保人电话
+     * 21、int compulsoryAmt ;//交强险保额（元）
+     * 22、String insuranceItems ;//对应华安中保险种类5.4.9对象生成的json数组,对象中 没有的值就给-1、amt属性给0/0.0。车损险和自燃险保额也可以给默认值0，服务器自己赋实际值。只买了两个险的示例：[{"amt":0,"bullet_glass":-1,"c_ly15":-1,"franchise_flag":-1,"insrnc_cde":"030101","insrnc_name":"","number":-1,"premium":0,"remark":"-1"},
+     * {"amt":0,"bullet_glass":-1,"c_ly15":-1,"franchise_flag":-1,"insrnc_cde":"030103","insrnc_name":"","number":-1,"premium":0,"remark":"-1"}]
+     * 23、int type;// 0 华安保险"
+     * 限制条件	"参数1--23为必填，若用户未填9就默认传userid值
+     * 10、11若只选则了一个（至少选择一个），则未选中的给默认值0"
+     * 返回结果	"参见对象5.4.12
+     * <p/>
+     * [{"amt":0,"bullet_glass":-1,"c_ly15":-1,"franchise_flag":-1,"insrnc_cde":"030101","insrnc_name":"","number":-1,"premium":0,"remark":"-1"},
+     * {"amt":0,"bullet_glass":-1,"c_ly15":-1,"franchise_flag":-1,"insrnc_cde":"030103","insrnc_name":"","number":-1,"premium":0,"remark":"-1"}]
+     * <p/>
+     * <p/>
+     * <p/>
+     * "
+     */
+    public static void quotaPrice(Context mContext,
+                                  String userid,
+                                  String licenseplate,
+                                  String enginenumber,
+                                  String framenumber,
+                                  String seatingcapacity,
+                                  String newValue,
+                                  String model_code,
+                                  String registrationDate,
+                                  String ownerName,
+                                  String commercestartdate,
+                                  String compulsorystartdate,
+                                  String issueDate,
+                                  String provence,
+                                  String provnce_no,
+                                  String city_no,
+                                  String county_no,
+                                  String transfer,
+                                  String transferDate,
+                                  String idcardNum,
+                                  String phone,
+                                  String compulsoryAmt,
+                                  String insuranceItems,
+                                  String type,
+                                  NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k =
+                "userid=" + userid +
+                        "&licenseplate=" + licenseplate +
+                        "&enginenumber=" + enginenumber +
+                        "&framenumber=" + framenumber +
+                        "&seatingcapacity=" + seatingcapacity +
+                        "&newValue=" + newValue +
+                        "&model_code=" + model_code +
+                        "&registrationDate=" + registrationDate +
+                        "&ownerName=" + ownerName +
+                        "&commercestartdate=" + commercestartdate +
+                        "&compulsorystartdate=" + compulsorystartdate +
+                        "&issueDate=" + issueDate +
+                        "&provence=" + provence +
+                        "&provence_no=" + provnce_no +
+                        "&city_no=" + city_no +
+                        "&county_no=" + county_no +
+                        "&transfer=" + transfer +
+                        "&transferDate=" + transferDate +
+                        "&idcardNum=" + idcardNum +
+                        "&phone=" + phone +
+                        "&compulsoryAmt=" + compulsoryAmt +
+                        "&insuranceItems=" + insuranceItems +
+                        "&type=" + type;
+
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        git.quotaPrice(s, callback);
     }
 
 

@@ -10,13 +10,21 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.adapter.RegionListAdapter;
 import com.jiandanbaoxian.constant.StringConstant;
+import com.jiandanbaoxian.model.RegionBean;
 import com.jiandanbaoxian.ui.MyModifyPasswordActivity;
 import com.jungly.gridpasswordview.GridPasswordView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/10/18.
@@ -25,6 +33,7 @@ public class DialogFragmentCreater extends DialogFragment {
     public static final int DialogShowInputPasswordDialog = 1000;//权限控制，当特殊操作时，要求输入密码
     public static final int DialogShowConfirmOrCancelDialog = 1001;// 我要报案 -点击item弹出对话框
     public static final int DialogShowSingleChoiceDialog = 1002;// 成功报案后，需要弹出对话框 显示 一些文字
+    public static final int DialogShowRegionChoiceDialog = 1003;// 车险首页，选择行驶区域
     public final static String dialog_fragment_key = "fragment_id";
     public final static String dialog_fragment_tag = "dialog";
     private Context mContext;
@@ -39,6 +48,12 @@ public class DialogFragmentCreater extends DialogFragment {
 
     private Dialog outerDialog;
     private OnDialogClickLisenter onDialogClickLisenter;
+
+    public void setOnDialogBackClickLisenter(OnDialogBackClickLisenter onDialogBackClickLisenter) {
+        this.onDialogBackClickLisenter = onDialogBackClickLisenter;
+    }
+
+    private OnDialogBackClickLisenter onDialogBackClickLisenter;
 
     public void setOnPasswordDialogClickListener(OnPasswordDialogClickListener onPasswordDialogClickListener) {
         this.onPasswordDialogClickListener = onPasswordDialogClickListener;
@@ -55,6 +70,16 @@ public class DialogFragmentCreater extends DialogFragment {
 
         //回调控制方法
         public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content);
+
+    }
+
+    public interface OnDialogBackClickLisenter {
+        public void onClickBack(String tvText, List<RegionBean> regionBeans, View view);
+
+
+        //ListView 的方法
+        public void onItemClickListener(int position, long id);
+
     }
 
     //专为密码  设置的回调
@@ -119,6 +144,8 @@ public class DialogFragmentCreater extends DialogFragment {
                     return showConfirmOrCancelDialog(mContext);
                 case DialogShowSingleChoiceDialog:
                     return showSingleChoiceDialog(mContext);
+                case DialogShowRegionChoiceDialog:
+                    return showRegionChoiceDialog(mContext);
                 default:
                     break;
             }
@@ -267,6 +294,71 @@ public class DialogFragmentCreater extends DialogFragment {
         return dialog;
     }
 
+
+    private List<RegionBean> regionBeans = new ArrayList<>();
+    private String titleText = "";
+    RegionListAdapter adapter;
+    TextView tvTitle;
+    ListView listView;
+    LinearLayout layoutBack;
+
+    //you should setData first,and then show dialog
+    public void setData(List<RegionBean> regionBeans, String titleText) {
+        this.regionBeans = regionBeans;
+        this.titleText = titleText;
+    }
+
+    public void updateData(List<RegionBean> regionBeans, String text) {
+        this.titleText = text;
+
+        if (tvTitle != null) {
+            tvTitle.setText(this.titleText);
+        }
+        adapter = new RegionListAdapter(regionBeans, mContext);
+        listView.setAdapter(adapter);
+
+
+    }
+
+    private Dialog showRegionChoiceDialog(final Context mContext) {
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.dialog_region_choice, null);
+        final Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.layout_back:
+                        if (onDialogBackClickLisenter != null) {
+                            onDialogBackClickLisenter.onClickBack(titleText, regionBeans, v);
+                        }
+                        break;
+                }
+            }
+        };
+
+        tvTitle = (TextView) convertView.findViewById(R.id.tv_region_name);
+        listView = (ListView) convertView.findViewById(R.id.list_view);
+        layoutBack = (LinearLayout) convertView.findViewById(R.id.layout_back);
+        adapter = new RegionListAdapter(regionBeans, mContext);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (onDialogBackClickLisenter != null) {
+                    onDialogBackClickLisenter.onItemClickListener(position, id);
+                }
+
+            }
+        });
+
+        tvTitle.setText(titleText);
+        layoutBack.setOnClickListener(listener);
+
+        dialog.setContentView(convertView);
+        dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
+        return dialog;
+    }
+
     private Dialog signOutDialog() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -299,5 +391,6 @@ public class DialogFragmentCreater extends DialogFragment {
         dialog.getWindow().setWindowAnimations(R.style.dialog_right_control_style);
         return dialog;
     }
+
 
 }

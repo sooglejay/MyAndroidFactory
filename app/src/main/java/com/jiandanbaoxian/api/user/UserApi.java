@@ -23,8 +23,8 @@ import com.jiandanbaoxian.model.ReportData;
 import com.jiandanbaoxian.model.SelfRecord;
 import com.jiandanbaoxian.model.TeamData;
 import com.jiandanbaoxian.model.Userstable;
+import com.jiandanbaoxian.model.VehicleTypeInfo;
 import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
-import com.jiandanbaoxian.widget.decoview.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.List;
 
@@ -971,6 +971,32 @@ public interface UserApi {
     public void huanDistribution(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+    /***************** 服务端接口 121  华安保险流程 ********************/
+
+    //车型查询
+    @FormUrlEncoded
+    @POST("/vehcileTypeInfo/")
+    public void vehicleTypeInfo(@Field("param") String params, NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>> NetCallback);
+
+
+
+
+    //上传车辆信息去 报价
+    @FormUrlEncoded
+    @POST("/quotaPrice/")
+    public void quotaPrice(@Field("param") String params, NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>> NetCallback);
 
 
 

@@ -26,11 +26,15 @@ import com.jiandanbaoxian.fragment.ServerConsultorFragment;
 import com.jiandanbaoxian.fragment.ShutInsureFragment;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.model.VehicleTypeInfo;
+import com.jiandanbaoxian.test.API_Test;
 import com.jiandanbaoxian.util.UpdateVersionUtil;
 import com.jiandanbaoxian.widget.ScrollableViewPager;
 import com.jiandanbaoxian.widget.TabBar;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
+
+import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -227,7 +231,12 @@ public class MainActivity extends BaseActivity {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(tabBarStatusReceiver);
         }
         MobclickAgent.onPause(this);
+
+
+        API_Test.getProvince(this);
     }
+
+
 
     @Override
     public void onBackPressed() {

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.R;
-import com.jiandanbaoxian.ui.buyinsurance.InsureCarActivity;
+import com.jiandanbaoxian.ui.buyinsurance.car_insurance.CarInsuranceBaseInfoActivity;
 import com.jiandanbaoxian.ui.buyinsurance.InsureJiaBanDogActivity;
 import com.jiandanbaoxian.ui.buyinsurance.InsureOnDrivingActivity;
 import com.jiandanbaoxian.ui.buyinsurance.PengciActivity;
@@ -74,7 +74,7 @@ public class BuyInsureFragment extends BaseFragment {
         view.findViewById(R.id.layout_insure_car).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), InsureCarActivity.class));
+                getActivity().startActivity(new Intent(getActivity(), CarInsuranceBaseInfoActivity.class));
 
             }
         });
