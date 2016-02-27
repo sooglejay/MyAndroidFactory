@@ -2,6 +2,7 @@ package com.jiandanbaoxian.api.user;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.model.AccountData;
@@ -1989,32 +1990,33 @@ public class UserRetrofitUtil extends RetrofitUtil {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
-                "userid=" + userid +
-                        "&licenseplate=" + licenseplate +
-                        "&enginenumber=" + enginenumber +
-                        "&framenumber=" + framenumber +
-                        "&seatingcapacity=" + seatingcapacity +
-                        "&newValue=" + newValue +
-                        "&model_code=" + model_code +
-                        "&registrationDate=" + registrationDate +
-                        "&ownerName=" + ownerName +
-                        "&commercestartdate=" + commercestartdate +
-                        "&compulsorystartdate=" + compulsorystartdate +
-                        "&issueDate=" + issueDate +
-                        "&provence=" + provence +
-                        "&provence_no=" + provnce_no +
-                        "&city_no=" + city_no +
-                        "&county_no=" + county_no +
-                        "&transfer=" + transfer +
-                        "&transferDate=" + transferDate +
-                        "&idcardNum=" + idcardNum +
-                        "&phone=" + phone +
-                        "&compulsoryAmt=" + compulsoryAmt +
+                "userid=" + 48 +
+                        "&licenseplate=" + "鲁Y6U166" +
+                        "&enginenumber=" + "1201279207" +
+                        "&framenumber=" +"LGWCAC1A2CC000143" +
+                        "&seatingcapacity=" + "0" +
+                        "&newValue=" + "76500" +
+                        "&model_code=" + "DED1119BDC" +
+                        "&registrationDate=" + "1330531200000" +
+                        "&ownerName=" + "林宗钱" +
+                        "&commercestartdate=" + commercestartdate+
+                        "&compulsorystartdate=" +0+
+                        "&issueDate=" + "1330531200000" +
+                        "&provence=" + "山东省" +
+                        "&provence_no=" + "370000" +
+                        "&city_no=" + "370600" +
+                        "&county_no=" + "370613" +
+                        "&transfer=" + 0 +
+                        "&transferDate=" + 0 +
+                        "&idcardNum=" + "320681198612020056" +
+                        "&phone=" + "13700000000" +
+                        "&compulsoryAmt=" + 1000 +
                         "&insuranceItems=" + insuranceItems +
-                        "&type=" + type;
+                        "&type=" + "0";
 
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        Log.e("qq",  insuranceItems);
         git.quotaPrice(s, callback);
     }
 

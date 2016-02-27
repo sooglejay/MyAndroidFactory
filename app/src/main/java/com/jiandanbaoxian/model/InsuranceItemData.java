@@ -24,11 +24,6 @@ public class InsuranceItemData implements Parcelable {
                 '}';
     }
 
-    public String toJson() {
-        return "[{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":-1,\"insrnc_cde\":\"030101\",\"insrnc_name\":\"\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"}," +
-                "{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":-1,\"insrnc_cde\":\"030103\",\"insrnc_name\":\"\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"}]";
-    }
-
 
     /**
      * insrnc_cde	String	保险类别编号	Y
@@ -44,7 +39,7 @@ public class InsuranceItemData implements Parcelable {
     private String insrnc_cde;
     private String insrnc_name;
     private String remark;
-    private Float amt;
+    private String amt;
     private Float premium;
     private Integer number;
     private Integer franchise_flag;
@@ -61,7 +56,7 @@ public class InsuranceItemData implements Parcelable {
         dest.writeString(this.insrnc_cde);
         dest.writeString(this.insrnc_name);
         dest.writeString(this.remark);
-        dest.writeValue(this.amt);
+        dest.writeString(this.amt);
         dest.writeValue(this.premium);
         dest.writeValue(this.number);
         dest.writeValue(this.franchise_flag);
@@ -76,7 +71,7 @@ public class InsuranceItemData implements Parcelable {
         this.insrnc_cde = in.readString();
         this.insrnc_name = in.readString();
         this.remark = in.readString();
-        this.amt = (Float) in.readValue(Float.class.getClassLoader());
+        this.amt = (String) in.readValue(Float.class.getClassLoader());
         this.premium = (Float) in.readValue(Float.class.getClassLoader());
         this.number = (Integer) in.readValue(Integer.class.getClassLoader());
         this.franchise_flag = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -118,11 +113,11 @@ public class InsuranceItemData implements Parcelable {
         this.remark = remark;
     }
 
-    public Float getAmt() {
+    public String getAmt() {
         return amt;
     }
 
-    public void setAmt(Float amt) {
+    public void setAmt(String amt) {
         this.amt = amt;
     }
 

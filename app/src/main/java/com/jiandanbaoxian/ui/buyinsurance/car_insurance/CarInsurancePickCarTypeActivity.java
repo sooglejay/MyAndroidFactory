@@ -46,6 +46,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
     private String country_no = "";
     private String country_name = "";
     private String model_code = "";
+    private float newValue = 0;
     private String transfer = "";
     private String transferDate = "";
     private String regiterationDateString = "";
@@ -62,6 +63,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
     private ListView listView;
     private TextView tvEnquiry;
 
+
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -74,12 +76,12 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         tvEnquiry = (TextView) findViewById(R.id.tv_enquiry);
     }
 
-    public static void startActivity(Activity activity, String engineNumber, String framenumber, String userName,
-            String province_no,String province_name,String city_no,String city_name,String country_no,String country_name,
-                                     String transfer,String transferDate,String registerationDateString,String issueDateString) {
+    public static void startActivity(Activity activity, String engineNumber, String frameNumber, String userName,
+                                     String province_no, String province_name, String city_no, String city_name, String country_no, String country_name,
+                                     String transfer, String transferDate, String registrationDateString, String issueDateString) {
         Intent intent = new Intent(activity, CarInsurancePickCarTypeActivity.class);
         intent.putExtra("engineNumber", engineNumber);
-        intent.putExtra("frameNumber", framenumber);
+        intent.putExtra("frameNumber", frameNumber);
         intent.putExtra("userName", userName);
         intent.putExtra("province_no", province_no);
         intent.putExtra("province_name", province_name);
@@ -89,7 +91,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         intent.putExtra("country_name", country_name);
         intent.putExtra("transfer", transfer);
         intent.putExtra("transferDate", transferDate);
-        intent.putExtra("registerationDateString", registerationDateString);
+        intent.putExtra("registrationDateString", registrationDateString);
         intent.putExtra("issueDateString", issueDateString);
         activity.startActivity(intent);
     }
@@ -112,7 +114,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         country_name = getIntent().getStringExtra("country_name");
         transfer = getIntent().getStringExtra("transfer");
         transferDate = getIntent().getStringExtra("transferDate");
-        regiterationDateString = getIntent().getStringExtra("regiterationDateString");
+        regiterationDateString = getIntent().getStringExtra("registerationDateString");
         issueDateString = getIntent().getStringExtra("issueDateString");
 
         findViews();
@@ -138,9 +140,8 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (isValidToNextActivity) {
-                    CarInsurancePricePlanActivity.startActivity(activity, engineNumber, model_code, frameNumber, userName,
-                            provence_no,province_name,city_no,city_name,country_no,country_name,transfer,transferDate,regiterationDateString,issueDateString);
-                } else {
+                    CarInsurancePricePlanActivity.startActivity(activity, engineNumber, model_code, newValue, frameNumber, userName,
+                            provence_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString);
                 }
             }
         });
@@ -157,6 +158,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
                         bean.setIsSelected(false);
                     vehicleTypeInfos.get(position).setIsSelected(true);
                     model_code = vehicleTypeInfos.get(position).getModel_code();
+                    newValue = vehicleTypeInfos.get(position).getCar_price();
                     adapter.notifyDataSetChanged();
                 }
             }

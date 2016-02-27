@@ -25,4 +25,33 @@ public class PreferenceConstant {
     public static final String pwd = "pwd";
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //car insurance preference constant
+    public static final String engineNumber = "engineNumber";
+    public static final String frameNumber = "frameNumber";
+    public static final String etOwnerName = "etOwnerName";
+    public static final String etIdNumber = "etIdNumber";
+    public static final String etLicensePlateNumber = "etLicensePlateNumber";
+
+
+
+
+
+
+
+
 }

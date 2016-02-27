@@ -208,7 +208,7 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
                     String item = "";
 
                     InsuranceItemData itemData = new InsuranceItemData();
-                    itemData.setAmt(0f);
+                    itemData.setAmt(0+"");
                     itemData.setBullet_glass(-1);
                     itemData.setC_ly15(-1);
                     itemData.setFranchise_flag(-1);
@@ -220,7 +220,7 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
 
 
                     InsuranceItemData itemData1 = new InsuranceItemData();
-                    itemData1.setAmt(0f);
+                    itemData1.setAmt(0+"");
                     itemData1.setBullet_glass(-1);
                     itemData1.setC_ly15(-1);
                     itemData1.setFranchise_flag(-1);
@@ -235,7 +235,7 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
                     list[0] = itemData;
                     list[1] = itemData1;
 
-                    item = itemData.toJson();
+                    item = itemData.toString();
                     UserRetrofitUtil.saveVehicleInfo(activity, userid,
                             carNumberString,
                             carFaDongJiNumber,

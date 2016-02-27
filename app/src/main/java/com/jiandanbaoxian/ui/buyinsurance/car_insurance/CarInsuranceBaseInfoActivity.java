@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -22,7 +21,6 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.ExtraConstants;
 import com.jiandanbaoxian.constant.PreferenceConstant;
-import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.fragment.DialogFragmentCreater;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.RegionBean;
@@ -32,7 +30,6 @@ import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
-import com.jiandanbaoxian.widget.citypicker.ChooseCityActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,7 +62,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     private int userId = -1;
     private String transfer = "0";
     private String transferDate = "0";
-    private String registerationDateString = "0";
+    private String registrationDateString = "0";
     private String issueDateString = "0";
 
     private String province_no = "";
@@ -181,7 +178,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                             e.printStackTrace();
                             Toast.makeText(activity, "Error in convert time !", Toast.LENGTH_LONG).show();
                         } finally {
-                            registerationDateString = jqxTimeLong + "";
+                            registrationDateString = jqxTimeLong + "";
                         }
 
                     }
@@ -240,11 +237,11 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                 userName = etOwnerName.getText().toString();
                 if (isValidToNextActivity) {
                     CarInsurancePickCarTypeActivity.startActivity(activity, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registerationDateString, issueDateString);
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registrationDateString, issueDateString);
                 } else {
                     Toast.makeText(activity, "请完善以上信息！", Toast.LENGTH_LONG).show();
                     CarInsurancePickCarTypeActivity.startActivity(activity, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registerationDateString, issueDateString);
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registrationDateString, issueDateString);
                 }
             }
         });
@@ -261,6 +258,8 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
             public void onClick(View v) {
                 layoutIssueDate.setVisibility(View.GONE);
                 line.setVisibility(View.GONE);
+                transfer = "0";
+                transferDate = "0";
                 tvAssignedNo.setTextColor(Color.parseColor("#ffffff"));
                 tvAssignedNo.setBackgroundResource(R.drawable.btn_select_base);
                 tvAssignedYes.setTextColor(Color.parseColor("#3d3d3d"));
@@ -272,6 +271,9 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         tvAssignedYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                transfer = "1";
+                transferDate = issueDateString;
+
                 layoutIssueDate.setVisibility(View.VISIBLE);
                 line.setVisibility(View.VISIBLE);
                 tvAssignedYes.setTextColor(Color.parseColor("#ffffff"));
@@ -477,5 +479,31 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PreferenceUtil.save(this, PreferenceConstant.engineNumber, etEngineNumber.getText().toString());
+        PreferenceUtil.save(this, PreferenceConstant.frameNumber, etVehicleFrameNumber.getText().toString());
+        PreferenceUtil.save(this, PreferenceConstant.etOwnerName, etOwnerName.getText().toString());
+        PreferenceUtil.save(this, PreferenceConstant.etIdNumber, etIdNumber.getText().toString());
+        PreferenceUtil.save(this, PreferenceConstant.etLicensePlateNumber, etLicensePlateNumber.getText().toString());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+//        String engineNumberString = PreferenceUtil.load(this, PreferenceConstant.engineNumber, "");
+//        String IdNumber = PreferenceUtil.load(this, PreferenceConstant.etIdNumber, "");
+//        String ownerName = PreferenceUtil.load(this, PreferenceConstant.etOwnerName, "");
+//        String licensePlateNumber = PreferenceUtil.load(this, PreferenceConstant.etLicensePlateNumber, "");
+//        String frameNumber = PreferenceUtil.load(this, PreferenceConstant.frameNumber, "");
+//
+//        etIdNumber.setText(IdNumber);
+//        etOwnerName.setText(ownerName);
+//        etVehicleFrameNumber.setText(frameNumber);
+//        etLicensePlateNumber.setText(licensePlateNumber);
+//        etEngineNumber.setText(engineNumberString);
+
+    }
 }
