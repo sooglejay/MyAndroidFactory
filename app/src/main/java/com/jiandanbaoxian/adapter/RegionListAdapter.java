@@ -50,7 +50,6 @@ public class RegionListAdapter extends BaseAdapter {
         if (view == null) {
             view = View.inflate(activity, R.layout.item_region_list, null);
             holder.brand_name = (TextView) view.findViewById(R.id.tv_region_name);
-            holder.item = (LinearLayout) view.findViewById(R.id.item);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -62,7 +61,6 @@ public class RegionListAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         private TextView brand_name;
-        private LinearLayout item;
 
 
     }

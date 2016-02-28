@@ -56,9 +56,12 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     private int flag_choose_region_counter = 0;//0-province 1-city  2-country
 
 
-    private String engineNumber = "6B210020";
-    private String frameNumber = "LSGJT62U87S009773";
+    private String licenseplate = "5010407";
+    private String engineNumber = "5010407";
+    private String frameNumber = "LDC813X49C2052974";
     private String userName = "";
+    private String vehicleType = "";
+    private String idCardNumber = "";
     private int userId = -1;
     private String transfer = "0";
     private String transferDate = "0";
@@ -235,13 +238,16 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                 engineNumber = etEngineNumber.getText().toString();
                 frameNumber = etVehicleFrameNumber.getText().toString();
                 userName = etOwnerName.getText().toString();
+                idCardNumber = etIdNumber.getText().toString();
+                licenseplate = etLicensePlateNumber.getText().toString();
+                vehicleType = etVehicleType.getText().toString();
                 if (isValidToNextActivity) {
-                    CarInsurancePickCarTypeActivity.startActivity(activity, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registrationDateString, issueDateString);
+                    CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate,engineNumber, frameNumber, userName
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registrationDateString, issueDateString, idCardNumber);
                 } else {
                     Toast.makeText(activity, "请完善以上信息！", Toast.LENGTH_LONG).show();
-                    CarInsurancePickCarTypeActivity.startActivity(activity, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registrationDateString, issueDateString);
+                    CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate,engineNumber, frameNumber, userName
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, registrationDateString, issueDateString, idCardNumber);
                 }
             }
         });
@@ -416,9 +422,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         etOwnerName.addTextChangedListener(textWatcher);
 
 
-        etEngineNumber.setText("6B210020");
-        etVehicleFrameNumber.setText("LSGJT62U87S009773");
-
         tvConfirm.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
         tvConfirm.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
 
@@ -493,17 +496,17 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-//        String engineNumberString = PreferenceUtil.load(this, PreferenceConstant.engineNumber, "");
-//        String IdNumber = PreferenceUtil.load(this, PreferenceConstant.etIdNumber, "");
-//        String ownerName = PreferenceUtil.load(this, PreferenceConstant.etOwnerName, "");
-//        String licensePlateNumber = PreferenceUtil.load(this, PreferenceConstant.etLicensePlateNumber, "");
-//        String frameNumber = PreferenceUtil.load(this, PreferenceConstant.frameNumber, "");
-//
-//        etIdNumber.setText(IdNumber);
-//        etOwnerName.setText(ownerName);
-//        etVehicleFrameNumber.setText(frameNumber);
-//        etLicensePlateNumber.setText(licensePlateNumber);
-//        etEngineNumber.setText(engineNumberString);
+        String engineNumberString = PreferenceUtil.load(this, PreferenceConstant.engineNumber, "");
+        String IdNumber = PreferenceUtil.load(this, PreferenceConstant.etIdNumber, "");
+        String ownerName = PreferenceUtil.load(this, PreferenceConstant.etOwnerName, "");
+        String licensePlateNumber = PreferenceUtil.load(this, PreferenceConstant.etLicensePlateNumber, "");
+        String frameNumber = PreferenceUtil.load(this, PreferenceConstant.frameNumber, "");
+
+        etIdNumber.setText(IdNumber);
+        etOwnerName.setText(ownerName);
+        etVehicleFrameNumber.setText(frameNumber);
+        etLicensePlateNumber.setText(licensePlateNumber);
+        etEngineNumber.setText(engineNumberString);
 
     }
 }

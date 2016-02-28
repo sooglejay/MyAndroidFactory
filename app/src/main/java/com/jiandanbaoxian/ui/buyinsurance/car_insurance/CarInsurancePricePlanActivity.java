@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -18,11 +19,13 @@ import com.jiandanbaoxian.adapter.SpinnerDropDownAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.InsuranceItemData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.VehicleTypeInfo;
 import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
+import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.customswitch.SwitchButton;
 
 import android.widget.TextView;
@@ -32,13 +35,12 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.widget.TitleBar;
 
-import net.sf.json.JSONArray;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -48,16 +50,13 @@ import retrofit.client.Response;
  * Created by sooglejay on 16/2/24.
  */
 public class CarInsurancePricePlanActivity extends BaseActivity {
-
-    private List<String> mWeekNumbersStringList = new ArrayList<>();
-    private SpinnerDropDownAdapter spinnerDropDownAdapter;
-
     private Activity activity;
+    ProgressDialogUtil progressDialogUtil;
 
     String userid = "";
     String engineNumber = "";
     String seatingcapacity = "0";
-    float newValue = 0;
+    double newValue = 0;
     String model_code = "";
     String ownerName = "";
     String commercestartdate = "0";
@@ -83,15 +82,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     String idcardNum = "";
     String phone = "13678054216";
     String compulsoryAmt = "10000";
-    String insuranceItems =
-            "[" +
-                    "{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030101\",\"insrnc_name\":\"hello\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"},\n" +
-                    "{\"amt\":306006009,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030102\",\"insrnc_name\":\"hello\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"},\n" +
-                    "{\"amt\":10000,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030104\",\"insrnc_name\":\"hello\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"},\n" +
-                    "{\"amt\":10000,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030105\",\"insrnc_name\":\"hello\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"},\n" +
-                    "{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":-1,\"insrnc_cde\":\"030107\",\"insrnc_name\":\"hello\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"},\n" +
-                    "{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":-1,\"insrnc_cde\":\"030116\",\"insrnc_name\":\"hello\",\"number\":-1,\"premium\":0,\"remark\":\"-1\"}]\n" +
-                    "";
+    String insuranceItems = "";
     String type = "0";
 
 
@@ -105,6 +96,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     InsuranceItemData rob_insurance = new InsuranceItemData();
 
 
+    //附加险
     InsuranceItemData shade_lining_insurance = new InsuranceItemData();
     InsuranceItemData risk_of_spontaneous_combustion_insurance = new InsuranceItemData();
     InsuranceItemData risk_of_new_equipment_insurance = new InsuranceItemData();
@@ -144,17 +136,75 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     private boolean flag_layout_SDEWRiskOfEngineWadingInsurance = true;
 
 
+    List<String> valuesOfScratchesInsurance = new ArrayList<>();
+    List<String> valuesOfThirdResponsibilityInsurance = new ArrayList<>();
+    List<String> valuesOfMotorVehicleLossInsurance = new ArrayList<>();
+    List<String> valuesOfCabSeatInsurance = new ArrayList<>();
+    List<String> valuesOfEngineWadingInsurance = new ArrayList<>();
+    List<String> valuesOfPassengerSeatInsurance = new ArrayList<>();
+
+    List<String> valuesOfRobInsurance = new ArrayList<>();
+    List<String> valuesOfShadeLiningInsurance = new ArrayList<>();
+    List<String> valuesOfRiskOfSpontaneousCombustionInsurance = new ArrayList<>();
+    List<String> valuesOfRiskOfNewEquipmentInsurance = new ArrayList<>();
+
+
+    private SpinnerDropDownAdapter spinnerAdapterRiskOfScratchesInsurance;
+    private SpinnerDropDownAdapter spinnerAdapterThirdResponsibilityInsurance;
+
+    private SpinnerDropDownAdapter spinnerAdapterMotorVehicleLossInsurance;
+    private SpinnerDropDownAdapter spinnerAdapterCabSeatInsurance;
+    private SpinnerDropDownAdapter spinnerAdapterEngineWadingInsurance;
+    private SpinnerDropDownAdapter spinnerAdapterPassengerSeatInsurance;
+    private SpinnerDropDownAdapter spinnerAdapterRobInsurance;
+
+    private SpinnerDropDownAdapter spinnerAdapterShadeLiningInsurance;
+    private SpinnerDropDownAdapter spinnerAdapterRiskOfSpontaneousCombustionInsurance;
+    private SpinnerDropDownAdapter spinnerAdapterRiskOfNewEquipmentInsurance;
+
+
+    //不同险种的保额如下：
+    //刮痕险
+//    365001：2000.00
+//    365002：5000.00
+//    365003：10000.00
+//    365004：20000.00
+
+    //三者险
+//    306006004：50000元
+//    306006005：100000元
+//    306006018：150000元
+//    306006006：200000元
+//    306006007：300000元
+//    306006009：500000元
+//    306006014：1000000元
+//    306006019：1500000元
+//    306006020：2000000元
+//    306006021：2500000元
+//    306006022：3000000元
+//    306006023：3500000元
+//    306006024：4000000元
+//    306006025：4500000元
+//    306006026：5000000元
+
+    private HashMap<String, Double> hashRiskOfScratchesInsurance = new HashMap<>();
+    private HashMap<String, Double> hashThridResponsibilityInsurance = new HashMap<>();
+    private HashMap<String, Double> hashCabSeatInsurance = new HashMap<>();
+
+
     private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
 
 
-    public static void startActivity(Activity activity, String engineNumber,
+    public static void startActivity(Activity activity, String licenseplate,
+                                     String engineNumber,
                                      String model_code,
                                      float newValue,
                                      String framenumber,
                                      String ownerName,
                                      String province_no, String province_name, String city_no, String city_name, String country_no, String country_name,
-                                     String transfer, String transferDate, String registerationDateString, String issueDateString) {
+                                     String transfer, String transferDate, String registerationDateString, String issueDateString,String idcardNum) {
         Intent intent = new Intent(activity, CarInsurancePricePlanActivity.class);
+        intent.putExtra("licenseplate", licenseplate);
         intent.putExtra("engineNumber", engineNumber);
         intent.putExtra("frameNumber", framenumber);
         intent.putExtra("userName", ownerName);
@@ -170,11 +220,11 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         intent.putExtra("transferDate", transferDate);
         intent.putExtra("registrationDateString", registerationDateString);
         intent.putExtra("issueDateString", issueDateString);
+        intent.putExtra("idcardNum", idcardNum);
 
 
         activity.startActivity(intent);
     }
-
     private LinearLayout layoutCommercialDatePicker;
     private TextView tvCommercialStartDate;
     private LinearLayout layoutCompulsoryDatePicker;
@@ -208,21 +258,16 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     private ImageView ivSDEWShadeLiningInsurance;
     private TextView tvSDEWShadeLiningInsurance;
     private SwitchButton switchTabViewShadeLining;
-    private Spinner spinnerRiskOfSpontaneousCombustion;
-    private LinearLayout layoutRiskOfSpontaneousCombustionInsurance;
-    private ImageView ivSDEWRiskOfSpontaneousCombustionInsurance;
-    private TextView tvSDEWRiskOfSpontaneousCombustionInsurance;
-    private SwitchButton switchTabViewRiskOfSpontaneousCombustion;
-    private Spinner spinnerNewEquipmentRisk;
-    private LinearLayout layoutRiskOfNewEquipmentInsurance;
-    private ImageView ivSDEWRiskOfNewEquipmentInsurance;
-    private TextView tvSDEWRiskOfNewEquipmentInsurance;
-    private SwitchButton switchTabViewRiskOfNewEquipment;
     private Spinner spinnerScratchesRisk;
     private LinearLayout layoutRiskOfScratchesInsurance;
     private ImageView ivSDEWRiskOfScratchesInsurance;
     private TextView tvSDEWRiskOfScratchesInsurance;
     private SwitchButton switchTabViewRiskOfScratches;
+    private Spinner spinnerRiskOfSpontaneousCombustion;
+    private LinearLayout layoutRiskOfSpontaneousCombustionInsurance;
+    private ImageView ivSDEWRiskOfSpontaneousCombustionInsurance;
+    private TextView tvSDEWRiskOfSpontaneousCombustionInsurance;
+    private SwitchButton switchTabViewRiskOfSpontaneousCombustion;
     private Spinner spinnerEngineWadingInsuranceRisk;
     private LinearLayout layoutRiskOfEngineWadingInsurance;
     private ImageView ivSDEWRiskOfEngineWadingInsurance;
@@ -234,67 +279,60 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     /**
      * Find the Views in the layout<br />
      * <br />
-     * Auto-created on 2016-02-27 19:26:39 by Android Layout Finder
+     * Auto-created on 2016-02-28 16:11:25 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        layoutCommercialDatePicker = (LinearLayout) findViewById(R.id.layout_commercial_date_picker);
-        tvCommercialStartDate = (TextView) findViewById(R.id.tv_commercial_start_date);
-        layoutCompulsoryDatePicker = (LinearLayout) findViewById(R.id.layout_compulsory_date_picker);
-        tvCompulsoryStartDate = (TextView) findViewById(R.id.tv_compulsory_start_date);
-        layoutMotorVehicleLossInsurance = (LinearLayout) findViewById(R.id.layout_motor_vehicle_loss_insurance);
-        ivSDEWMotorVehicleLossInsurance = (ImageView) findViewById(R.id.iv_SDEW_motor_vehicle_loss_insurance);
-        tvSDEWMotorVehicleLossInsurance = (TextView) findViewById(R.id.tv_SDEW_motor_vehicle_loss_insurance);
-        switchTabViewMotorVehicleLossInsurance = (SwitchButton) findViewById(R.id.switch_tab_view_motor_vehicle_loss_insurance);
-        spinnerThirdResponsibility = (Spinner) findViewById(R.id.spinner_third_responsibility);
-        layoutThirdResponsibility = (LinearLayout) findViewById(R.id.layout_third_responsibility);
-        ivSDEWThirdResponsibilityInsurance = (ImageView) findViewById(R.id.iv_SDEW_third_responsibility_insurance);
-        tvSDEWThirdResponsibilityInsurance = (TextView) findViewById(R.id.tv_SDEW_third_responsibility_insurance);
-        switchTabViewThirdResponsibility = (SwitchButton) findViewById(R.id.switch_tab_view_third_responsibility);
-        spinnerDriverChair = (Spinner) findViewById(R.id.spinner_driver_chair);
-        layoutCabSeatInsurance = (LinearLayout) findViewById(R.id.layout_cab_seat_insurance);
-        ivSDEWCabSeatInsurance = (ImageView) findViewById(R.id.iv_SDEW_cab_seat_insurance);
-        tvSDEWCabSeatInsurance = (TextView) findViewById(R.id.tv_SDEW_cab_seat_insurance);
-        switchTabViewCabChair = (SwitchButton) findViewById(R.id.switch_tab_view_cab_chair);
-        spinnerPassageChair = (Spinner) findViewById(R.id.spinner_passage_chair);
-        layoutPassengerSeatInsurance = (LinearLayout) findViewById(R.id.layout_passenger_seat_insurance);
-        ivSDEWPassengerSeatInsurance = (ImageView) findViewById(R.id.iv_SDEW_passenger_seat_insurance);
-        tvSDEWPassengerSeatInsurance = (TextView) findViewById(R.id.tv_SDEW_passenger_seat_insurance);
-        switchTabViewPassengeChair = (SwitchButton) findViewById(R.id.switch_tab_view_passenge_chair);
-        spinnerRob = (Spinner) findViewById(R.id.spinner_rob);
-        layoutRobInsurance = (LinearLayout) findViewById(R.id.layout_rob_insurance);
-        ivSDEWRobInsurance = (ImageView) findViewById(R.id.iv_SDEW_rob_insurance);
-        tvSDEWRobInsurance = (TextView) findViewById(R.id.tv_SDEW_rob_insurance);
-        switchTabViewRob = (SwitchButton) findViewById(R.id.switch_tab_view_rob);
-        spinnerShadeLining = (Spinner) findViewById(R.id.spinner_shade_lining);
-        layoutShadeLiningInsurance = (LinearLayout) findViewById(R.id.layout_shade_lining_insurance);
-        ivSDEWShadeLiningInsurance = (ImageView) findViewById(R.id.iv_SDEW_shade_lining_insurance);
-        tvSDEWShadeLiningInsurance = (TextView) findViewById(R.id.tv_SDEW_shade_lining_insurance);
-        switchTabViewShadeLining = (SwitchButton) findViewById(R.id.switch_tab_view_shade_lining);
-        spinnerRiskOfSpontaneousCombustion = (Spinner) findViewById(R.id.spinner_risk_of_spontaneous_combustion);
-        layoutRiskOfSpontaneousCombustionInsurance = (LinearLayout) findViewById(R.id.layout_risk_of_spontaneous_combustion_insurance);
-        ivSDEWRiskOfSpontaneousCombustionInsurance = (ImageView) findViewById(R.id.iv_SDEW_risk_of_spontaneous_combustion_insurance);
-        tvSDEWRiskOfSpontaneousCombustionInsurance = (TextView) findViewById(R.id.tv_SDEW_risk_of_spontaneous_combustion_insurance);
-        switchTabViewRiskOfSpontaneousCombustion = (SwitchButton) findViewById(R.id.switch_tab_view_risk_of_spontaneous_combustion);
-        spinnerNewEquipmentRisk = (Spinner) findViewById(R.id.spinner_new_equipment_risk);
-        layoutRiskOfNewEquipmentInsurance = (LinearLayout) findViewById(R.id.layout_risk_of_new_equipment_insurance);
-        ivSDEWRiskOfNewEquipmentInsurance = (ImageView) findViewById(R.id.iv_SDEW_risk_of_new_equipment_insurance);
-        tvSDEWRiskOfNewEquipmentInsurance = (TextView) findViewById(R.id.tv_SDEW_risk_of_new_equipment_insurance);
-        switchTabViewRiskOfNewEquipment = (SwitchButton) findViewById(R.id.switch_tab_view_risk_of_new_equipment);
-        spinnerScratchesRisk = (Spinner) findViewById(R.id.spinner_scratches_risk);
-        layoutRiskOfScratchesInsurance = (LinearLayout) findViewById(R.id.layout_risk_of_scratches_insurance);
-        ivSDEWRiskOfScratchesInsurance = (ImageView) findViewById(R.id.iv_SDEW_risk_of_scratches_insurance);
-        tvSDEWRiskOfScratchesInsurance = (TextView) findViewById(R.id.tv_SDEW_risk_of_scratches_insurance);
-        switchTabViewRiskOfScratches = (SwitchButton) findViewById(R.id.switch_tab_view_risk_of_scratches);
-        spinnerEngineWadingInsuranceRisk = (Spinner) findViewById(R.id.spinner_engine_wading_insurance_risk);
-        layoutRiskOfEngineWadingInsurance = (LinearLayout) findViewById(R.id.layout_risk_of_engine_wading_insurance);
-        ivSDEWRiskOfEngineWadingInsurance = (ImageView) findViewById(R.id.iv_SDEW_risk_of_engine_wading_insurance);
-        tvSDEWRiskOfEngineWadingInsurance = (TextView) findViewById(R.id.tv_SDEW_risk_of_engine_wading_insurance);
-        switchTabViewRiskOfEngineWading = (SwitchButton) findViewById(R.id.switch_tab_view_risk_of_engine_wading);
-        tvQuotaPrice = (TextView) findViewById(R.id.tv_quota_price);
-        titleBar = (TitleBar) findViewById(R.id.title_bar);
-
-
+        layoutCommercialDatePicker = (LinearLayout)findViewById( R.id.layout_commercial_date_picker );
+        tvCommercialStartDate = (TextView)findViewById( R.id.tv_commercial_start_date );
+        layoutCompulsoryDatePicker = (LinearLayout)findViewById( R.id.layout_compulsory_date_picker );
+        tvCompulsoryStartDate = (TextView)findViewById( R.id.tv_compulsory_start_date );
+        layoutMotorVehicleLossInsurance = (LinearLayout)findViewById( R.id.layout_motor_vehicle_loss_insurance );
+        ivSDEWMotorVehicleLossInsurance = (ImageView)findViewById( R.id.iv_SDEW_motor_vehicle_loss_insurance );
+        tvSDEWMotorVehicleLossInsurance = (TextView)findViewById( R.id.tv_SDEW_motor_vehicle_loss_insurance );
+        switchTabViewMotorVehicleLossInsurance = (SwitchButton)findViewById( R.id.switch_tab_view_motor_vehicle_loss_insurance );
+        spinnerThirdResponsibility = (Spinner)findViewById( R.id.spinner_third_responsibility );
+        layoutThirdResponsibility = (LinearLayout)findViewById( R.id.layout_third_responsibility );
+        ivSDEWThirdResponsibilityInsurance = (ImageView)findViewById( R.id.iv_SDEW_third_responsibility_insurance );
+        tvSDEWThirdResponsibilityInsurance = (TextView)findViewById( R.id.tv_SDEW_third_responsibility_insurance );
+        switchTabViewThirdResponsibility = (SwitchButton)findViewById( R.id.switch_tab_view_third_responsibility );
+        spinnerDriverChair = (Spinner)findViewById( R.id.spinner_driver_chair );
+        layoutCabSeatInsurance = (LinearLayout)findViewById( R.id.layout_cab_seat_insurance );
+        ivSDEWCabSeatInsurance = (ImageView)findViewById( R.id.iv_SDEW_cab_seat_insurance );
+        tvSDEWCabSeatInsurance = (TextView)findViewById( R.id.tv_SDEW_cab_seat_insurance );
+        switchTabViewCabChair = (SwitchButton)findViewById( R.id.switch_tab_view_cab_chair );
+        spinnerPassageChair = (Spinner)findViewById( R.id.spinner_passage_chair );
+        layoutPassengerSeatInsurance = (LinearLayout)findViewById( R.id.layout_passenger_seat_insurance );
+        ivSDEWPassengerSeatInsurance = (ImageView)findViewById( R.id.iv_SDEW_passenger_seat_insurance );
+        tvSDEWPassengerSeatInsurance = (TextView)findViewById( R.id.tv_SDEW_passenger_seat_insurance );
+        switchTabViewPassengeChair = (SwitchButton)findViewById( R.id.switch_tab_view_passenge_chair );
+        spinnerRob = (Spinner)findViewById( R.id.spinner_rob );
+        layoutRobInsurance = (LinearLayout)findViewById( R.id.layout_rob_insurance );
+        ivSDEWRobInsurance = (ImageView)findViewById( R.id.iv_SDEW_rob_insurance );
+        tvSDEWRobInsurance = (TextView)findViewById( R.id.tv_SDEW_rob_insurance );
+        switchTabViewRob = (SwitchButton)findViewById( R.id.switch_tab_view_rob );
+        spinnerShadeLining = (Spinner)findViewById( R.id.spinner_shade_lining );
+        layoutShadeLiningInsurance = (LinearLayout)findViewById( R.id.layout_shade_lining_insurance );
+        ivSDEWShadeLiningInsurance = (ImageView)findViewById( R.id.iv_SDEW_shade_lining_insurance );
+        tvSDEWShadeLiningInsurance = (TextView)findViewById( R.id.tv_SDEW_shade_lining_insurance );
+        switchTabViewShadeLining = (SwitchButton)findViewById( R.id.switch_tab_view_shade_lining );
+        spinnerScratchesRisk = (Spinner)findViewById( R.id.spinner_scratches_risk );
+        layoutRiskOfScratchesInsurance = (LinearLayout)findViewById( R.id.layout_risk_of_scratches_insurance );
+        ivSDEWRiskOfScratchesInsurance = (ImageView)findViewById( R.id.iv_SDEW_risk_of_scratches_insurance );
+        tvSDEWRiskOfScratchesInsurance = (TextView)findViewById( R.id.tv_SDEW_risk_of_scratches_insurance );
+        switchTabViewRiskOfScratches = (SwitchButton)findViewById( R.id.switch_tab_view_risk_of_scratches );
+        spinnerRiskOfSpontaneousCombustion = (Spinner)findViewById( R.id.spinner_risk_of_spontaneous_combustion );
+        layoutRiskOfSpontaneousCombustionInsurance = (LinearLayout)findViewById( R.id.layout_risk_of_spontaneous_combustion_insurance );
+        ivSDEWRiskOfSpontaneousCombustionInsurance = (ImageView)findViewById( R.id.iv_SDEW_risk_of_spontaneous_combustion_insurance );
+        tvSDEWRiskOfSpontaneousCombustionInsurance = (TextView)findViewById( R.id.tv_SDEW_risk_of_spontaneous_combustion_insurance );
+        switchTabViewRiskOfSpontaneousCombustion = (SwitchButton)findViewById( R.id.switch_tab_view_risk_of_spontaneous_combustion );
+        spinnerEngineWadingInsuranceRisk = (Spinner)findViewById( R.id.spinner_engine_wading_insurance_risk );
+        layoutRiskOfEngineWadingInsurance = (LinearLayout)findViewById( R.id.layout_risk_of_engine_wading_insurance );
+        ivSDEWRiskOfEngineWadingInsurance = (ImageView)findViewById( R.id.iv_SDEW_risk_of_engine_wading_insurance );
+        tvSDEWRiskOfEngineWadingInsurance = (TextView)findViewById( R.id.tv_SDEW_risk_of_engine_wading_insurance );
+        switchTabViewRiskOfEngineWading = (SwitchButton)findViewById( R.id.switch_tab_view_risk_of_engine_wading );
+        tvQuotaPrice = (TextView)findViewById( R.id.tv_quota_price );
+        titleBar = (TitleBar)findViewById( R.id.title_bar );
     }
 
 
@@ -303,8 +341,16 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insure_car_plan);
         activity = this;
+        progressDialogUtil = new ProgressDialogUtil(activity);
+        getIntentData();
+        findViews();
+        setUp();
+        setLisenter();
+    }
 
+    private void getIntentData() {
         engineNumber = getIntent().getStringExtra("engineNumber");
+        licenseplate = getIntent().getStringExtra("licenseplate");
         frameNumber = getIntent().getStringExtra("frameNumber");
         ownerName = getIntent().getStringExtra("userName");
         provnce_no = getIntent().getStringExtra("province_no");
@@ -319,11 +365,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         transferDate = getIntent().getStringExtra("transferDate");
         registrationDateString = getIntent().getStringExtra("registrationDateString");
         issueDateString = getIntent().getStringExtra("issueDateString");
-
-
-        findViews();
-        setUp();
-        setLisenter();
+        idcardNum = getIntent().getStringExtra("idcardNum");
     }
 
     private void setLisenter() {
@@ -340,6 +382,84 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         });
 
 
+        setCommercialAndCompulsoryStartDateListener();
+
+        toQuotaPrice();
+
+
+        setLayoutOnClickListener();
+
+        setSwitchCheckedChangListener();
+
+        setSpinnerItemSelectedListener();
+
+
+    }
+
+    /**
+     * 去报价
+     */
+    private void toQuotaPrice() {
+        tvQuotaPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int uid = PreferenceUtil.load(activity, PreferenceConstant.userid, -1);
+
+                if (uid < 0) {
+                    Toast.makeText(activity, "请登录后再购买！", Toast.LENGTH_SHORT).show();
+                    LoginActivity.startLoginActivity(activity);
+                    return;
+                }
+                userid = uid+"";
+
+                if (TextUtils.isEmpty(transfer)) {
+                    transfer = "0";
+                }
+                if (TextUtils.isEmpty(transferDate)) {
+                    transferDate = "0";
+                }
+
+
+                insuranceItemDatas.clear();
+                insuranceItemDatas.add(motor_vehicle_loss_insurance);
+                insuranceItemDatas.add(third_responsibility_insurance);
+                insuranceItemDatas.add(cab_seat_insurance);
+//                insuranceItemDatas.add(passenger_seat_insurance);
+//                insuranceItemDatas.add(rob_insurance);
+//                insuranceItemDatas.add(risk_of_spontaneous_combustion_insurance);
+//                insuranceItemDatas.add(shade_lining_insurance);
+//                insuranceItemDatas.add(risk_of_new_equipment_insurance);
+//                insuranceItemDatas.add(risk_of_scratches_insurance);
+//                insuranceItemDatas.add(risk_of_engine_wading_insurance);
+
+
+                Gson gson = new Gson();
+                insuranceItems = gson.toJson(insuranceItemDatas);
+
+                progressDialogUtil.show("正在获取保险信息...");
+                UserRetrofitUtil.quotaPrice(activity, userid, licenseplate, engineNumber, frameNumber, seatingcapacity, newValue+"",
+                        model_code, registrationDateString, ownerName, commercestartdate, compulsorystartdate, issueDateString, provence, provnce_no,
+                        city_no, county_no, transfer, transferDate, idcardNum, phone, compulsoryAmt, insuranceItems, type,
+                        new NetCallback<NetWorkResultBean<CommPriceData>>(activity) {
+                            @Override
+                            public void onFailure(RetrofitError error, String message) {
+
+                                progressDialogUtil.hide();
+                                PriceReportActivity.startActivity(activity,null,idcardNum);
+
+                            }
+
+                            @Override
+                            public void success(NetWorkResultBean<CommPriceData> commPriceDataNetWorkResultBean, Response response) {
+                                progressDialogUtil.hide();
+                                PriceReportActivity.startActivity(activity, commPriceDataNetWorkResultBean.getData(),idcardNum);
+                            }
+                        });
+            }
+        });
+    }
+
+    private void setCommercialAndCompulsoryStartDateListener() {
         layoutCommercialDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -364,8 +484,8 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                             e.printStackTrace();
                             Toast.makeText(activity, "Error in convert time !", Toast.LENGTH_LONG).show();
                         } finally {
-                            Toast.makeText(activity, commercialDateLong + "", Toast.LENGTH_LONG).show();
-                            commercestartdate = commercialDateLong + "";
+                            Toast.makeText(activity, commercialDateLong+"", Toast.LENGTH_LONG).show();
+                            commercestartdate = commercialDateLong+"";
                         }
 
                     }
@@ -398,8 +518,8 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                             e.printStackTrace();
                             Toast.makeText(activity, "Error in convert time !", Toast.LENGTH_LONG).show();
                         } finally {
-                            Toast.makeText(activity, compulsoryDateLong + "", Toast.LENGTH_LONG).show();
-                            compulsorystartdate = compulsoryDateLong + "";
+                            Toast.makeText(activity, compulsoryDateLong+"", Toast.LENGTH_LONG).show();
+                            compulsorystartdate = compulsoryDateLong+"";
                         }
 
                     }
@@ -407,63 +527,9 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
             }
         });
+    }
 
-        tvQuotaPrice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int uid = PreferenceUtil.load(activity, PreferenceConstant.userid, -1);
-
-                if (uid < 0) {
-                    Toast.makeText(activity, "请登录后再购买！", Toast.LENGTH_SHORT).show();
-                    LoginActivity.startLoginActivity(activity);
-                    return;
-                }
-                userid = uid + "";
-
-                if (TextUtils.isEmpty(transfer)) {
-                    transfer = "0";
-                }
-                if (TextUtils.isEmpty(transferDate)) {
-                    transferDate = "0";
-                }
-
-
-                insuranceItemDatas.clear();
-                insuranceItemDatas.add(motor_vehicle_loss_insurance);
-                insuranceItemDatas.add(third_responsibility_insurance);
-                insuranceItemDatas.add(cab_seat_insurance);
-//                insuranceItemDatas.add(passenger_seat_insurance);
-//                insuranceItemDatas.add(rob_insurance);
-//                insuranceItemDatas.add(risk_of_spontaneous_combustion_insurance);
-//                insuranceItemDatas.add(shade_lining_insurance);
-//                insuranceItemDatas.add(risk_of_new_equipment_insurance);
-//                insuranceItemDatas.add(risk_of_scratches_insurance);
-//                insuranceItemDatas.add(risk_of_engine_wading_insurance);
-
-
-                Gson gson = new Gson();
-                insuranceItems = gson.toJson(insuranceItemDatas);
-
-
-                UserRetrofitUtil.quotaPrice(activity, userid, licenseplate, engineNumber, frameNumber, seatingcapacity, newValue + "",
-                        model_code, registrationDateString, ownerName, commercestartdate, compulsorystartdate, issueDateString, provence, provnce_no,
-                        city_no, county_no, transfer, transferDate, idcardNum, phone, compulsoryAmt, insuranceItems, type,
-                        new NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>>(activity) {
-                            @Override
-                            public void onFailure(RetrofitError error, String message) {
-                                Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void success(NetWorkResultBean<List<VehicleTypeInfo>> listNetWorkResultBean, Response response) {
-                                Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-
-                            }
-                        });
-            }
-        });
-
-
+    private void setLayoutOnClickListener() {
         layoutCabSeatInsurance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -632,26 +698,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         });
 
 
-        layoutRiskOfNewEquipmentInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWRiskOfNewEquipmentInsurance) {
-                    if (flag_layout_SDEWRiskOfNewEquipmentInsurance) {
-                        risk_of_new_equipment_insurance.setFranchise_flag(1);//不计免赔
-                        flag_layout_SDEWRiskOfNewEquipmentInsurance = false;
-                        ivSDEWRiskOfNewEquipmentInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWRiskOfNewEquipmentInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        risk_of_new_equipment_insurance.setFranchise_flag(-1);//不计免赔
-                        flag_layout_SDEWRiskOfNewEquipmentInsurance = true;
-                        ivSDEWRiskOfNewEquipmentInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWRiskOfNewEquipmentInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-
         layoutRiskOfEngineWadingInsurance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -670,8 +716,9 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                 }
             }
         });
+    }
 
-
+    private void setSwitchCheckedChangListener() {
         //车损险
         //switch button 开关
         switchTabViewMotorVehicleLossInsurance.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -759,7 +806,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 flag_switch_SDEWShadeLiningInsurance = isChecked;
-                if(!isChecked){
+                if (!isChecked) {
                     shade_lining_insurance.setFranchise_flag(-1);
                     //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
                     flag_layout_SDEWShadeLiningInsurance = false;
@@ -774,28 +821,15 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 flag_switch_SDEWRiskOfSpontaneousCombustionInsurance = isChecked;
-                if(!isChecked){
+                if (!isChecked) {
                     risk_of_spontaneous_combustion_insurance.setFranchise_flag(-1);
-                    flag_layout_SDEWRiskOfSpontaneousCombustionInsurance=false;
+                    flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = false;
                     ivSDEWRiskOfSpontaneousCombustionInsurance.setImageResource(R.drawable.icon_choose);
                     tvSDEWRiskOfSpontaneousCombustionInsurance.setTextColor(Color.parseColor("#f0f0f0"));
                 }
             }
         });
 
-        //新增设备险
-        switchTabViewRiskOfNewEquipment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                flag_switch_SDEWRiskOfNewEquipmentInsurance = isChecked;
-                if (!isChecked) {
-                    risk_of_new_equipment_insurance.setFranchise_flag(-1);
-                    flag_layout_SDEWRiskOfNewEquipmentInsurance = false;
-                    ivSDEWRiskOfNewEquipmentInsurance.setImageResource(R.drawable.icon_choose);
-                    tvSDEWRiskOfNewEquipmentInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                }
-            }
-        });
 
 
         //划痕险
@@ -825,30 +859,194 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public void setSpinnerItemSelectedListener() {
+        //刮痕险 spinner
+        spinnerScratchesRisk.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfScratchesInsurance.get(position);
+                double value = hashRiskOfScratchesInsurance.get(key);
+                risk_of_scratches_insurance.setAmt(value);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //三者险
+        spinnerThirdResponsibility.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfThirdResponsibilityInsurance.get(position);
+                double value = hashThridResponsibilityInsurance.get(key);
+                third_responsibility_insurance.setAmt(value);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
+        //司机座位险
+        spinnerDriverChair.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfCabSeatInsurance.get(position);
+                cab_seat_insurance.setAmt(new Double(key));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //乘客座位险
+        spinnerPassageChair.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfPassengerSeatInsurance.get(position);
+                passenger_seat_insurance.setAmt(new Double(key));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //强盗险
+        spinnerRob.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfRobInsurance.get(position);
+                rob_insurance.setAmt(new Double(key));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        // 玻璃险
+        spinnerShadeLining.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfShadeLiningInsurance.get(position);
+                shade_lining_insurance.setAmt(new Double(key));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        //自燃险
+        spinnerRiskOfSpontaneousCombustion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfRiskOfSpontaneousCombustionInsurance.get(position);
+                risk_of_spontaneous_combustion_insurance.setAmt(new Double(key));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        //发动机涉水险
+        spinnerEngineWadingInsuranceRisk.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfEngineWadingInsurance.get(position);
+                risk_of_engine_wading_insurance.setAmt(new Double(key));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void setUp() {
         titleBar.initTitleBarInfo("投保方案", R.drawable.arrow_left, -1, "", "");
+        setSpinnerData();
+        setSwitchCheckedDefault();
+        setInsuranceItems();
+    }
+
+    private void setSpinnerData() {
+        //刮痕险 spinner
+        hashRiskOfScratchesInsurance.put("2000",365001d);
+        hashRiskOfScratchesInsurance.put("5000",365002d);
+        hashRiskOfScratchesInsurance.put("10000",365003d);
+        hashRiskOfScratchesInsurance.put("20000", 365004d);
+        valuesOfScratchesInsurance.addAll(hashRiskOfScratchesInsurance.keySet());
+        spinnerAdapterRiskOfScratchesInsurance = new SpinnerDropDownAdapter(activity, valuesOfScratchesInsurance);
+        spinnerScratchesRisk.setAdapter(spinnerAdapterRiskOfScratchesInsurance);
 
 
-        //限行停保的 Spinner
-        mWeekNumbersStringList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.insurancePrice)));
-        spinnerDropDownAdapter = new SpinnerDropDownAdapter(activity, mWeekNumbersStringList);
+        //三者险 spinner
+
+        hashThridResponsibilityInsurance.put("20万",306006006d);
+        hashThridResponsibilityInsurance.put("30万",306006007d);
+        hashThridResponsibilityInsurance.put("50万",306006009d);
+        hashThridResponsibilityInsurance.put("100万",306006014d);
+
+        valuesOfThirdResponsibilityInsurance.addAll(hashThridResponsibilityInsurance.keySet());
+        spinnerAdapterThirdResponsibilityInsurance = new SpinnerDropDownAdapter(activity, valuesOfThirdResponsibilityInsurance);
+        spinnerThirdResponsibility.setAdapter(spinnerAdapterThirdResponsibilityInsurance);
 
 
-        spinnerDriverChair.setAdapter(spinnerDropDownAdapter);
-        spinnerPassageChair.setAdapter(spinnerDropDownAdapter);
-        spinnerThirdResponsibility.setAdapter(spinnerDropDownAdapter);
-        spinnerRob.setAdapter(spinnerDropDownAdapter);
-        spinnerShadeLining.setAdapter(spinnerDropDownAdapter);
-        spinnerRiskOfSpontaneousCombustion.setAdapter(spinnerDropDownAdapter);
-        spinnerNewEquipmentRisk.setAdapter(spinnerDropDownAdapter);
-        spinnerScratchesRisk.setAdapter(spinnerDropDownAdapter);
-        spinnerEngineWadingInsuranceRisk.setAdapter(spinnerDropDownAdapter);
+
+        //司机座位险
+        valuesOfCabSeatInsurance = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.insurancePrice)));
+        spinnerAdapterCabSeatInsurance = new SpinnerDropDownAdapter(activity, valuesOfCabSeatInsurance);
+        spinnerDriverChair.setAdapter(spinnerAdapterCabSeatInsurance);
 
 
+        //乘客座位险
+        valuesOfPassengerSeatInsurance = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.insurancePrice)));
+        spinnerAdapterPassengerSeatInsurance = new SpinnerDropDownAdapter(activity, valuesOfPassengerSeatInsurance);
+        spinnerPassageChair.setAdapter(spinnerAdapterPassengerSeatInsurance);
+
+        //强盗险
+        valuesOfRobInsurance = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.insurancePrice)));
+        spinnerAdapterRobInsurance = new SpinnerDropDownAdapter(activity, valuesOfRobInsurance);
+        spinnerRob.setAdapter(spinnerAdapterRobInsurance);
+
+
+        //玻璃险
+        valuesOfShadeLiningInsurance = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.insurancePrice)));
+        spinnerAdapterShadeLiningInsurance = new SpinnerDropDownAdapter(activity, valuesOfShadeLiningInsurance);
+        spinnerShadeLining.setAdapter(spinnerAdapterShadeLiningInsurance);
+
+
+        //自燃险
+        valuesOfRiskOfSpontaneousCombustionInsurance = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.insurancePrice)));
+        spinnerAdapterRiskOfSpontaneousCombustionInsurance = new SpinnerDropDownAdapter(activity, valuesOfRiskOfSpontaneousCombustionInsurance);
+        spinnerRiskOfSpontaneousCombustion.setAdapter(spinnerAdapterRiskOfSpontaneousCombustionInsurance);
+
+        //发动机涉水险
+        valuesOfEngineWadingInsurance = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.insurancePrice)));
+        spinnerAdapterEngineWadingInsurance = new SpinnerDropDownAdapter(activity, valuesOfEngineWadingInsurance);
+        spinnerEngineWadingInsuranceRisk.setAdapter(spinnerAdapterEngineWadingInsurance);
+    }
+
+    private void setSwitchCheckedDefault() {
         switchTabViewMotorVehicleLossInsurance.setChecked(true);
         switchTabViewCabChair.setChecked(true);
         switchTabViewPassengeChair.setChecked(true);
@@ -858,11 +1056,11 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
         switchTabViewShadeLining.setChecked(true);
         switchTabViewRiskOfSpontaneousCombustion.setChecked(true);
-        switchTabViewRiskOfNewEquipment.setChecked(true);
         switchTabViewRiskOfScratches.setChecked(true);
         switchTabViewRiskOfEngineWading.setChecked(true);
+    }
 
-
+    private void setInsuranceItems() {
         //不能单独保车辆损失险
         motor_vehicle_loss_insurance.setInsrnc_name("车辆损失险");//保险名称
         motor_vehicle_loss_insurance.setPremium(-1f);//保费，用户买保险要掏腰包，但是这里不知道，我们的目的就是为了获取它
@@ -872,7 +1070,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         motor_vehicle_loss_insurance.setFranchise_flag(1);//是否不计免赔
         motor_vehicle_loss_insurance.setNumber(-1);//保障天数
         motor_vehicle_loss_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        motor_vehicle_loss_insurance.setAmt(newValue + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        motor_vehicle_loss_insurance.setAmt(newValue);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //第三方责任险
@@ -884,7 +1082,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         third_responsibility_insurance.setNumber(-1);//保障天数
         third_responsibility_insurance.setFranchise_flag(1);//是否不计免赔
         third_responsibility_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        third_responsibility_insurance.setAmt(306006021 + "");//默认值   保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        third_responsibility_insurance.setAmt(306006021d);//默认值   保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //盗抢险
@@ -896,7 +1094,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         rob_insurance.setC_ly15(-1);//车辆损失绝对免赔额，需要问清楚到底是干嘛的
         rob_insurance.setFranchise_flag(1);//是否不计免赔
         rob_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        rob_insurance.setAmt(newValue + "");//折旧后   保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        rob_insurance.setAmt(newValue);//折旧后   保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //司机座位险
@@ -908,7 +1106,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         cab_seat_insurance.setFranchise_flag(1);//是否不计免赔
         cab_seat_insurance.setNumber(-1);//保障天数
         cab_seat_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        cab_seat_insurance.setAmt(306006021 + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        cab_seat_insurance.setAmt(306006021d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //乘客座位险
@@ -920,7 +1118,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         passenger_seat_insurance.setNumber(-1);//保障天数
         passenger_seat_insurance.setFranchise_flag(1);//是否不计免赔
         passenger_seat_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        passenger_seat_insurance.setAmt(306006021 + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        passenger_seat_insurance.setAmt(306006021d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //附加险
@@ -935,7 +1133,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         shade_lining_insurance.setFranchise_flag(1);//是否不计免赔
         shade_lining_insurance.setBullet_glass(-1);//是否有防弹玻璃
         shade_lining_insurance.setNumber(-1);//保障天数
-        shade_lining_insurance.setAmt(0 + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        shade_lining_insurance.setAmt(0d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //自燃险
@@ -947,7 +1145,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         risk_of_spontaneous_combustion_insurance.setFranchise_flag(1);//是否不计免赔
         risk_of_spontaneous_combustion_insurance.setBullet_glass(-1);//是否有防弹玻璃
         risk_of_spontaneous_combustion_insurance.setNumber(-1);//保障天数
-        risk_of_spontaneous_combustion_insurance.setAmt(newValue + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        risk_of_spontaneous_combustion_insurance.setAmt(newValue);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //新增设备险
@@ -959,7 +1157,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         risk_of_new_equipment_insurance.setFranchise_flag(1);//是否不计免赔
         risk_of_new_equipment_insurance.setBullet_glass(-1);//是否有防弹玻璃
         risk_of_new_equipment_insurance.setNumber(-1);//保障天数
-        risk_of_new_equipment_insurance.setAmt(0 + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        risk_of_new_equipment_insurance.setAmt(0d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //划痕险
@@ -971,7 +1169,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         risk_of_scratches_insurance.setFranchise_flag(1);//是否不计免赔
         risk_of_scratches_insurance.setBullet_glass(-1);//是否有防弹玻璃
         risk_of_scratches_insurance.setNumber(-1);//保障天数
-        risk_of_scratches_insurance.setAmt(365003 + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        risk_of_scratches_insurance.setAmt(365003d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //发动机涉水险
@@ -983,7 +1181,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         risk_of_engine_wading_insurance.setFranchise_flag(1);//是否不计免赔
         risk_of_engine_wading_insurance.setBullet_glass(-1);//是否有防弹玻璃
         risk_of_engine_wading_insurance.setNumber(-1);//保障天数
-        risk_of_engine_wading_insurance.setAmt(0 + "");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        risk_of_engine_wading_insurance.setAmt(0D);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
 //
@@ -997,8 +1195,17 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 //         risk_of_engine_wading_insurance.setBullet_glass(-1);//是否有防弹玻璃
 //         risk_of_engine_wading_insurance.setAmt(0+"");//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 //
-
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (data != null) {
+            CommPriceData commPriceData = data.getParcelableExtra("CommPriceData");
+            if (commPriceData != null) {
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

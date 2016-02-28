@@ -208,7 +208,7 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
                     String item = "";
 
                     InsuranceItemData itemData = new InsuranceItemData();
-                    itemData.setAmt(0+"");
+                    itemData.setAmt(0d);
                     itemData.setBullet_glass(-1);
                     itemData.setC_ly15(-1);
                     itemData.setFranchise_flag(-1);
@@ -220,7 +220,7 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
 
 
                     InsuranceItemData itemData1 = new InsuranceItemData();
-                    itemData1.setAmt(0+"");
+                    itemData1.setAmt(0d);
                     itemData1.setBullet_glass(-1);
                     itemData1.setC_ly15(-1);
                     itemData1.setFranchise_flag(-1);

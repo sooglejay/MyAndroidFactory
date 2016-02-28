@@ -53,16 +53,19 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
     private String issueDateString = "";
 
 
-    private String provence_no = "370602";
-    private String licenseplate = "鲁Y82599";
-    private String frameNumber = "LSGJT62U87S009773";
+    private String provence_no = "";
+    private String licenseplate = "";
+    private String frameNumber = "";
     private String engineNumber = "";
     private String userName = "";
+    private String idcardNum = "";
     private String type = "0";
     private TitleBar titleBar;
     private ListView listView;
     private TextView tvEnquiry;
 
+
+    View footer;
 
     /**
      * Find the Views in the layout<br />
@@ -71,15 +74,18 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
+        footer = View.inflate(activity, R.layout.footer_picker_car_model, null);
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         listView = (ListView) findViewById(R.id.list_view);
-        tvEnquiry = (TextView) findViewById(R.id.tv_enquiry);
+        tvEnquiry = (TextView) footer.findViewById(R.id.tv_enquiry);
+        listView.addFooterView(footer);
     }
 
-    public static void startActivity(Activity activity, String engineNumber, String frameNumber, String userName,
+    public static void startActivity(Activity activity,String licenseplate, String engineNumber, String frameNumber, String userName,
                                      String province_no, String province_name, String city_no, String city_name, String country_no, String country_name,
-                                     String transfer, String transferDate, String registrationDateString, String issueDateString) {
+                                     String transfer, String transferDate, String registrationDateString, String issueDateString, String idcardNum) {
         Intent intent = new Intent(activity, CarInsurancePickCarTypeActivity.class);
+        intent.putExtra("licenseplate", licenseplate);
         intent.putExtra("engineNumber", engineNumber);
         intent.putExtra("frameNumber", frameNumber);
         intent.putExtra("userName", userName);
@@ -93,6 +99,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         intent.putExtra("transferDate", transferDate);
         intent.putExtra("registrationDateString", registrationDateString);
         intent.putExtra("issueDateString", issueDateString);
+        intent.putExtra("idcardNum", idcardNum);
         activity.startActivity(intent);
     }
 
@@ -103,6 +110,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         activity = this;
         progressDialogUtil = new ProgressDialogUtil(activity);
 
+        licenseplate = getIntent().getStringExtra("licenseplate");
         engineNumber = getIntent().getStringExtra("engineNumber");
         frameNumber = getIntent().getStringExtra("frameNumber");
         userName = getIntent().getStringExtra("userName");
@@ -116,6 +124,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         transferDate = getIntent().getStringExtra("transferDate");
         regiterationDateString = getIntent().getStringExtra("registerationDateString");
         issueDateString = getIntent().getStringExtra("issueDateString");
+        idcardNum = getIntent().getStringExtra("idcardNum");
 
         findViews();
         setUp();
@@ -139,9 +148,9 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         tvEnquiry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isValidToNextActivity) {
-                    CarInsurancePricePlanActivity.startActivity(activity, engineNumber, model_code, newValue, frameNumber, userName,
-                            provence_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString);
+                if (isValidToNextActivity || true) {
+                    CarInsurancePricePlanActivity.startActivity(activity,licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
+                            provence_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
                 }
             }
         });
@@ -160,6 +169,9 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
                     model_code = vehicleTypeInfos.get(position).getModel_code();
                     newValue = vehicleTypeInfos.get(position).getCar_price();
                     adapter.notifyDataSetChanged();
+
+                    tvEnquiry.performClick();
+
                 }
             }
         });
@@ -181,7 +193,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
 
     public void getVehicleTypeInfo() {
         progressDialogUtil.show("正在查询...");
-        UserRetrofitUtil.vehcileTypeInfo(this, provence_no, licenseplate, frameNumber, type, new NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>>(this) {
+        UserRetrofitUtil.vehcileTypeInfo(this, province_no, licenseplate, frameNumber, type, new NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();

@@ -39,7 +39,7 @@ public class InsuranceItemData implements Parcelable {
     private String insrnc_cde;
     private String insrnc_name;
     private String remark;
-    private String amt;
+    private Double amt;
     private Float premium;
     private Integer number;
     private Integer franchise_flag;
@@ -56,7 +56,7 @@ public class InsuranceItemData implements Parcelable {
         dest.writeString(this.insrnc_cde);
         dest.writeString(this.insrnc_name);
         dest.writeString(this.remark);
-        dest.writeString(this.amt);
+        dest.writeValue(this.amt);
         dest.writeValue(this.premium);
         dest.writeValue(this.number);
         dest.writeValue(this.franchise_flag);
@@ -71,7 +71,7 @@ public class InsuranceItemData implements Parcelable {
         this.insrnc_cde = in.readString();
         this.insrnc_name = in.readString();
         this.remark = in.readString();
-        this.amt = (String) in.readValue(Float.class.getClassLoader());
+        this.amt = (Double) in.readValue(Float.class.getClassLoader());
         this.premium = (Float) in.readValue(Float.class.getClassLoader());
         this.number = (Integer) in.readValue(Integer.class.getClassLoader());
         this.franchise_flag = (Integer) in.readValue(Integer.class.getClassLoader());
@@ -113,11 +113,11 @@ public class InsuranceItemData implements Parcelable {
         this.remark = remark;
     }
 
-    public String getAmt() {
+    public Double getAmt() {
         return amt;
     }
 
-    public void setAmt(String amt) {
+    public void setAmt(Double amt) {
         this.amt = amt;
     }
 

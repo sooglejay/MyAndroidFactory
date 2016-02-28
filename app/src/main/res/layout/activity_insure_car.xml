@@ -149,7 +149,7 @@
                         android:background="@drawable/btn_select_white_to_little_gray"
                         android:gravity="center"
                         android:padding="@dimen/middle_padding"
-                        android:text="四川－成都"
+                        android:text="请选择行驶区域"
                         android:textColor="#3d3d3d"
                         android:textSize="@dimen/big_textsize" />
 
@@ -305,7 +305,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/btn_select_white"
                         android:padding="@dimen/middle_padding"
-                        android:text="2015-10-11"
+                        android:text="选择注册时间"
                         android:textColor="#0b0b0b"
                         android:textSize="@dimen/big_textsize" />
 
@@ -650,7 +650,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_select_white"
                     android:padding="@dimen/middle_padding"
-                    android:text="2015-10-11"
+                    android:text="选择发证时间"
                     android:textColor="#0b0b0b"
                     android:textSize="@dimen/big_textsize" />
 

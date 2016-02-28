@@ -1,0 +1,142 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="false"
+    android:background="@color/bg_screen"
+    android:clipChildren="false"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical">
+
+
+    <com.jiandanbaoxian.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_company_number_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f5f5f6"
+        android:padding="@dimen/middle_padding"
+        android:text="查询完毕,共有1家公司给出报价"
+        android:textColor="@color/base_color"
+        android:textSize="@dimen/small_textsize" />
+
+
+    <LinearLayout
+        android:id="@+id/layout_huaan_insurance_agent"
+        android:layout_width="match_parent"
+        android:padding="2dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_select_white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/middle_padding"
+            android:text="华安保险"
+            android:textColor="#0d0d0d" />
+
+        <LinearLayout
+            android:id="@+id/layout_to_show_details"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_select_white"
+            android:padding="@dimen/middle_padding"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_to_show_details"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/arrow_down" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/layout_show_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_select_white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="查看详情"
+                android:textColor="@color/dark_black_color" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:id="@+id/layout_expand_view"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商业险总费用:"
+                android:textColor="#2d2d2d"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_commercial_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1200.0元"
+                android:textColor="#2d2d2d"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="交强险总费用:"
+                android:textColor="#2d2d2d"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_compulsory_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1200.0元"
+                android:textColor="#2d2d2d"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

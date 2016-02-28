@@ -62,7 +62,7 @@
                     android:paddingBottom="@dimen/middle_padding"
                     android:paddingRight="@dimen/middle_padding"
                     android:paddingTop="@dimen/middle_padding"
-                    android:text="2015-12-06"
+                    android:text="选择商业险起保时间"
                     android:textColor="#0b0b0b" />
 
                 <ImageView
@@ -104,7 +104,7 @@
                     android:paddingBottom="@dimen/middle_padding"
                     android:paddingRight="@dimen/middle_padding"
                     android:paddingTop="@dimen/middle_padding"
-                    android:text="2015-12-06"
+                    android:text="选择交强险起保时间"
                     android:textColor="#0b0b0b" />
 
                 <ImageView
@@ -547,145 +547,6 @@
 
             </LinearLayout>
 
-            <!-- 自燃险 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
-                android:layout_marginRight="@dimen/middle_padding"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/middle_padding">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="自燃险"
-                    android:textColor="#3d3d3d"
-                    android:textSize="@dimen/big_textsize" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/small_padding"
-                    android:layout_marginRight="@dimen/small_padding"
-                    android:layout_weight="1">
-
-                    <Spinner
-                        android:id="@+id/spinner_risk_of_spontaneous_combustion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_selector"
-                        android:gravity="center" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_risk_of_spontaneous_combustion_insurance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/middle_padding"
-                    android:background="@drawable/btn_select_white"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/middle_padding"
-                    android:paddingTop="@dimen/middle_padding">
-
-                    <ImageView
-                        android:id="@+id/iv_SDEW_risk_of_spontaneous_combustion_insurance"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
-
-                    <TextView
-                        android:id="@+id/tv_SDEW_risk_of_spontaneous_combustion_insurance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
-
-                </LinearLayout>
-
-                <com.jiandanbaoxian.widget.customswitch.SwitchButton
-                    android:id="@+id/switch_tab_view_risk_of_spontaneous_combustion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:checked="false"
-                    app:kswOnColor="@color/base_color" />
-            </LinearLayout>
-
-
-            <!--新增设备险-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
-                android:layout_marginRight="@dimen/middle_padding"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/middle_padding">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/middle_padding"
-                    android:text="新增设备险"
-                    android:textColor="#3d3d3d"
-                    android:textSize="@dimen/big_textsize" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/small_padding"
-                    android:layout_marginRight="@dimen/small_padding"
-                    android:layout_weight="1">
-
-                    <Spinner
-                        android:id="@+id/spinner_new_equipment_risk"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_selector"
-
-                        android:gravity="center" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_risk_of_new_equipment_insurance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/middle_padding"
-                    android:background="@drawable/btn_select_white"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/middle_padding"
-                    android:paddingTop="@dimen/middle_padding">
-
-                    <ImageView
-                        android:id="@+id/iv_SDEW_risk_of_new_equipment_insurance"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
-
-                    <TextView
-                        android:id="@+id/tv_SDEW_risk_of_new_equipment_insurance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
-                </LinearLayout>
-
-                <com.jiandanbaoxian.widget.customswitch.SwitchButton
-                    android:id="@+id/switch_tab_view_risk_of_new_equipment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:checked="false"
-                    app:kswOnColor="@color/base_color" />
-            </LinearLayout>
-
-
             <!--划痕险-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -756,6 +617,76 @@
             </LinearLayout>
 
 
+
+            <!-- 自燃险 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="自燃险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_padding"
+                    android:layout_marginRight="@dimen/small_padding"
+                    android:layout_weight="1">
+
+                    <Spinner
+                        android:id="@+id/spinner_risk_of_spontaneous_combustion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_selector"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_risk_of_spontaneous_combustion_insurance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/middle_padding"
+                    android:background="@drawable/btn_select_white"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding">
+
+                    <ImageView
+                        android:id="@+id/iv_SDEW_risk_of_spontaneous_combustion_insurance"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_choose_selected" />
+
+                    <TextView
+                        android:id="@+id/tv_SDEW_risk_of_spontaneous_combustion_insurance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不计免赔"
+                        android:textColor="#0b0b0b" />
+
+                </LinearLayout>
+
+                <com.jiandanbaoxian.widget.customswitch.SwitchButton
+                    android:id="@+id/switch_tab_view_risk_of_spontaneous_combustion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:checked="false"
+                    app:kswOnColor="@color/base_color" />
+            </LinearLayout>
+
+
             <!--发动机涉水险-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -771,7 +702,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/middle_padding"
-                    android:text="发动机涉水险"
+                    android:text="涉水险"
                     android:textColor="#3d3d3d"
                     android:textSize="@dimen/big_textsize" />
 
@@ -825,172 +756,69 @@
             </LinearLayout>
 
 
-            <!--&lt;!&ndash;停驶损失险&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="@dimen/middle_padding"-->
-            <!--android:layout_marginRight="@dimen/middle_padding"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="@dimen/middle_padding">-->
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="停驶损失险"-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-            <!--<Spinner-->
-            <!--android:id="@+id/spinner_offend_losses_risk"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/spinner_selector"-->
-            <!---->
-            <!--android:gravity="center" />-->
-            <!--<LinearLayout-->
-            <!--android:id="@+id/layout_risk_of_offend_losses_insurance"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="@dimen/middle_padding"-->
-            <!--android:background="@drawable/btn_select_white"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingBottom="@dimen/middle_padding"-->
-            <!--android:paddingTop="@dimen/middle_padding">-->
-            <!--<ImageView-->
-            <!--android:id="@+id/iv_SDEW_risk_of_offend_losses_insurance"-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:src="@drawable/icon_choose_selected" />-->
-            <!--<TextView-->
-            <!--android:id="@+id/tv_SDEW_risk_of_offend_losses_insurance"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="不计免赔"-->
-            <!--android:textColor="#0b0b0b" />-->
-            <!--</LinearLayout>-->
-            <!--<com.jiandanbaoxian.widget.customswitch.SwitchButton-->
-            <!--android:id="@+id/switch_tab_view_risk_of_offend_losses"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:checked="false"-->
-            <!--app:kswOnColor="@color/base_color" />-->
-            <!--</LinearLayout>-->
 
+            <!--车辆损失第三方责任险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
 
-            <!--&lt;!&ndash;精神抚慰金&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="@dimen/middle_padding"-->
-            <!--android:layout_marginRight="@dimen/middle_padding"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="@dimen/middle_padding">-->
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="精神抚慰金"-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-            <!--<Spinner-->
-            <!--android:id="@+id/spinner_mental_injury_compensation"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/spinner_selector"-->
-            <!---->
-            <!--android:gravity="center" />-->
-            <!--<LinearLayout-->
-            <!--android:id="@+id/layout_risk_of_mental_injury_compensation"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="@dimen/middle_padding"-->
-            <!--android:background="@drawable/btn_select_white"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingBottom="@dimen/middle_padding"-->
-            <!--android:paddingTop="@dimen/middle_padding">-->
-            <!--<ImageView-->
-            <!--android:id="@+id/iv_SDEW_risk_of_mental_injury_compensation_insurance"-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:src="@drawable/icon_choose_selected" />-->
-            <!--<TextView-->
-            <!--android:id="@+id/tv_SDEW_risk_of_mental_injury_compensation_insurance"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="不计免赔"-->
-            <!--android:textColor="#0b0b0b" />-->
-            <!--</LinearLayout>-->
-            <!--<com.jiandanbaoxian.widget.customswitch.SwitchButton-->
-            <!--android:id="@+id/switch_tab_view_risk_of_mental_injury_compensation"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:checked="false"-->
-            <!--app:kswOnColor="@color/base_color" />-->
-            <!--</LinearLayout>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="车辆损失第三方责任险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_padding"
+                    android:layout_marginRight="@dimen/small_padding"
+                    android:layout_weight="1">
 
-            <!--&lt;!&ndash;无法找到第三方险&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="@dimen/middle_padding"-->
-            <!--android:layout_marginRight="@dimen/middle_padding"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="@dimen/middle_padding">-->
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="无法找到第三方险"-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-            <!--<Spinner-->
-            <!--android:id="@+id/spinner_unable_find_third_party"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/spinner_selector"-->
-            <!---->
-            <!--android:gravity="center" />-->
-            <!--<LinearLayout-->
-            <!--android:id="@+id/layout_risk_of_unable_find_third_party"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="@dimen/middle_padding"-->
-            <!--android:background="@drawable/btn_select_white"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingBottom="@dimen/middle_padding"-->
-            <!--android:paddingTop="@dimen/middle_padding">-->
-            <!--<ImageView-->
-            <!--android:id="@+id/iv_SDEW_risk_of_unable_find_third_party_insurance"-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:src="@drawable/icon_choose_selected" />-->
-            <!--<TextView-->
-            <!--android:id="@+id/tv_SDEW_risk_of_unable_find_third_party_insurance"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="不计免赔"-->
-            <!--android:textColor="#0b0b0b" />-->
-            <!--</LinearLayout>-->
-            <!--<com.jiandanbaoxian.widget.customswitch.SwitchButton-->
-            <!--android:id="@+id/switch_tab_view_risk_of_unable_find_third_party"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:checked="false"-->
-            <!--app:kswOnColor="@color/base_color" />-->
-            <!--</LinearLayout>-->
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_selector"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/middle_padding"
+                    android:background="@drawable/btn_select_white"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_choose_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不计免赔"
+                        android:textColor="#0b0b0b" />
+                </LinearLayout>
+
+                <com.jiandanbaoxian.widget.customswitch.SwitchButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:checked="false"
+                    app:kswOnColor="@color/base_color" />
+            </LinearLayout>
+
 
 
             <LinearLayout

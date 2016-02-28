@@ -298,12 +298,23 @@
             android:name=".ui.buyinsurance.car_insurance.CarInsurancePricePlanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.buyinsurance.car_insurance.PriceReportActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.buyinsurance.car_insurance.PriceReportDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.buyinsurance.car_insurance.ComfirmOrderActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".test.PingPlusPlusTest"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-
         </activity>
 
 

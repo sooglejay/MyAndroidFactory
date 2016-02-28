@@ -5,6 +5,7 @@ import com.jiandanbaoxian.model.AccountData;
 import com.jiandanbaoxian.model.Brand;
 import com.jiandanbaoxian.model.ChargeBean;
 import com.jiandanbaoxian.model.CommData;
+import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.FinancialAccount;
 import com.jiandanbaoxian.model.FreedomData;
@@ -996,7 +997,7 @@ public interface UserApi {
     //上传车辆信息去 报价
     @FormUrlEncoded
     @POST("/quotaPrice/")
-    public void quotaPrice(@Field("param") String params, NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>> NetCallback);
+    public void quotaPrice(@Field("param") String params, NetCallback<NetWorkResultBean<CommPriceData>> NetCallback);
 
 
 

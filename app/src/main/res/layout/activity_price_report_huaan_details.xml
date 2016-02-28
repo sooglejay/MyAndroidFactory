@@ -1,0 +1,563 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="false"
+    android:background="@color/bg_screen"
+    android:clipChildren="false"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/title_bar_height"
+        android:background="@color/white_color">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+                android:padding="@dimen/middle_padding"
+                android:text="需支付的总费用"
+                android:textColor="@color/base_color"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <LinearLayout
+                android:id="@+id/layout_commercial_date_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:background="@drawable/btn_select_white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="商业险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+
+                <TextView
+                    android:id="@+id/tv_commercial_total_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_compulsory_date_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:background="@drawable/btn_select_white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="交强险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+
+                <TextView
+                    android:id="@+id/tv_compulsory_total_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:background="#f0f0f0"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+
+                android:padding="@dimen/middle_padding"
+                android:text="基本险的报价详情"
+                android:textColor="@color/base_color"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <!--车辆损失险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="车辆损失险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+                <TextView
+                    android:id="@+id/tv_motor_vehicle_loss_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+
+                <TextView
+                    android:id="@+id/tv_motor_vehicle_loss_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+
+            </LinearLayout>
+
+
+            <!--第三者责任险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="第三者责任险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_third_responsibility_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_third_responsibility_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+            <!--司机座位险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="司机座位险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_cab_seat_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_cab_seat_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <!--乘客座位险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="乘客座位险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_passenger_seat_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_passenger_seat_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <!--盗抢险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="盗抢险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_rob_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_rob_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+
+                android:padding="@dimen/middle_padding"
+                android:text="附加险"
+                android:textColor="@color/base_color"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <!--玻璃险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="盗抢险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_shade_linig_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_shade_linig_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <!--自燃险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="自燃险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_spontaneous_combustion_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_spontaneous_combustion_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <!--新增设备险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="新增设备险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_new_equipment_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_new_equipment_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <!--刮痕险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="刮痕险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_scratches_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_scratches_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+            <!--发动机涉水险-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/middle_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="刮痕险"
+                    android:textColor="#3d3d3d"
+                    android:textSize="@dimen/big_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_engine_wading_insurance_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_weight="1"
+                    android:text="5万"
+                    android:textColor="#3d3d3d" />
+
+                <TextView
+                    android:id="@+id/tv_risk_of_engine_wading_insurance_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingRight="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="2000.0元"
+                    android:textColor="#0b0b0b" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_screen"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_quota_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/more_big_padding"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_marginRight="@dimen/middle_padding"
+                    android:layout_marginTop="@dimen/more_big_padding"
+                    android:background="@drawable/btn_select_base"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="去支付"
+                    android:textColor="@color/white_color"
+                    android:textSize="@dimen/tv_size_level_1" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.jiandanbaoxian.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</FrameLayout>

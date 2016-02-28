@@ -1,0 +1,305 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <com.jiandanbaoxian.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+                android:padding="@dimen/middle_padding"
+                android:text="被保人信息"
+                android:textColor="@color/base_color"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/very_light_gray_color" />
+            <!--保障人-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="被保人姓名"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入被保人姓名"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/very_light_gray_color" />
+            <!--保障人电话-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="被保人电话"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_user_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入被保人电话"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+                android:padding="@dimen/middle_padding"
+                android:text="保单收件人信息"
+                android:textColor="@color/base_color"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/very_light_gray_color" />
+            <!--保单收件人-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="收件人姓名"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_order_receive_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入收件人姓名"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/very_light_gray_color" />
+            <!--收件人电话-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="收件人电话"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_order_receive_user_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入收件人电话"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/very_light_gray_color" />
+            <!--收件人地址-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="收件人地址"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_order_receive_user_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入收件人地址"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+                android:padding="@dimen/middle_padding"
+                android:text="推荐人信息"
+                android:textColor="@color/base_color"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/very_light_gray_color" />
+            <!--推荐人信息-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="推荐人电话"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_recommend_user_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入推荐人电话"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f6"
+                android:padding="@dimen/middle_padding"
+                android:text="推荐人信息"
+                android:textColor="@color/base_color"
+                android:textSize="@dimen/small_textsize" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/very_light_gray_color" />
+            <!--经办人-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/middle_padding"
+                    android:text="经办人电话"
+                    android:textColor="#4f4f4f"
+                    android:textSize="@dimen/big_textsize" />
+
+                <EditText
+                    android:id="@+id/et_insure_operation_user_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入经办人电话"
+                    android:inputType="text"
+                    android:padding="@dimen/middle_padding"
+                    android:textColorHint="@color/tv_gray_color_level_1" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/middle_padding"
+                android:layout_marginRight="@dimen/middle_padding"
+                android:layout_marginTop="@dimen/most_big_padding"
+                android:background="@drawable/btn_select_base"
+                android:gravity="center"
+                android:paddingBottom="@dimen/middle_padding"
+                android:paddingTop="@dimen/middle_padding"
+                android:text="确认投保"
+                android:textColor="@color/white_color"
+                android:textSize="@dimen/tv_size_level_1" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
