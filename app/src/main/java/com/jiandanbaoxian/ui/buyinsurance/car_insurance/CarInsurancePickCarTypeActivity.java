@@ -81,7 +81,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         listView.addFooterView(footer);
     }
 
-    public static void startActivity(Activity activity,String licenseplate, String engineNumber, String frameNumber, String userName,
+    public static void startActivity(Activity activity, String licenseplate, String engineNumber, String frameNumber, String userName,
                                      String province_no, String province_name, String city_no, String city_name, String country_no, String country_name,
                                      String transfer, String transferDate, String registrationDateString, String issueDateString, String idcardNum) {
         Intent intent = new Intent(activity, CarInsurancePickCarTypeActivity.class);
@@ -122,7 +122,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         country_name = getIntent().getStringExtra("country_name");
         transfer = getIntent().getStringExtra("transfer");
         transferDate = getIntent().getStringExtra("transferDate");
-        regiterationDateString = getIntent().getStringExtra("registerationDateString");
+        regiterationDateString = getIntent().getStringExtra("registrationDateString");
         issueDateString = getIntent().getStringExtra("issueDateString");
         idcardNum = getIntent().getStringExtra("idcardNum");
 
@@ -148,9 +148,13 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         tvEnquiry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isValidToNextActivity || true) {
-                    CarInsurancePricePlanActivity.startActivity(activity,licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
+                if (isValidToNextActivity) {
+                    CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
                             provence_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
+                } else {
+                    CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
+                            provence_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
+
                 }
             }
         });
@@ -169,8 +173,6 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
                     model_code = vehicleTypeInfos.get(position).getModel_code();
                     newValue = vehicleTypeInfos.get(position).getCar_price();
                     adapter.notifyDataSetChanged();
-
-                    tvEnquiry.performClick();
 
                 }
             }

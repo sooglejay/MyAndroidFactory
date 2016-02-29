@@ -423,12 +423,6 @@
                     android:layout_marginRight="@dimen/small_padding"
                     android:layout_weight="1">
 
-                    <Spinner
-                        android:id="@+id/spinner_rob"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_selector"
-                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -445,14 +439,14 @@
                         android:id="@+id/iv_SDEW_rob_insurance"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
+                        android:src="@drawable/icon_choose" />
 
                     <TextView
                         android:id="@+id/tv_SDEW_rob_insurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
+                        android:textColor="#f0f0f0" />
 
                 </LinearLayout>
 
@@ -515,6 +509,7 @@
                     android:id="@+id/layout_shade_lining_insurance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="invisible"
                     android:layout_marginRight="@dimen/middle_padding"
                     android:background="@drawable/btn_select_white"
                     android:gravity="center"
@@ -525,14 +520,14 @@
                         android:id="@+id/iv_SDEW_shade_lining_insurance"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
+                        android:src="@drawable/icon_choose" />
 
                     <TextView
                         android:id="@+id/tv_SDEW_shade_lining_insurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
+                        android:textColor="#f0f0f0" />
 
                 </LinearLayout>
 
@@ -578,7 +573,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/spinner_selector"
-
                         android:gravity="center" />
 
                 </LinearLayout>
@@ -586,6 +580,7 @@
                 <LinearLayout
                     android:id="@+id/layout_risk_of_scratches_insurance"
                     android:layout_width="wrap_content"
+                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/middle_padding"
                     android:background="@drawable/btn_select_white"
@@ -597,14 +592,14 @@
                         android:id="@+id/iv_SDEW_risk_of_scratches_insurance"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
+                        android:src="@drawable/icon_choose" />
 
                     <TextView
                         android:id="@+id/tv_SDEW_risk_of_scratches_insurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
+                        android:textColor="#f0f0f0" />
                 </LinearLayout>
 
                 <com.jiandanbaoxian.widget.customswitch.SwitchButton
@@ -643,13 +638,6 @@
                     android:layout_marginLeft="@dimen/small_padding"
                     android:layout_marginRight="@dimen/small_padding"
                     android:layout_weight="1">
-
-                    <Spinner
-                        android:id="@+id/spinner_risk_of_spontaneous_combustion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_selector"
-                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -666,14 +654,14 @@
                         android:id="@+id/iv_SDEW_risk_of_spontaneous_combustion_insurance"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
+                        android:src="@drawable/icon_choose" />
 
                     <TextView
                         android:id="@+id/tv_SDEW_risk_of_spontaneous_combustion_insurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
+                        android:textColor="#f0f0f0" />
 
                 </LinearLayout>
 
@@ -712,14 +700,6 @@
                     android:layout_marginLeft="@dimen/small_padding"
                     android:layout_marginRight="@dimen/small_padding"
                     android:layout_weight="1">
-
-                    <Spinner
-                        android:id="@+id/spinner_engine_wading_insurance_risk"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_selector"
-
-                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -736,14 +716,14 @@
                         android:id="@+id/iv_SDEW_risk_of_engine_wading_insurance"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
+                        android:src="@drawable/icon_choose" />
 
                     <TextView
                         android:id="@+id/tv_SDEW_risk_of_engine_wading_insurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
+                        android:textColor="#f0f0f0" />
                 </LinearLayout>
 
                 <com.jiandanbaoxian.widget.customswitch.SwitchButton
@@ -783,15 +763,13 @@
                     android:layout_marginRight="@dimen/small_padding"
                     android:layout_weight="1">
 
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_selector"
-                        android:gravity="center" />
+
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_motor_vehicle_loss_and_third_responsibility_insurance"
                     android:layout_width="wrap_content"
+                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/middle_padding"
                     android:background="@drawable/btn_select_white"
@@ -800,18 +778,21 @@
                     android:paddingTop="@dimen/middle_padding">
 
                     <ImageView
+                        android:id="@+id/iv_SDEW_motor_vehicle_loss_and_third_responsibility_insurance"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_choose_selected" />
+                        android:src="@drawable/icon_choose" />
 
                     <TextView
+                        android:id="@+id/tv_SDEW_motor_vehicle_loss_and_third_responsibility_insurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="不计免赔"
-                        android:textColor="#0b0b0b" />
+                        android:textColor="#f0f0f0" />
                 </LinearLayout>
 
                 <com.jiandanbaoxian.widget.customswitch.SwitchButton
+                    android:id="@+id/switch_motor_vehicle_loss_and_third_responsibility_insurance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

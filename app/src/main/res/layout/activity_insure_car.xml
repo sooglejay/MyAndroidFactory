@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="请输入车牌号码"
+                        android:hint="填写车牌号码"
                         android:inputType="text"
                         android:padding="@dimen/middle_padding"
                         android:textColor="#0b0b0b"
@@ -113,7 +113,41 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="请输入车主姓名"
+                        android:hint="填写车主姓名"
+                        android:inputType="text"
+                        android:padding="@dimen/middle_padding"
+                        android:textColor="#0b0b0b"
+                        android:textColorHint="@color/tv_gray_color_level_1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/very_light_gray_color" />
+                <!--身份证号-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/middle_padding"
+                        android:text="身份证号"
+                        android:textColor="#3d3d3d"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <EditText
+                        android:id="@+id/et_id_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:digits="@string/id_card"
+                        android:hint="填写身份证号码"
                         android:inputType="text"
                         android:padding="@dimen/middle_padding"
                         android:textColor="#0b0b0b"
@@ -149,7 +183,7 @@
                         android:background="@drawable/btn_select_white_to_little_gray"
                         android:gravity="center"
                         android:padding="@dimen/middle_padding"
-                        android:text="请选择行驶区域"
+                        android:text="选择行驶区域"
                         android:textColor="#3d3d3d"
                         android:textSize="@dimen/big_textsize" />
 
@@ -181,6 +215,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:background="@color/white_color"
                     android:orientation="horizontal">
 
@@ -199,7 +234,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="请输入品牌型号"
+                        android:hint="填写品牌型号"
                         android:inputType="text"
                         android:padding="@dimen/middle_padding"
                         android:textColor="#0b0b0b"
@@ -234,7 +269,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="请输入车架号码"
+                        android:hint="填写车架号码"
                         android:inputType="text"
                         android:padding="@dimen/middle_padding"
                         android:textColor="#0b0b0b"
@@ -269,12 +304,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="请输入发动机号"
+                        android:hint="填写发动机号"
                         android:inputType="text"
                         android:padding="@dimen/middle_padding"
                         android:textColor="#0b0b0b"
                         android:textColorHint="@color/tv_gray_color_level_1" />
                 </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -324,47 +360,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/very_light_gray_color" />
-                <!--身份证号-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white_color"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/middle_padding"
-                        android:text="身份证号"
-                        android:textColor="#3d3d3d"
-                        android:textSize="@dimen/big_textsize" />
-
-                    <EditText
-                        android:id="@+id/et_id_number"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:digits="@string/id_card"
-                        android:hint="请输入身份证号码"
-                        android:inputType="text"
-                        android:padding="@dimen/middle_padding"
-                        android:textColor="#0b0b0b"
-                        android:textColorHint="@color/tv_gray_color_level_1" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/very_light_gray_color" />
                 <!--是否过户-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white_color"
                     android:orientation="horizontal"
-                    android:padding="@dimen/middle_padding">
+                    android:padding="@dimen/middle_padding"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -404,231 +407,15 @@
 
                 </LinearLayout>
             </LinearLayout>
-
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/very_light_gray_color" />-->
-            <!--&lt;!&ndash;发证日期&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/btn_select_white"-->
-            <!--android:clickable="true"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:visibility="gone">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="发证日期"-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tv_fazheng_date"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/btn_select_white"-->
-            <!--android:padding="@dimen/middle_padding"-->
-            <!--android:text="2015-10-11"-->
-            <!--android:textColor="#0b0b0b" />-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:src="@drawable/arrow_right" />-->
-            <!--</LinearLayout>-->
-
-
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/very_light_gray_color"-->
-            <!--android:visibility="gone" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="#f5f5f6"-->
-            <!--android:paddingBottom="@dimen/small_padding"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:paddingTop="@dimen/small_padding"-->
-            <!--android:text="起保日期"-->
-            <!--android:textColor="@color/tv_gray_color_level_3"-->
-            <!--android:textSize="@dimen/small_textsize"-->
-            <!--android:visibility="gone" />-->
-
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/very_light_gray_color"-->
-            <!--android:visibility="gone" />-->
-
-            <!--<FrameLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/white_color">-->
-
-            <!--&lt;!&ndash;身份证号码&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="身份证号(可扫描)"-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/et_user_id_card_number"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@null"-->
-            <!--android:hint="请输入身份证号"-->
-            <!-- android:digits="@string/id_card"-->
-            <!--android:padding="@dimen/middle_padding"-->
-            <!--android:textColorHint="@color/tv_gray_color_level_1" />-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/layout_scan_id_card"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right|center_vertical"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingRight="@dimen/middle_padding">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:src="@drawable/icon_choose_pic_small" />-->
-            <!--</LinearLayout>-->
-            <!--</FrameLayout>-->
-
-
-            <!--&lt;!&ndash;商业险&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/btn_select_white"-->
-            <!--android:clickable="true"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:visibility="gone">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="商业险    "-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tv_commercial_pick_date"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:padding="@dimen/middle_padding"-->
-            <!--android:text="2015-10-11"-->
-            <!--android:textColor="#0b0b0b" />-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:src="@drawable/arrow_right" />-->
-            <!--</LinearLayout>-->
-
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/very_light_gray_color"-->
-            <!--android:visibility="gone" />-->
-            <!--&lt;!&ndash;交强险&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/btn_select_white"-->
-            <!--android:clickable="true"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:visibility="gone">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="交强险    "-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tv_jqx_pick_date"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:padding="@dimen/middle_padding"-->
-            <!--android:text="2015-10-11"-->
-            <!--android:textColor="#0b0b0b" />-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:src="@drawable/arrow_right" />-->
-            <!--</LinearLayout>-->
-
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/white_color"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/middle_padding"-->
-            <!--android:text="起保日期"-->
-            <!--android:textColor="#3d3d3d"-->
-            <!--android:textSize="@dimen/big_textsize" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/et_insure_date"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@null"-->
-            <!--android:hint="请扫描或输入登记日期"-->
-            <!--android:inputType="text"-->
-            <!--android:padding="@dimen/middle_padding"-->
-            <!--android:textColorHint="@color/tv_gray_color_level_1" />-->
-            <!--</LinearLayout>-->
             <View
                 android:id="@+id/line"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/very_light_gray_color" />
-            <!--身份证号-->
+                android:background="@color/very_light_gray_color"
+                android:visibility="gone" />
             <LinearLayout
                 android:id="@+id/layout_issue_date"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:background="@color/white_color"
                 android:orientation="horizontal">
