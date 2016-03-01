@@ -29,6 +29,10 @@ public class PreferenceUtil {
     }
 
 
+    public static void save(Context context, String key, Long value) {
+        getEditor(context).putLong(key, value).commit();
+    }
+
     public static void save(Context context, String key, long value) {
         getEditor(context).putLong(key, value).commit();
     }
@@ -52,6 +56,10 @@ public class PreferenceUtil {
     public static float load(Context context, String key, float defaultValue) {
         return getSharedPreferences(context).getFloat(key, defaultValue);
 
+    }
+
+    public static long load(Context context, String key, Long defaultValue) {
+        return getSharedPreferences(context).getLong(key, defaultValue);
     }
 
     public static long load(Context context, String key, long defaultValue) {

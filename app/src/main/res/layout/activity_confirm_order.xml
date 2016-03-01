@@ -286,20 +286,28 @@
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tv_pay"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/middle_padding"
-                android:layout_marginRight="@dimen/middle_padding"
-                android:layout_marginTop="@dimen/most_big_padding"
-                android:background="@drawable/btn_select_base"
-                android:gravity="center"
-                android:paddingBottom="@dimen/middle_padding"
-                android:paddingTop="@dimen/middle_padding"
-                android:text="确认投保"
-                android:textColor="@color/white_color"
-                android:textSize="@dimen/tv_size_level_1" />
+                android:layout_height="match_parent"
+                android:background="@color/bg_screen"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginLeft="@dimen/middle_padding"
+                    android:layout_marginRight="@dimen/middle_padding"
+                    android:layout_marginTop="@dimen/most_big_padding"
+                    android:background="@drawable/btn_select_base"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/middle_padding"
+                    android:paddingTop="@dimen/middle_padding"
+                    android:text="确认投保"
+                    android:textColor="@color/white_color"
+                    android:textSize="@dimen/tv_size_level_1" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

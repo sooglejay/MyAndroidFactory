@@ -53,7 +53,6 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
     private String issueDateString = "";
 
 
-    private String provence_no = "";
     private String licenseplate = "";
     private String frameNumber = "";
     private String engineNumber = "";
@@ -150,10 +149,10 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
             public void onClick(View v) {
                 if (isValidToNextActivity) {
                     CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
-                            provence_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
+                            province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
                 } else {
                     CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
-                            provence_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
+                            province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
 
                 }
             }

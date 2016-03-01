@@ -46,6 +46,11 @@ public class PreferenceConstant {
     public static final String etOwnerName = "etOwnerName";
     public static final String etIdNumber = "etIdNumber";
     public static final String etLicensePlateNumber = "etLicensePlateNumber";
+    public static final String registrationDateLong = "registrationDateLong";
+    public static final String issueDateLong = "issueDateLong";
+
+    public static final String commercestartdate = "commercestartdate";
+    public static final String compulsorystartdate = "compulsorystartdate";
 
 
 

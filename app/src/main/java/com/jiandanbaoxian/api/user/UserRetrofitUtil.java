@@ -1995,7 +1995,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                   NetCallback<NetWorkResultBean<CommPriceData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
-        String k =
+
+        String k2 =
                 "userid=" + userid +
                         "&licenseplate=" + licenseplate +
                         "&enginenumber=" + enginenumber +
@@ -2018,36 +2019,11 @@ public class UserRetrofitUtil extends RetrofitUtil {
                         "&phone=" + phone +
                         "&compulsoryAmt=" + compulsoryAmt +
                         "&insuranceItems=" + insuranceItems +
-                        "&type=" +type+
+                        "&type=" + type +
                         "";
-//        String test="userid=48&licenseplate=鲁Y6U166&enginenumber=1201279207&framenumber=LGWCAC1A2CC000143&seatingcapacity=0&newValue=76500&model_code=DED1119BDC&registrationDate=1330531200000&ownerName=林宗钱&commercestartdate=1458489600000&compulsorystartdate=1458489600000&issueDate=1330531200000&provence=山东省&provence_no=370000&city_no=370600&county_no=370613&transfer=0&transferDate=0&idcardNum=320681198612020056&phone=13700000000&compulsoryAmt=122000&insuranceItems=[{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030101\",\"insrnc_name\":\"车辆损失险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":306006009,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030102\",\"insrnc_name\":\"第三方责任险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":10000,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030104\",\"insrnc_name\":\"司机座位险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":10000,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030105\",\"insrnc_name\":\"乘客座位险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":0,\"insrnc_cde\":\"030107\",\"insrnc_name\":\"盗抢险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030116\",\"insrnc_name\":\"自燃险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"}]&type=0";
-//      String k =
-//                "userid=" + userid +
-//                        "&licenseplate=" + licenseplate +
-//                        "&enginenumber=" + enginenumber +
-//                        "&framenumber=" + framenumber +
-//                        "&seatingcapacity=" + "0" +
-//                        "&newValue=" + newValue +
-//                        "&model_code=" + model_code +
-//                        "&registrationDate=" + "1330531200000" +
-//                        "&ownerName=" + "鹿修学" +
-//                        "&commercestartdate=" + commercestartdate +
-//                        "&compulsorystartdate=" + compulsorystartdate +
-//                        "&issueDate=" + "1330531200000" +
-//                        "&provence=" + "山东省" +
-//                        "&provence_no=" + "370000" +
-//                        "&city_no=" + "370400" +
-//                        "&county_no=" + "370403" +
-//                        "&transfer=" + 0 +
-//                        "&transferDate=" + 0 +
-//                        "&idcardNum=" + "320681198612020056" +
-//                        "&phone=" + "13700000000" +
-//                        "&compulsoryAmt=" + 122000 +
-//                        "&insuranceItems=" + "[{\"amt\":306006006,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030102\",\"insrnc_name\":\"第三方责任险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":10000,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030104\",\"insrnc_name\":\"司机座位险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"}]&type=0";
-////        String test="userid=48&licenseplate=鲁Y6U166&enginenumber=1201279207&framenumber=LGWCAC1A2CC000143&seatingcapacity=0&newValue=76500&model_code=DED1119BDC&registrationDate=1330531200000&ownerName=林宗钱&commercestartdate=1458489600000&compulsorystartdate=1458489600000&issueDate=1330531200000&provence=山东省&provence_no=370000&city_no=370600&county_no=370613&transfer=0&transferDate=0&idcardNum=320681198612020056&phone=13700000000&compulsoryAmt=122000&insuranceItems=[{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030101\",\"insrnc_name\":\"车辆损失险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":306006009,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030102\",\"insrnc_name\":\"第三方责任险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":10000,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030104\",\"insrnc_name\":\"司机座位险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":10000,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030105\",\"insrnc_name\":\"乘客座位险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":0,\"insrnc_cde\":\"030107\",\"insrnc_name\":\"盗抢险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"},{\"amt\":0,\"bullet_glass\":-1,\"c_ly15\":-1,\"franchise_flag\":1,\"insrnc_cde\":\"030116\",\"insrnc_name\":\"自燃险\",\"number\":-1,\"premium\":-1.0,\"remark\":\"\"}]&type=0";
-        String s = Base64Util.encode(k.getBytes());
-        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
-        Log.e("qq", k);
+        String s = Base64Util.encode(k2.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k2 + "\n加密后参数:" + s);
+        Log.e("qq", k2);
         git.quotaPrice(s, callback);
     }
 

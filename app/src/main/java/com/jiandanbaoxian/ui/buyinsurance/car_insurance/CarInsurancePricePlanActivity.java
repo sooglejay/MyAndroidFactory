@@ -15,6 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.jiandanbaoxian.adapter.SpinnerDropDownAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
@@ -35,11 +40,13 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -50,6 +57,11 @@ import retrofit.client.Response;
  * Created by sooglejay on 16/2/24.
  */
 public class CarInsurancePricePlanActivity extends BaseActivity {
+
+    java.text.NumberFormat nf = java.text.NumberFormat.getInstance();//double 不使用科学计数法
+    private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
+
+
     private Activity activity;
     ProgressDialogUtil progressDialogUtil;
 
@@ -59,8 +71,8 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     double newValue = 0;
     String model_code = "";
     String ownerName = "";
-    String commercestartdate = "0";
-    String compulsorystartdate = "0";
+    long commercestartdate = 0;
+    long compulsorystartdate = 0;
 
 
     private String licenseplate = "";
@@ -73,10 +85,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     String provence = "";
     String provnce_no = "";
     String city_no = "";
-    String city_number = "";
     String country_no = "";
-    String country_name = "";
-    String county_no = "";
     String transfer = "1";
     String transferDate = "0";
     String idcardNum = "";
@@ -107,30 +116,32 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     private boolean flag_switch_SDEWCabSeatInsurance = true;
     private boolean flag_switch_SDEWMotorVehicleLossInsurance = true;
     private boolean flag_switch_SDEWPassengerSeatInsurance = true;
-    private boolean flag_switch_SDEWRobInsurance = true;
     private boolean flag_switch_SDEWThirdResponsibilityInsurance = true;
 
 
-    //基本险
-    private boolean flag_layout_SDEWCabSeatInsurance = true;
-    private boolean flag_layout_SDEWMotorVehicleLossInsurance = true;
-    private boolean flag_layout_SDEWPassengerSeatInsurance = true;
-    private boolean flag_layout_SDEWRobInsurance = true;
-    private boolean flag_layout_SDEWThirdResponsibilityInsurance = true;
+    private boolean flag_switch_SDEWRobInsurance = false;
+
+
+//    //基本险
+//    private boolean flag_layout_SDEWCabSeatInsurance = false;
+//    private boolean flag_layout_SDEWMotorVehicleLossInsurance = false;
+//    private boolean flag_layout_SDEWPassengerSeatInsurance = false;
+//    private boolean flag_layout_SDEWRobInsurance = false;
+//    private boolean flag_layout_SDEWThirdResponsibilityInsurance = false;
 
 
     //附加险
-    private boolean flag_switch_SDEWShadeLiningInsurance = true;//玻璃险
-    private boolean flag_switch_SDEWRiskOfSpontaneousCombustionInsurance = true;//自燃险
-    private boolean flag_switch_SDEWRiskOfScratchesInsurance = true;//刮痕险
-    private boolean flag_switch_SDEWRiskOfEngineWadingInsurance = true;//发动机涉水险
+    private boolean flag_switch_SDEWShadeLiningInsurance = false;//玻璃险
+    private boolean flag_switch_SDEWRiskOfSpontaneousCombustionInsurance = false;//自燃险
+    private boolean flag_switch_SDEWRiskOfScratchesInsurance = false;//刮痕险
+    private boolean flag_switch_SDEWRiskOfEngineWadingInsurance = false;//发动机涉水险
 
 
-    //附加险
-    private boolean flag_layout_SDEWShadeLiningInsurance = true;
-    private boolean flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = true;
-    private boolean flag_layout_SDEWRiskOfScratchesInsurance = true;
-    private boolean flag_layout_SDEWRiskOfEngineWadingInsurance = true;
+//    //附加险
+//    private boolean flag_layout_SDEWShadeLiningInsurance = false;
+//    private boolean flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = false;
+//    private boolean flag_layout_SDEWRiskOfScratchesInsurance = false;
+//    private boolean flag_layout_SDEWRiskOfEngineWadingInsurance = false;
 
 
     List<String> valuesOfScratchesInsurance = new ArrayList<>();
@@ -198,9 +209,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     private LinkedHashMap<String, Double> hashCabSeatInsurance = new LinkedHashMap<>();
     private LinkedHashMap<String, Double> hashPassengerInsurance = new LinkedHashMap<>();
     private LinkedHashMap<String, Double> hashShadelining = new LinkedHashMap<>();
-
-
-    private SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");//日期格式化
 
 
     public static void startActivity(Activity activity, String licenseplate,
@@ -353,10 +361,12 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         setContentView(R.layout.activity_insure_car_plan);
         activity = this;
         progressDialogUtil = new ProgressDialogUtil(activity);
+        nf.setGroupingUsed(false);
         getIntentData();
         findViews();
         setUp();
         setLisenter();
+
     }
 
     private void getIntentData() {
@@ -367,9 +377,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         provnce_no = getIntent().getStringExtra("province_no");
         provence = getIntent().getStringExtra("province_name");
         city_no = getIntent().getStringExtra("city_no");
-        city_no = getIntent().getStringExtra("city_name");
         country_no = getIntent().getStringExtra("country_no");
-        country_name = getIntent().getStringExtra("country_name");
         model_code = getIntent().getStringExtra("model_code");
         newValue = getIntent().getFloatExtra("newValue", 0);
         transfer = getIntent().getStringExtra("transfer");
@@ -436,7 +444,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                 //车损险
                 if (flag_switch_SDEWMotorVehicleLossInsurance) {
                     insuranceItemDatas.add(motor_vehicle_loss_insurance);
-
                 }
                 //司机险
                 if (flag_switch_SDEWCabSeatInsurance) {
@@ -467,17 +474,28 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                     insuranceItemDatas.add(shade_lining_insurance);
                 }
                 //第三方责任险
-                if (flag_layout_SDEWThirdResponsibilityInsurance) {
+                if (flag_switch_SDEWThirdResponsibilityInsurance) {
                     insuranceItemDatas.add(third_responsibility_insurance);
 
                 }
 
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder().
+                        registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
+                            @Override
+                            public JsonElement serialize(Double src, Type typeOfSrc, JsonSerializationContext context) {
+                                if (src == src.doubleValue())
+                                    return new JsonPrimitive(nf.format(src.doubleValue()));
+                                else if (src == src.longValue())
+                                    return new JsonPrimitive(nf.format(src.longValue()));
+                                return new JsonPrimitive(nf.format(src));
+                            }
+                        }).create();
+
                 insuranceItems = gson.toJson(insuranceItemDatas);
                 progressDialogUtil.show("正在获取保险信息...");
                 UserRetrofitUtil.quotaPrice(activity, userid, licenseplate, engineNumber, frameNumber, seatingcapacity, newValue + "",
-                        model_code, registrationDateString, ownerName, commercestartdate, compulsorystartdate, issueDateString, provence, provnce_no,
-                        city_no, county_no, transfer, transferDate, idcardNum, phone, compulsoryAmt, insuranceItems, type,
+                        model_code, registrationDateString, ownerName, commercestartdate + "", compulsorystartdate + "", issueDateString, provence, provnce_no,
+                        city_no, country_no, transfer, transferDate, idcardNum, phone, compulsoryAmt, insuranceItems, type,
                         new NetCallback<NetWorkResultBean<CommPriceData>>(activity) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
@@ -524,16 +542,14 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                         if (dayOfMonth < 10 && dd.length() == 1) {
                             dd = "0" + dd;
                         }
-                        long commercialDateLong = 0;
                         try {
-                            commercialDateLong = dateFormat_yyyy_MM_dd.parse(year + "-" + mm + "-" + dd).getTime();
+                            commercestartdate = dateFormat_yyyy_MM_dd.parse(year + "-" + mm + "-" + dd).getTime();
                         } catch (ParseException e) {
-                            commercialDateLong = 0L;
+                            commercestartdate = 0L;
                             e.printStackTrace();
                             Toast.makeText(activity, "Error in convert time !", Toast.LENGTH_LONG).show();
                         } finally {
-                            Toast.makeText(activity, commercialDateLong + "", Toast.LENGTH_LONG).show();
-                            commercestartdate = commercialDateLong + "";
+                            Toast.makeText(activity, commercestartdate + "", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -558,16 +574,15 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                         if (dayOfMonth < 10 && dd.length() == 1) {
                             dd = "0" + dd;
                         }
-                        long compulsoryDateLong = 0;
+
                         try {
-                            compulsoryDateLong = dateFormat_yyyy_MM_dd.parse(year + "-" + mm + "-" + dd).getTime();
+                            compulsorystartdate = dateFormat_yyyy_MM_dd.parse(year + "-" + mm + "-" + dd).getTime();
                         } catch (ParseException e) {
-                            compulsoryDateLong = 0L;
+                            compulsorystartdate = 0L;
                             e.printStackTrace();
                             Toast.makeText(activity, "Error in convert time !", Toast.LENGTH_LONG).show();
                         } finally {
-                            Toast.makeText(activity, compulsoryDateLong + "", Toast.LENGTH_LONG).show();
-                            compulsorystartdate = compulsoryDateLong + "";
+                            Toast.makeText(activity, compulsorystartdate + "", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -577,194 +592,194 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         });
     }
 
-    private void setLayoutOnClickListener() {
-        layoutCabSeatInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWCabSeatInsurance) {
-                    if (flag_layout_SDEWCabSeatInsurance) {
-                        cab_seat_insurance.setFranchise_flag(1);//不计免赔
-
-                        flag_layout_SDEWCabSeatInsurance = false;
-                        ivSDEWCabSeatInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWCabSeatInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        cab_seat_insurance.setFranchise_flag(-1);//不计免赔
-
-                        flag_layout_SDEWCabSeatInsurance = true;
-                        ivSDEWCabSeatInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWCabSeatInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-        layoutMotorVehicleLossInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWMotorVehicleLossInsurance) {
-                    if (flag_layout_SDEWMotorVehicleLossInsurance) {
-                        motor_vehicle_loss_insurance.setFranchise_flag(1);//不计免赔
-
-                        flag_layout_SDEWMotorVehicleLossInsurance = false;
-                        ivSDEWMotorVehicleLossInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWMotorVehicleLossInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        motor_vehicle_loss_insurance.setFranchise_flag(-1);
-
-                        flag_layout_SDEWMotorVehicleLossInsurance = true;
-                        ivSDEWMotorVehicleLossInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWMotorVehicleLossInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-        layoutPassengerSeatInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWPassengerSeatInsurance) {
-                    if (flag_layout_SDEWPassengerSeatInsurance) {
-                        passenger_seat_insurance.setFranchise_flag(1);//不计免赔
-
-                        flag_layout_SDEWPassengerSeatInsurance = false;
-                        ivSDEWPassengerSeatInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWPassengerSeatInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        passenger_seat_insurance.setFranchise_flag(-1);//不计免赔
-
-                        flag_layout_SDEWPassengerSeatInsurance = true;
-                        ivSDEWPassengerSeatInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWPassengerSeatInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-
-        layoutRobInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWRobInsurance) {
-                    if (flag_layout_SDEWRobInsurance) {
-                        rob_insurance.setFranchise_flag(1);//不计免赔
-
-                        flag_layout_SDEWRobInsurance = false;
-                        ivSDEWRobInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWRobInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        rob_insurance.setFranchise_flag(-1);//不计免赔
-
-                        flag_layout_SDEWRobInsurance = true;
-                        ivSDEWRobInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWRobInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-
-        layoutThirdResponsibility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWThirdResponsibilityInsurance) {
-                    if (flag_layout_SDEWThirdResponsibilityInsurance) {
-                        third_responsibility_insurance.setFranchise_flag(1);//不计免赔
-
-                        flag_layout_SDEWThirdResponsibilityInsurance = false;
-                        ivSDEWThirdResponsibilityInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWThirdResponsibilityInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        third_responsibility_insurance.setFranchise_flag(-1);//不计免赔
-
-                        flag_layout_SDEWThirdResponsibilityInsurance = true;
-                        ivSDEWThirdResponsibilityInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWThirdResponsibilityInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-
-        //附加险
-        layoutShadeLiningInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWShadeLiningInsurance) {
-                    if (flag_layout_SDEWShadeLiningInsurance) {
-                        shade_lining_insurance.setFranchise_flag(1);//不计免赔
-                        flag_layout_SDEWShadeLiningInsurance = false;
-                        ivSDEWShadeLiningInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWShadeLiningInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        shade_lining_insurance.setFranchise_flag(-1);//不计免赔
-                        flag_layout_SDEWShadeLiningInsurance = true;
-                        ivSDEWShadeLiningInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWShadeLiningInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-        //自燃险
-        layoutRiskOfSpontaneousCombustionInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWRiskOfSpontaneousCombustionInsurance) {
-                    if (flag_layout_SDEWRiskOfSpontaneousCombustionInsurance) {
-                        risk_of_spontaneous_combustion_insurance.setFranchise_flag(1);//不计免赔
-                        flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = false;
-                        ivSDEWRiskOfSpontaneousCombustionInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWRiskOfSpontaneousCombustionInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        risk_of_spontaneous_combustion_insurance.setFranchise_flag(-1);
-                        flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = true;
-                        ivSDEWRiskOfSpontaneousCombustionInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWRiskOfSpontaneousCombustionInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-        layoutRiskOfScratchesInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWRiskOfScratchesInsurance) {
-                    if (flag_layout_SDEWRiskOfScratchesInsurance) {
-                        risk_of_scratches_insurance.setFranchise_flag(1);//不计免赔
-                        flag_layout_SDEWRiskOfScratchesInsurance = false;
-                        ivSDEWRiskOfScratchesInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWRiskOfScratchesInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        risk_of_scratches_insurance.setFranchise_flag(-1);//不计免赔
-                        flag_layout_SDEWRiskOfScratchesInsurance = true;
-                        ivSDEWRiskOfScratchesInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWRiskOfScratchesInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-
-
-        layoutRiskOfEngineWadingInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag_switch_SDEWRiskOfEngineWadingInsurance) {
-                    if (flag_layout_SDEWRiskOfEngineWadingInsurance) {
-                        risk_of_engine_wading_insurance.setFranchise_flag(1);//不计免赔
-                        flag_layout_SDEWRiskOfEngineWadingInsurance = false;
-                        ivSDEWRiskOfEngineWadingInsurance.setImageResource(R.drawable.icon_choose);
-                        tvSDEWRiskOfEngineWadingInsurance.setTextColor(Color.parseColor("#f0f0f0"));
-                    } else {
-                        risk_of_engine_wading_insurance.setFranchise_flag(-1);//不计免赔
-                        flag_layout_SDEWRiskOfEngineWadingInsurance = true;
-                        ivSDEWRiskOfEngineWadingInsurance.setImageResource(R.drawable.icon_choose_selected);
-                        tvSDEWRiskOfEngineWadingInsurance.setTextColor(Color.parseColor("#0b0b0b"));
-                    }
-                }
-            }
-        });
-    }
+//    private void setLayoutOnClickListener() {
+//        layoutCabSeatInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWCabSeatInsurance) {
+//                    if (flag_layout_SDEWCabSeatInsurance) {
+//                        cab_seat_insurance.setFranchise_flag(1);//不计免赔
+//
+//                        flag_layout_SDEWCabSeatInsurance = false;
+//                        ivSDEWCabSeatInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWCabSeatInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        cab_seat_insurance.setFranchise_flag(-1);//不计免赔
+//
+//                        flag_layout_SDEWCabSeatInsurance = true;
+//                        ivSDEWCabSeatInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWCabSeatInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//        layoutMotorVehicleLossInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWMotorVehicleLossInsurance) {
+//                    if (flag_layout_SDEWMotorVehicleLossInsurance) {
+//                        motor_vehicle_loss_insurance.setFranchise_flag(1);//不计免赔
+//
+//                        flag_layout_SDEWMotorVehicleLossInsurance = false;
+//                        ivSDEWMotorVehicleLossInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWMotorVehicleLossInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        motor_vehicle_loss_insurance.setFranchise_flag(-1);
+//
+//                        flag_layout_SDEWMotorVehicleLossInsurance = true;
+//                        ivSDEWMotorVehicleLossInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWMotorVehicleLossInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//        layoutPassengerSeatInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWPassengerSeatInsurance) {
+//                    if (flag_layout_SDEWPassengerSeatInsurance) {
+//                        passenger_seat_insurance.setFranchise_flag(1);//不计免赔
+//
+//                        flag_layout_SDEWPassengerSeatInsurance = false;
+//                        ivSDEWPassengerSeatInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWPassengerSeatInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        passenger_seat_insurance.setFranchise_flag(-1);//不计免赔
+//
+//                        flag_layout_SDEWPassengerSeatInsurance = true;
+//                        ivSDEWPassengerSeatInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWPassengerSeatInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//
+//        layoutRobInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWRobInsurance) {
+//                    if (flag_layout_SDEWRobInsurance) {
+//                        rob_insurance.setFranchise_flag(1);//不计免赔
+//
+//                        flag_layout_SDEWRobInsurance = false;
+//                        ivSDEWRobInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWRobInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        rob_insurance.setFranchise_flag(-1);//不计免赔
+//
+//                        flag_layout_SDEWRobInsurance = true;
+//                        ivSDEWRobInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWRobInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//
+//        layoutThirdResponsibility.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWThirdResponsibilityInsurance) {
+//                    if (flag_layout_SDEWThirdResponsibilityInsurance) {
+//                        third_responsibility_insurance.setFranchise_flag(1);//不计免赔
+//
+//                        flag_layout_SDEWThirdResponsibilityInsurance = false;
+//                        ivSDEWThirdResponsibilityInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWThirdResponsibilityInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        third_responsibility_insurance.setFranchise_flag(-1);//不计免赔
+//
+//                        flag_layout_SDEWThirdResponsibilityInsurance = true;
+//                        ivSDEWThirdResponsibilityInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWThirdResponsibilityInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//
+//        //附加险
+//        layoutShadeLiningInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWShadeLiningInsurance) {
+//                    if (flag_layout_SDEWShadeLiningInsurance) {
+//                        shade_lining_insurance.setFranchise_flag(1);//不计免赔
+//                        flag_layout_SDEWShadeLiningInsurance = false;
+//                        ivSDEWShadeLiningInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWShadeLiningInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        shade_lining_insurance.setFranchise_flag(-1);//不计免赔
+//                        flag_layout_SDEWShadeLiningInsurance = true;
+//                        ivSDEWShadeLiningInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWShadeLiningInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//        //自燃险
+//        layoutRiskOfSpontaneousCombustionInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWRiskOfSpontaneousCombustionInsurance) {
+//                    if (flag_layout_SDEWRiskOfSpontaneousCombustionInsurance) {
+//                        risk_of_spontaneous_combustion_insurance.setFranchise_flag(1);//不计免赔
+//                        flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = false;
+//                        ivSDEWRiskOfSpontaneousCombustionInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWRiskOfSpontaneousCombustionInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        risk_of_spontaneous_combustion_insurance.setFranchise_flag(-1);
+//                        flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = true;
+//                        ivSDEWRiskOfSpontaneousCombustionInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWRiskOfSpontaneousCombustionInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//        layoutRiskOfScratchesInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWRiskOfScratchesInsurance) {
+//                    if (flag_layout_SDEWRiskOfScratchesInsurance) {
+//                        risk_of_scratches_insurance.setFranchise_flag(1);//不计免赔
+//                        flag_layout_SDEWRiskOfScratchesInsurance = false;
+//                        ivSDEWRiskOfScratchesInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWRiskOfScratchesInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        risk_of_scratches_insurance.setFranchise_flag(-1);//不计免赔
+//                        flag_layout_SDEWRiskOfScratchesInsurance = true;
+//                        ivSDEWRiskOfScratchesInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWRiskOfScratchesInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//
+//
+//        layoutRiskOfEngineWadingInsurance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag_switch_SDEWRiskOfEngineWadingInsurance) {
+//                    if (flag_layout_SDEWRiskOfEngineWadingInsurance) {
+//                        risk_of_engine_wading_insurance.setFranchise_flag(1);//不计免赔
+//                        flag_layout_SDEWRiskOfEngineWadingInsurance = false;
+//                        ivSDEWRiskOfEngineWadingInsurance.setImageResource(R.drawable.icon_choose);
+//                        tvSDEWRiskOfEngineWadingInsurance.setTextColor(Color.parseColor("#f0f0f0"));
+//                    } else {
+//                        risk_of_engine_wading_insurance.setFranchise_flag(-1);//不计免赔
+//                        flag_layout_SDEWRiskOfEngineWadingInsurance = true;
+//                        ivSDEWRiskOfEngineWadingInsurance.setImageResource(R.drawable.icon_choose_selected);
+//                        tvSDEWRiskOfEngineWadingInsurance.setTextColor(Color.parseColor("#0b0b0b"));
+//                    }
+//                }
+//            }
+//        });
+//    }
 
     private void setSwitchCheckedChangListener() {
         //车损险
@@ -776,7 +791,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 motor_vehicle_loss_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWMotorVehicleLossInsurance = isChecked;
+//                flag_layout_SDEWMotorVehicleLossInsurance = isChecked;
                 ivSDEWMotorVehicleLossInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWMotorVehicleLossInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
             }
@@ -789,7 +804,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                 flag_switch_SDEWThirdResponsibilityInsurance = isChecked;
                 third_responsibility_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWThirdResponsibilityInsurance = isChecked;
+//                flag_layout_SDEWThirdResponsibilityInsurance = isChecked;
                 ivSDEWThirdResponsibilityInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWThirdResponsibilityInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
 
@@ -804,7 +819,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                 flag_switch_SDEWCabSeatInsurance = isChecked;
                 cab_seat_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWCabSeatInsurance = isChecked;
+//                flag_layout_SDEWCabSeatInsurance = isChecked;
                 ivSDEWCabSeatInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWCabSeatInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
 
@@ -820,7 +835,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 passenger_seat_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWPassengerSeatInsurance = isChecked;
+//                flag_layout_SDEWPassengerSeatInsurance = isChecked;
                 ivSDEWPassengerSeatInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWPassengerSeatInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
 
@@ -835,7 +850,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 rob_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWRobInsurance = isChecked;
+//                flag_layout_SDEWRobInsurance = isChecked;
                 ivSDEWRobInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWRobInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
             }
@@ -850,7 +865,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 shade_lining_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWShadeLiningInsurance = isChecked;
+//                flag_layout_SDEWShadeLiningInsurance = isChecked;
                 ivSDEWShadeLiningInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWShadeLiningInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
 
@@ -865,7 +880,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 risk_of_spontaneous_combustion_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = isChecked;
+//                flag_layout_SDEWRiskOfSpontaneousCombustionInsurance = isChecked;
                 ivSDEWRiskOfSpontaneousCombustionInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWRiskOfSpontaneousCombustionInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
 
@@ -882,7 +897,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 risk_of_scratches_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWRiskOfScratchesInsurance = isChecked;
+//                flag_layout_SDEWRiskOfScratchesInsurance = isChecked;
                 ivSDEWRiskOfScratchesInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWRiskOfScratchesInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
 
@@ -898,7 +913,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 risk_of_engine_wading_insurance.setFranchise_flag(isChecked ? 1 : -1);
                 //switch打开时，前面的图标可以点击；如果关闭，前面的图标不能点击，且变灰
-                flag_layout_SDEWRiskOfEngineWadingInsurance = isChecked;
+//                flag_layout_SDEWRiskOfEngineWadingInsurance = isChecked;
                 ivSDEWRiskOfEngineWadingInsurance.setImageResource(isChecked ? R.drawable.icon_choose_selected : R.drawable.icon_choose);
                 tvSDEWRiskOfEngineWadingInsurance.setTextColor(Color.parseColor(isChecked ? "#0b0b0b" : "#f0f0f0"));
 
@@ -1014,20 +1029,20 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
 
         //司机座位险
-        hashCabSeatInsurance.put("1万", 1d);
-        hashCabSeatInsurance.put("2万", 2d);
-        hashCabSeatInsurance.put("5万", 5d);
-        hashCabSeatInsurance.put("10万", 10d);
+        hashCabSeatInsurance.put("1万", 10000d);
+        hashCabSeatInsurance.put("2万", 20000d);
+        hashCabSeatInsurance.put("5万", 50000d);
+        hashCabSeatInsurance.put("10万", 100000d);
         valuesOfCabSeatInsurance.addAll(hashCabSeatInsurance.keySet());
         spinnerAdapterCabSeatInsurance = new SpinnerDropDownAdapter(activity, valuesOfCabSeatInsurance);
         spinnerDriverChair.setAdapter(spinnerAdapterCabSeatInsurance);
 
 
         //乘客座位险
-        hashPassengerInsurance.put("1万", 1d);
-        hashPassengerInsurance.put("2万", 2d);
-        hashPassengerInsurance.put("5万", 5d);
-        hashPassengerInsurance.put("10万", 10d);
+        hashPassengerInsurance.put("1万", 10000d);
+        hashPassengerInsurance.put("2万", 20000d);
+        hashPassengerInsurance.put("5万", 50000d);
+        hashPassengerInsurance.put("10万", 100000d);
         valuesOfPassengerSeatInsurance.addAll(hashPassengerInsurance.keySet());
         spinnerAdapterPassengerSeatInsurance = new SpinnerDropDownAdapter(activity, valuesOfPassengerSeatInsurance);
         spinnerPassageChair.setAdapter(spinnerAdapterPassengerSeatInsurance);
@@ -1078,7 +1093,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         third_responsibility_insurance.setNumber(-1);//保障天数
         third_responsibility_insurance.setFranchise_flag(1);//是否不计免赔
         third_responsibility_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        third_responsibility_insurance.setAmt(306006021d);//默认值   保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        third_responsibility_insurance.setAmt(306006006d);//默认值   保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //盗抢险
@@ -1102,7 +1117,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         cab_seat_insurance.setFranchise_flag(1);//是否不计免赔
         cab_seat_insurance.setNumber(-1);//保障天数
         cab_seat_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        cab_seat_insurance.setAmt(306006021d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        cab_seat_insurance.setAmt(1d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //乘客座位险
@@ -1114,7 +1129,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         passenger_seat_insurance.setNumber(-1);//保障天数
         passenger_seat_insurance.setFranchise_flag(1);//是否不计免赔
         passenger_seat_insurance.setBullet_glass(-1);//是否有防弹玻璃
-        passenger_seat_insurance.setAmt(306006021d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        passenger_seat_insurance.setAmt(1d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //附加险
@@ -1153,7 +1168,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         risk_of_scratches_insurance.setFranchise_flag(1);//是否不计免赔
         risk_of_scratches_insurance.setBullet_glass(-1);//是否有防弹玻璃
         risk_of_scratches_insurance.setNumber(-1);//保障天数
-        risk_of_scratches_insurance.setAmt(365003d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
+        risk_of_scratches_insurance.setAmt(365001d);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
 
 
         //发动机涉水险
@@ -1166,7 +1181,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         risk_of_engine_wading_insurance.setBullet_glass(-1);//是否有防弹玻璃
         risk_of_engine_wading_insurance.setNumber(-1);//保障天数
         risk_of_engine_wading_insurance.setAmt(0D);//保额，出险赔多少，需要我去写个String Array 供用户选择。但是车辆损失险 的 保额就是车辆的价格。所以不用选择的
-
 
     }
 
@@ -1181,4 +1195,31 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PreferenceUtil.save(this, PreferenceConstant.commercestartdate, commercestartdate);
+        PreferenceUtil.save(this, PreferenceConstant.compulsorystartdate, compulsorystartdate);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        commercestartdate = PreferenceUtil.load(this, PreferenceConstant.commercestartdate,0L);
+        compulsorystartdate = PreferenceUtil.load(this, PreferenceConstant.compulsorystartdate,0L);
+
+        if (commercestartdate > 0) {
+            tvCommercialStartDate.setText(dateFormat_yyyy_MM_dd.format(new Date(commercestartdate)) + "");
+        }
+        if (compulsorystartdate > 0) {
+            tvCompulsoryStartDate.setText(dateFormat_yyyy_MM_dd.format(new Date(compulsorystartdate)) + "");
+
+        }
+
+    }
+
 }

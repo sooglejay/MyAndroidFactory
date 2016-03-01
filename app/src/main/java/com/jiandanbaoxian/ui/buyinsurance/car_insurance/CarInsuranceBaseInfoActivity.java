@@ -31,11 +31,13 @@ import com.jiandanbaoxian.ui.LoginActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
+import com.jiandanbaoxian.widget.decoview.nineoldandroids.animation.ObjectAnimator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -162,6 +164,9 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
+                if (registrationDateLong != 0) {
+                    calendar.setTime(new Date(registrationDateLong));
+                }
                 new DatePickerDialog(CarInsuranceBaseInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -195,6 +200,9 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
+                if (issueDateLong != 0) {
+                    calendar.setTime(new Date(issueDateLong));
+                }
                 new DatePickerDialog(CarInsuranceBaseInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -494,11 +502,18 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        PreferenceUtil.save(this, PreferenceConstant.engineNumber, etEngineNumber.getText().toString());
-        PreferenceUtil.save(this, PreferenceConstant.frameNumber, etVehicleFrameNumber.getText().toString());
-        PreferenceUtil.save(this, PreferenceConstant.etOwnerName, etOwnerName.getText().toString());
-        PreferenceUtil.save(this, PreferenceConstant.etIdNumber, etIdNumber.getText().toString());
-        PreferenceUtil.save(this, PreferenceConstant.etLicensePlateNumber, etLicensePlateNumber.getText().toString());
+        String engineNumber = etEngineNumber.getText().toString()+"";
+        String vehicleFrameNumber = etVehicleFrameNumber.getText().toString()+"";
+        String ownerName =  etOwnerName.getText().toString()+"";
+        String idNumber =  etIdNumber.getText().toString()+"";
+        String licensePlateNumber =  etLicensePlateNumber.getText().toString()+"";
+        PreferenceUtil.save(this, PreferenceConstant.engineNumber, engineNumber);
+        PreferenceUtil.save(this, PreferenceConstant.frameNumber, vehicleFrameNumber);
+        PreferenceUtil.save(this, PreferenceConstant.etOwnerName,ownerName);
+        PreferenceUtil.save(this, PreferenceConstant.etIdNumber, idNumber);
+        PreferenceUtil.save(this, PreferenceConstant.etLicensePlateNumber, licensePlateNumber);
+        PreferenceUtil.save(this, PreferenceConstant.registrationDateLong, registrationDateLong);
+        PreferenceUtil.save(this, PreferenceConstant.issueDateLong, issueDateLong);
     }
 
     @Override
@@ -510,12 +525,22 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         String ownerName = PreferenceUtil.load(this, PreferenceConstant.etOwnerName, "");
         String licensePlateNumber = PreferenceUtil.load(this, PreferenceConstant.etLicensePlateNumber, "");
         String frameNumber = PreferenceUtil.load(this, PreferenceConstant.frameNumber, "");
+        registrationDateLong =PreferenceUtil.load(this, PreferenceConstant.registrationDateLong,0L);
+        issueDateLong = PreferenceUtil.load(this, PreferenceConstant.issueDateLong,0L);
 
         etIdNumber.setText(IdNumber);
         etOwnerName.setText(ownerName);
         etVehicleFrameNumber.setText(frameNumber);
         etLicensePlateNumber.setText(licensePlateNumber);
-        etEngineNumber.setText(engineNumberString);
+        etEngineNumber.setText(engineNumberString+"");
+
+
+        if (registrationDateLong > 0) {
+            tvRegistrationDate.setText(dateFormat_yyyy_MM_dd.format(new Date(registrationDateLong)) + "");
+        }
+        if (issueDateLong > 0) {
+            tvIssueDate.setText(dateFormat_yyyy_MM_dd.format(new Date(issueDateLong)) + "");
+        }
 
     }
 }
