@@ -1037,7 +1037,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&type=" + type +
                 "&cal_app_no=" + cal_app_no;
         String s = Base64Util.encode(k.getBytes());
-        Log.e("Retrofit", "original:" + k + "\nbase64:" + s);
+        Log.e("jw", "original:" + k + "\nbase64:" + s);
+        Log.e("qq", k);
         git.confirmVehicleOrder(s, callback);
     }
 

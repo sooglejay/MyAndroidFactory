@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
@@ -79,7 +80,7 @@ public class ComfirmOrderActivity extends BaseActivity {
 
         idcard_number = getIntent().getStringExtra("idcard_number");
         country_no = getIntent().getStringExtra("country_no");
-        commercestartdate = getIntent().getLongExtra("commercestartdate",0L);
+        commercestartdate = getIntent().getLongExtra("commercestartdate", 0L);
         compulsorystartdate = getIntent().getLongExtra("compulsorystartdate", 0l);
         Log.e("qq", "commPriceData:" + commPriceData);
         Log.e("qq", "idcard_number:" + idcard_number);
@@ -133,7 +134,13 @@ public class ComfirmOrderActivity extends BaseActivity {
                             @Override
                             public void success(NetWorkResultBean<ConfirmOrderBean> confirmOrderBeanNetWorkResultBean, Response response) {
                                 progressDialogUtil.hide();
-                                PayActivity.startActivity(activity,country_no,commercestartdate,compulsorystartdate,insuranceUserName,commPriceData,confirmOrderBeanNetWorkResultBean.getData());
+                                if (confirmOrderBeanNetWorkResultBean != null && confirmOrderBeanNetWorkResultBean.getData() != null) {
+
+                                    PayActivity.startActivity(activity, country_no, commercestartdate, compulsorystartdate, insuranceUserName, commPriceData, confirmOrderBeanNetWorkResultBean.getData());
+                                }
+                                else {
+                                    Toast.makeText(activity,"返回值为空！",Toast.LENGTH_SHORT).show();
+                                }
 
                             }
                         });
@@ -164,7 +171,7 @@ public class ComfirmOrderActivity extends BaseActivity {
     }
 
 
-    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number,String country_no,long commercestartdate,long compulsorystartdate) {
+    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number, String country_no, long commercestartdate, long compulsorystartdate) {
         Intent intent = new Intent(activity, ComfirmOrderActivity.class);
         intent.putExtra("CommPriceData", commPriceData);
         intent.putExtra("idcard_number", idcard_number);
@@ -196,8 +203,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                 isValidToPay = false;
                 tvPay.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
                 tvPay.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
-            }
-            else {
+            } else {
                 isValidToPay = true;
                 tvPay.setBackgroundResource(R.drawable.btn_select_base);
                 tvPay.setTextColor(getResources().getColor(R.color.white_color));
