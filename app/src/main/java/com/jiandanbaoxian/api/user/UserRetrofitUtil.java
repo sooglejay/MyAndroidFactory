@@ -11,6 +11,7 @@ import com.jiandanbaoxian.model.Brand;
 import com.jiandanbaoxian.model.ChargeBean;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.CommPriceData;
+import com.jiandanbaoxian.model.ConfirmOrderBean;
 import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.FinancialAccount;
 import com.jiandanbaoxian.model.FreedomData;
@@ -1009,7 +1010,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void confirmVehicleOrder(Context mContext,
                                            String name,
-                                           int orderid,
+                                           String orderid,
                                            String phone,
                                            String idcardnum,
                                            String recievename,
@@ -1020,7 +1021,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                            String provence,
                                            int type,
                                            String cal_app_no,
-                                           NetCallback<NetWorkResultBean<String>> callback) {
+                                           NetCallback<NetWorkResultBean<ConfirmOrderBean>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "name=" + name +

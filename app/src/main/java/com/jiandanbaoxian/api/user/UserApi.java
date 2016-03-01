@@ -6,6 +6,7 @@ import com.jiandanbaoxian.model.Brand;
 import com.jiandanbaoxian.model.ChargeBean;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.CommPriceData;
+import com.jiandanbaoxian.model.ConfirmOrderBean;
 import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.FinancialAccount;
 import com.jiandanbaoxian.model.FreedomData;
@@ -447,7 +448,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/confirmVehicleOrder/")
-    public void confirmVehicleOrder(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void confirmVehicleOrder(@Field("param") String params, NetCallback<NetWorkResultBean<ConfirmOrderBean>> NetCallback);
 
 
     /**

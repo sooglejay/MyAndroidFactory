@@ -17,7 +17,7 @@
         android:gravity="center"
         android:paddingBottom="@dimen/middle_padding"
         android:paddingTop="@dimen/middle_padding"
-        android:text="去支付"
+        android:text="确认投保"
         android:textColor="@color/white_color"
         android:textSize="@dimen/tv_size_level_1" />
 </LinearLayout>

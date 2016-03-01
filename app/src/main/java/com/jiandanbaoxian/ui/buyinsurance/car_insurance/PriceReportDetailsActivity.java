@@ -28,11 +28,18 @@ public class PriceReportDetailsActivity extends BaseActivity {
     private String  idcard_number;
     private CommPriceData commPriceData;
 
+    private String country_no;
+    long commercestartdate = 0;
+    long compulsorystartdate = 0;
 
-    public static void startActivity(Activity activity, CommPriceData data,String idcard_number) {
+
+    public static void startActivity(Activity activity, CommPriceData data,String idcard_number,String country_no,long compulsorystartdate,long commercestartdate) {
         Intent intent = new Intent(activity, PriceReportDetailsActivity.class);
         intent.putExtra("CommPriceData", data);
         intent.putExtra("idcard_number", idcard_number);
+        intent.putExtra("country_no", country_no);
+        intent.putExtra("compulsorystartdate", compulsorystartdate);
+        intent.putExtra("commercestartdate", commercestartdate);
         activity.startActivityForResult(intent, 0);
 
     }
@@ -101,7 +108,7 @@ public class PriceReportDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(activity, "hello world ", Toast.LENGTH_LONG).show();
-                ComfirmOrderActivity.startActivity(activity,commPriceData,idcard_number);
+                ComfirmOrderActivity.startActivity(activity,commPriceData,idcard_number,country_no,commercestartdate,compulsorystartdate);
 //                UserRetrofitUtil.confirmVehicleOrder(activity,);
             }
         });
@@ -110,6 +117,9 @@ public class PriceReportDetailsActivity extends BaseActivity {
     public void getPriceReportData() {
         commPriceData = getIntent().getParcelableExtra("CommPriceData");
         idcard_number = getIntent().getStringExtra("idcard_number");
+        country_no = getIntent().getStringExtra("country_no");
+        commercestartdate = getIntent().getLongExtra("commercestartdate",0L);
+        compulsorystartdate = getIntent().getLongExtra("compulsorystartdate",0L);
         if (commPriceData != null) {
             HuanPriceData bean = commPriceData.getHuanPriceData();
             if (bean != null) {

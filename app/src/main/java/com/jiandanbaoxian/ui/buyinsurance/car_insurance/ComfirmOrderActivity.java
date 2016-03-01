@@ -15,10 +15,12 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.CommPriceData;
+import com.jiandanbaoxian.model.ConfirmOrderBean;
 import com.jiandanbaoxian.model.HuanInsuranceBaseInfoData;
 import com.jiandanbaoxian.model.HuanPriceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
 
 import retrofit.RetrofitError;
@@ -32,7 +34,12 @@ public class ComfirmOrderActivity extends BaseActivity {
     private Activity activity;
     private CommPriceData commPriceData;
     private boolean isValidToPay = false;
-    private String  idcard_number = "";
+    private String country_no;
+    long commercestartdate = 0;
+    long compulsorystartdate = 0;
+
+    private String idcard_number = "";
+    private ProgressDialogUtil progressDialogUtil;
     private TitleBar titleBar;
     private EditText etInsureUserName;
     private EditText etInsureUserPhoneNumber;
@@ -66,10 +73,17 @@ public class ComfirmOrderActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
         activity = this;
+        progressDialogUtil = new ProgressDialogUtil(activity);
+
         commPriceData = getIntent().getParcelableExtra("CommPriceData");
-        idcard_number = getIntent().getParcelableExtra("idcard_number");
-        Log.e("qq","commPriceData:"+commPriceData);
-        Log.e("qq","idcard_number:"+idcard_number);
+
+        idcard_number = getIntent().getStringExtra("idcard_number");
+        country_no = getIntent().getStringExtra("country_no");
+        commercestartdate = getIntent().getLongExtra("commercestartdate",0L);
+        compulsorystartdate = getIntent().getLongExtra("compulsorystartdate", 0l);
+        Log.e("qq", "commPriceData:" + commPriceData);
+        Log.e("qq", "idcard_number:" + idcard_number);
+        Log.e("qq", "country_no:" + country_no);
 
         findViews();
         setUpViews();
@@ -93,35 +107,33 @@ public class ComfirmOrderActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (commPriceData != null) {
-
                     HuanPriceData huanPriceData = commPriceData.getHuanPriceData();
                     if (huanPriceData != null) {
-
-
                         HuanInsuranceBaseInfoData huanInsuranceBaseInfoData = huanPriceData.getCommerceBaseInfo();
-                        String cal_app_no=huanInsuranceBaseInfoData.getCal_app_no();
+                        String cal_app_no = huanInsuranceBaseInfoData.getCal_app_no();
+                        String orderid = huanPriceData.getOrderId() + "";
 
-                        String insuranceUserName = etInsureUserName.getText().toString();
+                        final String insuranceUserName = etInsureUserName.getText().toString();
                         String insuranceUserPhone = etInsureUserPhoneNumber.getText().toString();
 
                         String insuranceReceiveUserName = etInsureOrderReceiveUserName.getText().toString();
                         String insuranceReceivePhone = etInsureOrderReceiveUserPhoneNumber.getText().toString();
                         String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
 
-                        String insuranceRecommendUser = etInsureRecommendUserPhone.getText().toString();
+                        String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
                         String insuranceOperationUserPhone = etInsureOperationUserPhone.getText().toString();
 
-
-
-
-                        UserRetrofitUtil.confirmVehicleOrder(activity, "林宗钱",401, "13700000000", "320681198612020056", "蒋阿斯顿", "13678054218", "四川成都", "13678054217", "13678054216", "四川省", 0, "P121300011456642174960292000", new NetCallback<NetWorkResultBean<String>>(activity) {
+                        progressDialogUtil.show("正在生成订单号...");
+                        UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderid, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceOperationUserPhone, "四川省", 0, cal_app_no, new NetCallback<NetWorkResultBean<ConfirmOrderBean>>(activity) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
-
+                                progressDialogUtil.hide();
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                            public void success(NetWorkResultBean<ConfirmOrderBean> confirmOrderBeanNetWorkResultBean, Response response) {
+                                progressDialogUtil.hide();
+                                PayActivity.startActivity(activity,country_no,commercestartdate,compulsorystartdate,insuranceUserName,commPriceData,confirmOrderBeanNetWorkResultBean.getData());
 
                             }
                         });
@@ -137,13 +149,28 @@ public class ComfirmOrderActivity extends BaseActivity {
         tvPay.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
         tvPay.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
 
+
+        etInsureOrderReceiveUserAddress.addTextChangedListener(textWatcher);
+        etInsureOrderReceiveUserName.addTextChangedListener(textWatcher);
+        etInsureOrderReceiveUserPhoneNumber.addTextChangedListener(textWatcher);
+
+        etInsureOperationUserPhone.addTextChangedListener(textWatcher);
+        etInsureRecommendUserPhone.addTextChangedListener(textWatcher);
+
+        etInsureUserName.addTextChangedListener(textWatcher);
+        etInsureUserPhoneNumber.addTextChangedListener(textWatcher);
+
+
     }
 
 
-    public static void startActivity(Activity activity, CommPriceData commPriceData,String idcard_number) {
+    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number,String country_no,long commercestartdate,long compulsorystartdate) {
         Intent intent = new Intent(activity, ComfirmOrderActivity.class);
         intent.putExtra("CommPriceData", commPriceData);
         intent.putExtra("idcard_number", idcard_number);
+        intent.putExtra("country_no", country_no);
+        intent.putExtra("compulsorystartdate", compulsorystartdate);
+        intent.putExtra("commercestartdate", commercestartdate);
         activity.startActivity(intent);
     }
 
@@ -156,16 +183,25 @@ public class ComfirmOrderActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            if(
-//                    TextUtils.isEmpty(etInsureOperationUserName.getText().toString())||
-//                    TextUtils.isEmpty(etInsureOrderReceiveUserAddress.getText().toString())||
-//                    TextUtils.isEmpty(etInsureOrderReceiveUserName.getText().toString())||
-//                    TextUtils.isEmpty(etInsureOrderReceiveUserPhoneNumber.getText().toString())||
-//                    TextUtils.isEmpty(etInsureRecommendUserName.getText().toString())||
-//                    TextUtils.isEmpty(etInsureUserName.getText().toString())||
-//
 
+            if (TextUtils.isEmpty(etInsureOrderReceiveUserAddress.getText().toString()) ||
+                    TextUtils.isEmpty(etInsureOrderReceiveUserName.getText().toString()) ||
+                    TextUtils.isEmpty(etInsureOrderReceiveUserPhoneNumber.getText().toString()) ||
+
+                    TextUtils.isEmpty(etInsureRecommendUserPhone.getText().toString()) ||
+                    TextUtils.isEmpty(etInsureOperationUserPhone.getText().toString()) ||
+                    TextUtils.isEmpty(etInsureUserName.getText().toString()) ||
+                    TextUtils.isEmpty(etInsureUserPhoneNumber.getText().toString())) {
+
+                isValidToPay = false;
+                tvPay.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
+                tvPay.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+            }
+            else {
+                isValidToPay = true;
+                tvPay.setBackgroundResource(R.drawable.btn_select_base);
+                tvPay.setTextColor(getResources().getColor(R.color.white_color));
+            }
         }
 
         @Override

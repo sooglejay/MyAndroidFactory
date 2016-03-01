@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/tv_region_name"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_select_white"
         android:padding="@dimen/middle_padding"

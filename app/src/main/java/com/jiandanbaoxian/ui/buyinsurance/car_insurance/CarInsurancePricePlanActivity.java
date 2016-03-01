@@ -501,7 +501,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                             public void onFailure(RetrofitError error, String message) {
 
                                 progressDialogUtil.hide();
-                                PriceReportActivity.startActivity(activity, null, idcardNum);
+                                PriceReportActivity.startActivity(activity, null, idcardNum, country_no, compulsorystartdate, commercestartdate);
 
                             }
 
@@ -510,14 +510,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                                 progressDialogUtil.hide();
 
 
-                                PriceReportActivity.startActivity(activity, commPriceDataNetWorkResultBean.getData(), idcardNum);
-
-
-                                CommPriceData commPriceData = commPriceDataNetWorkResultBean.getData();
-                                int orderid = commPriceData.getHuanPriceData().getOrderId();
-                                String cap = commPriceData.getHuanPriceData().getCompulsoryBaseInfo().getCal_app_no();
-//                                UserRetrofitUtil.confirmVehicleOrder(activity,);
-
+                                PriceReportActivity.startActivity(activity, commPriceDataNetWorkResultBean.getData(), idcardNum, country_no, compulsorystartdate, commercestartdate);
 
                             }
                         });
@@ -1209,8 +1202,8 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         super.onResume();
 
 
-        commercestartdate = PreferenceUtil.load(this, PreferenceConstant.commercestartdate,0L);
-        compulsorystartdate = PreferenceUtil.load(this, PreferenceConstant.compulsorystartdate,0L);
+        commercestartdate = PreferenceUtil.load(this, PreferenceConstant.commercestartdate, 0L);
+        compulsorystartdate = PreferenceUtil.load(this, PreferenceConstant.compulsorystartdate, 0L);
 
         if (commercestartdate > 0) {
             tvCommercialStartDate.setText(dateFormat_yyyy_MM_dd.format(new Date(commercestartdate)) + "");

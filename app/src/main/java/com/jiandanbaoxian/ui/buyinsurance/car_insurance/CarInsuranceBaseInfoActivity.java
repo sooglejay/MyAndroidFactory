@@ -535,6 +535,13 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         etEngineNumber.setText(engineNumberString+"");
 
 
+        etIdNumber.setSelection(IdNumber.length());
+        etOwnerName.setSelection(ownerName.length());
+        etVehicleFrameNumber.setSelection(frameNumber.length());
+        etLicensePlateNumber.setSelection(licensePlateNumber.length());
+        etEngineNumber.setSelection(engineNumberString.length());
+
+
         if (registrationDateLong > 0) {
             tvRegistrationDate.setText(dateFormat_yyyy_MM_dd.format(new Date(registrationDateLong)) + "");
         }
