@@ -53,10 +53,11 @@ public class PreferenceConstant {
     public static final String compulsorystartdate = "compulsorystartdate";
 
 
-
-
-
-
-
-
+    public static String insuranceUserName="insuranceUserName";
+    public static String insuranceUserPhone="insuranceUserPhone";
+    public static String insuranceReceiveUserName="insuranceReceiveUserName";
+    public static String insuranceReceivePhone="insuranceReceivePhone";
+    public static String insuranceReceiveAddress="insuranceReceiveAddress";
+    public static String insuranceRecommendUserPhone="insuranceRecommendUserPhone";
+    public static String insuranceOperationUserPhone="insuranceOperationUserPhone";
 }

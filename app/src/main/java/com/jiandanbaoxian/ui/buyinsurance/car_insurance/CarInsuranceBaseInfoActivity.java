@@ -10,14 +10,17 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.adapter.SpinnerDropDownAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.ExtraConstants;
@@ -38,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -48,13 +52,19 @@ import retrofit.client.Response;
  * 车险主界面
  */
 public class CarInsuranceBaseInfoActivity extends BaseActivity {
+    java.text.NumberFormat nf = java.text.NumberFormat.getInstance();//double 不使用科学计数法
+
     private final static int MODIFY_CITY = 103;
     private String driverAreaNameString = "";
-    private String driverAreaCodeString = "";
+    private String glassType = "303011001";
+
     private DialogFragmentCreater dialogFragmentCreater;
     private List<RegionBean> provinceRegionList = new ArrayList<>();
     private List<RegionBean> cityRegionList = new ArrayList<>();
     private List<RegionBean> countryRegionList = new ArrayList<>();
+    private LinkedHashMap<String, Double> hashShadelining = new LinkedHashMap<>();
+    List<String> valuesOfShadeLiningInsurance = new ArrayList<>();
+    private SpinnerDropDownAdapter spinnerAdapterShadeLiningInsurance;
 
     private int flag_choose_region_counter = 0;//0-province 1-city  2-country
 
@@ -63,7 +73,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     private String engineNumber = "";
     private String frameNumber = "";
     private String userName = "";
-    private String vehicleType = "";
     private String idCardNumber = "";
     private int userId = -1;
     private int transfer = 0;
@@ -97,6 +106,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     private View line;
     private TextView tvRegistrationDate;
     private TextView tvIssueDate;
+    private Spinner spinnerShadeLining;
     private EditText etIdNumber;
     private TextView tvAssignedYes;
     private TextView tvAssignedNo;
@@ -116,6 +126,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         tvDriverArea = (TextView) findViewById(R.id.tv_driver_area);
         etVehicleType = (EditText) findViewById(R.id.et_vehicle_type);
         etVehicleFrameNumber = (EditText) findViewById(R.id.et_vehicle_frame_number);
+        spinnerShadeLining = (Spinner) findViewById(R.id.spinner_shade_lining);
         etEngineNumber = (EditText) findViewById(R.id.et_engine_number);
         layoutDatePicker = (LinearLayout) findViewById(R.id.layout_date_picker);
         layoutIssueDate = (LinearLayout) findViewById(R.id.layout_issue_date);
@@ -138,6 +149,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         //作为Dialog的生成器
         dialogFragmentCreater = new DialogFragmentCreater();//涉及到权限操作时，需要临时输入密码并验证
         dialogFragmentCreater.setDialogContext(activity, getSupportFragmentManager());
+        nf.setGroupingUsed(false);
 
         findViews();
         setUp();
@@ -254,18 +266,17 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                 userName = etOwnerName.getText().toString();
                 idCardNumber = etIdNumber.getText().toString();
                 licenseplate = etLicensePlateNumber.getText().toString();
-                vehicleType = etVehicleType.getText().toString();
                 Log.e("qq", "province_no:" + province_no + "");
                 Log.e("qq", "province_name:" + province_name + "");
                 Log.e("qq", "city_no:" + city_no + "");
                 Log.e("qq", "county_no:" + country_no + "");
                 if (isValidToNextActivity) {
                     CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber);
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber, glassType);
                 } else {
                     Toast.makeText(activity, "请完善以上信息！", Toast.LENGTH_LONG).show();
                     CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber);
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber, glassType);
                 }
             }
         });
@@ -424,6 +435,25 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                 }
             }
         });
+
+
+        //玻璃类型
+        spinnerShadeLining.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfShadeLiningInsurance.get(position);
+                try {
+                    glassType = nf.format(hashShadelining.get(key)) + "";
+                } catch (Exception e) {
+                    glassType = hashShadelining.get(key) + "";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -441,6 +471,15 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
 
         tvConfirm.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
         tvConfirm.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+
+
+        //玻璃险
+        hashShadelining.put("国产", 303011001d);
+        hashShadelining.put("进口", 303011002d);
+        glassType = "303011001";
+        valuesOfShadeLiningInsurance.addAll(hashShadelining.keySet());
+        spinnerAdapterShadeLiningInsurance = new SpinnerDropDownAdapter(activity, valuesOfShadeLiningInsurance);
+        spinnerShadeLining.setAdapter(spinnerAdapterShadeLiningInsurance);
 
 
     }
@@ -502,14 +541,14 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        String engineNumber = etEngineNumber.getText().toString()+"";
-        String vehicleFrameNumber = etVehicleFrameNumber.getText().toString()+"";
-        String ownerName =  etOwnerName.getText().toString()+"";
-        String idNumber =  etIdNumber.getText().toString()+"";
-        String licensePlateNumber =  etLicensePlateNumber.getText().toString()+"";
+        String engineNumber = etEngineNumber.getText().toString() + "";
+        String vehicleFrameNumber = etVehicleFrameNumber.getText().toString() + "";
+        String ownerName = etOwnerName.getText().toString() + "";
+        String idNumber = etIdNumber.getText().toString() + "";
+        String licensePlateNumber = etLicensePlateNumber.getText().toString() + "";
         PreferenceUtil.save(this, PreferenceConstant.engineNumber, engineNumber);
         PreferenceUtil.save(this, PreferenceConstant.frameNumber, vehicleFrameNumber);
-        PreferenceUtil.save(this, PreferenceConstant.etOwnerName,ownerName);
+        PreferenceUtil.save(this, PreferenceConstant.etOwnerName, ownerName);
         PreferenceUtil.save(this, PreferenceConstant.etIdNumber, idNumber);
         PreferenceUtil.save(this, PreferenceConstant.etLicensePlateNumber, licensePlateNumber);
         PreferenceUtil.save(this, PreferenceConstant.registrationDateLong, registrationDateLong);
@@ -525,14 +564,14 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         String ownerName = PreferenceUtil.load(this, PreferenceConstant.etOwnerName, "");
         String licensePlateNumber = PreferenceUtil.load(this, PreferenceConstant.etLicensePlateNumber, "");
         String frameNumber = PreferenceUtil.load(this, PreferenceConstant.frameNumber, "");
-        registrationDateLong =PreferenceUtil.load(this, PreferenceConstant.registrationDateLong,0L);
-        issueDateLong = PreferenceUtil.load(this, PreferenceConstant.issueDateLong,0L);
+        registrationDateLong = PreferenceUtil.load(this, PreferenceConstant.registrationDateLong, 0L);
+        issueDateLong = PreferenceUtil.load(this, PreferenceConstant.issueDateLong, 0L);
 
         etIdNumber.setText(IdNumber);
         etOwnerName.setText(ownerName);
         etVehicleFrameNumber.setText(frameNumber);
         etLicensePlateNumber.setText(licensePlateNumber);
-        etEngineNumber.setText(engineNumberString+"");
+        etEngineNumber.setText(engineNumberString + "");
 
 
         etIdNumber.setSelection(IdNumber.length());

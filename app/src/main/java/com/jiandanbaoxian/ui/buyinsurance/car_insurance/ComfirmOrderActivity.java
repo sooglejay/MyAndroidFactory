@@ -15,14 +15,18 @@ import android.widget.Toast;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
+import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.ConfirmOrderBean;
 import com.jiandanbaoxian.model.HuanInsuranceBaseInfoData;
 import com.jiandanbaoxian.model.HuanPriceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
+
+import java.util.Date;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -35,7 +39,7 @@ public class ComfirmOrderActivity extends BaseActivity {
     private Activity activity;
     private CommPriceData commPriceData;
     private boolean isValidToPay = false;
-    private String country_no;
+    private String city_no;
     long commercestartdate = 0;
     long compulsorystartdate = 0;
 
@@ -79,12 +83,12 @@ public class ComfirmOrderActivity extends BaseActivity {
         commPriceData = getIntent().getParcelableExtra("CommPriceData");
 
         idcard_number = getIntent().getStringExtra("idcard_number");
-        country_no = getIntent().getStringExtra("country_no");
+        city_no = getIntent().getStringExtra("city_no");
         commercestartdate = getIntent().getLongExtra("commercestartdate", 0L);
         compulsorystartdate = getIntent().getLongExtra("compulsorystartdate", 0l);
         Log.e("qq", "commPriceData:" + commPriceData);
         Log.e("qq", "idcard_number:" + idcard_number);
-        Log.e("qq", "country_no:" + country_no);
+        Log.e("qq", "city_no:" + city_no);
 
         findViews();
         setUpViews();
@@ -108,42 +112,63 @@ public class ComfirmOrderActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (commPriceData != null) {
-                    HuanPriceData huanPriceData = commPriceData.getHuanPriceData();
+                    final HuanPriceData huanPriceData = commPriceData.getHuanPriceData();
                     if (huanPriceData != null) {
                         HuanInsuranceBaseInfoData huanInsuranceBaseInfoData = huanPriceData.getCommerceBaseInfo();
-                        String cal_app_no = huanInsuranceBaseInfoData.getCal_app_no();
-                        String orderid = huanPriceData.getOrderId() + "";
+                        final String cal_app_no = huanInsuranceBaseInfoData.getCal_app_no();
+                        final String orderid = huanPriceData.getOrderId() + "";
+                        final int type = 0;
 
                         final String insuranceUserName = etInsureUserName.getText().toString();
-                        String insuranceUserPhone = etInsureUserPhoneNumber.getText().toString();
+                        final String insuranceUserPhone = etInsureUserPhoneNumber.getText().toString();
 
-                        String insuranceReceiveUserName = etInsureOrderReceiveUserName.getText().toString();
-                        String insuranceReceivePhone = etInsureOrderReceiveUserPhoneNumber.getText().toString();
-                        String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
+                        final String insuranceReceiveUserName = etInsureOrderReceiveUserName.getText().toString();
+                        final String insuranceReceivePhone = etInsureOrderReceiveUserPhoneNumber.getText().toString();
+                        final String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
 
-                        String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
-                        String insuranceOperationUserPhone = etInsureOperationUserPhone.getText().toString();
+                        final String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
+                        final String insuranceOperationUserPhone = etInsureOperationUserPhone.getText().toString();
 
                         progressDialogUtil.show("正在生成订单号...");
-                        UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderid, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceOperationUserPhone, "四川省", 0, cal_app_no, new NetCallback<NetWorkResultBean<ConfirmOrderBean>>(activity) {
+
+
+                        UserRetrofitUtil.huanAuditInsuranceOrder(activity, insuranceUserName, insuranceUserPhone, idcard_number, cal_app_no, type, new NetCallback<NetWorkResultBean<ConfirmOrderBean>>(activity) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
                                 progressDialogUtil.hide();
+
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<ConfirmOrderBean> confirmOrderBeanNetWorkResultBean, Response response) {
-                                progressDialogUtil.hide();
-                                if (confirmOrderBeanNetWorkResultBean != null && confirmOrderBeanNetWorkResultBean.getData() != null) {
+                            public void success(final NetWorkResultBean<ConfirmOrderBean> confirmOrderBeanNetWorkResultBean, Response response) {
 
-                                    PayActivity.startActivity(activity, country_no, commercestartdate, compulsorystartdate, insuranceUserName, commPriceData, confirmOrderBeanNetWorkResultBean.getData());
+                                if (confirmOrderBeanNetWorkResultBean != null) {
+                                    final ConfirmOrderBean bean = confirmOrderBeanNetWorkResultBean.getData();
+
+
+                                    UserRetrofitUtil.huanApplyPay(activity, insuranceUserName, bean.getCompulsoryNo(), huanPriceData.getCompulsoryAmount() + "", bean.getCommerceNo(), huanPriceData.getCommerceAmount() + "", city_no, compulsorystartdate + "", commercestartdate + "", type + "", new NetCallback<NetWorkResultBean<String>>(activity) {
+                                        @Override
+                                        public void onFailure(RetrofitError error, String message) {
+                                            progressDialogUtil.hide();
+
+                                        }
+
+                                        @Override
+                                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                            progressDialogUtil.hide();
+
+                                            PayActivity.startActivity(activity, city_no, commercestartdate, compulsorystartdate, insuranceUserName, commPriceData, bean);
+                                        }
+                                    });
+                                } else {
+                                    progressDialogUtil.hide();
+
                                 }
-                                else {
-                                    Toast.makeText(activity,"返回值为空！",Toast.LENGTH_SHORT).show();
-                                }
+
 
                             }
                         });
+
                     }
                 }
             }
@@ -171,11 +196,11 @@ public class ComfirmOrderActivity extends BaseActivity {
     }
 
 
-    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number, String country_no, long commercestartdate, long compulsorystartdate) {
+    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number, String city_no, long commercestartdate, long compulsorystartdate) {
         Intent intent = new Intent(activity, ComfirmOrderActivity.class);
         intent.putExtra("CommPriceData", commPriceData);
         intent.putExtra("idcard_number", idcard_number);
-        intent.putExtra("country_no", country_no);
+        intent.putExtra("city_no", city_no);
         intent.putExtra("compulsorystartdate", compulsorystartdate);
         intent.putExtra("commercestartdate", commercestartdate);
         activity.startActivity(intent);
@@ -215,5 +240,53 @@ public class ComfirmOrderActivity extends BaseActivity {
 
         }
     };
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String insuranceUserName = etInsureUserName.getText().toString();
+        String insuranceUserPhone = etInsureUserPhoneNumber.getText().toString();
+
+        String insuranceReceiveUserName = etInsureOrderReceiveUserName.getText().toString();
+        String insuranceReceivePhone = etInsureOrderReceiveUserPhoneNumber.getText().toString();
+        String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
+
+        String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
+        String insuranceOperationUserPhone = etInsureOperationUserPhone.getText().toString();
+
+        PreferenceUtil.save(this, PreferenceConstant.insuranceUserName, insuranceUserName);
+        PreferenceUtil.save(this, PreferenceConstant.insuranceUserPhone, insuranceUserPhone);
+        PreferenceUtil.save(this, PreferenceConstant.insuranceReceiveUserName, insuranceReceiveUserName);
+        PreferenceUtil.save(this, PreferenceConstant.insuranceReceivePhone, insuranceReceivePhone);
+        PreferenceUtil.save(this, PreferenceConstant.insuranceReceiveAddress, insuranceReceiveAddress);
+        PreferenceUtil.save(this, PreferenceConstant.insuranceRecommendUserPhone, insuranceRecommendUserPhone);
+        PreferenceUtil.save(this, PreferenceConstant.insuranceOperationUserPhone, insuranceOperationUserPhone);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String insuranceUserName = PreferenceUtil.load(this, PreferenceConstant.insuranceUserName, "");
+        String insuranceUserPhone = PreferenceUtil.load(this, PreferenceConstant.insuranceUserPhone, "");
+
+        String insuranceReceiveUserName = PreferenceUtil.load(this, PreferenceConstant.insuranceReceiveUserName, "");
+        String insuranceReceivePhone = PreferenceUtil.load(this, PreferenceConstant.insuranceReceivePhone, "");
+        String insuranceReceiveAddress = PreferenceUtil.load(this, PreferenceConstant.insuranceReceiveAddress, "");
+
+        String insuranceRecommendUserPhone = PreferenceUtil.load(this, PreferenceConstant.insuranceRecommendUserPhone, "");
+        String insuranceOperationUserPhone = PreferenceUtil.load(this, PreferenceConstant.insuranceOperationUserPhone, "");
+
+
+        etInsureOrderReceiveUserAddress.setText(insuranceReceiveAddress);
+        etInsureOrderReceiveUserName.setText(insuranceUserName);
+        etInsureOrderReceiveUserPhoneNumber.setText(insuranceReceivePhone);
+        etInsureOperationUserPhone.setText(insuranceOperationUserPhone);
+        etInsureRecommendUserPhone.setText(insuranceRecommendUserPhone);
+        etInsureUserName.setText(insuranceReceiveUserName);
+        etInsureUserPhoneNumber.setText(insuranceUserPhone);
+
+    }
 
 }

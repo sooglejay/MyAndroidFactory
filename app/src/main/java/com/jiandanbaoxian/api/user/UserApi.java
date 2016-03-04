@@ -450,6 +450,17 @@ public interface UserApi {
     @POST("/confirmVehicleOrder/")
     public void confirmVehicleOrder(@Field("param") String params, NetCallback<NetWorkResultBean<ConfirmOrderBean>> NetCallback);
 
+    /**
+     * 7.4.8.核保
+     * 发送时机	提交订单时保存订单信息
+     *
+     * @param params
+     * @param NetCallback
+     */
+    @FormUrlEncoded
+    @POST("/huanAuditInsuranceOrder/")
+    public void huanAuditInsuranceOrder(@Field("param") String params, NetCallback<NetWorkResultBean<ConfirmOrderBean>> NetCallback);
+
 
     /**
      * 7.7.2.保存限行停保

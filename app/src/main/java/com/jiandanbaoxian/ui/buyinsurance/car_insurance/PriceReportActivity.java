@@ -23,7 +23,7 @@ public class PriceReportActivity extends BaseActivity {
 
     private CommPriceData commPriceData;
     private String idcard_number;
-    private String country_no;
+    private String city_no;
     long commercestartdate = 0;
     long compulsorystartdate = 0;
 
@@ -57,11 +57,11 @@ public class PriceReportActivity extends BaseActivity {
         tvCompulsoryTotalPrice = (TextView) findViewById(R.id.tv_compulsory_total_price);
     }
 
-    public static void startActivity(Activity activity, CommPriceData data,String idcard_number,String country_no,long compulsorystartdate,long commercestartdate) {
+    public static void startActivity(Activity activity, CommPriceData data,String idcard_number,String city_no,long compulsorystartdate,long commercestartdate) {
         Intent intent = new Intent(activity, PriceReportActivity.class);
         intent.putExtra("CommPriceData", data);
         intent.putExtra("idcard_number", idcard_number);
-        intent.putExtra("country_no", country_no);
+        intent.putExtra("city_no", city_no);
         intent.putExtra("compulsorystartdate", compulsorystartdate);
         intent.putExtra("commercestartdate", commercestartdate);
         activity.startActivityForResult(intent, 0);
@@ -102,7 +102,7 @@ public class PriceReportActivity extends BaseActivity {
         layoutHuaanInsuranceAgent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PriceReportDetailsActivity.startActivity(activity, commPriceData,idcard_number,country_no,compulsorystartdate,commercestartdate);
+                PriceReportDetailsActivity.startActivity(activity, commPriceData,idcard_number,city_no,compulsorystartdate,commercestartdate);
             }
         });
     }
@@ -111,7 +111,7 @@ public class PriceReportActivity extends BaseActivity {
     public void getPriceReportData() {
         commPriceData = getIntent().getParcelableExtra("CommPriceData");
         idcard_number = getIntent().getStringExtra("idcard_number");
-        country_no = getIntent().getStringExtra("country_no");
+        city_no = getIntent().getStringExtra("city_no");
         commercestartdate = getIntent().getLongExtra("commercestartdate", 0L);
         compulsorystartdate = getIntent().getLongExtra("compulsorystartdate", 0l);
 

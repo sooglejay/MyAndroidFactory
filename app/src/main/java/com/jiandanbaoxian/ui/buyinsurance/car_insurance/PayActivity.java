@@ -13,8 +13,11 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.ConfirmOrderBean;
+import com.jiandanbaoxian.model.HuanInsuranceBaseInfoData;
+import com.jiandanbaoxian.model.HuanPriceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.ui.BrowserWebViewActivity;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
 
@@ -29,33 +32,34 @@ public class PayActivity extends BaseActivity {
     private Activity activity;
     private ProgressDialogUtil progressDialogUtil;
 
-    private TitleBar titleBar;
-    private LinearLayout layoutCommercialDatePicker;
-    private TextView tvCommercialTotalPremium;
-    private LinearLayout layoutCompulsoryDatePicker;
-    private TextView tvCompulsoryTotalPremium;
-    private TextView tvPay;
     private CommPriceData commPriceData;
     private ConfirmOrderBean confirmOrderBean;
     private String userName;
     private String country_no;
     long commercestartdate = 0;
     long compulsorystartdate = 0;
+
+    private TitleBar titleBar;
+    private LinearLayout layoutCommercialDatePicker;
+    private TextView tvCommercialTotalPremium;
+    private LinearLayout layoutCompulsoryDatePicker;
+    private TextView tvCompulsoryTotalPremium;
+    private TextView tvPay;
+
     /**
      * Find the Views in the layout<br />
      * <br />
-     * Auto-created on 2016-03-02 00:05:53 by Android Layout Finder
+     * Auto-created on 2016-03-02 15:15:01 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        titleBar = (TitleBar)findViewById( R.id.title_bar );
-        layoutCommercialDatePicker = (LinearLayout)findViewById( R.id.layout_commercial_date_picker );
-        tvCommercialTotalPremium = (TextView)findViewById( R.id.tv_commercial_total_premium );
-        layoutCompulsoryDatePicker = (LinearLayout)findViewById( R.id.layout_compulsory_date_picker );
-        tvCompulsoryTotalPremium = (TextView)findViewById( R.id.tv_compulsory_total_premium );
-        tvPay = (TextView)findViewById( R.id.tv_pay );
+        titleBar = (TitleBar) findViewById(R.id.title_bar);
+        layoutCommercialDatePicker = (LinearLayout) findViewById(R.id.layout_commercial_date_picker);
+        tvCommercialTotalPremium = (TextView) findViewById(R.id.tv_commercial_total_premium);
+        layoutCompulsoryDatePicker = (LinearLayout) findViewById(R.id.layout_compulsory_date_picker);
+        tvCompulsoryTotalPremium = (TextView) findViewById(R.id.tv_compulsory_total_premium);
+        tvPay = (TextView) findViewById(R.id.tv_pay);
     }
-
 
 
     @Override
@@ -64,14 +68,15 @@ public class PayActivity extends BaseActivity {
         setContentView(R.layout.activity_pay_huaan);
         activity = this;
         progressDialogUtil = new ProgressDialogUtil(activity);
-        commPriceData = getIntent().getParcelableExtra("CommPriceData");
-        confirmOrderBean = getIntent().getParcelableExtra("ConfirmOrderBean");
+//        commPriceData = getIntent().getParcelableExtra("CommPriceData");
+//        confirmOrderBean = getIntent().getParcelableExtra("ConfirmOrderBean");
+//
+//
+//        userName = getIntent().getStringExtra("insuranceUserName");
+//        country_no = getIntent().getStringExtra("country_no");
+//        commercestartdate = getIntent().getLongExtra("commercestartdate", 0L);
+//        compulsorystartdate = getIntent().getLongExtra("compulsorystartdate", 0l);
 
-
-        userName = getIntent().getStringExtra("insuranceUserName");
-        country_no = getIntent().getStringExtra("country_no");
-        commercestartdate = getIntent().getLongExtra("commercestartdate",0L);
-        compulsorystartdate = getIntent().getLongExtra("compulsorystartdate",0l);
 
         findViews();
         setUpViews();
@@ -94,29 +99,34 @@ public class PayActivity extends BaseActivity {
         tvPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserRetrofitUtil.huanApplyPay(activity, userName, confirmOrderBean.getCompulsoryNo(), commPriceData.getHuanPriceData().getCompulsoryAmount()+"",
-                        confirmOrderBean.getCommerceNo(), commPriceData.getHuanPriceData().getCommerceAmount()+"", country_no, compulsorystartdate + "", commercestartdate + "", "0", new NetCallback<NetWorkResultBean<String>>(activity) {
-                            @Override
-                            public void onFailure(RetrofitError error, String message) {
 
-                            }
-
-                            @Override
-                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-
-                            }
-                        });
+//
+//                UserRetrofitUtil.huanApplyPay(activity, "陈传渠", "WX5309903602016000034",  "950",
+//                        "WX5309903802016000034","2261.65", "370200", "1456824490000", "1456824490000", "0", new NetCallback<NetWorkResultBean<String>>(activity) {
+//                            @Override
+//                            public void onFailure(RetrofitError error, String message) {
+//
+//                            }
+//
+//                            @Override
+//                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+//
+//                            }
+//                        });
+                BrowserWebViewActivity.startActivity(activity,"http://agenttest.sinosafe.com.cn/tstpayonline/recvMerchantAction.do?orderId=166000434996","申请支付");
             }
+
+
         });
     }
 
     private void setUpViews() {
 
-        titleBar.initTitleBarInfo("确认支付",R.drawable.arrow_left,-1,"","");
+        titleBar.initTitleBarInfo("确认支付", R.drawable.arrow_left, -1, "", "");
     }
 
 
-    public static void startActivity(Activity activity,String country_no,long commercestartdate,long compulsorystartdate,String insuranceUserName,CommPriceData commPriceData,ConfirmOrderBean confirmOrderBean) {
+    public static void startActivity(Activity activity, String country_no, long commercestartdate, long compulsorystartdate, String insuranceUserName, CommPriceData commPriceData, ConfirmOrderBean confirmOrderBean) {
         Intent intent = new Intent(activity, PayActivity.class);
         intent.putExtra("insuranceUserName", insuranceUserName);
         intent.putExtra("CommPriceData", commPriceData);

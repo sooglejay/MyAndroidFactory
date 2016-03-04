@@ -31,7 +31,7 @@ public class BrowserWebViewActivity extends BaseActivity {
     private boolean isShowRule = false;
 
     public static void startActivity(Context context, String url, String title) {
-        Intent intent = new Intent(context, BrowserImageViewActivity.class);
+        Intent intent = new Intent(context, BrowserWebViewActivity.class);
         intent.putExtra(ExtraConstants.EXTRA_URL, url);
         intent.putExtra(ExtraConstants.EXTRA_title, title);
         context.startActivity(intent);

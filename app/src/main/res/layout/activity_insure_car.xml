@@ -17,9 +17,9 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="@color/bg_screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/bg_screen"
             android:orientation="vertical">
 
             <ImageView
@@ -202,6 +202,53 @@
                     android:layout_height="1dp"
                     android:background="@color/very_light_gray_color" />
 
+                <!--行驶区域-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/middle_padding"
+                        android:text="玻璃类型"
+                        android:textColor="#3d3d3d"
+                        android:textSize="@dimen/big_textsize" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/small_padding"
+                        android:layout_marginRight="@dimen/small_padding"
+                        android:layout_weight="1">
+
+                        <Spinner
+                            android:id="@+id/spinner_shade_lining"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/spinner_selector"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/middle_padding"
+                        android:src="@drawable/arrow_right" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/very_light_gray_color" />
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -216,9 +263,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:background="@color/white_color"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -408,12 +455,14 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/very_light_gray_color"
                 android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/layout_issue_date"
                 android:layout_width="match_parent"

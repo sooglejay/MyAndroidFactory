@@ -1029,7 +1029,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&phone=" + phone +
                 "&idcardnum=" + idcardnum +
                 "&recievename=" + recievename +
-                "&receivephone=" + receivephone +
+                "&recievephone=" + receivephone +
                 "&recieveaddress=" + recieveaddress +
                 "&refereephone=" + refereephone +
                 "&operatorphone=" + operatorphone +
@@ -1040,6 +1040,35 @@ public class UserRetrofitUtil extends RetrofitUtil {
         Log.e("jw", "original:" + k + "\nbase64:" + s);
         Log.e("qq", k);
         git.confirmVehicleOrder(s, callback);
+    }
+
+    /**
+     * 1、String name； // 被保人姓名
+     * 2、String phone； // 被保人电话
+     * 3、String idcardnum； // 身份证号
+     * 4、String cal_app_no;//  华安保险报价返回的报价单号
+     * 5、int type;//  0 华安保险
+     *
+     * @param callback
+     */
+    public static void huanAuditInsuranceOrder(Context mContext,
+                                               String name,
+                                               String phone,
+                                               String idcardnum,
+                                               String cal_app_no,
+                                               int type,
+                                               NetCallback<NetWorkResultBean<ConfirmOrderBean>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+        String k = "name=" + name +
+                "&idcardnum=" + idcardnum +
+                "&phone=" + phone +
+                "&type=" + type +
+                "&cal_app_no=" + cal_app_no;
+        String s = Base64Util.encode(k.getBytes());
+        Log.e("jw", "original:" + k + "\nbase64:" + s);
+        Log.e("qq", k);
+        git.huanAuditInsuranceOrder(s, callback);
     }
 
 
@@ -1778,7 +1807,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * Int commerceAmount;//商业险保费，单位分，无传0
      * String countyNo;//区级行政区域代码
      * Int compulsoryStartDate;//交强险起效时间 毫秒，无传0
-     * Int cmmerceStartDate ;// 商业险起效时间 毫秒，无传 0
+     * Int commerceStartDate ;// 商业险起效时间 毫秒，无传 0
      * Int  type；//保险公司  0 华安  "
      *
      * @param mContext
@@ -1792,7 +1821,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                     String commerceAmount,
                                     String countyNo,
                                     String compulsoryStartDate,
-                                    String cmmerceStartDate,
+                                    String commerceStartDate,
                                     String type,
                                     NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
@@ -1805,10 +1834,11 @@ public class UserRetrofitUtil extends RetrofitUtil {
                         "&commerceAmount=" + commerceAmount +
                         "&countyNo=" + countyNo +
                         "&compulsoryStartDate=" + compulsoryStartDate +
-                        "&cmmerceStartDate=" + cmmerceStartDate +
+                        "&commerceStartDate=" + commerceStartDate +
                         "&type=" + type;
         String s = Base64Util.encode(k.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
+        Log.e("qq", k);
         git.huanApplyPay(s, callback);
     }
 
@@ -1994,6 +2024,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                   String compulsoryAmt,
                                   String insuranceItems,
                                   String type,
+                                  String glassType,
                                   NetCallback<NetWorkResultBean<CommPriceData>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -2022,6 +2053,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                         "&compulsoryAmt=" + compulsoryAmt +
                         "&insuranceItems=" + insuranceItems +
                         "&type=" + type +
+                        "&glassType=" + glassType +
                         "";
         String s = Base64Util.encode(k2.getBytes());
         Log.e("Retrofit", "\n 加密前参数:" + k2 + "\n加密后参数:" + s);

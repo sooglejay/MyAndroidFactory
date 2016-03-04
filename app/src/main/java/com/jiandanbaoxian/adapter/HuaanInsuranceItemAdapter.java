@@ -63,10 +63,18 @@ public class HuaanInsuranceItemAdapter extends BaseAdapter {
         }
         InsuranceItemData InsuranceItemData = getItem(i);
         holder.tvInsuranceName.setText(InsuranceItemData.getInsrnc_name());
-        holder.tvInsuranceAmt.setText(nf.format(InsuranceItemData.getAmt()) + "");
+
+        StringBuilder amt;
+        try {
+            amt = new StringBuilder(nf.format(InsuranceItemData.getAmt()) + "");
+        } catch (Exception e) {
+            amt = new StringBuilder(InsuranceItemData.getAmt() + "");
+        }
+        holder.tvInsuranceAmt.setText(amt.toString());
         holder.tvInsurancePremium.setText(InsuranceItemData.getPremium() + "");
         return view;
     }
+
     private static class ViewHolder {
         private TextView tvInsuranceName;
         private TextView tvInsuranceAmt;
