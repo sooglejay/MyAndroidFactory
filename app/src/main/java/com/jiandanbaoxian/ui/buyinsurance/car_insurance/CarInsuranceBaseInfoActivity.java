@@ -56,15 +56,11 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
 
     private final static int MODIFY_CITY = 103;
     private String driverAreaNameString = "";
-    private String glassType = "303011001";
 
     private DialogFragmentCreater dialogFragmentCreater;
     private List<RegionBean> provinceRegionList = new ArrayList<>();
     private List<RegionBean> cityRegionList = new ArrayList<>();
     private List<RegionBean> countryRegionList = new ArrayList<>();
-    private LinkedHashMap<String, Double> hashShadelining = new LinkedHashMap<>();
-    List<String> valuesOfShadeLiningInsurance = new ArrayList<>();
-    private SpinnerDropDownAdapter spinnerAdapterShadeLiningInsurance;
 
     private int flag_choose_region_counter = 0;//0-province 1-city  2-country
 
@@ -106,7 +102,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     private View line;
     private TextView tvRegistrationDate;
     private TextView tvIssueDate;
-    private Spinner spinnerShadeLining;
     private EditText etIdNumber;
     private TextView tvAssignedYes;
     private TextView tvAssignedNo;
@@ -126,7 +121,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         tvDriverArea = (TextView) findViewById(R.id.tv_driver_area);
         etVehicleType = (EditText) findViewById(R.id.et_vehicle_type);
         etVehicleFrameNumber = (EditText) findViewById(R.id.et_vehicle_frame_number);
-        spinnerShadeLining = (Spinner) findViewById(R.id.spinner_shade_lining);
         etEngineNumber = (EditText) findViewById(R.id.et_engine_number);
         layoutDatePicker = (LinearLayout) findViewById(R.id.layout_date_picker);
         layoutIssueDate = (LinearLayout) findViewById(R.id.layout_issue_date);
@@ -272,11 +266,11 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                 Log.e("qq", "county_no:" + country_no + "");
                 if (isValidToNextActivity) {
                     CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber, glassType);
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber);
                 } else {
                     Toast.makeText(activity, "请完善以上信息！", Toast.LENGTH_LONG).show();
                     CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber, glassType);
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber);
                 }
             }
         });
@@ -437,23 +431,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         });
 
 
-        //玻璃类型
-        spinnerShadeLining.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String key = valuesOfShadeLiningInsurance.get(position);
-                try {
-                    glassType = nf.format(hashShadelining.get(key)) + "";
-                } catch (Exception e) {
-                    glassType = hashShadelining.get(key) + "";
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
 
@@ -473,13 +451,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         tvConfirm.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
 
 
-        //玻璃险
-        hashShadelining.put("国产", 303011001d);
-        hashShadelining.put("进口", 303011002d);
-        glassType = "303011001";
-        valuesOfShadeLiningInsurance.addAll(hashShadelining.keySet());
-        spinnerAdapterShadeLiningInsurance = new SpinnerDropDownAdapter(activity, valuesOfShadeLiningInsurance);
-        spinnerShadeLining.setAdapter(spinnerAdapterShadeLiningInsurance);
 
 
     }

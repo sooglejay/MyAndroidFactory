@@ -2,6 +2,7 @@ package com.jiandanbaoxian.api.user;
 
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.model.AccountData;
+import com.jiandanbaoxian.model.ApplyPayBean;
 import com.jiandanbaoxian.model.Brand;
 import com.jiandanbaoxian.model.ChargeBean;
 import com.jiandanbaoxian.model.CommData;
@@ -11,6 +12,7 @@ import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.FinancialAccount;
 import com.jiandanbaoxian.model.FreedomData;
 import com.jiandanbaoxian.model.HistoryPriceData;
+import com.jiandanbaoxian.model.HuanQueryStatusData;
 import com.jiandanbaoxian.model.InviteInfo;
 import com.jiandanbaoxian.model.MyInsuranceData;
 import com.jiandanbaoxian.model.MyWalletData;
@@ -918,7 +920,7 @@ public interface UserApi {
      发送时机	服务器调用华安支付申请接口，返回支付单号，供手机端去支付。手机端是调用华安的支付接口，完成支付！
      参数说明
      "String insureName ;//投保人姓名
-     String compulsoryNo;//交强险保单号，无传0
+     String ConfirmCompulsoryNo;//交强险保单号，无传0
      int compulsoryAmount ;//交强险，保费金额，单位分，无传0
      String commerceNo;//商业险单号 无传0
      Int commerceAmount;//商业险保费，单位分，无传0
@@ -931,7 +933,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/huanApplyPay/")
-    public void huanApplyPay(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void huanApplyPay(@Field("param") String params, NetCallback<NetWorkResultBean<ApplyPayBean>> NetCallback);
 
 
 
@@ -1010,6 +1012,15 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/quotaPrice/")
     public void quotaPrice(@Field("param") String params, NetCallback<NetWorkResultBean<CommPriceData>> NetCallback);
+
+
+
+
+
+    //上传车辆信息去 报价
+    @FormUrlEncoded
+    @POST("/queryStatus/")
+    public void queryStatus(@Field("param") String params, NetCallback<NetWorkResultBean<HuanQueryStatusData>> NetCallback);
 
 
 

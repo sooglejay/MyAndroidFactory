@@ -94,7 +94,7 @@ public class CarNetCrashHandler implements UncaughtExceptionHandler {
         return mStringWriter.toString();
     }
 
-    private String savaInfoToSD(Context context, Throwable ex) {
+    public String savaInfoToSD(Context context, Throwable ex) {
         String fileName = null;
         StringBuffer sb = new StringBuffer();
 
@@ -105,6 +105,39 @@ public class CarNetCrashHandler implements UncaughtExceptionHandler {
         }
 
         sb.append(obtainExceptionInfo(ex));
+
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File dir = new File(SDCARD_ROOT + File.separator + FILE_CONTENT + File.separator);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            try {
+                fileName = dir.toString() + File.separator + paserTime(System.currentTimeMillis()) + ".log";
+                FileOutputStream fos = new FileOutputStream(fileName);
+                fos.write(sb.toString().getBytes());
+                fos.flush();
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return fileName;
+
+    }
+    public String savaInfoToSD(Context context, String ex) {
+        String fileName = null;
+        StringBuffer sb = new StringBuffer();
+
+        for (Map.Entry<String, String> entry : obtainSimpleInfo(context).entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            sb.append(key).append(" = ").append(value).append("\n");
+        }
+
+        sb.append(ex);
 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File dir = new File(SDCARD_ROOT + File.separator + FILE_CONTENT + File.separator);

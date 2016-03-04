@@ -58,7 +58,6 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
     private String engineNumber = "";
     private String userName = "";
     private String idcardNum = "";
-    private String glassType = "";
     private String type = "0";
     private TitleBar titleBar;
     private ListView listView;
@@ -83,7 +82,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
 
     public static void startActivity(Activity activity, String licenseplate, String engineNumber, String frameNumber, String userName,
                                      String province_no, String province_name, String city_no, String city_name, String country_no, String country_name,
-                                     String transfer, String transferDate, String registrationDateString, String issueDateString, String idcardNum,String glassType) {
+                                     String transfer, String transferDate, String registrationDateString, String issueDateString, String idcardNum) {
         Intent intent = new Intent(activity, CarInsurancePickCarTypeActivity.class);
         intent.putExtra("licenseplate", licenseplate);
         intent.putExtra("engineNumber", engineNumber);
@@ -100,7 +99,6 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         intent.putExtra("registrationDateString", registrationDateString);
         intent.putExtra("issueDateString", issueDateString);
         intent.putExtra("idcardNum", idcardNum);
-        intent.putExtra("glassType", glassType);
         activity.startActivity(intent);
     }
 
@@ -126,7 +124,6 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
         regiterationDateString = getIntent().getStringExtra("registrationDateString");
         issueDateString = getIntent().getStringExtra("issueDateString");
         idcardNum = getIntent().getStringExtra("idcardNum");
-        glassType = getIntent().getStringExtra("glassType");
 
         findViews();
         setUp();
@@ -152,10 +149,10 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
             public void onClick(View v) {
                 if (isValidToNextActivity) {
                     CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
-                            province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum, glassType);
+                            province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
                 } else {
                     CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
-                            province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum, glassType);
+                            province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
 
                 }
             }

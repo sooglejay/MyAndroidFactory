@@ -25,21 +25,6 @@ public class PreferenceConstant {
     public static final String pwd = "pwd";
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //car insurance preference constant
     public static final String engineNumber = "engineNumber";
     public static final String frameNumber = "frameNumber";
@@ -53,11 +38,28 @@ public class PreferenceConstant {
     public static final String compulsorystartdate = "compulsorystartdate";
 
 
-    public static String insuranceUserName="insuranceUserName";
-    public static String insuranceUserPhone="insuranceUserPhone";
-    public static String insuranceReceiveUserName="insuranceReceiveUserName";
-    public static String insuranceReceivePhone="insuranceReceivePhone";
-    public static String insuranceReceiveAddress="insuranceReceiveAddress";
-    public static String insuranceRecommendUserPhone="insuranceRecommendUserPhone";
-    public static String insuranceOperationUserPhone="insuranceOperationUserPhone";
+    public static String insuranceUserName = "insuranceUserName";
+    public static String insuranceUserPhone = "insuranceUserPhone";
+    public static String insuranceReceiveUserName = "insuranceReceiveUserName";
+    public static String insuranceReceivePhone = "insuranceReceivePhone";
+    public static String insuranceReceiveAddress = "insuranceReceiveAddress";
+    public static String insuranceRecommendUserPhone = "insuranceRecommendUserPhone";
+    public static String insuranceOperationUserPhone = "insuranceOperationUserPhone";
+
+
+    //核保成功后 保存此次核保的纪录，如果用户没有支付，那么他下一次来核保时肯定会失败，然后我就使用这一次的本地保存的核保信息去支付
+    //但是，记得在支付成功的时候，清除掉本地的核保数据
+    //核保成功后  返回的  商业险编号
+    public static String confirmCommercialNo = "confirmCommercialNo";
+    //核保成功后  返回的  交强险编号
+    public static String ConfirmCompulsoryNo = "ConfirmCompulsoryNo";
+    public static String ConfirmCompulsoryAmount = "ConfirmCompulsoryAmount";
+    public static String ConfirmCommercialAmount = "ConfirmCommercialAmount";
+    public static String ConfirmCommercialStartDate = "ConfirmCommercialStartDate";
+    public static String ConfirmCompulsoryStartDate = "ConfirmCompulsoryStartDate";
+    public static String ConfirmCityNo = "ConfirmCityNo";
+    public static String ConfirmType = "ConfirmType";
+    public static String ConfirmCalAppNo = "ConfirmCalAppNo";
+
+
 }

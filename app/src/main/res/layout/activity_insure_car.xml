@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="@color/bg_screen"
     android:clipChildren="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -14,6 +15,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
+
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -187,53 +189,6 @@
                         android:text="选择行驶区域"
                         android:textColor="#3d3d3d"
                         android:textSize="@dimen/big_textsize" />
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/middle_padding"
-                        android:src="@drawable/arrow_right" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/very_light_gray_color" />
-
-                <!--行驶区域-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white_color"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/middle_padding"
-                        android:text="玻璃类型"
-                        android:textColor="#3d3d3d"
-                        android:textSize="@dimen/big_textsize" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/small_padding"
-                        android:layout_marginRight="@dimen/small_padding"
-                        android:layout_weight="1">
-
-                        <Spinner
-                            android:id="@+id/spinner_shade_lining"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/spinner_selector"
-                            android:gravity="center" />
-                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="24dp"

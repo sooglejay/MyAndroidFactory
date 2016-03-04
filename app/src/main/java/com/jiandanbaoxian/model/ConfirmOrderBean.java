@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by sooglejay on 16/3/1.
  */
 public class ConfirmOrderBean implements Parcelable {
-//    {"commerceNo":"WX5121303802016000336","compulsoryNo":"WX5121303602016000317"}
+//    {"commerceNo":"WX5121303802016000336","ConfirmCompulsoryNo":"WX5121303602016000317"}
     private String commerceNo;
     private String compulsoryNo;
 
@@ -15,7 +15,7 @@ public class ConfirmOrderBean implements Parcelable {
     public String toString() {
         return "ConfirmOrderBean{" +
                 "commerceNo='" + commerceNo + '\'' +
-                ", compulsoryNo='" + compulsoryNo + '\'' +
+                ", ConfirmCompulsoryNo='" + compulsoryNo + '\'' +
                 '}';
     }
 

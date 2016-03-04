@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.model.AccountData;
+import com.jiandanbaoxian.model.ApplyPayBean;
 import com.jiandanbaoxian.model.Brand;
 import com.jiandanbaoxian.model.ChargeBean;
 import com.jiandanbaoxian.model.CommData;
@@ -16,6 +17,7 @@ import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.FinancialAccount;
 import com.jiandanbaoxian.model.FreedomData;
 import com.jiandanbaoxian.model.HistoryPriceData;
+import com.jiandanbaoxian.model.HuanQueryStatusData;
 import com.jiandanbaoxian.model.InviteInfo;
 import com.jiandanbaoxian.model.MyInsuranceData;
 import com.jiandanbaoxian.model.MyWalletData;
@@ -955,8 +957,8 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param callback
      */
     public static void selectPlan(Context mContext,
-                                  int priceid,
-                                  int orderid,
+                                  String priceid,
+                                  String orderid,
                                   NetCallback<NetWorkResultBean<String>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -1019,7 +1021,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                            String refereephone,
                                            String operatorphone,
                                            String provence,
-                                           int type,
+                                           String type,
                                            String cal_app_no,
                                            NetCallback<NetWorkResultBean<ConfirmOrderBean>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
@@ -1801,7 +1803,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * 参数说明
      * "
      * String insureName ;//投保人姓名
-     * String compulsoryNo;//交强险保单号，无传0
+     * String ConfirmCompulsoryNo;//交强险保单号，无传0
      * int compulsoryAmount ;//交强险，保费金额，单位分，无传0
      * String commerceNo;//商业险单号 无传0
      * Int commerceAmount;//商业险保费，单位分，无传0
@@ -1823,12 +1825,12 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                     String compulsoryStartDate,
                                     String commerceStartDate,
                                     String type,
-                                    NetCallback<NetWorkResultBean<String>> callback) {
+                                    NetCallback<NetWorkResultBean<ApplyPayBean>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
                 "insureName=" + insureName +
-                        "&compulsoryNo=" + compulsoryNo +
+                        "&ConfirmCompulsoryNo=" + compulsoryNo +
                         "&compulsoryAmount=" + compulsoryAmount +
                         "&commerceNo=" + commerceNo +
                         "&commerceAmount=" + commerceAmount +
@@ -2059,6 +2061,41 @@ public class UserRetrofitUtil extends RetrofitUtil {
         Log.e("Retrofit", "\n 加密前参数:" + k2 + "\n加密后参数:" + s);
         Log.e("qq", k2);
         git.quotaPrice(s, callback);
+    }
+
+
+    /**
+     * 接口名称	queryStatus
+     * 发送时机	用该接口可以判断保单的支付状态：-2 待核保;-1 预核保待付费;0 未确认未收款;1 已确认未收款;5 已确认已收款.
+     * 参数说明
+     * 1、String compulsory_app_no;//交强险投保单号  没有的给-1
+     * 2、String commerce_app_no;//商业险投保单号  没有的给-1
+     * 3、Int  type；//保险公司  0 华安
+     * 示例参数：compulsory_app_no=WX5050303802015000057&commerce_app_no=WX5052403802015000115&type=0"
+     *
+     * @param mContext
+     * @param compulsory_app_no
+     * @param commerce_app_no
+     * @param type
+     * @param callback
+     */
+    public static void queryStatus(Context mContext,
+                                   String compulsory_app_no,
+                                   String commerce_app_no,
+                                   String type,
+                                   NetCallback<NetWorkResultBean<HuanQueryStatusData>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+
+        String k2 =
+                "compulsory_app_no=" + compulsory_app_no +
+                        "&commerce_app_no=" + commerce_app_no +
+                        "&type=" + type +
+                        "";
+        String s = Base64Util.encode(k2.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k2 + "\n加密后参数:" + s);
+        Log.e("qq", k2);
+        git.queryStatus(s, callback);
     }
 
 

@@ -472,6 +472,7 @@
                 android:textColor="@color/base_color"
                 android:textSize="@dimen/small_textsize" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -497,18 +498,25 @@
                     android:layout_marginRight="@dimen/small_padding"
                     android:layout_weight="1">
 
+                    <Spinner
+                        android:id="@+id/spinner_shade_lining"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/spinner_selector"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_shade_lining_insurance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
                     android:layout_marginRight="@dimen/middle_padding"
                     android:background="@drawable/btn_select_white"
                     android:gravity="center"
                     android:paddingBottom="@dimen/middle_padding"
-                    android:paddingTop="@dimen/middle_padding">
+                    android:paddingTop="@dimen/middle_padding"
+                    android:visibility="invisible">
 
                     <ImageView
                         android:id="@+id/iv_SDEW_shade_lining_insurance"
@@ -574,13 +582,13 @@
                 <LinearLayout
                     android:id="@+id/layout_risk_of_scratches_insurance"
                     android:layout_width="wrap_content"
-                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/middle_padding"
                     android:background="@drawable/btn_select_white"
                     android:gravity="center"
                     android:paddingBottom="@dimen/middle_padding"
-                    android:paddingTop="@dimen/middle_padding">
+                    android:paddingTop="@dimen/middle_padding"
+                    android:visibility="invisible">
 
                     <ImageView
                         android:id="@+id/iv_SDEW_risk_of_scratches_insurance"
@@ -604,7 +612,6 @@
                     android:checked="false"
                     app:kswOnColor="@color/base_color" />
             </LinearLayout>
-
 
 
             <!-- 自燃险 -->
@@ -631,8 +638,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/small_padding"
                     android:layout_marginRight="@dimen/small_padding"
-                    android:layout_weight="1">
-                </LinearLayout>
+                    android:layout_weight="1"></LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_risk_of_spontaneous_combustion_insurance"
@@ -693,8 +699,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/small_padding"
                     android:layout_marginRight="@dimen/small_padding"
-                    android:layout_weight="1">
-                </LinearLayout>
+                    android:layout_weight="1"></LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_risk_of_engine_wading_insurance"
@@ -730,7 +735,6 @@
             </LinearLayout>
 
 
-
             <!--车辆损失第三方责任险-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -763,13 +767,13 @@
                 <LinearLayout
                     android:id="@+id/layout_motor_vehicle_loss_and_third_responsibility_insurance"
                     android:layout_width="wrap_content"
-                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/middle_padding"
                     android:background="@drawable/btn_select_white"
                     android:gravity="center"
                     android:paddingBottom="@dimen/middle_padding"
-                    android:paddingTop="@dimen/middle_padding">
+                    android:paddingTop="@dimen/middle_padding"
+                    android:visibility="invisible">
 
                     <ImageView
                         android:id="@+id/iv_SDEW_motor_vehicle_loss_and_third_responsibility_insurance"
@@ -793,7 +797,6 @@
                     android:checked="false"
                     app:kswOnColor="@color/base_color" />
             </LinearLayout>
-
 
 
             <LinearLayout

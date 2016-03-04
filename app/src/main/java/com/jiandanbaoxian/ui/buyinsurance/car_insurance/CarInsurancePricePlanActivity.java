@@ -89,7 +89,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     String transfer = "1";
     String transferDate = "0";
     String idcardNum = "";
-    String glassType = "";
     String phone = "";
     String compulsoryAmt = "122000";
     String insuranceItems = "";
@@ -209,6 +208,12 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     private LinkedHashMap<String, Double> hashPassengerInsurance = new LinkedHashMap<>();
 
 
+    private LinkedHashMap<String, Double> hashShadelining = new LinkedHashMap<>();
+    List<String> valuesOfShadeLiningInsurance = new ArrayList<>();
+    private String glassType = "303011001";
+    private SpinnerDropDownAdapter spinnerAdapterShadeLiningInsurance;
+
+
     public static void startActivity(Activity activity, String licenseplate,
                                      String engineNumber,
                                      String model_code,
@@ -216,7 +221,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                                      String framenumber,
                                      String ownerName,
                                      String province_no, String province_name, String city_no, String city_name, String country_no, String country_name,
-                                     String transfer, String transferDate, String registerationDateString, String issueDateString, String idcardNum,String glassType) {
+                                     String transfer, String transferDate, String registerationDateString, String issueDateString, String idcardNum) {
         Intent intent = new Intent(activity, CarInsurancePricePlanActivity.class);
         intent.putExtra("licenseplate", licenseplate);
         intent.putExtra("engineNumber", engineNumber);
@@ -235,7 +240,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         intent.putExtra("registrationDateString", registerationDateString);
         intent.putExtra("issueDateString", issueDateString);
         intent.putExtra("idcardNum", idcardNum);
-        intent.putExtra("glassType", glassType);
 
 
         activity.startActivity(intent);
@@ -291,6 +295,8 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
     private SwitchButton switchMotorVehicleLossAndThirdResponsibilityInsurance;
     private TextView tvQuotaPrice;
     private TitleBar titleBar;
+    private Spinner spinnerShadeLining;
+
 
     /**
      * Find the Views in the layout<br />
@@ -307,6 +313,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         ivSDEWMotorVehicleLossInsurance = (ImageView) findViewById(R.id.iv_SDEW_motor_vehicle_loss_insurance);
         tvSDEWMotorVehicleLossInsurance = (TextView) findViewById(R.id.tv_SDEW_motor_vehicle_loss_insurance);
         switchTabViewMotorVehicleLossInsurance = (SwitchButton) findViewById(R.id.switch_tab_view_motor_vehicle_loss_insurance);
+        spinnerShadeLining = (Spinner) findViewById(R.id.spinner_shade_lining);
         spinnerThirdResponsibility = (Spinner) findViewById(R.id.spinner_third_responsibility);
         layoutThirdResponsibility = (LinearLayout) findViewById(R.id.layout_third_responsibility);
         ivSDEWThirdResponsibilityInsurance = (ImageView) findViewById(R.id.iv_SDEW_third_responsibility_insurance);
@@ -382,7 +389,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         registrationDateString = getIntent().getStringExtra("registrationDateString");
         issueDateString = getIntent().getStringExtra("issueDateString");
         idcardNum = getIntent().getStringExtra("idcardNum");
-        glassType = getIntent().getStringExtra("glassType");
     }
 
     private void setLisenter() {
@@ -494,7 +500,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                 UserRetrofitUtil.quotaPrice(activity, userid, licenseplate, engineNumber, frameNumber, seatingcapacity, newValue + "",
                         model_code, registrationDateString, ownerName, commercestartdate + "", compulsorystartdate + "", issueDateString, provence, provnce_no,
                         city_no, country_no, transfer, transferDate, idcardNum, phone, compulsoryAmt, insuranceItems, type,
-                        glassType,new NetCallback<NetWorkResultBean<CommPriceData>>(activity) {
+                        glassType, new NetCallback<NetWorkResultBean<CommPriceData>>(activity) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
 
@@ -971,6 +977,25 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
             }
         });
 
+
+        //玻璃类型
+        spinnerShadeLining.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key = valuesOfShadeLiningInsurance.get(position);
+                try {
+                    glassType = nf.format(hashShadelining.get(key)) + "";
+                } catch (Exception e) {
+                    glassType = hashShadelining.get(key) + "";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     private void setUp() {
@@ -982,10 +1007,10 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
     private void setSpinnerData() {
         //刮痕险 spinner
-        hashRiskOfScratchesInsurance.put("2000", 365001d);
-        hashRiskOfScratchesInsurance.put("5000", 365002d);
-        hashRiskOfScratchesInsurance.put("10000", 365003d);
-        hashRiskOfScratchesInsurance.put("20000", 365004d);
+        hashRiskOfScratchesInsurance.put("2千", 365001d);
+        hashRiskOfScratchesInsurance.put("5千", 365002d);
+        hashRiskOfScratchesInsurance.put("1万", 365003d);
+        hashRiskOfScratchesInsurance.put("2万", 365004d);
         valuesOfScratchesInsurance.addAll(hashRiskOfScratchesInsurance.keySet());
         spinnerAdapterRiskOfScratchesInsurance = new SpinnerDropDownAdapter(activity, valuesOfScratchesInsurance);
         spinnerScratchesRisk.setAdapter(spinnerAdapterRiskOfScratchesInsurance);
@@ -1022,6 +1047,13 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         spinnerPassageChair.setAdapter(spinnerAdapterPassengerSeatInsurance);
 
 
+        //玻璃险
+        hashShadelining.put("国产", 303011001d);
+        hashShadelining.put("进口", 303011002d);
+        glassType = "303011001";
+        valuesOfShadeLiningInsurance.addAll(hashShadelining.keySet());
+        spinnerAdapterShadeLiningInsurance = new SpinnerDropDownAdapter(activity, valuesOfShadeLiningInsurance);
+        spinnerShadeLining.setAdapter(spinnerAdapterShadeLiningInsurance);
 
 
     }
