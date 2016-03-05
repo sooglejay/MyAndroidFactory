@@ -30,6 +30,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -71,7 +73,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
-                InsureJiaBanDogActivity.this.finish();
+                context.finish();
             }
 
             @Override
@@ -117,25 +119,36 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                                                          Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
                                                          startActivity(new Intent(context, LoginActivity.class));
                                                      } else {
-                                                         UserRetrofitUtil.jugeOvertimeInsuranceOrder(InsureJiaBanDogActivity.this, phone, new NetCallback<jugeOvertimeInsuranceOrder>(context) {
+                                                         UserRetrofitUtil.jugeOvertimeInsuranceOrder(context, phone, new NetCallback<NetWorkResultBean<Object>>(context) {
                                                                      @Override
                                                                      public void onFailure(RetrofitError error, String message) {
-                                                                         if (TextUtils.isEmpty(message)) {
-                                                                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                                                         }
+                                                                         Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                                                                      }
 
                                                                      @Override
-                                                                     public void success(jugeOvertimeInsuranceOrder
-                                                                                                 jugeOvertimeInsuranceOrder, Response response) {
-                                                                         String message = jugeOvertimeInsuranceOrder.getMessage();
-                                                                         if (message.equals(StringConstant.buyed)) {
-                                                                             Toast.makeText(context, "您已经买过加班险了，每周只能买一次，下周再来吧！等你哟！", Toast.LENGTH_SHORT).show();
-                                                                         } else if (overtimeData != null) {
-                                                                             OrderCofirmJiaBanDogInsureActivity.startActivity(InsureJiaBanDogActivity.this, overtimeData);
-                                                                         } else {
-                                                                             Toast.makeText(context, "加保险信息为空！无法购买！", Toast.LENGTH_SHORT).show();
+                                                                     public void success(NetWorkResultBean<Object> jugeOvertimeInsuranceOrder, Response response) {
+
+                                                                         if (jugeOvertimeInsuranceOrder != null) {
+                                                                             int status = jugeOvertimeInsuranceOrder.getStatus();
+                                                                             switch (status) {
+                                                                                 case HttpsURLConnection.HTTP_OK:
+                                                                                     String message = jugeOvertimeInsuranceOrder.getMessage().toString();
+                                                                                     if (message.equals(StringConstant.buyed)) {
+                                                                                         Toast.makeText(context, "您已经买过加班险了，每周只能买一次，下周再来吧！等你哟！", Toast.LENGTH_SHORT).show();
+                                                                                     } else if (overtimeData != null) {
+                                                                                         OrderCofirmJiaBanDogInsureActivity.startActivity(context, overtimeData);
+                                                                                     } else {
+                                                                                         Toast.makeText(context, "加保险信息为空！无法购买！", Toast.LENGTH_SHORT).show();
+                                                                                     }
+                                                                                     break;
+                                                                                 default:
+                                                                                     Toast.makeText(context, jugeOvertimeInsuranceOrder.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                                                     break;
+                                                                             }
                                                                          }
+
+
                                                                      }
                                                                  }
 
@@ -144,7 +157,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                                                      }
 
                                                  } else {
-                                                     Toast.makeText(InsureJiaBanDogActivity.this, "请您勾选同意保障条款！", Toast.LENGTH_SHORT).show();
+                                                     Toast.makeText(context, "请您勾选同意保障条款！", Toast.LENGTH_SHORT).show();
                                                  }
                                              }
                                          }
@@ -173,39 +186,53 @@ public class InsureJiaBanDogActivity extends BaseActivity {
         });
 
         progressDialogUtil.show("正在获取加班险信息...");
-        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<OvertimeData>>(InsureJiaBanDogActivity.this)
+        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<Object>>(context)
 
                 {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         progressDialogUtil.hide();
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(InsureJiaBanDogActivity.this, message, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void success
-                            (NetWorkResultBean<OvertimeData> overtimeinsuranceNetWorkResultBean, Response
+                            (NetWorkResultBean<Object> overtimeinsuranceNetWorkResultBean, Response
                                     response) {
                         progressDialogUtil.hide();
-                        overtimeData = overtimeinsuranceNetWorkResultBean.getData();
-                        Overtimeinsurance bean = overtimeData.getOvertimeInsurance();
-                        if (bean != null && bean.getReleasetime() != null) {
-                            //生效时间
-                            tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
-                        } else {
-                            tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date()) + "");
+
+
+                        if (overtimeinsuranceNetWorkResultBean != null) {
+                            int status = overtimeinsuranceNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    if (overtimeinsuranceNetWorkResultBean.getData() != null) {
+                                        overtimeData = (OvertimeData) overtimeinsuranceNetWorkResultBean.getData();
+                                    }
+                                    Overtimeinsurance bean = overtimeData.getOvertimeInsurance();
+                                    if (bean != null && bean.getReleasetime() != null) {
+                                        //生效时间
+                                        tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
+                                    } else {
+                                        tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date()) + "");
+                                    }
+                                    if (bean.getResidue() != null) {
+                                        tv_amount.setText("本期商品数还剩" + bean.getResidue() + "份");
+                                    } else {
+                                        tv_amount.setText("本期商品数还剩" + 0 + "份");
+                                    }
+                                    if (bean != null && bean.getCoverage() != null) {
+                                        tv_coverage.append("" + bean.getCoverage() + "元");
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(context, overtimeinsuranceNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
 
-                        if (bean.getResidue() != null) {
-                            tv_amount.setText("本期商品数还剩" + bean.getResidue() + "份");
-                        } else {
-                            tv_amount.setText("本期商品数还剩" + 0 + "份");
-                        }
-                        if (bean != null && bean.getCoverage() != null) {
-                            tv_coverage.append("" + bean.getCoverage() + "元");
-                        }
+
                     }
                 }
 

@@ -39,6 +39,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.http.Field;
@@ -102,8 +104,8 @@ public class ModifyUserInfoActivity extends BaseActivity implements
         tv_service_describe = (TextView) findViewById(R.id.tv_service_describe);
 
 
-        ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX",userid+""),iv_avatar_background,ImageUtils.getOptions());
-        ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX",userid+""),ivAvatar,ImageUtils.getOptions());
+        ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX", userid + ""), iv_avatar_background, ImageUtils.getOptions());
+        ImageLoader.getInstance().displayImage(StringConstant.Avatar_original.replace("XXX", userid + ""), ivAvatar, ImageUtils.getOptions());
     }
 
 
@@ -115,10 +117,10 @@ public class ModifyUserInfoActivity extends BaseActivity implements
     private static final String ExtraKey = "ExtraKey";
     private Userstable userstable;
 
-    private String serviceDescribe="";
-    private String companyAddress="";
-    private String companyName="";
-    private String workNum="";
+    private String serviceDescribe = "";
+    private String companyAddress = "";
+    private String companyName = "";
+    private String workNum = "";
 
     public static void startActivity(Activity activity, Userstable userstable) {
         Intent intent = new Intent(activity, ModifyUserInfoActivity.class);
@@ -126,15 +128,14 @@ public class ModifyUserInfoActivity extends BaseActivity implements
         activity.startActivity(intent);
     }
 
-    private void setUpViews()
-    {
+    private void setUpViews() {
         try {
             companyName = userstable.getCompanyname();
-            serviceDescribe = userstable.getService()+"";
+            serviceDescribe = userstable.getService() + "";
             cityNameStr = userstable.getCity();
             workNum = userstable.getWorknum() + "";
-            if(userstable.getCompany()!=null)
-            companyAddress =userstable.getCompanyaddress() + "";
+            if (userstable.getCompany() != null)
+                companyAddress = userstable.getCompanyaddress() + "";
 
             tvCityName.setText(cityNameStr);
             tv_employ_number.setText(workNum);
@@ -145,8 +146,8 @@ public class ModifyUserInfoActivity extends BaseActivity implements
             tvCompanyName.setText(companyName);
 
         } catch (NullPointerException npe) {
-            Toast.makeText(activity,npe.toString(),Toast.LENGTH_SHORT).show();
-            Log.e("retrofit",npe.toString());
+            Toast.makeText(activity, npe.toString(), Toast.LENGTH_SHORT).show();
+            Log.e("retrofit", npe.toString());
         }
     }
 
@@ -167,7 +168,7 @@ public class ModifyUserInfoActivity extends BaseActivity implements
     private void refreshUserInfo() {
         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
         progressDialogUtil.show("正在获取用户身份信息...");
-        UserRetrofitUtil.getSelfInfo(activity, userid, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
+        UserRetrofitUtil.getSelfInfo(activity, userid, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         progressDialogUtil.hide();
@@ -179,10 +180,25 @@ public class ModifyUserInfoActivity extends BaseActivity implements
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                    public void success(NetWorkResultBean<Object> userstableNetWorkResultBean, Response response) {
                         progressDialogUtil.hide();
-                        userstable = userstableNetWorkResultBean.getData();
-                        setUpViews();
+
+                        if (userstableNetWorkResultBean != null) {
+                            int status = userstableNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    if (userstableNetWorkResultBean.getData() != null) {
+                                        userstable = (Userstable) userstableNetWorkResultBean.getData();
+                                        setUpViews();
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(activity, userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+
+
                     }
                 }
         );
@@ -264,8 +280,6 @@ public class ModifyUserInfoActivity extends BaseActivity implements
         });
 
 
-
-
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,18 +333,32 @@ public class ModifyUserInfoActivity extends BaseActivity implements
                         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
                         progressDialogUtil.show("正在上传图片...");
                         TypedFile typedFile = new TypedFile(ImageUtils.mimeType, file);
-                        UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1, "-1", "-1", "-1", "-1", "-1", typedFile, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
+                        UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1, "-1", "-1", "-1", "-1", "-1", typedFile, new NetCallback<NetWorkResultBean<Object>>(activity) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
                                 progressDialogUtil.hide();
-                                Toast.makeText(activity, "服务器无响应，请检查网络", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                            public void success(NetWorkResultBean<Object> userstableNetWorkResultBean, Response response) {
                                 progressDialogUtil.hide();
-                                ImageLoader.getInstance().displayImage("file://" + resultPath, ivAvatar, ImageUtils.getOptions());
-                                ImageLoader.getInstance().displayImage("file://" + resultPath, iv_avatar_background, ImageUtils.getOptions());
+
+                                if (userstableNetWorkResultBean != null) {
+                                    int status = userstableNetWorkResultBean.getStatus();
+                                    switch (status) {
+                                        case HttpsURLConnection.HTTP_OK:
+                                            ImageLoader.getInstance().displayImage("file://" + resultPath, ivAvatar, ImageUtils.getOptions());
+                                            ImageLoader.getInstance().displayImage("file://" + resultPath, iv_avatar_background, ImageUtils.getOptions());
+
+                                            break;
+                                        default:
+                                            Toast.makeText(activity, userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            break;
+                                    }
+                                }
+
+
 
                             }
                         });
@@ -370,7 +398,7 @@ public class ModifyUserInfoActivity extends BaseActivity implements
 
             case MODIFY_COMPANY:
                 if (resultCode == Activity.RESULT_OK) {
-                     companyName = data.getExtras().getString("company_name");
+                    companyName = data.getExtras().getString("company_name");
                     if (tvCompanyName != null) {
                         tvCompanyName.setText(companyName);
                     }

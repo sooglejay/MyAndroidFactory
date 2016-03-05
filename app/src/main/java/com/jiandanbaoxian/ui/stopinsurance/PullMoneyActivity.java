@@ -39,6 +39,8 @@ import com.jiandanbaoxian.widget.swipemenulistview.SwipeMenuListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -109,7 +111,7 @@ public class PullMoneyActivity extends BaseActivity {
         withdrawlPwd = getIntent().getExtras().getString("password", "");//提现用，提现属于特殊操作需要输入密码
         type = getIntent().getExtras().getInt("type", 1);//提现用，提现属于特殊操作需要输入密码
         if (TextUtils.isEmpty(withdrawlPwd)) {
-            withdrawlPwd = PreferenceUtil.load(activity,PreferenceConstant.pwd,"");
+            withdrawlPwd = PreferenceUtil.load(activity, PreferenceConstant.pwd, "");
         }
         setUp();
         setLisenter();
@@ -254,7 +256,7 @@ public class PullMoneyActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                BrowserImageViewActivity.startActivity(PullMoneyActivity.this, StringConstant.SERVER_RULE,"提现说明");
+                BrowserImageViewActivity.startActivity(PullMoneyActivity.this, StringConstant.SERVER_RULE, "提现说明");
             }
         });
 
@@ -295,30 +297,43 @@ public class PullMoneyActivity extends BaseActivity {
 
                     final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
                     progressDialogUtil.show("正在提现...");
-                    UserRetrofitUtil.saveWithdrawlInfo(activity, userid, type, amountStr, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<String>>(activity) {
+                    UserRetrofitUtil.saveWithdrawlInfo(activity, userid, type, amountStr, realname, withdrawlPwd, account, union, accountType, new NetCallback<NetWorkResultBean<Object>>(activity) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             progressDialogUtil.hide();
-                            if (!TextUtils.isEmpty(message)) {
-                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                             progressDialogUtil.hide();
-                            String message = stringNetWorkResultBean.getMessage().toString();
-                            if (message.equals("余额不足！")) {
-                                Toast.makeText(activity, "提现失败！余额不足！", Toast.LENGTH_SHORT).show();
-                            } else if (message.equals("提现密码不正确！")) {
-                                Toast.makeText(activity, "提现失败！提现密码不正确！", Toast.LENGTH_SHORT).show();
 
-                            } else if (!message.contains("ok")) {
-                                Toast.makeText(activity, message.toString(), Toast.LENGTH_SHORT).show();
-                            } else {
-                                PullMoneyDetailActivity.startActivity(activity, amountStr, union, account);
-                                activity.finish();
+                            if (stringNetWorkResultBean != null) {
+                                int status = stringNetWorkResultBean.getStatus();
+                                switch (status) {
+                                    case HttpsURLConnection.HTTP_OK:
+                                        String message = stringNetWorkResultBean.getMessage().toString();
+                                        if (message.equals("余额不足！")) {
+                                            Toast.makeText(activity, "提现失败！余额不足！", Toast.LENGTH_SHORT).show();
+                                        } else if (message.equals("提现密码不正确！")) {
+                                            Toast.makeText(activity, "提现失败！提现密码不正确！", Toast.LENGTH_SHORT).show();
+
+                                        } else if (!message.contains("ok")) {
+                                            Toast.makeText(activity, message.toString(), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            PullMoneyDetailActivity.startActivity(activity, amountStr, union, account);
+                                            activity.finish();
+                                        }
+
+                                        break;
+                                    default:
+                                        Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        break;
+                                }
                             }
+
+
                         }
                     });
                 } else {
@@ -377,7 +392,7 @@ public class PullMoneyActivity extends BaseActivity {
     private void getWithdrawlAccount() {
         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(this);
         progressDialogUtil.show("正在获取账户信息...");
-        UserRetrofitUtil.getWithdrawlAccount(this, userid, new NetCallback<NetWorkResultBean<List<FinancialAccount>>>(this) {
+        UserRetrofitUtil.getWithdrawlAccount(this, userid, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
@@ -387,14 +402,25 @@ public class PullMoneyActivity extends BaseActivity {
             }
 
             @Override
-            public void success(NetWorkResultBean<List<FinancialAccount>> financialAccountNetWorkResultBean, Response response) {
-
-                if (financialAccountNetWorkResultBean != null && financialAccountNetWorkResultBean.getData() != null) {
-                    mDatas.clear();
-                    mDatas.addAll(financialAccountNetWorkResultBean.getData());
-                    cardListAdapter.notifyDataSetChanged();
-                }
+            public void success(NetWorkResultBean<Object> financialAccountNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
+
+                if (financialAccountNetWorkResultBean != null) {
+                    int status = financialAccountNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (financialAccountNetWorkResultBean != null && financialAccountNetWorkResultBean.getData() != null) {
+                                mDatas.clear();
+                                mDatas.addAll((List<FinancialAccount>) financialAccountNetWorkResultBean.getData());
+                                cardListAdapter.notifyDataSetChanged();
+                            }
+                            break;
+                        default:
+                            Toast.makeText(activity, financialAccountNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+
 
             }
         });

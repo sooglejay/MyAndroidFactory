@@ -26,6 +26,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -135,39 +137,53 @@ public class PengciActivity extends BaseActivity {
         );
 
         progressDialogUtil.show("正在获取加班险信息...");
-        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<OvertimeData>>(PengciActivity.this)
+        UserRetrofitUtil.getOvertimeInsuranceInfo(this, new NetCallback<NetWorkResultBean<Object>>(PengciActivity.this)
 
                 {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         progressDialogUtil.hide();
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(PengciActivity.this, message, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void success
-                            (NetWorkResultBean<OvertimeData> overtimeinsuranceNetWorkResultBean, Response
+                            (NetWorkResultBean<Object> overtimeinsuranceNetWorkResultBean, Response
                                     response) {
                         progressDialogUtil.hide();
-                        overtimeData = overtimeinsuranceNetWorkResultBean.getData();
-                        Overtimeinsurance bean = overtimeData.getOvertimeInsurance();
-                        if (bean != null && bean.getReleasetime() != null) {
-                            //生效时间
-                            tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
-                        } else {
-                            tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date()) + "");
-                        }
 
-                        if (bean.getResidue() != null) {
-                            tv_amount.setText("本期商品数还剩" + bean.getResidue() + "份");
-                        } else {
-                            tv_amount.setText("本期商品数还剩" + 0 + "份");
+                        if (overtimeinsuranceNetWorkResultBean != null) {
+                            int status = overtimeinsuranceNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+
+                                    if (overtimeinsuranceNetWorkResultBean.getData() != null) {
+                                        overtimeData = (OvertimeData) overtimeinsuranceNetWorkResultBean.getData();
+                                        Overtimeinsurance bean = overtimeData.getOvertimeInsurance();
+                                        if (bean != null && bean.getReleasetime() != null) {
+                                            //生效时间
+                                            tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date(bean.getReleasetime())) + "");
+                                        } else {
+                                            tv_time_shengxiao.setText("生效时间：" + df_yyyy_m_d.format(new Date()) + "");
+                                        }
+
+                                        if (bean.getResidue() != null) {
+                                            tv_amount.setText("本期商品数还剩" + bean.getResidue() + "份");
+                                        } else {
+                                            tv_amount.setText("本期商品数还剩" + 0 + "份");
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(context, overtimeinsuranceNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
                     }
                 }
 
         );
     }
+
 }

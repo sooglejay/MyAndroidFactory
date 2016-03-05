@@ -19,6 +19,8 @@ import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -33,15 +35,15 @@ public class ModifyCompanyAddressActivity extends BaseActivity {
     private Activity activity;
     private int userid = -1;
 
-    private String companyAddress ="";
+    private String companyAddress = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_company_address);
         activity = this;
-        userid = PreferenceUtil.load(activity, PreferenceConstant.userid,-1);
-        companyAddress = getIntent().getExtras().getString("companyAddress","");
+        userid = PreferenceUtil.load(activity, PreferenceConstant.userid, -1);
+        companyAddress = getIntent().getExtras().getString("companyAddress", "");
         findViews();
         setUpViews();
         setUpListeners();
@@ -58,19 +60,31 @@ public class ModifyCompanyAddressActivity extends BaseActivity {
 
             @Override
             public void onRightButtonClick(View v) {
-                 final String newStr = editText.getText().toString();
-                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1,"-1", "-1", newStr,"-1", "-1", null, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
+                final String newStr = editText.getText().toString();
+                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1, "-1", "-1", newStr, "-1", "-1", null, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
-                        Toast.makeText(activity,"服务器无响应，请检查网络！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
-                        Intent intent = getIntent();
-                        intent.putExtra("company_address", newStr);
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
+                    public void success(NetWorkResultBean<Object> userstableNetWorkResultBean, Response response) {
+                        if (userstableNetWorkResultBean != null) {
+                            int status = userstableNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    Intent intent = getIntent();
+                                    intent.putExtra("company_address", newStr);
+                                    setResult(Activity.RESULT_OK, intent);
+                                    finish();
+                                    break;
+                                default:
+                                    Toast.makeText(activity, userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+
+
                     }
                 });
 

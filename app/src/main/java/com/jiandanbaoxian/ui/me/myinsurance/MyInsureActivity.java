@@ -13,10 +13,12 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.Driverordertable;
+import com.jiandanbaoxian.model.InsuranceItemData;
 import com.jiandanbaoxian.model.MyInsuranceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.model.Vehicleordertable;
+import com.jiandanbaoxian.model.Vehicletable;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
@@ -26,6 +28,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -151,36 +155,50 @@ public class MyInsureActivity extends BaseActivity {
      */
     private void getVehicleOrderByPage(final int userid, final int pageSize, int pageNum) {
         swipeLayout.setEnabled(false);
-        UserRetrofitUtil.getVehicleOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
+        UserRetrofitUtil.getVehicleOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(MyInsureActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(MyInsureActivity.this, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
 
             }
 
             @Override
-            public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> myInsuranceDataNetWorkResultBean, Response response) {
                 //结束下拉刷新
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords() != null) {
-                    vehicleordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getVehicleorderRecords());
-                    pageNum_vehicleordertables++;
-                    getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
-                } else {
-                    success_count_v = 1;
-                    if (success_count_d + success_count_o + success_count_v == 3) {
-                        progressDialogUtil.hide();
-                        myInsuresListAdapter.notifyDataSetChanged();
+
+                if (myInsuranceDataNetWorkResultBean != null) {
+                    int status = myInsuranceDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+
+                            if (myInsuranceDataNetWorkResultBean.getData() != null) {
+                                MyInsuranceData bean = (MyInsuranceData) myInsuranceDataNetWorkResultBean.getData();
+                                vehicleordertables.addAll(bean.getVehicleorderRecords());
+                                pageNum_vehicleordertables++;
+                                getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
+                            } else {
+                                success_count_v = 1;
+                                if (success_count_d + success_count_o + success_count_v == 3) {
+                                    progressDialogUtil.hide();
+                                    myInsuresListAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            break;
+                        default:
+                            Toast.makeText(MyInsureActivity.this, myInsuranceDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
                 }
+
 
             }
         });
@@ -196,36 +214,50 @@ public class MyInsureActivity extends BaseActivity {
      */
     private void getDriverOrderByPage(final int userid, final int pageSize, int pageNum) {
         swipeLayout.setEnabled(false);
-        UserRetrofitUtil.getDriverOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
+        UserRetrofitUtil.getDriverOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(MyInsureActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(MyInsureActivity.this, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
 
             }
 
             @Override
-            public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> myInsuranceDataNetWorkResultBean, Response response) {
                 //结束下拉刷新
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords() != null) {
-                    driverordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getDriverorderRecords());
-                    pageNum_driverordertables++;
-                    getDriverOrderByPage(userid, pageSize, pageNum_driverordertables);
-                } else {
-                    success_count_d = 1;
-                    if (success_count_d + success_count_o + success_count_v == 3) {
-                        progressDialogUtil.hide();
-                        myInsuresListAdapter.notifyDataSetChanged();
+                if (myInsuranceDataNetWorkResultBean != null) {
+                    int status = myInsuranceDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+
+                            if (myInsuranceDataNetWorkResultBean.getData() != null) {
+                                MyInsuranceData bean = (MyInsuranceData) myInsuranceDataNetWorkResultBean.getData();
+                                if (bean.getDriverorderRecords() != null) {
+                                    driverordertables.addAll(bean.getDriverorderRecords());
+                                    pageNum_driverordertables++;
+                                    getDriverOrderByPage(userid, pageSize, pageNum_driverordertables);
+                                } else {
+                                    success_count_d = 1;
+                                    if (success_count_d + success_count_o + success_count_v == 3) {
+                                        progressDialogUtil.hide();
+                                        myInsuresListAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            Toast.makeText(MyInsureActivity.this, myInsuranceDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
                 }
+
 
             }
         });
@@ -240,37 +272,50 @@ public class MyInsureActivity extends BaseActivity {
      */
     private void getOvertimeOrderByPage(final int userid, final int pageSize, int pageNum) {
         swipeLayout.setEnabled(false);
-        UserRetrofitUtil.getOvertimeOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<MyInsuranceData>>(this) {
+        UserRetrofitUtil.getOvertimeOrderByPage(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(MyInsureActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(MyInsureActivity.this, "请检查网络设置", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void success(NetWorkResultBean<MyInsuranceData> myInsuranceDataNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> myInsuranceDataNetWorkResultBean, Response response) {
                 //结束下拉刷新
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
 
-                if (myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords() != null) {
-                    overtimeordertables.addAll(myInsuranceDataNetWorkResultBean.getData().getOvertimeorderRecords());
-                    pageNum_overtimeordertables++;
-                    getOvertimeOrderByPage(userid, pageSize, pageNum_overtimeordertables);
-                } else {
-                    success_count_o = 1;
-                    if (success_count_d + success_count_o + success_count_v == 3) {
-                        progressDialogUtil.hide();
-                        myInsuresListAdapter.notifyDataSetChanged();
+                if (myInsuranceDataNetWorkResultBean != null) {
+                    int status = myInsuranceDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+
+                            if (myInsuranceDataNetWorkResultBean.getData() != null) {
+                                MyInsuranceData bean = (MyInsuranceData) myInsuranceDataNetWorkResultBean.getData();
+                                if (bean.getOvertimeorderRecords() != null) {
+                                    overtimeordertables.addAll(bean.getOvertimeorderRecords());
+                                    pageNum_overtimeordertables++;
+                                    getOvertimeOrderByPage(userid, pageSize, pageNum_overtimeordertables);
+                                } else {
+                                    success_count_o = 1;
+                                    if (success_count_d + success_count_o + success_count_v == 3) {
+                                        progressDialogUtil.hide();
+                                        myInsuresListAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            Toast.makeText(MyInsureActivity.this, myInsuranceDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
                 }
+
 
             }
         });

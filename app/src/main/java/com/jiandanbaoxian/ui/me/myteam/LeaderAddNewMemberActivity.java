@@ -27,6 +27,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -92,38 +94,51 @@ public class LeaderAddNewMemberActivity extends BaseActivity {
                     }
                 }
                 final int finalMemberAmount = memberAmount;
-                UserRetrofitUtil.addNewMember(activity, userid, memberids, new NetCallback<NetWorkResultBean<String>>(activity) {
+                UserRetrofitUtil.addNewMember(activity, userid, memberids, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         progressDialogUtil.hide();
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                         progressDialogUtil.hide();
-                        if (finalMemberAmount > 0) {//如果选择了 邀请的成员，就弹出对话框
-                            dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
-                                @Override
-                                public void viewClick(String tag) {
-                                    activity.finish();
-                                }
 
-                                @Override
-                                public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
-                                    if (tv_content instanceof TextView) {
-                                        String text = "您已向选择的团员发出了成团邀请，等待他们回复！";
-                                        ((TextView) tv_content).setText(text);
+                        if (stringNetWorkResultBean != null) {
+                            int status = stringNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+
+                                    if (finalMemberAmount > 0) {//如果选择了 邀请的成员，就弹出对话框
+                                        dialogFragmentCreater.setOnDialogClickLisenter(new DialogFragmentCreater.OnDialogClickLisenter() {
+                                            @Override
+                                            public void viewClick(String tag) {
+                                                activity.finish();
+                                            }
+
+                                            @Override
+                                            public void controlView(View tv_confirm, View tv_cancel, View tv_title, View tv_content) {
+                                                if (tv_content instanceof TextView) {
+                                                    String text = "您已向选择的团员发出了成团邀请，等待他们回复！";
+                                                    ((TextView) tv_content).setText(text);
+                                                }
+                                            }
+                                        });
+                                        dialogFragmentCreater.showDialog(activity, DialogFragmentCreater.DialogShowSingleChoiceDialog);
+                                    } else {
+                                        Toast.makeText(activity, "邀请发送成功！", Toast.LENGTH_SHORT).show();
+                                        activity.finish();
                                     }
-                                }
-                            });
-                            dialogFragmentCreater.showDialog(activity, DialogFragmentCreater.DialogShowSingleChoiceDialog);
-                        } else {
-                            Toast.makeText(activity, "邀请发送成功！", Toast.LENGTH_SHORT).show();
-                            activity.finish();
+                                    break;
+                                default:
+                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
+
+
                     }
                 });
             }
@@ -168,31 +183,48 @@ public class LeaderAddNewMemberActivity extends BaseActivity {
 
     private void getAvailable() {
         swipeLayout.setEnabled(false);
-        UserRetrofitUtil.getAvailable(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<List<Userstable>>>(this) {
+        UserRetrofitUtil.getAvailable(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 swipeLayout.setEnabled(true);
                 swipeLayout.setRefreshing(false);
                 listView.setLoading(false);
+
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
+
             }
 
             @Override
-            public void success(NetWorkResultBean<List<Userstable>> listNetWorkResultBean, Response response) {
-                if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+            public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
 
-                    if (pageNum == 1) {
-                        if (listNetWorkResultBean.getData().size() > 0) {
-                            mDatas.add("选择团员");
-                        } else {
-                            mDatas.add("没有可选团员");
-                        }
+
+                if (listNetWorkResultBean != null) {
+                    int status = listNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+                                List<Userstable> userstableList = (List<Userstable>) listNetWorkResultBean.getData();
+                                if (pageNum == 1) {
+                                    if (userstableList.size() > 0) {
+                                        mDatas.add("选择团员");
+                                    } else {
+                                        mDatas.add("没有可选团员");
+                                    }
+                                }
+                                mDatas.addAll(userstableList);
+                            }
+                            adapter.notifyDataSetChanged();
+                            swipeLayout.setEnabled(true);
+                            swipeLayout.setRefreshing(false);
+                            listView.setLoading(false);
+                            break;
+                        default:
+                            Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
-                    mDatas.addAll(listNetWorkResultBean.getData());
                 }
-                adapter.notifyDataSetChanged();
-                swipeLayout.setEnabled(true);
-                swipeLayout.setRefreshing(false);
-                listView.setLoading(false);
+
 
             }
         });

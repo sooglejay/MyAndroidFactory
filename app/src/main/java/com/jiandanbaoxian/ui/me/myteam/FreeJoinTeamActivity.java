@@ -31,6 +31,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -108,26 +110,43 @@ public class FreeJoinTeamActivity extends BaseActivity {
 
     private void loadData() {
         progressDialogUtil.show("正在获取数据...");
-        UserRetrofitUtil.getFourTeamInfo(activity, new NetCallback<NetWorkResultBean<List<FreedomData>>>(activity) {
+        UserRetrofitUtil.getFourTeamInfo(activity, new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 swipeLayout.setRefreshing(false);
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-                }
+
                 progressDialogUtil.hide();
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
+
             }
 
             @Override
-            public void success(NetWorkResultBean<List<FreedomData>> listNetWorkResultBean, Response response) {
-                swipeLayout.setRefreshing(false);
-                List<FreedomData> datas = listNetWorkResultBean.getData();
-                if (datas != null) {
-                    mDatas.clear();
-                    mDatas.addAll(datas);
-                    adapter.notifyDataSetChanged();
-                }
+            public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
+
+                if (listNetWorkResultBean != null) {
+                    int status = listNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+
+                            if (listNetWorkResultBean.getData() != null) {
+                                swipeLayout.setRefreshing(false);
+                                List<FreedomData> datas = (List<FreedomData>) listNetWorkResultBean.getData();
+                                if (datas != null) {
+                                    mDatas.clear();
+                                    mDatas.addAll(datas);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                            break;
+                        default:
+                            Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+
+
             }
         });
     }
@@ -139,7 +158,7 @@ public class FreeJoinTeamActivity extends BaseActivity {
      * @param key
      */
     private void searchTeam(String key) {
-        UserRetrofitUtil.searchTeam(activity, key, new NetCallback<NetWorkResultBean<List<FreedomData>>>(activity) {
+        UserRetrofitUtil.searchTeam(activity, key, new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 mDatas.clear();
@@ -148,13 +167,27 @@ public class FreeJoinTeamActivity extends BaseActivity {
             }
 
             @Override
-            public void success(NetWorkResultBean<List<FreedomData>> listNetWorkResultBean, Response response) {
-                List<FreedomData> datas = listNetWorkResultBean.getData();
-                mDatas.clear();
-                if (datas != null) {
-                    mDatas.addAll(datas);
+            public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
+                if (listNetWorkResultBean != null) {
+                    int status = listNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (listNetWorkResultBean.getData() != null) {
+                                List<FreedomData> datas = (List<FreedomData>) listNetWorkResultBean.getData();
+                                mDatas.clear();
+                                if (datas != null) {
+                                    mDatas.addAll(datas);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
+                        default:
+                            Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
                 }
-                adapter.notifyDataSetChanged();
+
+
             }
         });
     }

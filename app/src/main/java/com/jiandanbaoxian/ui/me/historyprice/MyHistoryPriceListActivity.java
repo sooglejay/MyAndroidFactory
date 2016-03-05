@@ -27,6 +27,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -160,37 +162,50 @@ public class MyHistoryPriceListActivity extends BaseActivity {
     private void loadDataFromNet(int userid) {
         swipeLayout.setEnabled(false);
         progressDialogUtil.show("正在获取数据...");
-        UserRetrofitUtil.getPriceHistoryList(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<HistoryPriceData>>(this) {
+        UserRetrofitUtil.getPriceHistoryList(this, userid, pageSize, pageNum, new NetCallback<NetWorkResultBean<Object>>(this) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
+                        progressDialogUtil.hide();
                         swipeLayout.setRefreshing(false);
                         swipeLayout.setEnabled(true);
                         list_view.setLoading(false);
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(MyHistoryPriceListActivity.this, message, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MyHistoryPriceListActivity.this, "连接超时！请重试", Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialogUtil.hide();
+                        Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<HistoryPriceData> historyPriceDataNetWorkResultBean, Response response) {
+                    public void success(NetWorkResultBean<Object> historyPriceDataNetWorkResultBean, Response response) {
+                        progressDialogUtil.hide();
+
                         //结束下拉刷新
                         swipeLayout.setRefreshing(false);
                         swipeLayout.setEnabled(true);
                         list_view.setLoading(false);
-                        HistoryPriceData bean = historyPriceDataNetWorkResultBean.getData();
-                        if (bean.getVehicleorderRecords() != null) {
-                            List<Vehicleordertable> datas = bean.getVehicleorderRecords();
-                            for (Vehicleordertable b : datas) {
-                                b.setSuper_status(MyHistorySaleAdapter.GONE_UNSELECTED);
+
+                        if (historyPriceDataNetWorkResultBean != null) {
+                            int status = historyPriceDataNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    if (historyPriceDataNetWorkResultBean.getData() != null) {
+                                        HistoryPriceData bean = (HistoryPriceData) historyPriceDataNetWorkResultBean.getData();
+                                        if (bean.getVehicleorderRecords() != null) {
+                                            List<Vehicleordertable> datas = bean.getVehicleorderRecords();
+                                            for (Vehicleordertable b : datas) {
+                                                b.setSuper_status(MyHistorySaleAdapter.GONE_UNSELECTED);
+                                            }
+                                            mDatas.addAll(datas);
+                                            pageNum++;
+                                        }
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(context, historyPriceDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
                             }
-                            mDatas.addAll(datas);
-                            pageNum++;
                         }
-                        mAdapter.notifyDataSetChanged();
-                        progressDialogUtil.hide();
+
+
                     }
                 }
         );

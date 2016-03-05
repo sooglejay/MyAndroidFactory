@@ -44,6 +44,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -149,7 +151,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         setUp();
         setLisenter();
 
-        API_Test.getProvince(activity);
     }
 
     private void setLisenter() {
@@ -269,8 +270,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                             , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber);
                 } else {
                     Toast.makeText(activity, "请完善以上信息！", Toast.LENGTH_LONG).show();
-                    CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber);
                 }
             }
         });
@@ -317,22 +316,36 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
             public void onClick(View v) {
 
                 progressDialogUtil.show("正在获取省份列表...");
-                UserRetrofitUtil.getProvenceNo(activity, new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
+                UserRetrofitUtil.getProvenceNo(activity, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         progressDialogUtil.hide();
+                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
+                    public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
                         progressDialogUtil.hide();
-                        if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
-                            provinceRegionList.clear();
-                            provinceRegionList.addAll(listNetWorkResultBean.getData());
+                        if (listNetWorkResultBean != null) {
+                            int status = listNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+                                        provinceRegionList.clear();
+                                        provinceRegionList.addAll((List<RegionBean>) listNetWorkResultBean.getData());
+                                    }
+                                    flag_choose_region_counter = 1;
+                                    dialogFragmentCreater.setData(provinceRegionList, "");
+                                    dialogFragmentCreater.showDialog(activity, DialogFragmentCreater.DialogShowRegionChoiceDialog);
+                                    break;
+                                default:
+                                    Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
-                        flag_choose_region_counter = 1;
-                        dialogFragmentCreater.setData(provinceRegionList, "");
-                        dialogFragmentCreater.showDialog(activity, DialogFragmentCreater.DialogShowRegionChoiceDialog);
+
+
                     }
                 });
             }
@@ -365,22 +378,36 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                             province_no = provinceRegionList.get(position).getRegionNum();
                             progressDialogUtil.show("正在获取市级行政代码...");
                             province_name = provinceRegionList.get(position).getRegionName();
-                            UserRetrofitUtil.getCityNo(activity, province_no, new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
+                            UserRetrofitUtil.getCityNo(activity, province_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
+                                    Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 @Override
-                                public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
+                                public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
 
-                                    if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
-                                        cityRegionList.clear();
-                                        cityRegionList.addAll(listNetWorkResultBean.getData());
-                                        dialogFragmentCreater.updateData(cityRegionList, province_name);
+
+                                    if (listNetWorkResultBean != null) {
+                                        int status = listNetWorkResultBean.getStatus();
+                                        switch (status) {
+                                            case HttpsURLConnection.HTTP_OK:
+                                                if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+                                                    cityRegionList.clear();
+                                                    cityRegionList.addAll((List<RegionBean>) listNetWorkResultBean.getData());
+                                                    dialogFragmentCreater.updateData(cityRegionList, province_name);
+                                                }
+                                                progressDialogUtil.hide();
+                                                flag_choose_region_counter++;
+                                                break;
+                                            default:
+                                                Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                break;
+                                        }
                                     }
-                                    progressDialogUtil.hide();
-                                    flag_choose_region_counter++;
+
 
                                 }
                             });
@@ -393,21 +420,33 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                             city_no = cityRegionList.get(position).getRegionNum();
                             city_name = cityRegionList.get(position).getRegionName();
                             progressDialogUtil.show("正在获取县级行政代码...");
-                            UserRetrofitUtil.getCountyNo(activity, city_no, new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
+                            UserRetrofitUtil.getCountyNo(activity, city_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
                                 }
 
                                 @Override
-                                public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
-                                    if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
-                                        countryRegionList.clear();
-                                        countryRegionList.addAll(listNetWorkResultBean.getData());
-                                        dialogFragmentCreater.updateData(countryRegionList, city_name);
+                                public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
+
+
+                                    if (listNetWorkResultBean != null) {
+                                        int status = listNetWorkResultBean.getStatus();
+                                        switch (status) {
+                                            case HttpsURLConnection.HTTP_OK:
+                                                if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+                                                    countryRegionList.clear();
+                                                    countryRegionList.addAll((List<RegionBean>)listNetWorkResultBean.getData());
+                                                    dialogFragmentCreater.updateData(countryRegionList, city_name);
+                                                }
+                                                progressDialogUtil.hide();
+                                                flag_choose_region_counter++;
+                                                break;
+                                            default:
+                                                Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                break;
+                                        }
                                     }
-                                    progressDialogUtil.hide();
-                                    flag_choose_region_counter++;
 
                                 }
                             });
@@ -431,7 +470,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
         });
 
 
-
     }
 
 
@@ -449,8 +487,6 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
 
         tvConfirm.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
         tvConfirm.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
-
-
 
 
     }

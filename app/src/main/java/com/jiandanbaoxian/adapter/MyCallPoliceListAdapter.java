@@ -26,6 +26,7 @@ import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.TimeUtil;
 import com.jiandanbaoxian.util.UIUtils;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,21 +68,29 @@ public class MyCallPoliceListAdapter extends BaseAdapter {
                 }
                 final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(mContext);
                 progressDialogUtil.show("正在提交报案信息...");
-                UserRetrofitUtil.reportOvertime(mContext, userid, id, new NetCallback<NetWorkResultBean<String>>(mContext) {
+                UserRetrofitUtil.reportOvertime(mContext, userid, id, new NetCallback<NetWorkResultBean<Object>>(mContext) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-                        }
                         progressDialogUtil.hide();
+                        Toast.makeText(mContext, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                        if (stringNetWorkResultBean.getMessage() != null) {
-                            Toast.makeText(mContext, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                        }
+                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+
                         progressDialogUtil.hide();
+
+                        if (stringNetWorkResultBean != null) {
+                            int httpStatus = stringNetWorkResultBean.getStatus();
+                            switch (httpStatus) {
+                                case HttpURLConnection.HTTP_OK:
+                                    Toast.makeText(mContext, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(mContext, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 });
             }

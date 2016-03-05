@@ -26,6 +26,8 @@ import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -114,19 +116,35 @@ public class AddCardDetailActivity extends BaseActivity {
                 } else {
                     mCountTimer.start();
                     phoneString = etPhoneNumber.getText().toString();
-                    UserRetrofitUtil.obtainVerifyCode(AddCardDetailActivity.this, phoneString, 0, new NetCallback<NetWorkResultBean<CommData>>(AddCardDetailActivity.this) {
+                    UserRetrofitUtil.obtainVerifyCode(AddCardDetailActivity.this, phoneString, 0, new NetCallback<NetWorkResultBean<Object>>(AddCardDetailActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
-                            Toast.makeText(AddCardDetailActivity.this, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                             mCountTimer.onFinish();
                             mCountTimer.cancel();
 
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<CommData> submitPhoneNetWorkResultBean, Response response) {
-                            Toast.makeText(AddCardDetailActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
-                            verifyCodeStringService = submitPhoneNetWorkResultBean.getData().getVerifyCode();
+                        public void success(NetWorkResultBean<Object> submitPhoneNetWorkResultBean, Response response) {
+
+                            if (submitPhoneNetWorkResultBean != null) {
+                                int status = submitPhoneNetWorkResultBean.getStatus();
+                                switch (status) {
+                                    case HttpsURLConnection.HTTP_OK:
+                                        if (submitPhoneNetWorkResultBean.getData() != null) {
+                                            CommData bean = (CommData) submitPhoneNetWorkResultBean.getData();
+                                            Toast.makeText(AddCardDetailActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
+                                            verifyCodeStringService = bean.getVerifyCode();
+                                        }
+                                        break;
+                                    default:
+                                        Toast.makeText(activity, submitPhoneNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        break;
+                                }
+                            }
+
+
                         }
                     });
 
@@ -186,18 +204,29 @@ public class AddCardDetailActivity extends BaseActivity {
                 } else {
 
                     String verifyVode = etVerificationNumber.getText().toString();
-                    UserRetrofitUtil.addWithdrawlAccount(activity, userid, etCardName.getText().toString(), card, name, 0, verifyVode, new NetCallback<NetWorkResultBean<String>>(activity) {
+                    UserRetrofitUtil.addWithdrawlAccount(activity, userid, etCardName.getText().toString(), card, name, 0, verifyVode, new NetCallback<NetWorkResultBean<Object>>(activity) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
-                            if (!TextUtils.isEmpty(message)) {
-                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                            Toast.makeText(activity, "添加新卡成功！", Toast.LENGTH_SHORT).show();
-                            activity.finish();
+                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                            if (stringNetWorkResultBean != null) {
+                                int status = stringNetWorkResultBean.getStatus();
+                                switch (status) {
+                                    case HttpsURLConnection.HTTP_OK:
+                                        Toast.makeText(activity, "添加新卡成功！", Toast.LENGTH_SHORT).show();
+                                        activity.finish();
+                                        break;
+                                    default:
+                                        Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        break;
+                                }
+                            }
+
+
                         }
                     });
                 }
@@ -234,7 +263,7 @@ public class AddCardDetailActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (!isAgree||TextUtils.isEmpty(etVerificationNumber.getText()) || TextUtils.isEmpty(etPhoneNumber.getText()) || TextUtils.isEmpty(etCardName.getText())) {
+            if (!isAgree || TextUtils.isEmpty(etVerificationNumber.getText()) || TextUtils.isEmpty(etPhoneNumber.getText()) || TextUtils.isEmpty(etCardName.getText())) {
                 btnNextStep.setEnabled(false);
                 btnNextStep.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
             } else {

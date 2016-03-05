@@ -130,43 +130,7 @@ public class OrderCofirmCarInsureActivity extends BaseActivity implements
 
 
     }
-    private void test()
-    {
 
-        UserRetrofitUtil.getProvenceNo(activity, new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
-            @Override
-            public void onFailure(RetrofitError error, String message) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
-
-            }
-        });
-        UserRetrofitUtil.getCityNo(activity, "510000", new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
-            @Override
-            public void onFailure(RetrofitError error, String message) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
-
-            }
-        });
-        UserRetrofitUtil.getCountyNo(activity, "510100", new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
-            @Override
-            public void onFailure(RetrofitError error, String message) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
-
-            }
-        });
-    }
 
 
     /**
@@ -253,49 +217,7 @@ public class OrderCofirmCarInsureActivity extends BaseActivity implements
 
                         progressDialogUtil.show("正在生成订单...");
                         userid = PreferenceUtil.load(activity, PreferenceConstant.userid, -1);
-                        UserRetrofitUtil.saveVehicleInfo(activity,
-                                userid,
-                                carNumberString,
-                                carFaDongJiNumber,
-                                carJiaNumber,
-                                0,
-                                signInTimeLong + "",
-                                userNameString + "",
-                                commercialTimeLong + "",
-                                jqxTimeLong + "",
-                                fazhengTimeLong + "",
-                                "四川省",
-                                "510000",
-                                "510100",
-                                "510122",
-                                transfer + "",
-                                transferDate + "",
-                                idcardNum,
-                                phone,
-                                0,
-                                "测试",
-                                0,
-                                new NetCallback<NetWorkResultBean<CommData>>(activity) {
-                                    @Override
-                                    public void onFailure(RetrofitError error, String message) {
-                                        if (!TextUtils.isEmpty(message)) {
-                                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(activity, "生成订单失败，请检查输入的内容是否合法！", Toast.LENGTH_SHORT).show();
-                                        }
-                                        progressDialogUtil.hide();
-                                        tvBuyInsure.setEnabled(true);
-                                        tvBuyInsure.setTextColor(getResources().getColor(R.color.white_color));
 
-                                    }
-
-                                    @Override
-                                    public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-                                        progressDialogUtil.hide();
-//                                        activity.finish();
-                                    }
-                                }
-                        );
                     }
 
                 } else {

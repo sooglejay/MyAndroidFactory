@@ -20,6 +20,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.event.BusEvent;
+import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.me.applyeco.ApplyEcoActivity;
@@ -38,6 +39,8 @@ import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.PopWindowUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.umeng.analytics.MobclickAgent;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
@@ -164,40 +167,49 @@ public class MeFragment extends BaseFragment {
                         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(context);
                         progressDialogUtil.show("正在获取用户身份信息...");
 
-                        UserRetrofitUtil.getSelfInfo(context, userid, new NetCallback<NetWorkResultBean<Userstable>>(context) {
+                        UserRetrofitUtil.getSelfInfo(context, userid, new NetCallback<NetWorkResultBean<Object>>(context) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
                                 progressDialogUtil.hide();
-                                if (TextUtils.isEmpty(message)) {
-                                    Toast.makeText(context, "无法连接网络：" + error.toString(), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                            public void success(NetWorkResultBean<Object> userstableNetWorkResultBean, Response response) {
                                 progressDialogUtil.hide();
-                                userBean = userstableNetWorkResultBean.getData();
-                                //进入我的 团队之前先获取用户的信息
-                                if (userBean != null) {
-                                    if (userBean.getType() != null) {
-                                        int userType = userBean.getType();
-                                        switch (userType) {
-                                            case IntConstant.USER_TYPE_FREE:
-                                                MyTeamForFreeActivity.startActivity(context, userBean);
-                                                return;
-                                            case IntConstant.USER_TYPE_MEMBER:
-                                                MyTeamForMemberActivity.startActivity(context, userBean);
-                                                return;
-                                            case IntConstant.USER_TYPE_LEADER:
-                                                MyTeamForLeaderActivity.startActivity(context, userBean);
-                                                return;
-                                            default:
-                                                return;
-                                        }
+                                if (userstableNetWorkResultBean != null) {
+                                    int status = userstableNetWorkResultBean.getStatus();
+                                    switch (status) {
+                                        case HttpsURLConnection.HTTP_OK:
+                                            userBean = (Userstable) userstableNetWorkResultBean.getData();
+                                            //进入我的 团队之前先获取用户的信息
+                                            if (userBean != null) {
+                                                if (userBean.getType() != null) {
+                                                    int userType = userBean.getType();
+                                                    switch (userType) {
+                                                        case IntConstant.USER_TYPE_FREE:
+                                                            MyTeamForFreeActivity.startActivity(context, userBean);
+                                                            return;
+                                                        case IntConstant.USER_TYPE_MEMBER:
+                                                            MyTeamForMemberActivity.startActivity(context, userBean);
+                                                            return;
+                                                        case IntConstant.USER_TYPE_LEADER:
+                                                            MyTeamForLeaderActivity.startActivity(context, userBean);
+                                                            return;
+                                                        default:
+                                                            return;
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            Toast.makeText(context, userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            break;
                                     }
                                 }
+
+
                             }
                         });
                     }

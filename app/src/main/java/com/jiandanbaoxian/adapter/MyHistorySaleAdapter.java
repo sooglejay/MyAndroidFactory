@@ -28,6 +28,7 @@ import com.jiandanbaoxian.util.TimeUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -81,27 +82,39 @@ public class MyHistorySaleAdapter extends BaseAdapter {
             for (final Vehicleordertable bean : mDatas) {
                 deleteNum = deleteNum + 1;
                 if (bean.getSuper_status() == VISIBLE_SELECTED && bean.getId() != null) {
-                    UserRetrofitUtil.deleteHistoryPrice(mContext, bean.getId(), new NetCallback<NetWorkResultBean<String>>(mContext) {
+                    UserRetrofitUtil.deleteHistoryPrice(mContext, bean.getId(), new NetCallback<NetWorkResultBean<Object>>(mContext) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
+                            progressDialogUtil.hide();
                             if (bean.getInsuranceDetail() != null) {
-                                if (!TextUtils.isEmpty(message)) {
-                                    Toast.makeText(mContext, bean.getInsuranceDetail().getInsurancename() + message, Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(mContext, "请检查网络设置", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                            bean.setDeleted(IntConstant.DELETE);
-                            if (bean.getInsuranceDetail() != null) {
-                                Log.e("Retrofit", "删除成功！+" + bean.getId());
-                                Toast.makeText(mContext, bean.getInsuranceDetail().getInsurancename() + "删除成功！", Toast.LENGTH_SHORT).show();
+                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+
+                            progressDialogUtil.hide();
+
+                            if (stringNetWorkResultBean != null) {
+                                int httpStatus = stringNetWorkResultBean.getStatus();
+                                switch (httpStatus) {
+                                    case HttpURLConnection.HTTP_OK:
+
+                                        bean.setDeleted(IntConstant.DELETE);
+                                        if (bean.getInsuranceDetail() != null) {
+                                            Toast.makeText(mContext, bean.getInsuranceDetail().getInsurancename() + "删除成功！", Toast.LENGTH_SHORT).show();
+                                        }
+                                        if (deleteNum == mDatas.size()) {
+                                            EventBus.getDefault().post(new BusEvent(BusEvent.MSG_RefreshDataInHistoryPrice));
+                                        }
+
+                                        break;
+                                    default:
+                                        Toast.makeText(mContext, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            if (deleteNum == mDatas.size()) {
-                                progressDialogUtil.hide();
-                                EventBus.getDefault().post(new BusEvent(BusEvent.MSG_RefreshDataInHistoryPrice));
-                            }
+
                         }
                     });
                 }

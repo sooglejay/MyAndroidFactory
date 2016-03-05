@@ -19,6 +19,8 @@ import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -59,18 +61,36 @@ public class ModifyServiceDescribeActivity extends BaseActivity {
             @Override
             public void onRightButtonClick(View v) {
                  final String newStr = editText.getText().toString();
-                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1,newStr, "-1", "-1","-1", "-1", null, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
+                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1,newStr, "-1", "-1","-1", "-1", null, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
-                        Toast.makeText(activity,"服务器无响应，请检查网络！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
-                        Intent intent = getIntent();
-                        intent.putExtra("MODIFY_SERVICE_DESCRIBE", newStr);
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
+                    public void success(NetWorkResultBean<Object> userstableNetWorkResultBean, Response response) {
+
+                        if (userstableNetWorkResultBean != null) {
+                            int status = userstableNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+
+                                    Intent intent = getIntent();
+                                    intent.putExtra("MODIFY_SERVICE_DESCRIBE", newStr);
+                                    setResult(Activity.RESULT_OK, intent);
+                                    finish();
+                                    break;
+                                default:
+                                    Toast.makeText(activity, userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+
+
+
+
+
+
                     }
                 });
 

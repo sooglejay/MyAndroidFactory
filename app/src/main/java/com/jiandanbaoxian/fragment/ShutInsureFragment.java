@@ -64,6 +64,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -374,29 +376,41 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                         public void getPassword(final String psw) {
                             progressDialogUtil.show("正在验证密码...");
                             String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
-                            UserRetrofitUtil.verifyPwd(context, phoneStr, psw, new NetCallback<NetWorkResultBean<String>>(context) {
+                            UserRetrofitUtil.verifyPwd(context, phoneStr, psw, new NetCallback<NetWorkResultBean<Object>>(context) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
-                                    if (!TextUtils.isEmpty(message)) {
-                                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                    }
+                                    Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
+
 
                                 }
 
                                 @Override
-                                public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                                     progressDialogUtil.hide();
-                                    if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
-                                        Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
-                                        dialogFragmentController.dismiss();
-                                        Intent intent = new Intent(context, PullMoneyActivity.class);
-                                        intent.putExtra("password", psw);
-                                        intent.putExtra("type", 1);
-                                        context.startActivity(intent);
+
+                                    if (stringNetWorkResultBean != null) {
+                                        int status = stringNetWorkResultBean.getStatus();
+                                        switch (status) {
+                                            case HttpsURLConnection.HTTP_OK:
+                                                if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                                    Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
+                                                    dialogFragmentController.dismiss();
+                                                    Intent intent = new Intent(context, PullMoneyActivity.class);
+                                                    intent.putExtra("password", psw);
+                                                    intent.putExtra("type", 1);
+                                                    context.startActivity(intent);
+                                                }
+
+                                                break;
+                                            default:
+                                                Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                break;
+                                        }
                                     }
+
 
                                 }
                             });
@@ -557,48 +571,59 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
                     String phoneStr = PreferenceUtil.load(context, PreferenceConstant.phone, "");
 
-                    UserRetrofitUtil.verifyPwd(context, phoneStr, psw, new NetCallback<NetWorkResultBean<String>>(context) {
+                    UserRetrofitUtil.verifyPwd(context, phoneStr, psw, new NetCallback<NetWorkResultBean<Object>>(context) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             progressDialogUtil.hide();
-                            if (!TextUtils.isEmpty(message)) {
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
+
 
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                             progressDialogUtil.hide();
-                            if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
-                                Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
-                                dialogFragmentController.dismiss();
-                                //如果密码验证成功才真正去操作Switch
-                                setSwitchChecked(isChecked, switchView);
-                                if (switchView == weekSwitchTabView) {
-                                    tvXxtb.setAlpha(isChecked ? 1 : 0.5f);
-                                    layout_xianxing.setAlpha(isChecked ? 1 : 0.5f);
-                                    layout_xianxing.setClickable(isChecked);
-                                    layout_xianxing.setEnabled(isChecked);
-                                    if (isChecked) {//如果是打开操作，就保存信息
-                                        saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
-                                    } else {//如果是关闭操作，就取消上一次保存的信息
-                                        cancelPause(outerUserId, IntConstant.cancelPauseType_LimitPause);
-                                    }
-                                } else {
-                                    tvYytb.setAlpha(isChecked ? 1 : 0.5f);
-                                    layout_yuyue.setAlpha(isChecked ? 1 : 0.5f);
-                                    layout_yuyue.setClickable(isChecked);
-                                    layout_yuyue.setEnabled(isChecked);
-                                    if (isChecked) {//如果是打开操作，就保存信息
-                                        saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
-                                    } else {//如果是关闭操作，就取消上一次保存的信息
-                                        cancelPause(outerUserId, IntConstant.cancelPauseType_ReservePause);
-                                    }
+                            if (stringNetWorkResultBean != null) {
+                                int status = stringNetWorkResultBean.getStatus();
+                                switch (status) {
+                                    case HttpsURLConnection.HTTP_OK:
+
+                                        if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                            Toast.makeText(context, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show();
+                                            dialogFragmentController.dismiss();
+                                            //如果密码验证成功才真正去操作Switch
+                                            setSwitchChecked(isChecked, switchView);
+                                            if (switchView == weekSwitchTabView) {
+                                                tvXxtb.setAlpha(isChecked ? 1 : 0.5f);
+                                                layout_xianxing.setAlpha(isChecked ? 1 : 0.5f);
+                                                layout_xianxing.setClickable(isChecked);
+                                                layout_xianxing.setEnabled(isChecked);
+                                                if (isChecked) {//如果是打开操作，就保存信息
+                                                    saveLimitPauseInfo(IntConstant.cancelPauseType_LimitPause, outerUserId);
+                                                } else {//如果是关闭操作，就取消上一次保存的信息
+                                                    cancelPause(outerUserId, IntConstant.cancelPauseType_LimitPause);
+                                                }
+                                            } else {
+                                                tvYytb.setAlpha(isChecked ? 1 : 0.5f);
+                                                layout_yuyue.setAlpha(isChecked ? 1 : 0.5f);
+                                                layout_yuyue.setClickable(isChecked);
+                                                layout_yuyue.setEnabled(isChecked);
+                                                if (isChecked) {//如果是打开操作，就保存信息
+                                                    saveReservePauseInfo(IntConstant.cancelPauseType_ReservePause, outerUserId);
+                                                } else {//如果是关闭操作，就取消上一次保存的信息
+                                                    cancelPause(outerUserId, IntConstant.cancelPauseType_ReservePause);
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        break;
                                 }
                             }
+
 
                         }
                     });
@@ -643,35 +668,56 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             switch (type) {
                 case IntConstant.cancelPauseType_LimitPause:
                     if (outerPauseBean.getLimitPaused()) {
-                        UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
+                        UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<Object>>(context) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
-                                if (!TextUtils.isEmpty(message)) {
-                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                                setSwitchChecked(false, weekSwitchTabView);
+                            public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                                if (stringNetWorkResultBean != null) {
+                                    int status = stringNetWorkResultBean.getStatus();
+                                    switch (status) {
+                                        case HttpsURLConnection.HTTP_OK:
+                                            setSwitchChecked(false, weekSwitchTabView);
+
+                                            break;
+                                        default:
+                                            Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            break;
+                                    }
+                                }
+
+
                             }
                         });
                     }
                     break;
                 case IntConstant.cancelPauseType_ReservePause:
                     if (outerPauseBean.getReservePaused()) {
-                        UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
+                        UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<Object>>(context) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
-                                if (!TextUtils.isEmpty(message)) {
-                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
 
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                                setSwitchChecked(false, dateSwitchTabView);
+                            public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                                if (stringNetWorkResultBean != null) {
+                                    int status = stringNetWorkResultBean.getStatus();
+                                    switch (status) {
+                                        case HttpsURLConnection.HTTP_OK:
+                                            setSwitchChecked(false, dateSwitchTabView);
+                                            break;
+                                        default:
+                                            Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            break;
+                                    }
+                                }
+
                             }
                         });
                     }
@@ -695,52 +741,79 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                 return;
             }
             if (outerPauseBean.getReservePaused()) {
-                UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
+                UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<Object>>(context) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                        outerPauseBean.setReservePaused(false);
-                        UserRetrofitUtil.saveReservePauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), timeStringForPostToServer, new NetCallback<NetWorkResultBean<String>>(context) {
-                            @Override
-                            public void onFailure(RetrofitError error, String message) {
-                                if (!TextUtils.isEmpty(message)) {
-                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                }
-                            }
+                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                        if (stringNetWorkResultBean != null) {
+                            int status = stringNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    outerPauseBean.setReservePaused(false);
+                                    UserRetrofitUtil.saveReservePauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), timeStringForPostToServer, new NetCallback<NetWorkResultBean<Object>>(context) {
+                                        @Override
+                                        public void onFailure(RetrofitError error, String message) {
+                                            Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
 
-                            @Override
-                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                                outerPauseBean.setReservePaused(true);
-                                setSwitchChecked(true, dateSwitchTabView);
+                                        }
+
+                                        @Override
+                                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+
+                                            if (stringNetWorkResultBean != null) {
+                                                int status = stringNetWorkResultBean.getStatus();
+                                                switch (status) {
+                                                    case HttpsURLConnection.HTTP_OK:
+                                                        outerPauseBean.setReservePaused(true);
+                                                        setSwitchChecked(true, dateSwitchTabView);
+                                                        break;
+                                                    default:
+                                                        Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                        break;
+                                                }
+                                            }
+
+
+                                        }
+                                    });
+                                    break;
+                                default:
+                                    Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
                             }
-                        });
+                        }
                     }
                 });
             } else if (!outerPauseBean.getReservePaused()) {
-                UserRetrofitUtil.saveReservePauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), timeStringForPostToServer, new NetCallback<NetWorkResultBean<String>>(context) {
+                UserRetrofitUtil.saveReservePauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), timeStringForPostToServer, new NetCallback<NetWorkResultBean<Object>>(context) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                        outerPauseBean.setReservePaused(true);
-                        setSwitchChecked(true, dateSwitchTabView);
+                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                        if (stringNetWorkResultBean != null) {
+                            int status = stringNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    outerPauseBean.setReservePaused(true);
+                                    setSwitchChecked(true, dateSwitchTabView);
+                                    break;
+                                default:
+                                    Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
                     }
                 });
             }
         }
     }
-
 
     /**
      * 保存限行停保
@@ -748,51 +821,73 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
     private void saveLimitPauseInfo(int type, final int userid) {
         if (outerPauseBean != null) {
             if (outerPauseBean.getLimitPaused()) {
-                UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<String>>(context) {
+                UserRetrofitUtil.cancelPause(context, userid, outerPauseBean.getOrderid(), type, new NetCallback<NetWorkResultBean<Object>>(context) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                        outerPauseBean.setLimitPaused(false);
-                        if (weekNumberSpinner != null) {
-                            outerWeekthPosition = weekNumberSpinner.getSelectedItemPosition();
-                            UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
-                                @Override
-                                public void onFailure(RetrofitError error, String message) {
-                                    if (!TextUtils.isEmpty(message)) {
-                                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
+                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
 
-                                @Override
-                                public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                                    outerPauseBean.setLimitPaused(true);
-                                    setSwitchChecked(true, weekSwitchTabView);
-                                }
-                            });
+                        if (stringNetWorkResultBean != null) {
+                            int status = stringNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    outerPauseBean.setLimitPaused(false);
+                                    if (weekNumberSpinner != null) {
+                                        outerWeekthPosition = weekNumberSpinner.getSelectedItemPosition();
+                                        UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<Object>>(context) {
+                                            @Override
+                                            public void onFailure(RetrofitError error, String message) {
+                                                if (!TextUtils.isEmpty(message)) {
+                                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                                                outerPauseBean.setLimitPaused(true);
+                                                setSwitchChecked(true, weekSwitchTabView);
+                                            }
+                                        });
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
+
+
                     }
                 });
             } else if (!outerPauseBean.getLimitPaused()) {
                 if (weekNumberSpinner != null) {
                     outerWeekthPosition = weekNumberSpinner.getSelectedItemPosition();
-                    UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<String>>(context) {
+                    UserRetrofitUtil.saveLimitPauseInfo(context, userid, outerPauseBean.getOrderid(), outerPauseBean.getPausePrice(), outerWeekthPosition + 1, new NetCallback<NetWorkResultBean<Object>>(context) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
-                            if (!TextUtils.isEmpty(message)) {
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                            outerPauseBean.setLimitPaused(true);
-                            setSwitchChecked(true, weekSwitchTabView);
+                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+
+                            if (stringNetWorkResultBean != null) {
+                                int status = stringNetWorkResultBean.getStatus();
+                                switch (status) {
+                                    case HttpsURLConnection.HTTP_OK:
+                                        outerPauseBean.setLimitPaused(true);
+                                        setSwitchChecked(true, weekSwitchTabView);
+                                        break;
+                                    default:
+                                        Toast.makeText(getActivity(), stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        break;
+                                }
+                            }
                         }
                     });
                 }
@@ -1095,7 +1190,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
      * @param userid
      */
     private void getPauseInfoAndThenRefreshData(final Context context, int userid) {
-        UserRetrofitUtil.getPauseInfo(context, userid, new NetCallback<NetWorkResultBean<List<PauseData>>>(context) {
+        UserRetrofitUtil.getPauseInfo(context, userid, new NetCallback<NetWorkResultBean<Object>>(context) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 if (!TextUtils.isEmpty(message)) {
@@ -1105,19 +1200,34 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
             }
 
             @Override
-            public void success(NetWorkResultBean<List<PauseData>> objectNetWorkResultBean, Response response) {
-                mPauseDataList.clear();
-                mPauseDataList.addAll(objectNetWorkResultBean.getData());
-                mCarNumbersStringList.clear();
-                for (PauseData bean : mPauseDataList) {
-                    mCarNumbersStringList.add(bean.getLicenseplate());
+            public void success(NetWorkResultBean<Object> objectNetWorkResultBean, Response response) {
+
+                if (objectNetWorkResultBean != null) {
+                    int status = objectNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (objectNetWorkResultBean.getData() != null) {
+                                mPauseDataList.clear();
+                                mPauseDataList.addAll((List<PauseData>) objectNetWorkResultBean.getData());
+                                mCarNumbersStringList.clear();
+                                for (PauseData bean : mPauseDataList) {
+                                    mCarNumbersStringList.add(bean.getLicenseplate());
+                                }
+                                mCarNumbersListAdapter.notifyDataSetChanged();
+                                if (mPauseDataList != null && mPauseDataList.size() > 0) {
+                                    outerPauseBean = mPauseDataList.get(0);
+                                    refreshData(outerPauseBean);
+                                }
+                                mPullRefreshLinearLayout.onRefreshComplete();
+                            }
+                            break;
+                        default:
+                            Toast.makeText(getActivity(), objectNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
                 }
-                mCarNumbersListAdapter.notifyDataSetChanged();
-                if (mPauseDataList != null && mPauseDataList.size() > 0) {
-                    outerPauseBean = mPauseDataList.get(0);
-                    refreshData(outerPauseBean);
-                }
-                mPullRefreshLinearLayout.onRefreshComplete();
+
+
             }
         });
     }

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.BrandListAdapter;
@@ -21,6 +22,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -99,32 +102,44 @@ public class BrandListActivity extends BaseActivity {
     private void getFourServiceBrands() {
         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
         progressDialogUtil.show("正在获取信息...");
-        UserRetrofitUtil.getFourServiceBrands(activity, "", new NetCallback<NetWorkResultBean<List<Brand>>>(activity) {
+        UserRetrofitUtil.getFourServiceBrands(activity, "", new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void success(NetWorkResultBean<List<Brand>> brandNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> brandNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
 
                 swipeLayout.setRefreshing(false);
-
-                if (brandNetWorkResultBean.getData() != null) {
-                    brandList.clear();
-                    brandList.addAll(brandNetWorkResultBean.getData());
-                }
-                for (Brand brand : brandList) {
-                    if (brand.getBrand_name().equals(default_name)) {
-                        brand.setIsSelected(true);
-                        break;
-                    }else if (brand.getBrand_name().equals("修理厂")) {
-                        brand.setIsSelected(true);
+                if (brandNetWorkResultBean != null) {
+                    int status = brandNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (brandNetWorkResultBean.getData() != null) {
+                                brandList.clear();
+                                brandList.addAll((List<Brand>) brandNetWorkResultBean.getData());
+                            }
+                            for (Brand brand : brandList) {
+                                if (brand.getBrand_name().equals(default_name)) {
+                                    brand.setIsSelected(true);
+                                    break;
+                                } else if (brand.getBrand_name().equals("修理厂")) {
+                                    brand.setIsSelected(true);
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                            break;
+                        default:
+                            Toast.makeText(activity, brandNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
                 }
-                adapter.notifyDataSetChanged();
+
 
             }
         });

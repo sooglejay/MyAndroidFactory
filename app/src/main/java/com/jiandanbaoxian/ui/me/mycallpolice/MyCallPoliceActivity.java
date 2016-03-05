@@ -34,6 +34,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -152,37 +154,51 @@ public class MyCallPoliceActivity extends BaseActivity implements
     private void getReportableInsurance(int userid) {
         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
         progressDialogUtil.show("正在获取信息...");
-        UserRetrofitUtil.getReportableInsurance(this, userid, new NetCallback<NetWorkResultBean<ReportData>>(this) {
+        UserRetrofitUtil.getReportableInsurance(this, userid, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(MyCallPoliceActivity.this, message, Toast.LENGTH_SHORT).show();
-
-                }
                 swipeLayout.setRefreshing(false);
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
+
             }
 
             @Override
-            public void success(NetWorkResultBean<ReportData> reportDataNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> reportDataNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
-                mListDatas.clear();
-                ReportData data = reportDataNetWorkResultBean.getData();
-                if (data.getReportableInsurance() != null) {
-                    ReportableInsurance reportableInsurance = data.getReportableInsurance();
-                    if (reportableInsurance.getOvertimeReportableData() != null) {
-                        overtimeReportableData = reportableInsurance.getOvertimeReportableData();
-                        mListDatas.add(overtimeReportableData);
+
+                if (reportDataNetWorkResultBean != null) {
+                    int status = reportDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (reportDataNetWorkResultBean.getData() != null) {
+                                mListDatas.clear();
+                                ReportData data = (ReportData) reportDataNetWorkResultBean.getData();
+                                if (data.getReportableInsurance() != null) {
+                                    ReportableInsurance reportableInsurance = data.getReportableInsurance();
+                                    if (reportableInsurance.getOvertimeReportableData() != null) {
+                                        overtimeReportableData = reportableInsurance.getOvertimeReportableData();
+                                        mListDatas.add(overtimeReportableData);
+                                    }
+                                    if (reportableInsurance.getDriverReportableData() != null) {
+                                        mListDatas.addAll(data.getReportableInsurance().getDriverReportableData());
+                                    }
+                                    if (reportableInsurance.getVehicleReportableData() != null) {
+                                        mListDatas.addAll(data.getReportableInsurance().getVehicleReportableData());
+                                    }
+                                    myCallPoliceListAdapter.notifyDataSetChanged();
+                                }
+                                swipeLayout.setRefreshing(false);
+                            }
+                            break;
+                        default:
+                            Toast.makeText(activity, reportDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
-                    if (reportableInsurance.getDriverReportableData() != null) {
-                        mListDatas.addAll(data.getReportableInsurance().getDriverReportableData());
-                    }
-                    if (reportableInsurance.getVehicleReportableData() != null) {
-                        mListDatas.addAll(data.getReportableInsurance().getVehicleReportableData());
-                    }
-                    myCallPoliceListAdapter.notifyDataSetChanged();
                 }
-                swipeLayout.setRefreshing(false);
+
+
             }
         });
     }
@@ -197,20 +213,35 @@ public class MyCallPoliceActivity extends BaseActivity implements
             double lng_o = overtimeReportableData.getLng();
             if (Math.abs(lat_o - lat) < 0.5 && Math.abs(lng_o - lng) < 0.5) {
 
-                UserRetrofitUtil.reportOvertime(activity, userid, overtimeReportableData.getId(), new NetCallback<NetWorkResultBean<String>>(activity) {
+                UserRetrofitUtil.reportOvertime(activity, userid, overtimeReportableData.getId(), new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
-                        Toast.makeText(activity, "服务器无响应，请检查网络！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
-                        if (stringNetWorkResultBean.getMessage().toString().contains("ok")) {
-                            Toast.makeText(activity, "报案成功！经纬度差在0.1之内", Toast.LENGTH_SHORT).show();
-                            getReportableInsurance(userid);
-                        } else {
-                            Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+
+                        if (stringNetWorkResultBean != null) {
+                            int status = stringNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    String message;
+                                    if (TextUtils.isEmpty(message = stringNetWorkResultBean.getMessage().toString())) {
+                                        if (message.contains("ok")) {
+                                            Toast.makeText(activity, "报案成功！经纬度差在0.1之内", Toast.LENGTH_SHORT).show();
+                                            getReportableInsurance(userid);
+                                        } else {
+                                            Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
+
 
                     }
                 });

@@ -55,7 +55,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/submitPhone/")
-    public void obtainVerifyCode(@Field("param") String params, NetCallback<NetWorkResultBean<CommData>> NetCallback);
+    public void obtainVerifyCode(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
     /**
      * 登录
@@ -65,7 +65,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/loginVerifyPhoneAndCode/")
-    public void login(@Field("param") String params, NetCallback<NetWorkResultBean<CommData>> NetCallback);
+    public void login(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
     /**
      * 获取获取在售加班险信息
@@ -75,7 +75,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getOvertimeInsuranceInfo/")
-    public void getOvertimeInsuranceInfo(@Field("param") String params, NetCallback<NetWorkResultBean<OvertimeData>> NetCallback);
+    public void getOvertimeInsuranceInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -86,7 +86,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/jugeOvertimeInsuranceOrder/")
-    public void jugeOvertimeInsuranceOrder(@Field("param") String params, NetCallback<jugeOvertimeInsuranceOrder> NetCallback);
+    public void jugeOvertimeInsuranceOrder(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -97,7 +97,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/setWithdrawlPassword/")
-    public void setWithdrawlPassword(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void setWithdrawlPassword(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -108,7 +108,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/saveOvertimeInsuranceOrder/")
-    public void saveOvertimeInsuranceOrder(@Field("param") String params, NetCallback<NetWorkResultBean<Overtimeordertable>> NetCallback);
+    public void saveOvertimeInsuranceOrder(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -119,7 +119,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getPauseInfo/")
-    public void getPauseInfo(@Field("param") String params, NetCallback<NetWorkResultBean<List<PauseData>>> NetCallback);
+    public void getPauseInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -130,7 +130,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/searchTeam/")
-    public void searchTeam(@Field("param") String params, NetCallback<NetWorkResultBean<List<FreedomData>>> NetCallback);
+    public void searchTeam(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -141,7 +141,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getFourTeamInfo/")
-    public void getFourTeamInfo(@Field("param") String params, NetCallback<NetWorkResultBean<List<FreedomData>>> NetCallback);
+    public void getFourTeamInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /*
@@ -160,7 +160,7 @@ public interface UserApi {
      */
     @Multipart
     @POST("/fillInfoJoinTeam/")
-    public void fillInfoJoinTeam(@Part("param") String params, @Part("imagesData") TypedFile imagesData, @Part("photoData") TypedFile photoData, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void fillInfoJoinTeam(@Part("param") String params, @Part("imagesData") TypedFile imagesData, @Part("photoData") TypedFile photoData, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -173,7 +173,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getTeamRangeInfo/")
-    public void getTeamRangeInfo(@Field("param") String params, NetCallback<NetWorkResultBean<RangeData>> NetCallback);
+    public void getTeamRangeInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
     /**
      * 发送时机	获取邀请信息
@@ -185,7 +185,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getInviteInfo/")
-    public void getInviteInfo(@Field("param") String params, NetCallback<NetWorkResultBean<List<InviteInfo>>> NetCallback);
+    public void getInviteInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -201,7 +201,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getChoicers/")
-    public void getChoicers(@Field("param") String params, NetCallback<NetWorkResultBean<List<Userstable>>> NetCallback);
+    public void getChoicers(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -215,7 +215,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getAvailable/")
-    public void getAvailable(@Field("param") String params, NetCallback<NetWorkResultBean<List<Userstable>>> NetCallback);
+    public void getAvailable(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -229,7 +229,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/addNewMember/")
-    public void addNewMember(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void addNewMember(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -242,7 +242,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/verifyTeamName/")
-    public void verifyTeamName(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void verifyTeamName(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -258,7 +258,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/createTeam/")
-    public void createTeam(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void createTeam(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -273,7 +273,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/dealInviting/")
-    public void dealInviting(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void dealInviting(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -289,7 +289,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/auditJoinRequest/")
-    public void auditJoinRequest(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void auditJoinRequest(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -302,7 +302,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getMyTeamInfo/")
-    public void getMyTeamInfo(@Field("param") String params, NetCallback<NetWorkResultBean<TeamData>> NetCallback);
+    public void getMyTeamInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -315,7 +315,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getJoinRequest/")
-    public void getJoinRequest(@Field("param") String params, NetCallback<NetWorkResultBean<TeamData>> NetCallback);
+    public void getJoinRequest(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
     /**
      * 发送时机	团长搜索团员
@@ -328,7 +328,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/searchMember/")
-    public void searchMember(@Field("param") String params, NetCallback<NetWorkResultBean<List<SelfRecord>>> NetCallback);
+    public void searchMember(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -341,7 +341,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getMyConsultant/")
-    public void getMyConsultant(@Field("param") String params, NetCallback<NetWorkResultBean<ConsultantData>> NetCallback);
+    public void getMyConsultant(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -357,7 +357,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getOtherConsultant/")
-    public void getOtherConsultant(@Field("param") String params, NetCallback<NetWorkResultBean<ConsultantData>> NetCallback);
+    public void getOtherConsultant(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -370,7 +370,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getSelfInfo/")
-    public void getSelfInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Userstable>> NetCallback);
+    public void getSelfInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -381,7 +381,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/verifyPwd/")
-    public void verifyPwd(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void verifyPwd(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
     /**
      * 用户重置手机号，提交手机号和验证码。
@@ -391,7 +391,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/resetSubmitPhoneAndVerifycode/")
-    public void resetSubmitPhoneAndVerifycode(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void resetSubmitPhoneAndVerifycode(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -403,7 +403,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/saveVehicleInfo/")
-    public void saveVehicleInfo(@Field("param") String params, NetCallback<NetWorkResultBean<CommData>> NetCallback);
+    public void saveVehicleInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
     /**
      * 保存报价信息
@@ -414,7 +414,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/saveOfferPrice/")
-    public void saveOfferPrice(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void saveOfferPrice(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -426,7 +426,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/selectPlan/")
-    public void selectPlan(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void selectPlan(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -438,7 +438,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getInsuranceCompanyInfo/")
-    public void getInsuranceCompanyInfo(@Field("param") String params, NetCallback<NetWorkResultBean<CommData>> NetCallback);
+    public void getInsuranceCompanyInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -450,7 +450,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/confirmVehicleOrder/")
-    public void confirmVehicleOrder(@Field("param") String params, NetCallback<NetWorkResultBean<ConfirmOrderBean>> NetCallback);
+    public void confirmVehicleOrder(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
     /**
      * 7.4.8.核保
@@ -461,7 +461,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/huanAuditInsuranceOrder/")
-    public void huanAuditInsuranceOrder(@Field("param") String params, NetCallback<NetWorkResultBean<ConfirmOrderBean>> NetCallback);
+    public void huanAuditInsuranceOrder(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -473,7 +473,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/saveLimitPauseInfo/")
-    public void saveLimitPauseInfo(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void saveLimitPauseInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -489,7 +489,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/saveReservePauseInfo/")
-    public void saveReservePauseInfo(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void saveReservePauseInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -501,7 +501,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/checkUpdate/")
-    public void checkUpdate(@Field("param") String params, NetCallback<NetWorkResultBean<CommData>> NetCallback);
+    public void checkUpdate(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -513,7 +513,7 @@ public interface UserApi {
      */
     @Multipart
     @POST("/modifySelfInfo/")
-    public void modifySelfInfo(@Part("param") String params, @Part("photoData") TypedFile photoData, NetCallback<NetWorkResultBean<Userstable>> NetCallback);
+    public void modifySelfInfo(@Part("param") String params, @Part("photoData") TypedFile photoData, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -525,7 +525,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/cancelPause/")
-    public void cancelPause(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void cancelPause(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -537,7 +537,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getPauseHistory/")
-    public void getPauseHistory(@Field("param") String params, NetCallback<NetWorkResultBean<PauseHistory>> NetCallback);
+    public void getPauseHistory(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -550,7 +550,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getMywalletInfo/")
-    public void getMywalletInfo(@Field("param") String params, NetCallback<NetWorkResultBean<MyWalletData>> NetCallback);
+    public void getMywalletInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -567,7 +567,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/addWithdrawlAccount/")
-    public void addWithdrawlAccount(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void addWithdrawlAccount(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -580,7 +580,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getWithdrawlAccount/")
-    public void getWithdrawlAccount(@Field("param") String params, NetCallback<NetWorkResultBean<List<FinancialAccount>>> NetCallback);
+    public void getWithdrawlAccount(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -593,7 +593,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/deleteWithdrawlAccount/")
-    public void deleteWithdrawlAccount(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void deleteWithdrawlAccount(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -605,7 +605,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/saveWithdrawlInfo/")
-    public void saveWithdrawlInfo(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void saveWithdrawlInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -617,7 +617,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getLastAccountInfo/")
-    public void getLastAccountInfo(@Field("param") String params, NetCallback<NetWorkResultBean<AccountData>> NetCallback);
+    public void getLastAccountInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -629,7 +629,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getMyinsuranceListInfo/")
-    public void getMyinsuranceListInfo(@Field("param") String params, NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+    public void getMyinsuranceListInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -644,7 +644,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getMyOvertimeInfo/")
-    public void getMyOvertimeInfo(@Field("param") String params, NetCallback<NetWorkResultBean<MyWalletData>> NetCallback);
+    public void getMyOvertimeInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -658,7 +658,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getOvertimeOrderByPage/")
-    public void getOvertimeOrderByPage(@Field("param") String params, NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+    public void getOvertimeOrderByPage(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -673,7 +673,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getDriverOrderByPage/")
-    public void getDriverOrderByPage(@Field("param") String params, NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+    public void getDriverOrderByPage(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -688,7 +688,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getVehicleOrderByPage/")
-    public void getVehicleOrderByPage(@Field("param") String params, NetCallback<NetWorkResultBean<MyInsuranceData>> NetCallback);
+    public void getVehicleOrderByPage(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -704,7 +704,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getPriceHistoryList/")
-    public void getPriceHistoryList(@Field("param") String params, NetCallback<NetWorkResultBean<HistoryPriceData>> NetCallback);
+    public void getPriceHistoryList(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -718,7 +718,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getHistoryPriceDetail/")
-    public void getHistoryPriceDetail(@Field("param") String params, NetCallback<NetWorkResultBean<HistoryPriceData>> NetCallback);
+    public void getHistoryPriceDetail(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -731,7 +731,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/deleteHistoryPrice/")
-    public void deleteHistoryPrice(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void deleteHistoryPrice(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -744,7 +744,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getReportableInsurance/")
-    public void getReportableInsurance(@Field("param") String params, NetCallback<NetWorkResultBean<ReportData>> NetCallback);
+    public void getReportableInsurance(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -760,7 +760,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/reportOvertime/")
-    public void reportOvertime(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void reportOvertime(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -775,7 +775,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/submitJoinRequest/")
-    public void submitJoinRequest(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
+    public void submitJoinRequest(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -786,7 +786,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getFourServiceInfo/")
-    public void getFourServiceInfo(@Field("param") String params, NetCallback<NetWorkResultBean<CommData>> NetCallback);
+    public void getFourServiceInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -805,7 +805,7 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getCharge/")
-    public void getCharge(@Field("param") String params, NetCallback<ChargeBean> NetCallback);
+    public void getCharge(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -828,7 +828,7 @@ public interface UserApi {
      */
     @Multipart
     @POST("/applyCooperation/")
-    public void applyCooperation(@Part("param") String params, @Part("imagesData") TypedFile typedFile, NetCallback<NetWorkResultBean<Integer>> NetCallback);
+    public void applyCooperation(@Part("param") String params, @Part("imagesData") TypedFile typedFile, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
@@ -854,93 +854,88 @@ public interface UserApi {
      */
     @FormUrlEncoded
     @POST("/getFourServiceBrands/")
-    public void getFourServiceBrands(@Field("param") String params, NetCallback<NetWorkResultBean<List<Brand>>> NetCallback);
-
-
+    public void getFourServiceBrands(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
-
-     省级行政区编码
-
-     接口名称	getProvenceNo
-     发送时机	获取省级行政区编码、和市、县级结合可实现三级菜单
-     参数说明
+     * 省级行政区编码
+     * <p/>
+     * 接口名称	getProvenceNo
+     * 发送时机	获取省级行政区编码、和市、县级结合可实现三级菜单
+     * 参数说明
      *
      * @param NetCallback
      */
     @GET("/getProvenceNo/")
-    public void getProvenceNo(NetCallback<NetWorkResultBean<List<RegionBean>>> NetCallback);
+    public void getProvenceNo(NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
-
-     市级行政区编码
-     接口名称	getCityNo
-     发送时机	获取市级行政区编码
-     参数说明	1、String  provenceNo;//上一接口获取的省的编码
-
+     * 市级行政区编码
+     * 接口名称	getCityNo
+     * 发送时机	获取市级行政区编码
+     * 参数说明	1、String  provenceNo;//上一接口获取的省的编码
+     *
      * @param params
      * @param NetCallback
      */
     @FormUrlEncoded
     @POST("/getCityNo/")
-    public void getCityNo(@Field("param") String params, NetCallback<NetWorkResultBean<List<RegionBean>>> NetCallback);
-
+    public void getCityNo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
-     接口名称	getCountyNo
-     发送时机	获取县级行政区编码
-     参数说明	1、String  cityNo;//上一接口获取的市的编码
+     * 接口名称	getCountyNo
+     * 发送时机	获取县级行政区编码
+     * 参数说明	1、String  cityNo;//上一接口获取的市的编码
+     *
      * @param params
      * @param NetCallback
      */
     @FormUrlEncoded
     @POST("/getCountyNo/")
-    public void getCountyNo(@Field("param") String params, NetCallback<NetWorkResultBean<List<RegionBean>>> NetCallback);
-
-
+    public void getCountyNo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
-     接口名称	getC_ly15
-     发送时机	获取免赔额键值对,取得相应的免赔额对应的编码，以便和后台交互
-     参数说明
+     * 接口名称	getC_ly15
+     * 发送时机	获取免赔额键值对,取得相应的免赔额对应的编码，以便和后台交互
+     * 参数说明
+     *
      * @param NetCallback
      */
     @FormUrlEncoded
     @POST("/getC_ly15/")
-    public void getC_ly15( NetCallback<NetWorkResultBean<Object>> NetCallback);
-
+    public void getC_ly15(NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
-     接口名称	huanApplyPay
-     发送时机	服务器调用华安支付申请接口，返回支付单号，供手机端去支付。手机端是调用华安的支付接口，完成支付！
-     参数说明
-     "String insureName ;//投保人姓名
-     String ConfirmCompulsoryNo;//交强险保单号，无传0
-     int compulsoryAmount ;//交强险，保费金额，单位分，无传0
-     String commerceNo;//商业险单号 无传0
-     Int commerceAmount;//商业险保费，单位分，无传0
-     String countyNo;//区级行政区域代码
-     Int compulsoryStartDate;//交强险起效时间 毫秒，无传0
-     Int cmmerceStartDate ;// 商业险起效时间 毫秒，无传 0
-     Int  type；//保险公司  0 华安  "
+     * 接口名称	huanApplyPay
+     * 发送时机	服务器调用华安支付申请接口，返回支付单号，供手机端去支付。手机端是调用华安的支付接口，完成支付！
+     * 参数说明
+     * "String insureName ;//投保人姓名
+     * String ConfirmCompulsoryNo;//交强险保单号，无传0
+     * int compulsoryAmount ;//交强险，保费金额，单位分，无传0
+     * String commerceNo;//商业险单号 无传0
+     * Int commerceAmount;//商业险保费，单位分，无传0
+     * String countyNo;//区级行政区域代码
+     * Int compulsoryStartDate;//交强险起效时间 毫秒，无传0
+     * Int cmmerceStartDate ;// 商业险起效时间 毫秒，无传 0
+     * Int  type；//保险公司  0 华安  "
+     *
      * @param params
      * @param NetCallback
      */
     @FormUrlEncoded
     @POST("/huanApplyPay/")
-    public void huanApplyPay(@Field("param") String params, NetCallback<NetWorkResultBean<ApplyPayBean>> NetCallback);
-
+    public void huanApplyPay(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**
-     接口名称	markPay
-     发送时机	用户支付成功后，手机端调用此接口，修改我们本地数据库订单的支付结果。
-     参数说明	1、int orderId;//我们数据库对应的保险编号
+     * 接口名称	markPay
+     * 发送时机	用户支付成功后，手机端调用此接口，修改我们本地数据库订单的支付结果。
+     * 参数说明	1、int orderId;//我们数据库对应的保险编号
+     *
      * @param params
      * @param NetCallback
      */
@@ -949,81 +944,46 @@ public interface UserApi {
     public void markPay(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
-
     /**
-     接口名称	jugeCertify
-     发送时机	判断用户是否实名认证
-     参数说明	1、int userid;//用户编号
-     限制条件	参数1为必填。
+     * 接口名称	jugeCertify
+     * 发送时机	判断用户是否实名认证
+     * 参数说明	1、int userid;//用户编号
+     * 限制条件	参数1为必填。
+     *
      * @param params
      * @param NetCallback
      */
     @FormUrlEncoded
     @POST("/jugeCertify/")
-    public void jugeCertify(@Field("param") String params, NetCallback<NetWorkResultBean<Integer>> NetCallback);
+    public void jugeCertify(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
-
-
-    /**
-     接口名称	huanDistribution
-     发送时机	如果用户需要配送保单，调此接口，服务器会调用华安的配送接口。
-     参数说明	"String forceNo;//交强险，保单号（华安的），无传0
-     String commerceNo;//商业险保单号（华安的），无传0
-     String address；//配送具体地址
-     String  recieverPhone;//收件人电话
-     String recieverName;//收件人姓名
-     String provence_no;//省级行政区代码
-     String city_no;//市级行政区代码
-     String county_no;//区级行政区代码
-     String  beSuredName;//被保险人姓名"
-     返回结果
-     * @param params
-     * @param NetCallback
-     */
-    @FormUrlEncoded
-    @POST("/huanDistribution/")
-    public void huanDistribution(@Field("param") String params, NetCallback<NetWorkResultBean<String>> NetCallback);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /***************** 服务端接口 121  华安保险流程 ********************/
+    /*****************
+     * 服务端接口 121  华安保险流程
+     ********************/
 
     //车型查询
     @FormUrlEncoded
     @POST("/vehcileTypeInfo/")
-    public void vehicleTypeInfo(@Field("param") String params, NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>> NetCallback);
-
-
+    public void vehicleTypeInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     //上传车辆信息去 报价
     @FormUrlEncoded
     @POST("/quotaPrice/")
-    public void quotaPrice(@Field("param") String params, NetCallback<NetWorkResultBean<CommPriceData>> NetCallback);
-
-
-
+    public void quotaPrice(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     //上传车辆信息去 报价
     @FormUrlEncoded
     @POST("/queryStatus/")
-    public void queryStatus(@Field("param") String params, NetCallback<NetWorkResultBean<HuanQueryStatusData>> NetCallback);
+    public void queryStatus(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
-
+    //上传车辆信息去 报价
+    @FormUrlEncoded
+    @POST("/huanDistribution/")
+    public void huanDistribution(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
 }

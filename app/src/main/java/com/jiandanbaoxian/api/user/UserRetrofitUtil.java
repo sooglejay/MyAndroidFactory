@@ -1,6 +1,7 @@
 package com.jiandanbaoxian.api.user;
 
 import android.content.Context;
+import android.support.v7.internal.view.menu.MenuPresenter;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ import org.w3c.dom.Comment;
 
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.mime.TypedFile;
 
@@ -57,7 +59,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param callback String phone； //手机号
      *                 Int type;//0 登陆获取验证码，1 设置密码获取验证码，2 重置密码，3添加提现账号
      */
-    public static void obtainVerifyCode(Context mContext, String phone, int type, NetCallback<NetWorkResultBean<CommData>> callback) {
+    public static void obtainVerifyCode(Context mContext, String phone, int type, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String p = new String("phone=");
@@ -74,7 +76,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param phone
      * @param callback
      */
-    public static void login(Context mContext, String phone, String verifyCode, NetCallback<NetWorkResultBean<CommData>> callback) {
+    public static void login(Context mContext, String phone, String verifyCode, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "phone=" + phone + "&verifyCode=" + verifyCode;
@@ -89,7 +91,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void getOvertimeInsuranceInfo(Context mContext, NetCallback<NetWorkResultBean<OvertimeData>> callback) {
+    public static void getOvertimeInsuranceInfo(Context mContext, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.getOvertimeInsuranceInfo("", callback);
@@ -105,7 +107,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void jugeOvertimeInsuranceOrder(Context mContext,
                                                   String phone,
-                                                  NetCallback<jugeOvertimeInsuranceOrder> callback) {
+                                                  NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "phone=" + phone;
@@ -130,7 +132,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                          int pageSize,
                                          int pageNum,
 
-                                         NetCallback<NetWorkResultBean<MyWalletData>> callback) {
+                                         NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -152,7 +154,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param userid
      * @param callback
      */
-    public static void getReportableInsurance(Context mContext, int userid, NetCallback<NetWorkResultBean<ReportData>> callback) {
+    public static void getReportableInsurance(Context mContext, int userid, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -168,7 +170,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void setWithdrawlPassword(Context mContext, String phone, String verifyCode, String withdrawlPwd, NetCallback<NetWorkResultBean<String>> callback) {
+    public static void setWithdrawlPassword(Context mContext, String phone, String verifyCode, String withdrawlPwd, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String w = MD5Util.getMD5(withdrawlPwd);
@@ -204,7 +206,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                                   double lng,
                                                   String username,
                                                   String companyname,
-                                                  NetCallback<NetWorkResultBean<Overtimeordertable>> callback) {
+                                                  NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String key = "phone=" + phone +
@@ -228,7 +230,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void getPauseInfo(Context mContext, int userid, NetCallback<NetWorkResultBean<List<PauseData>>> callback) {
+    public static void getPauseInfo(Context mContext, int userid, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -255,7 +257,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                           int orderid,
                                           float dayPrice,
                                           int day_of_week,
-                                          NetCallback<NetWorkResultBean<String>> callback) {
+                                          NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -286,7 +288,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                             int orderid,
                                             float dayPrice,
                                             String reservedays,
-                                            NetCallback<NetWorkResultBean<String>> callback) {
+                                            NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -306,7 +308,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void searchTeam(Context mContext, String searchParam, NetCallback<NetWorkResultBean<List<FreedomData>>> callback) {
+    public static void searchTeam(Context mContext, String searchParam, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "searchParam=" + searchParam;
@@ -329,7 +331,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void submitJoinRequest(Context mContext,
                                          int userid,
                                          int teamid,
-                                         NetCallback<NetWorkResultBean<String>> callback) {
+                                         NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -346,7 +348,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void getFourTeamInfo(Context mContext, NetCallback<NetWorkResultBean<List<FreedomData>>> callback) {
+    public static void getFourTeamInfo(Context mContext, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.getFourTeamInfo("", callback);
@@ -386,7 +388,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                         String companyAddress,
                                         TypedFile imagesData,
                                         TypedFile photoData,
-                                        NetCallback<NetWorkResultBean<String>> callback) {
+                                        NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -417,7 +419,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void getTeamRangeInfo(Context mContext, int userid, int pageSize, int pageNum, NetCallback<NetWorkResultBean<RangeData>> callback) {
+    public static void getTeamRangeInfo(Context mContext, int userid, int pageSize, int pageNum, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -436,7 +438,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void getInviteInfo(Context mContext, int userid, NetCallback<NetWorkResultBean<List<InviteInfo>>> callback) {
+    public static void getInviteInfo(Context mContext, int userid, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -459,7 +461,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                    int userid,
                                    int pageSize,
                                    int pageNum,
-                                   NetCallback<NetWorkResultBean<List<Userstable>>> callback) {
+                                   NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -485,7 +487,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                     int userid,
                                     int pageSize,
                                     int pageNum,
-                                    NetCallback<NetWorkResultBean<List<Userstable>>> callback) {
+                                    NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -509,7 +511,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void addNewMember(Context mContext,
                                     int leaderid,
                                     String ids,
-                                    NetCallback<NetWorkResultBean<String>> callback) {
+                                    NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -530,7 +532,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void verifyTeamName(Context mContext,
                                       String teamname,
-                                      NetCallback<NetWorkResultBean<String>> callback) {
+                                      NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -555,7 +557,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                   int userid,
                                   String teamname,
                                   String memberids,
-                                  NetCallback<NetWorkResultBean<String>> callback) {
+                                  NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -580,7 +582,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void dealInviting(Context mContext,
                                     int inviteinfoid,
                                     int received,
-                                    NetCallback<NetWorkResultBean<String>> callback) {
+                                    NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -601,7 +603,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getJoinRequest(Context mContext,
                                       int userid,
-                                      NetCallback<NetWorkResultBean<TeamData>> callback) {
+                                      NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -625,7 +627,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                         int memberid,
                                         int teamid,
                                         int auditResult,
-                                        NetCallback<NetWorkResultBean<String>> callback) {
+                                        NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -647,7 +649,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getMyTeamInfo(Context mContext,
                                      int userid,
-                                     NetCallback<NetWorkResultBean<TeamData>> callback) {
+                                     NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -670,7 +672,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void searchMember(Context mContext,
                                     int userid,
                                     String searchParam,
-                                    NetCallback<NetWorkResultBean<List<SelfRecord>>> callback) {
+                                    NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -691,7 +693,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getMyConsultant(Context mContext,
                                        int userid,
-                                       NetCallback<NetWorkResultBean<ConsultantData>> callback) {
+                                       NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -715,7 +717,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                           int userid,
                                           int pageSize,
                                           int pageNum,
-                                          NetCallback<NetWorkResultBean<ConsultantData>> callback) {
+                                          NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -735,7 +737,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void getSelfInfo(Context mContext, int userid, NetCallback<NetWorkResultBean<Userstable>> callback) {
+    public static void getSelfInfo(Context mContext, int userid, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -750,7 +752,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void verifyPwd(Context mContext, String phone, String pwd, NetCallback<NetWorkResultBean<String>> callback) {
+    public static void verifyPwd(Context mContext, String phone, String pwd, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String w = MD5Util.getMD5(pwd);
@@ -766,7 +768,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param mContext
      * @param callback
      */
-    public static void resetSubmitPhoneAndVerifycode(Context mContext, String oldPhone, String newPhone, String verifyCode, NetCallback<NetWorkResultBean<String>> callback) {
+    public static void resetSubmitPhoneAndVerifycode(Context mContext, String oldPhone, String newPhone, String verifyCode, NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "oldPhone=" + oldPhone + "&newPhone=" + newPhone + "&verifyCode=" + verifyCode;
@@ -840,7 +842,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                        String insuranceItems,
                                        int type,
 
-                                       NetCallback<NetWorkResultBean<CommData>> callback) {
+                                       NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -918,7 +920,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                       String repair,
                                       String force,
 
-                                      NetCallback<NetWorkResultBean<String>> callback) {
+                                      NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "totalprice=" + totalprice +
@@ -959,7 +961,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void selectPlan(Context mContext,
                                   String priceid,
                                   String orderid,
-                                  NetCallback<NetWorkResultBean<String>> callback) {
+                                  NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "priceid=" + priceid + "&orderid=" + orderid;
@@ -977,7 +979,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param callback
      */
     public static void getInsuranceCompanyInfo(Context mContext,
-                                               NetCallback<NetWorkResultBean<CommData>> callback) {
+                                               NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.getInsuranceCompanyInfo("", callback);
@@ -1023,7 +1025,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                            String provence,
                                            String type,
                                            String cal_app_no,
-                                           NetCallback<NetWorkResultBean<ConfirmOrderBean>> callback) {
+                                           NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "name=" + name +
@@ -1059,7 +1061,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                                String idcardnum,
                                                String cal_app_no,
                                                int type,
-                                               NetCallback<NetWorkResultBean<ConfirmOrderBean>> callback) {
+                                               NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "name=" + name +
@@ -1074,6 +1076,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     }
 
 
+
     /**
      * 发送时机	启动页面，后台发送检测版本更新情况（用于比对本地和服务的版本）
      *
@@ -1081,7 +1084,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param callback
      */
     public static void checkUpdate(Context mContext,
-                                   NetCallback<NetWorkResultBean<CommData>> callback) {
+                                   NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.checkUpdate("", callback);
@@ -1113,7 +1116,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                       String worknum,
                                       String companyname,
                                       TypedFile photoData,
-                                      NetCallback<NetWorkResultBean<Userstable>> callback) {
+                                      NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1146,7 +1149,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                    int userid,
                                    int orderid,
                                    int type,
-                                   NetCallback<NetWorkResultBean<String>> callback) {
+                                   NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1170,7 +1173,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void getPauseHistory(Context mContext,
                                        int userid,
                                        int orderid,
-                                       NetCallback<NetWorkResultBean<PauseHistory>> callback) {
+                                       NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1193,7 +1196,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getMywalletInfo(Context mContext,
                                        int userid,
-                                       NetCallback<NetWorkResultBean<MyWalletData>> callback) {
+                                       NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -1230,7 +1233,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                          String account,
                                          String union,
                                          int accountType,
-                                         NetCallback<NetWorkResultBean<String>> callback) {
+                                         NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1271,7 +1274,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                            String account_name,
                                            int accountType,
                                            String verifyCode,
-                                           NetCallback<NetWorkResultBean<String>> callback) {
+                                           NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1298,7 +1301,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void deleteWithdrawlAccount(Context mContext,
                                               int userid,
                                               int accountid,
-                                              NetCallback<NetWorkResultBean<String>> callback) {
+                                              NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1319,7 +1322,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getWithdrawlAccount(Context mContext,
                                            int userid,
-                                           NetCallback<NetWorkResultBean<List<FinancialAccount>>> callback) {
+                                           NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -1341,7 +1344,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getLastAccountInfo(Context mContext,
                                           int userid,
-                                          NetCallback<NetWorkResultBean<AccountData>> callback) {
+                                          NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -1364,7 +1367,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getMyinsuranceListInfo(Context mContext,
                                               int userid,
-                                              NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+                                              NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid;
@@ -1388,7 +1391,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                             int userid,
                                             int pageSize,
                                             int pageNum,
-                                            NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+                                            NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1414,7 +1417,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                              int userid,
                                              int pageSize,
                                              int pageNum,
-                                             NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+                                             NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1440,7 +1443,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                               int userid,
                                               int pageSize,
                                               int pageNum,
-                                              NetCallback<NetWorkResultBean<MyInsuranceData>> callback) {
+                                              NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1467,7 +1470,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                            int userid,
                                            int pageSize,
                                            int pageNum,
-                                           NetCallback<NetWorkResultBean<HistoryPriceData>> callback) {
+                                           NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "userid=" + userid +
@@ -1489,7 +1492,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getHistoryPriceDetail(Context mContext,
                                              int orderid,
-                                             NetCallback<NetWorkResultBean<HistoryPriceData>> callback) {
+                                             NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "orderid=" + orderid;
@@ -1509,7 +1512,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void deleteHistoryPrice(Context mContext,
                                           int orderid,
-                                          NetCallback<NetWorkResultBean<String>> callback) {
+                                          NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k = "orderid=" + orderid;
@@ -1532,7 +1535,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     public static void reportOvertime(Context mContext,
                                       int userid,
                                       int orderid,
-                                      NetCallback<NetWorkResultBean<String>> callback) {
+                                      NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1551,7 +1554,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param callback
      */
     public static void getFourServiceInfo(Context mContext,
-                                          NetCallback<NetWorkResultBean<CommData>> callback) {
+                                          NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.getFourServiceInfo("", callback);
@@ -1579,7 +1582,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                  int type,
                                  String channel,
                                  String client_ip,
-                                 NetCallback<ChargeBean> callback) {
+                                 NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1625,7 +1628,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                         double lat,
                                         double lng,
                                         TypedFile typedFile,
-                                        NetCallback<NetWorkResultBean<Integer>> callback) {
+                                        NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1698,7 +1701,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void jugeCertify(Context mContext,
                                    int userid,
-                                   NetCallback<NetWorkResultBean<Integer>> callback) {
+                                   NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1719,7 +1722,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getFourServiceBrands(Context mContext,
                                             String brand,
-                                            NetCallback<NetWorkResultBean<List<Brand>>> callback) {
+                                            NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1729,52 +1732,6 @@ public class UserRetrofitUtil extends RetrofitUtil {
         git.getFourServiceBrands(s, callback);
     }
 
-
-    /**
-     * 接口名称	huanDistribution
-     * 发送时机	如果用户需要配送保单，调此接口，服务器会调用华安的配送接口。
-     * 参数说明	"
-     * String forceNo;//交强险，保单号（华安的），无传0
-     * String commerceNo;//商业险保单号（华安的），无传0
-     * String address；//配送具体地址
-     * String recieverPhone;//收件人电话
-     * String recieverName;//收件人姓名
-     * String provence_no;//省级行政区代码
-     * String city_no;//市级行政区代码
-     * String county_no;//区级行政区代码
-     * String beSuredName;//被保险人姓名"
-     * 返回结果
-     *
-     * @param mContext
-     * @param callback
-     */
-    public static void huanDistribution(Context mContext,
-                                        String forceNo,
-                                        String commerceNo,
-                                        String address,
-                                        String recieverPhone,
-                                        String recieverName,
-                                        String provence_no,
-                                        String city_no,
-                                        String county_no,
-                                        String beSuredName,
-                                        NetCallback<NetWorkResultBean<String>> callback) {
-        RestAdapter restAdapter = getRestAdapter(mContext);
-        UserApi git = restAdapter.create(UserApi.class);
-        String k =
-                "forceNo=" + forceNo +
-                        "&commerceNo=" + commerceNo +
-                        "&address=" + address +
-                        "&recieverPhone=" + recieverPhone +
-                        "&recieverName=" + recieverName +
-                        "&provence_no=" + provence_no +
-                        "&city_no=" + city_no +
-                        "&county_no=" + county_no +
-                        "&beSuredName=" + beSuredName;
-        String s = Base64Util.encode(k.getBytes());
-        Log.e("Retrofit", "\n 加密前参数:" + k + "\n加密后参数:" + s);
-        git.huanDistribution(s, callback);
-    }
 
 
     /**
@@ -1825,7 +1782,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                     String compulsoryStartDate,
                                     String commerceStartDate,
                                     String type,
-                                    NetCallback<NetWorkResultBean<ApplyPayBean>> callback) {
+                                    NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1879,7 +1836,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getCountyNo(Context mContext,
                                    String cityNo,
-                                   NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
+                                   NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1901,7 +1858,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      */
     public static void getCityNo(Context mContext,
                                  String provenceNo,
-                                 NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
+                                 NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -1922,7 +1879,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param callback
      */
     public static void getProvenceNo(Context mContext,
-                                     NetCallback<NetWorkResultBean<List<RegionBean>>> callback) {
+                                     NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         git.getProvenceNo(callback);
@@ -1949,7 +1906,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                        String licenseplate,
                                        String framenumber,
                                        String type,
-                                       NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>> callback) {
+                                       NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
@@ -2027,7 +1984,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                   String insuranceItems,
                                   String type,
                                   String glassType,
-                                  NetCallback<NetWorkResultBean<CommPriceData>> callback) {
+                                  NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
 
@@ -2083,7 +2040,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                    String compulsory_app_no,
                                    String commerce_app_no,
                                    String type,
-                                   NetCallback<NetWorkResultBean<HuanQueryStatusData>> callback) {
+                                   NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
 
@@ -2096,6 +2053,53 @@ public class UserRetrofitUtil extends RetrofitUtil {
         Log.e("Retrofit", "\n 加密前参数:" + k2 + "\n加密后参数:" + s);
         Log.e("qq", k2);
         git.queryStatus(s, callback);
+    }
+
+    /**
+     * 发送时机	如果用户需要配送保单，调此接口，服务器会调用华安的配送接口。
+     * 参数说明
+     * String forceNo;//交强险，保单号（华安的），无传0
+     * String commerceNo;//商业险保单号（华安的），无传0
+     * String address；//配送具体地址
+     * String  recieverPhone;//收件人电话
+     * String recieverName;//收件人姓名
+     * String provence_no;//省级行政区代码
+     * String city_no;//市级行政区代码
+     * String county_no;//区级行政区代码
+     * String  beSuredName;//被保险人姓名"
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void huanDistribution(Context mContext,
+                                        String forceNo,
+                                        String commerceNo,
+                                        String address,
+                                        String recieverPhone,
+                                        String recieverName,
+                                        String provence_no,
+                                        String city_no,
+                                        String county_no,
+                                        String beSuredName,
+                                        NetCallback<NetWorkResultBean<Object>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+
+        String k2 =
+                "forceNo=" + forceNo +
+                        "&commerceNo=" + commerceNo +
+                        "&address=" + address +
+                        "&recieverPhone=" + recieverPhone +
+                        "&recieverName=" + recieverName +
+                        "&provence_no=" + provence_no +
+                        "&city_no=" + city_no +
+                        "&county_no=" + county_no +
+                        "&beSuredName=" + beSuredName +
+                        "";
+        String s = Base64Util.encode(k2.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k2 + "\n加密后参数:" + s);
+        Log.e("qq", k2);
+        git.huanDistribution(s, callback);
     }
 
 

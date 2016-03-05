@@ -23,6 +23,7 @@ import com.jiandanbaoxian.model.TeamData;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 
+import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -165,26 +166,34 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
                         break;
                 }
                 final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
-                progressDialogUtil.show("正在发送请求...");
-                UserRetrofitUtil.auditJoinRequest(activity, memberId, teamId, auditResult, new NetCallback<NetWorkResultBean<String>>(activity) {
+                progressDialogUtil.show("正在处理...");
+                UserRetrofitUtil.auditJoinRequest(activity, memberId, teamId, auditResult, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
+                        progressDialogUtil.hide();
                         if (popupWindow != null && popupWindow.isShowing()) {
                             popupWindow.dismiss();
                         }
-                        progressDialogUtil.hide();
-                        if (!TextUtils.isEmpty(message)) {
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                        progressDialogUtil.hide();
+
                         if (popupWindow != null && popupWindow.isShowing()) {
                             popupWindow.dismiss();
                         }
-                        progressDialogUtil.hide();
-                        Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        if (stringNetWorkResultBean != null) {
+                            int httpStatus = stringNetWorkResultBean.getStatus();
+                            switch (httpStatus) {
+                                case HttpURLConnection.HTTP_OK:
+                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 });
             }

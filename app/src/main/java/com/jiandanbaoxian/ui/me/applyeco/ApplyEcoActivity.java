@@ -22,9 +22,11 @@ import com.amap.api.location.LocationProviderProxy;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
+import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.BrandListActivity;
+import com.jiandanbaoxian.ui.buyinsurance.car_insurance.PriceReportActivity;
 import com.jiandanbaoxian.util.ImageUtils;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -35,6 +37,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -158,26 +162,46 @@ public class ApplyEcoActivity extends BaseActivity implements
                 certification_num = etZhizhaobianhao.getText().toString();
 
 
-                UserRetrofitUtil.applyCooperation(activity, name, brand, address, phone, service, managername, certification_num, lat, lng, fileToSend, new NetCallback<NetWorkResultBean<Integer>>(activity) {
+                UserRetrofitUtil.applyCooperation(activity, name, brand, address, phone, service, managername, certification_num, lat, lng, fileToSend, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         progressDialogUtil.hide();
+                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<Integer> integer, Response response) {
+                    public void success(NetWorkResultBean<Object> integer, Response response) {
                         progressDialogUtil.hide();
-                        switch (integer.getData()) {
-                            case 0://您已经提交过申请，正在审核中！
-                                Toast.makeText(activity, "您已经提交过申请，正在审核中！", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 1://您已经提交过申请，审核通过！
-                                break;
-                            case 3://提交成功
-                                Toast.makeText(activity, "提交成功!", Toast.LENGTH_SHORT).show();
-                                finish();
-                                break;
+
+
+                        if (integer != null) {
+                            int status = integer.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    if (integer.getData() != null) {
+                                        int code = (Integer) integer.getData();
+                                        switch (code) {
+                                            case 0://您已经提交过申请，正在审核中！
+                                                Toast.makeText(activity, "您已经提交过申请，正在审核中！", Toast.LENGTH_SHORT).show();
+                                                break;
+                                            case 1://您已经提交过申请，审核通过！
+                                                Toast.makeText(activity, "您已经提交过申请，审核通过！", Toast.LENGTH_SHORT).show();
+                                                break;
+                                            case 3://提交成功
+                                                Toast.makeText(activity, "提交成功!", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                                break;
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(activity, integer.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
+
+
                     }
                 });
 

@@ -44,6 +44,8 @@ import com.jiandanbaoxian.widget.PopWindowUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -190,7 +192,6 @@ public class MyTeamForMemberActivity extends BaseActivity {
         });
 
 
-
         //搜索团员
         etSearchTeam.addTextChangedListener(new TextWatcher() {
             @Override
@@ -266,39 +267,56 @@ public class MyTeamForMemberActivity extends BaseActivity {
 
 
     private void getMyTeamInfo() {
-        UserRetrofitUtil.getMyTeamInfo(this, leaderId, new NetCallback<NetWorkResultBean<TeamData>>(this) {
+        UserRetrofitUtil.getMyTeamInfo(this, leaderId, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void success(NetWorkResultBean<TeamData> teamDataNetWorkResultBean, Response response) {
-                TeamData teamData = teamDataNetWorkResultBean.getData();
+            public void success(NetWorkResultBean<Object> teamDataNetWorkResultBean, Response response) {
 
-                if (teamData != null) {
+                if (teamDataNetWorkResultBean != null) {
+                    int status = teamDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
 
-                    //团队人数
-                    if (teamData.getPersons() != null) {
-                        tvMemberAmount.setText(teamData.getPersons() + "人");
-                    } else {
-                        tvMemberAmount.setText("");
-                    }
+                            if (teamDataNetWorkResultBean.getData() != null) {
+                                TeamData teamData = (TeamData) teamDataNetWorkResultBean.getData();
 
-                    //月度保费
-                    if (teamData.getTotalFeeOfMonth() != null) {
-                        tvMonthAmount.setText(teamData.getTotalFeeOfMonth() + "");
-                    } else {
-                        tvMonthAmount.setText("");
-                    }
+                                if (teamData != null) {
 
-                    //年度保费
-                    if (teamData.getTotalFeeOfYear() != null) {
-                        tvYearAmount.setText(teamData.getTotalFeeOfYear() + "");
-                    } else {
-                        tvYearAmount.setText("");
+                                    //团队人数
+                                    if (teamData.getPersons() != null) {
+                                        tvMemberAmount.setText(teamData.getPersons() + "人");
+                                    } else {
+                                        tvMemberAmount.setText("");
+                                    }
+
+                                    //月度保费
+                                    if (teamData.getTotalFeeOfMonth() != null) {
+                                        tvMonthAmount.setText(teamData.getTotalFeeOfMonth() + "");
+                                    } else {
+                                        tvMonthAmount.setText("");
+                                    }
+
+                                    //年度保费
+                                    if (teamData.getTotalFeeOfYear() != null) {
+                                        tvYearAmount.setText(teamData.getTotalFeeOfYear() + "");
+                                    } else {
+                                        tvYearAmount.setText("");
+                                    }
+                                }
+                                break;
+                            }
+                        default:
+                            Toast.makeText(activity, teamDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
                 }
+
+
             }
         });
     }
@@ -306,32 +324,47 @@ public class MyTeamForMemberActivity extends BaseActivity {
 
     private void getTeamRangeInfo() {
         if (userid != -1) {
-            UserRetrofitUtil.getTeamRangeInfo(this, userid, 100, 1, new NetCallback<NetWorkResultBean<RangeData>>(this) {
+            UserRetrofitUtil.getTeamRangeInfo(this, userid, 100, 1, new NetCallback<NetWorkResultBean<Object>>(this) {
                 @Override
                 public void onFailure(RetrofitError error, String message) {
                     swipeLayout.setRefreshing(false);
+                    Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
-                public void success(NetWorkResultBean<RangeData> rangeDataNetWorkResultBean, Response response) {
-                    RangeData data = rangeDataNetWorkResultBean.getData();
-                    if (data.getRangeOfMonth() != null) {
-                        List<RangeRecord> monthDataList = data.getRangeOfMonth();
-                        if (monthDataList.size() > 0) {
-                            mDatas.add("月度排名");
-                            mDatas.addAll(monthDataList);
+                public void success(NetWorkResultBean<Object> rangeDataNetWorkResultBean, Response response) {
+
+                    if (rangeDataNetWorkResultBean != null) {
+                        int status = rangeDataNetWorkResultBean.getStatus();
+                        switch (status) {
+                            case HttpsURLConnection.HTTP_OK:
+                                RangeData data = (RangeData) rangeDataNetWorkResultBean.getData();
+                                if (data.getRangeOfMonth() != null) {
+                                    List<RangeRecord> monthDataList = data.getRangeOfMonth();
+                                    if (monthDataList.size() > 0) {
+                                        mDatas.add("月度排名");
+                                        mDatas.addAll(monthDataList);
+                                    }
+                                }
+                                if (data.getRangeOfYear() != null) {
+                                    List<RangeRecord> yearDataList = data.getRangeOfYear();
+                                    if (yearDataList.size() > 0) {
+                                        int amount = yearDataList.size();
+                                        mDatas.add("年度排名" + "(" + amount + "人/团)");
+                                        mDatas.addAll(yearDataList);
+                                    }
+                                }
+                                adapter.notifyDataSetChanged();
+                                swipeLayout.setRefreshing(false);
+                                break;
+                            default:
+                                Toast.makeText(activity, rangeDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                break;
                         }
                     }
-                    if (data.getRangeOfYear() != null) {
-                        List<RangeRecord> yearDataList = data.getRangeOfYear();
-                        if (yearDataList.size() > 0) {
-                            int amount = yearDataList.size();
-                            mDatas.add("年度排名" + "(" + amount + "人/团)");
-                            mDatas.addAll(yearDataList);
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
-                    swipeLayout.setRefreshing(false);
+
+
                 }
             });
         } else {
@@ -341,7 +374,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
 
 
     private void getInviteInfo() {
-        UserRetrofitUtil.getInviteInfo(this, userid, new NetCallback<NetWorkResultBean<List<InviteInfo>>>(this) {
+        UserRetrofitUtil.getInviteInfo(this, userid, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 if (!TextUtils.isEmpty(message)) {
@@ -352,19 +385,31 @@ public class MyTeamForMemberActivity extends BaseActivity {
             }
 
             @Override
-            public void success(NetWorkResultBean<List<InviteInfo>> listNetWorkResultBean, Response response) {
-                inviteInfoList.clear();
-                if (listNetWorkResultBean != null) {
-                    List<InviteInfo> inviteInfos = listNetWorkResultBean.getData();
-                    if (inviteInfos != null) {
-                        inviteInfoList.addAll(inviteInfos);
-                        popWindowUtilsMemberConsiderRequest.showPopWindowInMyTeamForMemberConsiderRequest(container, activity, inviteInfoList);
-                        iv_notification.setImageResource(R.drawable.icon_has_notification);
-                    } else {
-                        iv_notification.setImageResource(R.drawable.icon_no_notification);
+            public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
 
+                if (listNetWorkResultBean != null) {
+                    int status = listNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            inviteInfoList.clear();
+                            if (listNetWorkResultBean.getData() != null) {
+                                List<InviteInfo> inviteInfos = (List<InviteInfo>) listNetWorkResultBean.getData();
+                                if (inviteInfos != null) {
+                                    inviteInfoList.addAll(inviteInfos);
+                                    popWindowUtilsMemberConsiderRequest.showPopWindowInMyTeamForMemberConsiderRequest(container, activity, inviteInfoList);
+                                    iv_notification.setImageResource(R.drawable.icon_has_notification);
+                                } else {
+                                    iv_notification.setImageResource(R.drawable.icon_no_notification);
+
+                                }
+                            }
+                            break;
+                        default:
+                            Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
                 }
+
 
             }
         });
@@ -372,23 +417,40 @@ public class MyTeamForMemberActivity extends BaseActivity {
 
     //团员搜索团员
     private void searchMember(int userid, String searchParam) {
-        UserRetrofitUtil.searchMember(this, userid, searchParam, new NetCallback<NetWorkResultBean<List<SelfRecord>>>(this) {
+        UserRetrofitUtil.searchMember(this, userid, searchParam, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 swipeLayout.setRefreshing(false);
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void success(NetWorkResultBean<List<SelfRecord>> selfRecordNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> selfRecordNetWorkResultBean, Response response) {
                 swipeLayout.setRefreshing(false);
-                mDatas_Search.clear();
-                List<SelfRecord> datas = selfRecordNetWorkResultBean.getData();
-                if (datas != null) {
-                    mDatas_Search.addAll(datas);
-                } else {
-                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+                if (selfRecordNetWorkResultBean != null) {
+                    int status = selfRecordNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (selfRecordNetWorkResultBean.getData() != null) {
+                                mDatas_Search.clear();
+                                List<SelfRecord> datas = (List<SelfRecord>) selfRecordNetWorkResultBean.getData();
+                                if (datas != null) {
+                                    mDatas_Search.addAll(datas);
+                                } else {
+                                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                                searchMemberAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        default:
+                            Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
                 }
-                searchMemberAdapter.notifyDataSetChanged();
+
+
             }
         });
     }

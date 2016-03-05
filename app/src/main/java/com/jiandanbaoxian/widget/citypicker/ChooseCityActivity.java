@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -122,19 +124,34 @@ public class ChooseCityActivity extends AppCompatActivity {
                             if (!cityStr.contains(provinceStr)) {
                                 cityStr = provinceStr + cityStr;
                             }
-                            UserRetrofitUtil.modifySelfInfo(context, userid, -1, -1, "-1", cityStr, "-1", "-1", "-1",null, new NetCallback<NetWorkResultBean<Userstable>>(context) {
+                            UserRetrofitUtil.modifySelfInfo(context, userid, -1, -1, "-1", cityStr, "-1", "-1", "-1",null, new NetCallback<NetWorkResultBean<Object>>(context) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
-                                    Toast.makeText(context, "服务器无响应，请检查网络！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
-                                public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
-                                    Toast.makeText(context, "修改城市成功！", Toast.LENGTH_SHORT).show();
-                                    Intent intent = getIntent();
-                                    intent.putExtra(ExtraConstants.EXTRA_CITY_NAME, cityStr);
-                                    context.setResult(RESULT_OK, intent);
-                                    context.finish();
+                                public void success(NetWorkResultBean<Object> userstableNetWorkResultBean, Response response) {
+
+                                    if (userstableNetWorkResultBean != null) {
+                                        int status = userstableNetWorkResultBean.getStatus();
+                                        switch (status) {
+                                            case HttpsURLConnection.HTTP_OK:
+                                                Toast.makeText(context, "修改城市成功！", Toast.LENGTH_SHORT).show();
+                                                Intent intent = getIntent();
+                                                intent.putExtra(ExtraConstants.EXTRA_CITY_NAME, cityStr);
+                                                context.setResult(RESULT_OK, intent);
+                                                context.finish();
+                                                break;
+                                            default:
+                                                Toast.makeText(context, userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                break;
+                                        }
+                                    }
+                                    
+                                    
+                                    
+                                   
                                 }
                             });
                         } else {

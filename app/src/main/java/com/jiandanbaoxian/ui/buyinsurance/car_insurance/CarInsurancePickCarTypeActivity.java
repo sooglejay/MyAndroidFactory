@@ -23,6 +23,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -151,9 +153,6 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
                     CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
                             province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
                 } else {
-                    CarInsurancePricePlanActivity.startActivity(activity, licenseplate, engineNumber, model_code, newValue, frameNumber, userName,
-                            province_no, province_name, city_no, city_name, country_no, country_name, transfer, transferDate, regiterationDateString, issueDateString, idcardNum);
-
                 }
             }
         });
@@ -194,20 +193,29 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
 
     public void getVehicleTypeInfo() {
         progressDialogUtil.show("正在查询...");
-        UserRetrofitUtil.vehcileTypeInfo(this, province_no, licenseplate, frameNumber, type, new NetCallback<NetWorkResultBean<List<VehicleTypeInfo>>>(this) {
+        UserRetrofitUtil.vehcileTypeInfo(this, province_no, licenseplate, frameNumber, type, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void success(NetWorkResultBean<List<VehicleTypeInfo>> listNetWorkResultBean, Response response) {
-                if (listNetWorkResultBean != null) {
-                    vehicleTypeInfos.addAll(listNetWorkResultBean.getData());
-                    adapter.notifyDataSetChanged();
-                }
+            public void success(NetWorkResultBean<Object> listNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
-
+                if (listNetWorkResultBean != null) {
+                    int status = listNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            vehicleTypeInfos.addAll((List<VehicleTypeInfo>) listNetWorkResultBean.getData());
+                            adapter.notifyDataSetChanged();
+                            break;
+                        default:
+                            Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
             }
         });
     }

@@ -18,8 +18,10 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.bean.aaa_MyMoneyPocketBean;
+import com.jiandanbaoxian.constant.IntConstant;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
+import com.jiandanbaoxian.event.BusEvent;
 import com.jiandanbaoxian.fragment.DialogFragmentCreater;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
@@ -28,9 +30,11 @@ import com.jiandanbaoxian.ui.stopinsurance.PullMoneyActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -88,7 +92,7 @@ public class MyMoneyPacketListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 
-                    aaa_MyMoneyPocketBean obj =(aaa_MyMoneyPocketBean)v.getTag();
+                    aaa_MyMoneyPocketBean obj = (aaa_MyMoneyPocketBean) v.getTag();
                     final int type = obj.getType();
 
 
@@ -98,28 +102,34 @@ public class MyMoneyPacketListAdapter extends BaseAdapter {
                         public void getPassword(final String psw) {
                             progressDialogUtil.show("正在验证密码...");
                             String phoneStr = PreferenceUtil.load(mContext, PreferenceConstant.phone, "");
-                            UserRetrofitUtil.verifyPwd(mContext, phoneStr, psw, new NetCallback<NetWorkResultBean<String>>(mContext) {
+                            UserRetrofitUtil.verifyPwd(mContext, phoneStr, psw, new NetCallback<NetWorkResultBean<Object>>(mContext) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
-                                    if (!TextUtils.isEmpty(message)) {
-                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-                                    }
-
+                                    Toast.makeText(mContext, "请检查网络设置", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
-                                public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                                     progressDialogUtil.hide();
-                                    if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
-                                        Toast.makeText(mContext, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(mContext, "验证成功！", Toast.LENGTH_SHORT).show();
-                                        dialogFragmentController.dismiss();
-                                        Intent intent = new Intent(mContext, PullMoneyActivity.class);
-                                        intent.putExtra("password", psw);
-                                        intent.putExtra("type", type);
-                                        mContext.startActivityForResult(intent, MyMoneyPocketActivity.ACTION_TO_PULL_MONEY);
+                                    if (stringNetWorkResultBean != null) {
+                                        int httpStatus = stringNetWorkResultBean.getStatus();
+                                        switch (httpStatus) {
+                                            case HttpURLConnection.HTTP_OK:
+                                                if (stringNetWorkResultBean.getMessage().equals(StringConstant.failure)) {
+                                                    Toast.makeText(mContext, "密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(mContext, "验证成功！", Toast.LENGTH_SHORT).show();
+                                                    dialogFragmentController.dismiss();
+                                                    Intent intent = new Intent(mContext, PullMoneyActivity.class);
+                                                    intent.putExtra("password", psw);
+                                                    intent.putExtra("type", type);
+                                                    mContext.startActivityForResult(intent, MyMoneyPocketActivity.ACTION_TO_PULL_MONEY);
+                                                }
+                                                break;
+                                            default:
+                                                Toast.makeText(mContext, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
 
                                 }

@@ -49,6 +49,8 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -255,35 +257,49 @@ public class ServerConsultorFragment extends BaseFragment {
     }
 
     private void loadConsults() {
-        UserRetrofitUtil.getMyConsultant(activity, userid, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
+        UserRetrofitUtil.getMyConsultant(activity, userid, new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 gif_call.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> consultantDataNetWorkResultBean, Response response) {
                 gif_call.setVisibility(View.VISIBLE);
 
-                consultantData = consultantDataNetWorkResultBean.getData();
-                List<Userstable> myConsultant = new ArrayList<Userstable>();
+                if (consultantDataNetWorkResultBean != null) {
+                    int status = consultantDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            consultantData = (ConsultantData) consultantDataNetWorkResultBean.getData();
 
-                myConsultant.addAll(consultantData.getMyConsultant());//
-                if (myConsultant.size() > 0) {
-                    myConsult = myConsultant.get(0);
-                    myConsultId = myConsult.getId();
-                    tv_name.setText(TextUtils.isEmpty(myConsult.getName()) ? "" : myConsult.getName());
-                    tv_company_address.setText(TextUtils.isEmpty(myConsult.getContactaddress()) ? "" : myConsult.getContactaddress());
+                            List<Userstable> myConsultant = new ArrayList<Userstable>();
 
-                    if (myConsult.getCompany() != null) {
-                        tv_company_name.setText(TextUtils.isEmpty(myConsult.getCompany().getCompanyname()) ? "" : myConsult.getCompany().getCompanyname());
-                    } else {
-                        tv_company_name.setText("null");
+                            myConsultant.addAll(consultantData.getMyConsultant());//
+                            if (myConsultant.size() > 0) {
+                                myConsult = myConsultant.get(0);
+                                myConsultId = myConsult.getId();
+                                tv_name.setText(TextUtils.isEmpty(myConsult.getName()) ? "" : myConsult.getName());
+                                tv_company_address.setText(TextUtils.isEmpty(myConsult.getContactaddress()) ? "" : myConsult.getContactaddress());
+
+                                if (myConsult.getCompany() != null) {
+                                    tv_company_name.setText(TextUtils.isEmpty(myConsult.getCompany().getCompanyname()) ? "" : myConsult.getCompany().getCompanyname());
+                                } else {
+                                    tv_company_name.setText("null");
+                                }
+                                tv_phone_number.setText(TextUtils.isEmpty(myConsult.getPhone()) ? "" : myConsult.getPhone());
+
+                            }
+                            setUp();
+
+                            break;
+                        default:
+                            Toast.makeText(getActivity(), consultantDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
-                    tv_phone_number.setText(TextUtils.isEmpty(myConsult.getPhone()) ? "" : myConsult.getPhone());
-
                 }
-                setUp();
 
 
             }
@@ -298,55 +314,71 @@ public class ServerConsultorFragment extends BaseFragment {
         if (isDialog) {
             progressDialogUtil.show("正在获取数据...");
         }
-        UserRetrofitUtil.getOtherConsultant(activity, userid, 20, 1, new NetCallback<NetWorkResultBean<ConsultantData>>(activity) {
+        UserRetrofitUtil.getOtherConsultant(activity, userid, 20, 1, new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
+                Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void success(NetWorkResultBean<ConsultantData> consultantDataNetWorkResultBean, Response response) {
-                List<FourService> fourServiceList = consultantDataNetWorkResultBean.getData().getMaintainConsultant();
-                List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
-                viewPager.setPageMargin(-140);
-                viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+            public void success(NetWorkResultBean<Object> consultantDataNetWorkResultBean, Response response) {
 
-                viewPager.setAdapter(null);
-                fragmentPerPages.clear();
-                layout_dot_list.removeAllViews();
-                dotViewList.clear();
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) UIUtils.dp2px(activity, 8), (int) UIUtils.dp2px(activity, 8), 1.0f);
-                int uiMargin = (int) UIUtils.dp2px(activity, 4);
-                layoutParams.setMargins(uiMargin, uiMargin, uiMargin, uiMargin);
-                for (int i = 0; i < fourServiceList.size(); i++) {
-                    ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
-                    fragmentPerPage.setPosition(i);
-                    fragmentPerPage.setUserstable(fourServiceList.get(i));
-                    fragmentPerPages.add(fragmentPerPage);
-                    ImageView dot = new ImageView(activity);
-                    dot.setTag("dot_" + i);
-                    if (i == 0) {
-                        dot.setImageResource(R.drawable.dot_0);
-                    } else {
-                        dot.setImageResource(R.drawable.dot_4);
+                if (consultantDataNetWorkResultBean != null) {
+                    int status = consultantDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            ConsultantData bean = (ConsultantData) consultantDataNetWorkResultBean.getData();
+
+                            List<FourService> fourServiceList = bean.getMaintainConsultant();
+                            List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();
+                            viewPager.setPageMargin(-140);
+                            viewPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+
+                            viewPager.setAdapter(null);
+                            fragmentPerPages.clear();
+                            layout_dot_list.removeAllViews();
+                            dotViewList.clear();
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) UIUtils.dp2px(activity, 8), (int) UIUtils.dp2px(activity, 8), 1.0f);
+                            int uiMargin = (int) UIUtils.dp2px(activity, 4);
+                            layoutParams.setMargins(uiMargin, uiMargin, uiMargin, uiMargin);
+                            for (int i = 0; i < fourServiceList.size(); i++) {
+                                ConsultFragmentPerPage fragmentPerPage = new ConsultFragmentPerPage();
+                                fragmentPerPage.setPosition(i);
+                                fragmentPerPage.setUserstable(fourServiceList.get(i));
+                                fragmentPerPages.add(fragmentPerPage);
+                                ImageView dot = new ImageView(activity);
+                                dot.setTag("dot_" + i);
+                                if (i == 0) {
+                                    dot.setImageResource(R.drawable.dot_0);
+                                } else {
+                                    dot.setImageResource(R.drawable.dot_4);
+                                }
+                                dot.setLayoutParams(layoutParams);
+                                dotViewList.add(dot);
+                                layout_dot_list.addView(dot);
+
+                            }
+                            if (fourServiceList.size() < 1) {
+                                layout_circle_dot.setVisibility(View.GONE);
+                            } else {
+                                layout_circle_dot.setVisibility(View.VISIBLE);
+                            }
+                            progressDialogUtil.hide();
+                            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
+                            viewPager.setAdapter(viewPagerAdapter);
+                            if (oldPosition >= 0 && fragmentPerPages.size() > oldPosition) {
+                                viewPager.setCurrentItem(oldPosition);
+                                refreshDotList(oldPosition);
+                            }
+                            break;
+                        default:
+                            Toast.makeText(getActivity(), consultantDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
-                    dot.setLayoutParams(layoutParams);
-                    dotViewList.add(dot);
-                    layout_dot_list.addView(dot);
+                }
 
-                }
-                if (fourServiceList.size() < 1) {
-                    layout_circle_dot.setVisibility(View.GONE);
-                } else {
-                    layout_circle_dot.setVisibility(View.VISIBLE);
-                }
-                progressDialogUtil.hide();
-                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
-                viewPager.setAdapter(viewPagerAdapter);
-                if (oldPosition >= 0 && fragmentPerPages.size() > oldPosition) {
-                    viewPager.setCurrentItem(oldPosition);
-                    refreshDotList(oldPosition);
-                }
+
             }
         });
     }
@@ -405,6 +437,7 @@ public class ServerConsultorFragment extends BaseFragment {
                     }
                     return null;
                 }
+
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);

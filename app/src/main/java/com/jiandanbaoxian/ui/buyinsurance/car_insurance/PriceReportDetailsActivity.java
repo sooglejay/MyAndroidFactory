@@ -29,15 +29,19 @@ public class PriceReportDetailsActivity extends BaseActivity {
     private CommPriceData commPriceData;
 
     private String city_no;
+    private String province_no;
+    private String country_no;
     long commercestartdate = 0;
     long compulsorystartdate = 0;
 
 
-    public static void startActivity(Activity activity, CommPriceData data,String idcard_number,String country_no,long compulsorystartdate,long commercestartdate) {
+    public static void startActivity(Activity activity, CommPriceData data,String idcard_number,String country_no,String city_no,String province_no,long compulsorystartdate,long commercestartdate) {
         Intent intent = new Intent(activity, PriceReportDetailsActivity.class);
         intent.putExtra("CommPriceData", data);
         intent.putExtra("idcard_number", idcard_number);
-        intent.putExtra("city_no", country_no);
+        intent.putExtra("city_no", city_no);
+        intent.putExtra("country_no", country_no);
+        intent.putExtra("province_no", province_no);
         intent.putExtra("compulsorystartdate", compulsorystartdate);
         intent.putExtra("commercestartdate", commercestartdate);
         activity.startActivityForResult(intent, 0);
@@ -108,7 +112,7 @@ public class PriceReportDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(activity, "hello world ", Toast.LENGTH_LONG).show();
-                ComfirmOrderActivity.startActivity(activity,commPriceData,idcard_number,city_no,commercestartdate,compulsorystartdate);
+                ComfirmOrderActivity.startActivity(activity,commPriceData,idcard_number,city_no,province_no,commercestartdate,compulsorystartdate);
 //                UserRetrofitUtil.confirmVehicleOrder(activity,);
             }
         });
@@ -118,6 +122,8 @@ public class PriceReportDetailsActivity extends BaseActivity {
         commPriceData = getIntent().getParcelableExtra("CommPriceData");
         idcard_number = getIntent().getStringExtra("idcard_number");
         city_no = getIntent().getStringExtra("city_no");
+        country_no = getIntent().getStringExtra("country_no");
+        province_no = getIntent().getStringExtra("province_no");
         commercestartdate = getIntent().getLongExtra("commercestartdate",0L);
         compulsorystartdate = getIntent().getLongExtra("compulsorystartdate",0L);
         if (commPriceData != null) {

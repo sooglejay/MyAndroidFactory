@@ -17,6 +17,7 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
+import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.model.jugeOvertimeInsuranceOrder;
 import com.jiandanbaoxian.ui.BaseActivity;
@@ -26,6 +27,8 @@ import com.jiandanbaoxian.ui.buyinsurance.OrderCofirmJiaBanDogInsureActivity;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.TimeUtil;
 import com.jiandanbaoxian.widget.TitleBar;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -139,25 +142,39 @@ public class MyInsuresListJiaBanDogInsureDetailActivity extends BaseActivity {
                         Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(context, LoginActivity.class));
                     } else {
-                        UserRetrofitUtil.jugeOvertimeInsuranceOrder(context, phone, new NetCallback<jugeOvertimeInsuranceOrder>(context) {
+                        UserRetrofitUtil.jugeOvertimeInsuranceOrder(context, phone, new NetCallback<NetWorkResultBean<Object>>(context) {
                                     @Override
                                     public void onFailure(RetrofitError error, String message) {
-                                        if (TextUtils.isEmpty(message)) {
-                                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                        }
+                                        Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                                     }
 
                                     @Override
-                                    public void success(jugeOvertimeInsuranceOrder
+                                    public void success(NetWorkResultBean<Object>
                                                                 jugeOvertimeInsuranceOrder, Response response) {
-                                        String message = jugeOvertimeInsuranceOrder.getMessage();
-                                        if (message.equals(StringConstant.buyed)) {
-                                            Toast.makeText(context, "您已经买过加班险了，每周只能买一次，下周再来吧!", Toast.LENGTH_SHORT).show();
-                                        } else if (overtimeordertable != null) {
-                                            OrderCofirmJiaBanDogInsureActivity.startActivity(context, overtimeordertable);
-                                        } else {
-                                            Toast.makeText(context, "加保险信息为空！无法购买！", Toast.LENGTH_SHORT).show();
+
+                                        if (jugeOvertimeInsuranceOrder != null) {
+                                            int status = jugeOvertimeInsuranceOrder.getStatus();
+                                            switch (status) {
+                                                case HttpsURLConnection.HTTP_OK:
+                                                    String message = jugeOvertimeInsuranceOrder.getMessage().toString();
+                                                    if (message.equals(StringConstant.buyed)) {
+                                                        Toast.makeText(context, "您已经买过加班险了，每周只能买一次，下周再来吧!", Toast.LENGTH_SHORT).show();
+                                                    } else if (overtimeordertable != null) {
+                                                        OrderCofirmJiaBanDogInsureActivity.startActivity(context, overtimeordertable);
+                                                    } else {
+                                                        Toast.makeText(context, "加保险信息为空！无法购买！", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    break;
+                                                default:
+                                                    Toast.makeText(context, jugeOvertimeInsuranceOrder.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                    break;
+                                            }
                                         }
+                                        
+                                        
+                                        
+                                       
                                     }
                                 }
                         );

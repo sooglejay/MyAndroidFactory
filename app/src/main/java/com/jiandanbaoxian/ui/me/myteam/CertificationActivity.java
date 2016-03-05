@@ -45,6 +45,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
@@ -212,17 +214,34 @@ public class CertificationActivity extends BaseActivity implements
                             if (!TextUtils.isEmpty(compressPath)) {
                                 File file = new File(compressPath);
                                 TypedFile fileToSend = new TypedFile(ImageUtils.mimeType, file);
-                                UserRetrofitUtil.fillInfoJoinTeam(context, userid, userName, cityNameStr, idCardNumber, 0 + "", -1, -1, serverDescribe, "-1", -1 + "", -1 + "", fileToSend, fileToSend, new NetCallback<NetWorkResultBean<String>>(context) {
+                                UserRetrofitUtil.fillInfoJoinTeam(context, userid, userName, cityNameStr, idCardNumber, 0 + "", -1, -1, serverDescribe, "-1", -1 + "", -1 + "", fileToSend, fileToSend, new NetCallback<NetWorkResultBean<Object>>(context) {
                                     @Override
                                     public void onFailure(RetrofitError error, String message) {
                                         progressDialogUtil.hide();
+                                        Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                                     }
 
                                     @Override
-                                    public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                                         progressDialogUtil.hide();
-                                        Toast.makeText(context, "认证申请已经提交！", Toast.LENGTH_SHORT).show();
-                                        context.finish();
+
+
+                                        if (stringNetWorkResultBean != null) {
+                                            int status = stringNetWorkResultBean.getStatus();
+                                            switch (status) {
+                                                case HttpsURLConnection.HTTP_OK:
+
+                                                    Toast.makeText(context, "认证申请已经提交！", Toast.LENGTH_SHORT).show();
+                                                    context.finish();
+                                                    break;
+                                                default:
+                                                    Toast.makeText(context, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                    break;
+                                            }
+                                        }
+
+
                                     }
                                 });
                             } else {

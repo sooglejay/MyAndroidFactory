@@ -26,6 +26,8 @@ import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -72,7 +74,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_modify_password);
-        phoneString=PreferenceUtil.load(this,PreferenceConstant.phone,"");
+        phoneString = PreferenceUtil.load(this, PreferenceConstant.phone, "");
         setUp();
         setLisenter();
     }
@@ -93,37 +95,51 @@ public class MyModifyPasswordActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                    UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, 2,new NetCallback<NetWorkResultBean<CommData>>(MyModifyPasswordActivity.this) {
-                        @Override
-                        public void onFailure(RetrofitError error, String message) {
-                            if (!TextUtils.isEmpty(message)) {
-                                Toast.makeText(MyModifyPasswordActivity.this, message, Toast.LENGTH_SHORT).show();
+                UserRetrofitUtil.obtainVerifyCode(MyModifyPasswordActivity.this, phoneString, 2, new NetCallback<NetWorkResultBean<Object>>(MyModifyPasswordActivity.this) {
+                    @Override
+                    public void onFailure(RetrofitError error, String message) {
+                        Toast.makeText(MyModifyPasswordActivity.this, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+                    @Override
+                    public void success(NetWorkResultBean<Object> submitPhoneNetWorkResultBean, Response response) {
+                        if (submitPhoneNetWorkResultBean != null) {
+                            int status = submitPhoneNetWorkResultBean.getStatus();
+                            switch (status) {
+                                case HttpsURLConnection.HTTP_OK:
+                                    if (submitPhoneNetWorkResultBean.getData() != null) {
+                                        CommData bean = (CommData) submitPhoneNetWorkResultBean.getData();
+                                        Toast.makeText(MyModifyPasswordActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
+                                        verifyCodeStringService = bean.getVerifyCode();
+                                    }
+                                    break;
+                                default:
+                                    Toast.makeText(MyModifyPasswordActivity.this, submitPhoneNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    break;
                             }
-
                         }
 
-                        @Override
-                        public void success(NetWorkResultBean<CommData> submitPhoneNetWorkResultBean, Response response) {
-                            Toast.makeText(MyModifyPasswordActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
-                            verifyCodeStringService = submitPhoneNetWorkResultBean.getData().getVerifyCode();
-                        }
-                    });
 
-                    mCountTimer = new CountDownTimer(60 * 1000, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            tv_obtain_verify_code.setText("" + millisUntilFinished / 1000 + "秒后重试");
-                            tv_obtain_verify_code.setEnabled(false);
-                            tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
-                        }
+                    }
+                });
 
-                        public void onFinish() {
-                            tv_obtain_verify_code.setText("重新获取验证码");
-                            tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.white_color));
-                            tv_obtain_verify_code.setEnabled(true);
-                        }
-                    };
-                    mCountTimer.start();
-                    et_verification_number.requestFocus();
+                mCountTimer = new CountDownTimer(60 * 1000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        tv_obtain_verify_code.setText("" + millisUntilFinished / 1000 + "秒后重试");
+                        tv_obtain_verify_code.setEnabled(false);
+                        tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
+                    }
+
+                    public void onFinish() {
+                        tv_obtain_verify_code.setText("重新获取验证码");
+                        tv_obtain_verify_code.setTextColor(getResources().getColor(R.color.white_color));
+                        tv_obtain_verify_code.setEnabled(true);
+                    }
+                };
+                mCountTimer.start();
+                et_verification_number.requestFocus();
 
 
             }
@@ -149,22 +165,33 @@ public class MyModifyPasswordActivity extends BaseActivity {
 
 
                         progressDialogUtil.show("正在提交数据...");
-                        UserRetrofitUtil.setWithdrawlPassword(MyModifyPasswordActivity.this, phoneString, verifyCodeStringService, newPasswordString, new NetCallback<NetWorkResultBean<String>>(MyModifyPasswordActivity.this) {
+                        UserRetrofitUtil.setWithdrawlPassword(MyModifyPasswordActivity.this, phoneString, verifyCodeStringService, newPasswordString, new NetCallback<NetWorkResultBean<Object>>(MyModifyPasswordActivity.this) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
                                 progressDialogUtil.hide();
-                                if (!TextUtils.isEmpty(message)) {
-                                    Toast.makeText(MyModifyPasswordActivity.this, message, Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(MyModifyPasswordActivity.this, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
 
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<String> stringNetWorkResultBean, Response response) {
+                            public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                                 progressDialogUtil.hide();
-                                PreferenceUtil.save(MyModifyPasswordActivity.this, PreferenceConstant.pwd, newPasswordString);
-                                Toast.makeText(MyModifyPasswordActivity.this, "密码设置成功！！", Toast.LENGTH_SHORT).show();
-                                MyModifyPasswordActivity.this.finish();
+                                if (stringNetWorkResultBean != null) {
+                                    int status = stringNetWorkResultBean.getStatus();
+                                    switch (status) {
+                                        case HttpsURLConnection.HTTP_OK:
+                                            PreferenceUtil.save(MyModifyPasswordActivity.this, PreferenceConstant.pwd, newPasswordString);
+                                            Toast.makeText(MyModifyPasswordActivity.this, "密码设置成功！！", Toast.LENGTH_SHORT).show();
+                                            MyModifyPasswordActivity.this.finish();
+                                            break;
+                                        default:
+                                            Toast.makeText(MyModifyPasswordActivity.this, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            break;
+                                    }
+                                }
+
+
                             }
                         });
 

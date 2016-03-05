@@ -36,6 +36,8 @@ import com.umeng.update.UmengUpdateAgent;
 
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -75,20 +77,34 @@ public class MainActivity extends BaseActivity {
      * 检查版本更新   Version code =2  版本 中就开始去掉原生更新，转而使用友盟自动更新
      */
     private void checkUpdate() {
-        UserRetrofitUtil.checkUpdate(this, new NetCallback<NetWorkResultBean<CommData>>(this) {
+        UserRetrofitUtil.checkUpdate(this, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(MainActivity.this, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-                String versionCode = commDataNetWorkResultBean.getData().getVersion();
-                String downLoadURL = commDataNetWorkResultBean.getData().getDownLoadUrl();
-                updateVersionUtil = new UpdateVersionUtil(MainActivity.this, downLoadURL, versionCode);
-                updateVersionUtil.checkVerisonUpdate();
+            public void success(NetWorkResultBean<Object> commDataNetWorkResultBean, Response response) {
+                if (commDataNetWorkResultBean != null) {
+                    int status = commDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (commDataNetWorkResultBean.getData() != null) {
+                                CommData bean = (CommData) commDataNetWorkResultBean.getData();
+                                String versionCode = bean.getVersion();
+                                String downLoadURL = bean.getDownLoadUrl();
+                                updateVersionUtil = new UpdateVersionUtil(MainActivity.this, downLoadURL, versionCode);
+                                updateVersionUtil.checkVerisonUpdate();
+                            }
+                            break;
+                        default:
+                            Toast.makeText(MainActivity.this, commDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+
+
             }
         });
     }
@@ -232,10 +248,7 @@ public class MainActivity extends BaseActivity {
         }
         MobclickAgent.onPause(this);
 
-
-        API_Test.getProvince(this);
     }
-
 
 
     @Override

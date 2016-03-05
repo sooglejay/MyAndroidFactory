@@ -27,6 +27,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -96,7 +98,7 @@ public class MyMoneyPocketActivity extends BaseActivity {
 
     private void getMywalletInfo(int userid) {
         progressDialogUtil.show("正在获取数据...");
-        UserRetrofitUtil.getMywalletInfo(this, userid, new NetCallback<NetWorkResultBean<MyWalletData>>(this) {
+        UserRetrofitUtil.getMywalletInfo(this, userid, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 if (!TextUtils.isEmpty(message)) {
@@ -107,69 +109,83 @@ public class MyMoneyPocketActivity extends BaseActivity {
             }
 
             @Override
-            public void success(NetWorkResultBean<MyWalletData> myWalletDataNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> myWalletDataNetWorkResultBean, Response response) {
 
-                MyWalletData bean = myWalletDataNetWorkResultBean.getData();
-                mListDatas.clear();
 
-                aaa_MyMoneyPocketBean b1 = new aaa_MyMoneyPocketBean();
-                if (bean.getManageFee() != null) {
-                    b1.setMoneyAmount(bean.getManageFee());
-                } else {
-                    b1.setMoneyAmount(0);
+                if (myWalletDataNetWorkResultBean != null) {
+                    int status = myWalletDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+
+                            if (myWalletDataNetWorkResultBean.getData() != null) {
+                                MyWalletData bean = (MyWalletData) myWalletDataNetWorkResultBean.getData();
+                                mListDatas.clear();
+
+                                aaa_MyMoneyPocketBean b1 = new aaa_MyMoneyPocketBean();
+                                if (bean.getManageFee() != null) {
+                                    b1.setMoneyAmount(bean.getManageFee());
+                                } else {
+                                    b1.setMoneyAmount(0);
+                                }
+                                b1.setType(3);
+                                b1.setMoneyKind("管理费");
+                                mListDatas.add(b1);
+
+                                aaa_MyMoneyPocketBean b2 = new aaa_MyMoneyPocketBean();
+                                if (bean.getOvertimeFee() != null) {
+                                    b2.setMoneyAmount(bean.getOvertimeFee());
+                                } else {
+                                    b2.setMoneyAmount(0);
+                                }
+                                b2.setMoneyKind("加班险费");
+                                b2.setType(2);
+
+                                mListDatas.add(b2);
+
+                                aaa_MyMoneyPocketBean b3 = new aaa_MyMoneyPocketBean();
+                                if (bean.getPaueFee() != null) {
+                                    b3.setMoneyAmount(bean.getPaueFee());
+                                } else {
+                                    b3.setMoneyAmount(0);
+                                }
+                                b3.setMoneyKind("停保费");
+                                b3.setType(1);
+                                mListDatas.add(b3);
+
+                                aaa_MyMoneyPocketBean b4 = new aaa_MyMoneyPocketBean();
+                                if (bean.getWorkFee() != null) {
+                                    b4.setMoneyAmount(bean.getWorkFee());
+                                } else {
+                                    b4.setMoneyAmount(0);
+                                }
+                                b4.setType(3);
+
+                                b4.setMoneyKind("销售业绩费");
+                                mListDatas.add(b4);
+
+
+                                aaa_MyMoneyPocketBean b5 = new aaa_MyMoneyPocketBean();
+                                if (bean.getShareFee() != null) {
+                                    b5.setMoneyAmount(bean.getShareFee());
+                                } else {
+                                    b5.setMoneyAmount(0);
+                                }
+                                b5.setMoneyKind("分享费");
+                                b5.setType(3);
+
+                                mListDatas.add(b5);
+
+                                myCallPoliceListAdapter.notifyDataSetChanged();
+                                swipeLayout.setRefreshing(false);
+                                progressDialogUtil.hide();
+                            }
+                            break;
+                        default:
+                            Toast.makeText(MyMoneyPocketActivity.this, myWalletDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
                 }
-                b1.setType(3);
-                b1.setMoneyKind("管理费");
-                mListDatas.add(b1);
 
-                aaa_MyMoneyPocketBean b2 = new aaa_MyMoneyPocketBean();
-                if (bean.getOvertimeFee() != null) {
-                    b2.setMoneyAmount(bean.getOvertimeFee());
-                } else {
-                    b2.setMoneyAmount(0);
-                }
-                b2.setMoneyKind("加班险费");
-                b2.setType(2);
-
-                mListDatas.add(b2);
-
-                aaa_MyMoneyPocketBean b3 = new aaa_MyMoneyPocketBean();
-                if (bean.getPaueFee() != null) {
-                    b3.setMoneyAmount(bean.getPaueFee());
-                } else {
-                    b3.setMoneyAmount(0);
-                }
-                b3.setMoneyKind("停保费");
-                b3.setType(1);
-                mListDatas.add(b3);
-
-                aaa_MyMoneyPocketBean b4 = new aaa_MyMoneyPocketBean();
-                if (bean.getWorkFee() != null) {
-                    b4.setMoneyAmount(bean.getWorkFee());
-                } else {
-                    b4.setMoneyAmount(0);
-                }
-                b4.setType(3);
-
-                b4.setMoneyKind("销售业绩费");
-                mListDatas.add(b4);
-
-
-                aaa_MyMoneyPocketBean b5 = new aaa_MyMoneyPocketBean();
-                if (bean.getShareFee() != null) {
-                    b5.setMoneyAmount(bean.getShareFee());
-                } else {
-                    b5.setMoneyAmount(0);
-                }
-                b5.setMoneyKind("分享费");
-                b5.setType(3);
-
-                mListDatas.add(b5);
-
-
-                myCallPoliceListAdapter.notifyDataSetChanged();
-                swipeLayout.setRefreshing(false);
-                progressDialogUtil.hide();
 
             }
         });

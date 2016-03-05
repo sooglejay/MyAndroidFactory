@@ -21,6 +21,8 @@ import com.jiandanbaoxian.model.NetWorkResultBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -61,21 +63,34 @@ public class HistoryPriceDetailFragmentTab3 extends BaseFragment {
 
 
     private void getFourServiceInfo() {
-        UserRetrofitUtil.getFourServiceInfo(this.getActivity(), new NetCallback<NetWorkResultBean<CommData>>(this.getActivity()) {
+        UserRetrofitUtil.getFourServiceInfo(this.getActivity(), new NetCallback<NetWorkResultBean<Object>>(this.getActivity()) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-                if (!TextUtils.isEmpty(message)) {
-                    Toast.makeText(HistoryPriceDetailFragmentTab3.this.getActivity(), message, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-                if (commDataNetWorkResultBean.getData() != null && commDataNetWorkResultBean.getData().getFourService() != null) {
-                    listData.addAll(commDataNetWorkResultBean.getData().getFourService());
-                    mAdapter.notifyDataSetChanged();
+            public void success(NetWorkResultBean<Object> commDataNetWorkResultBean, Response response) {
+
+                if (commDataNetWorkResultBean != null) {
+                    int status = commDataNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            CommData bean = (CommData) commDataNetWorkResultBean.getData();
+                            if (bean != null && bean.getFourService() != null) {
+                                listData.clear();
+                                listData.addAll(bean.getFourService());
+                                mAdapter.notifyDataSetChanged();
+                            }
+                            break;
+                        default:
+                            Toast.makeText(getActivity(), commDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
+                    }
                 }
+
+
             }
         });
     }

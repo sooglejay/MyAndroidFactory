@@ -29,6 +29,8 @@ import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -175,20 +177,35 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
                             lng,
                             et_insure_user_name.getText().toString(),
                             et_company_name.getText().toString(),
-                            new NetCallback<NetWorkResultBean<Overtimeordertable>>(context) {
+                            new NetCallback<NetWorkResultBean<Object>>(context) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
-                                    if (!TextUtils.isEmpty(message)) {
-                                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                    }
+                                    Toast.makeText(context, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 @Override
-                                public void success(NetWorkResultBean<Overtimeordertable> stringNetWorkResultBean, Response response) {
+                                public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                                     progressDialogUtil.hide();
-                                    PayJiaBanDogInsureActivity.startActivity(context, stringNetWorkResultBean.getData());
-                                    finish();
+
+                                    if (stringNetWorkResultBean != null) {
+                                        int status = stringNetWorkResultBean.getStatus();
+                                        switch (status) {
+                                            case HttpsURLConnection.HTTP_OK:
+                                                if (stringNetWorkResultBean.getData() != null) {
+                                                    Overtimeordertable bean = (Overtimeordertable) stringNetWorkResultBean.getData();
+                                                    PayJiaBanDogInsureActivity.startActivity(context, bean);
+                                                    finish();
+                                                }
+                                                break;
+                                            default:
+                                                Toast.makeText(context, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                break;
+                                        }
+                                    }
+
+
                                 }
                             });
 

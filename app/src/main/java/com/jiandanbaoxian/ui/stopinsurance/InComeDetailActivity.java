@@ -16,6 +16,7 @@ import com.jiandanbaoxian.constant.ExtraConstants;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.Limitpausetable;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.model.PauseData;
 import com.jiandanbaoxian.model.PauseHistory;
 import com.jiandanbaoxian.model.Reservepausetable;
 import com.jiandanbaoxian.ui.BaseActivity;
@@ -34,6 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -126,13 +129,11 @@ public class InComeDetailActivity extends BaseActivity {
         mAdapter.setOnDateClickCallBack(new IncomeCalenderAdapter.OnDateClickCallBack() {
             @Override
             public void callBack(View view, String dateString) {
-                for(Reservepausetable bean :reservehistory)
-                {
-                    if(bean.getReservedays().contains(dateString))
-                    {
-                        tvDailyAmount.append(bean.getDayprice()+"");
-                        tvAccumulatedAmount.append(bean.getTotalfee()+"");
-                        tvAccumulatedDays.append(bean.getDay()+"");
+                for (Reservepausetable bean : reservehistory) {
+                    if (bean.getReservedays().contains(dateString)) {
+                        tvDailyAmount.append(bean.getDayprice() + "");
+                        tvAccumulatedAmount.append(bean.getTotalfee() + "");
+                        tvAccumulatedDays.append(bean.getDay() + "");
                     }
                 }
 
@@ -242,38 +243,48 @@ public class InComeDetailActivity extends BaseActivity {
             return;
         }
         //只写了预约停保，接口很难实现 效果图的 效果
-        UserRetrofitUtil.getPauseHistory(activity, userid, orderid, new NetCallback<NetWorkResultBean<PauseHistory>>(activity) {
+        UserRetrofitUtil.getPauseHistory(activity, userid, orderid, new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void success(NetWorkResultBean<PauseHistory> pauseHistoryNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> pauseHistoryNetWorkResultBean, Response response) {
+                if (pauseHistoryNetWorkResultBean != null) {
+                    int status = pauseHistoryNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (pauseHistoryNetWorkResultBean.getData() != null) {
+                                PauseHistory bean = (PauseHistory) pauseHistoryNetWorkResultBean.getData();
 
-                if (pauseHistoryNetWorkResultBean.getData() != null && pauseHistoryNetWorkResultBean.getData().getLimithistory() != null) {
-                    reservehistory.clear();
-                    limithistory.clear();
-                    reservehistory.addAll(pauseHistoryNetWorkResultBean.getData().getReservehistory());
-                    limithistory.addAll(pauseHistoryNetWorkResultBean.getData().getLimithistory());
-                    mDatasTimeStr.clear();
-                    String array[];
+                                reservehistory.clear();
+                                limithistory.clear();
+                                reservehistory.addAll(bean.getReservehistory());
+                                limithistory.addAll(bean.getLimithistory());
+                                mDatasTimeStr.clear();
+                                String array[];
 
-                    //根据接口，拼凑出 预约过的日期字符串
-                    for (Reservepausetable bean : reservehistory) {
-                        array = bean.getReservedays().split(",");
-                        for (String str : array) {
-                            mDatasTimeStr.add(str);
-                        }
+                                //根据接口，拼凑出 预约过的日期字符串
+                                for (Reservepausetable reserve : reservehistory) {
+                                    array = reserve.getReservedays().split(",");
+                                    for (String str : array) {
+                                        mDatasTimeStr.add(str);
+                                    }
 
-                        tvDailyAmount.append(bean.getDayprice()+"");
-                        tvAccumulatedAmount.append(bean.getTotalfee()+"");
-                        tvAccumulatedDays.append(bean.getDay()+"");
-
+                                    tvDailyAmount.append(reserve.getDayprice() + "");
+                                    tvAccumulatedAmount.append(reserve.getTotalfee() + "");
+                                    tvAccumulatedDays.append(reserve.getDay() + "");
+                                }
+                                //更新Adapter，我不确定能够正确的更新
+                                mAdapter.setmReserverDaysStr(mDatasTimeStr);
+                            }
+                            break;
+                        default:
+                            Toast.makeText(activity, pauseHistoryNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
-
-                    //更新Adapter，我不确定能够正确的更新
-                    mAdapter.setmReserverDaysStr(mDatasTimeStr);
                 }
             }
         });

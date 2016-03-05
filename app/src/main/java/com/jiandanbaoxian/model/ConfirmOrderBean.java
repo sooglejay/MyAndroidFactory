@@ -63,4 +63,10 @@ public class ConfirmOrderBean implements Parcelable {
             return new ConfirmOrderBean[size];
         }
     };
+
+
+
+
+
+
 }

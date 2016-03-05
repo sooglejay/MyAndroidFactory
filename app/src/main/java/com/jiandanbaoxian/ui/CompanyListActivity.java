@@ -27,6 +27,8 @@ import com.jiandanbaoxian.widget.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -86,14 +88,14 @@ public class CompanyListActivity extends BaseActivity {
                 }
                 int userid = PreferenceUtil.load(activity, PreferenceConstant.userid, -1);
                 final String finalCompany_name = company_name;
-                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1, "-1", "-1", "-1", "-1", company_name, null, new NetCallback<NetWorkResultBean<Userstable>>(activity) {
+                UserRetrofitUtil.modifySelfInfo(activity, userid, -1, -1, "-1", "-1", "-1", "-1", company_name, null, new NetCallback<NetWorkResultBean<Object>>(activity) {
                     @Override
                     public void onFailure(RetrofitError error, String message) {
                         Toast.makeText(activity, "服务器无响应，请检查网络！", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void success(NetWorkResultBean<Userstable> userstableNetWorkResultBean, Response response) {
+                    public void success(NetWorkResultBean<Object> userstableNetWorkResultBean, Response response) {
                         Intent intent = getIntent();
                         intent.putExtra("company_name", finalCompany_name);
                         setResult(RESULT_OK, intent);
@@ -114,30 +116,45 @@ public class CompanyListActivity extends BaseActivity {
     private void getFourServiceBrands() {
         final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
         progressDialogUtil.show("正在获取信息...");
-        UserRetrofitUtil.getInsuranceCompanyInfo(activity, new NetCallback<NetWorkResultBean<CommData>>(activity) {
+        UserRetrofitUtil.getInsuranceCompanyInfo(activity, new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();
                 swipeLayout.setRefreshing(false);
+                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void success(NetWorkResultBean<CommData> brandNetWorkResultBean, Response response) {
+            public void success(NetWorkResultBean<Object> brandNetWorkResultBean, Response response) {
                 progressDialogUtil.hide();
-
                 swipeLayout.setRefreshing(false);
 
-                if (brandNetWorkResultBean.getData() != null) {
-                    companyList.clear();
-                    companyList.addAll(brandNetWorkResultBean.getData().getInsurancecompanyInfo());
-                }
-                for (InsuranceCompanyInfo brand : companyList) {
-                    if (brand.getCompanyname().equals(default_name)) {
-                        brand.setIsSelected(true);
-                        break;
+                if (brandNetWorkResultBean != null) {
+                    int status = brandNetWorkResultBean.getStatus();
+                    switch (status) {
+                        case HttpsURLConnection.HTTP_OK:
+                            if (brandNetWorkResultBean.getData() != null) {
+
+                                CommData bean = (CommData) brandNetWorkResultBean.getData();
+                                if (bean.getInsurancecompanyInfo() != null) {
+                                    companyList.clear();
+                                    companyList.addAll(bean.getInsurancecompanyInfo());
+                                }
+                            }
+                            for (InsuranceCompanyInfo brand : companyList) {
+                                if (brand.getCompanyname().equals(default_name)) {
+                                    brand.setIsSelected(true);
+                                    break;
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                            break;
+                        default:
+                            Toast.makeText(activity, brandNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            break;
                     }
                 }
-                adapter.notifyDataSetChanged();
 
 
             }

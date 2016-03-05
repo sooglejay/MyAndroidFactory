@@ -30,6 +30,8 @@ import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -72,22 +74,22 @@ public class LoginActivity extends BaseActivity {
         setLisenter();
 
 
-        sp =getSharedPreferences("config", MODE_PRIVATE);
+        sp = getSharedPreferences("config", MODE_PRIVATE);
 
 
         //1.创建一个手势识别器 new 对象，并给这个手势识别器设置监听器
-        mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
+        mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             //当手指在屏幕上滑动的时候 调用的方法.
             @Override
             //e1代表的是手指刚开始滑动的事件，e2代表手指滑动完了的事件
-            public boolean onFling(MotionEvent e1, MotionEvent e2,float velocityX, float velocityY) {
-                if(e1.getRawX() - e2.getRawX() > 200){
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (e1.getRawX() - e2.getRawX() > 200) {
 //                    UIUtils.showNext();//向右滑动，显示下一个界面
                     return true;
                 }
 
-                if(e2.getRawX() - e1.getRawX() > 200){
-                    UIUtils.showPre(activity,MainActivity.class);//向左滑动，显示上一个界面
+                if (e2.getRawX() - e1.getRawX() > 200) {
+                    UIUtils.showPre(activity, MainActivity.class);//向左滑动，显示上一个界面
                     return true;
                 }
                 return super.onFling(e1, e2, velocityX, velocityY);
@@ -164,15 +166,12 @@ public class LoginActivity extends BaseActivity {
                     Toast.makeText(LoginActivity.this, "验证码不正确！请重新输入", Toast.LENGTH_SHORT).show();
                 } else {
                     mProgressUtil.show("正在登录...");
-                    UserRetrofitUtil.login(LoginActivity.this, phoneString, verifyCodeStringUser, new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
+                    UserRetrofitUtil.login(LoginActivity.this, phoneString, verifyCodeStringUser, new NetCallback<NetWorkResultBean<Object>>(activity) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             mProgressUtil.hide();
-                            if (!TextUtils.isEmpty(message)) {
-                                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(LoginActivity.this, "服务器404错误，无法响应！", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
+
                             mCountTimer.onFinish();
                             mCountTimer.cancel();
 
@@ -180,16 +179,29 @@ public class LoginActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-                            CommData bean = commDataNetWorkResultBean.getData();
-                            //保存用户信息
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserInfo().getName());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
-                            PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
-                            mProgressUtil.hide();
-                            EventBus.getDefault().post(new BusEvent(BusEvent.MSG_Login_Success));
-                            LoginActivity.this.finish();
+                        public void success(NetWorkResultBean<Object> commDataNetWorkResultBean, Response response) {
+
+                            if (commDataNetWorkResultBean != null) {
+                                int status = commDataNetWorkResultBean.getStatus();
+                                switch (status) {
+                                    case HttpsURLConnection.HTTP_OK:
+                                        CommData bean = (CommData) commDataNetWorkResultBean.getData();
+                                        //保存用户信息
+                                        PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
+                                        PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserInfo().getName());
+                                        PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
+                                        PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
+                                        mProgressUtil.hide();
+                                        EventBus.getDefault().post(new BusEvent(BusEvent.MSG_Login_Success));
+                                        LoginActivity.this.finish();
+                                        break;
+                                    default:
+                                        Toast.makeText(activity, commDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        break;
+                                }
+                            }
+
+
                         }
                     });
 
@@ -206,23 +218,30 @@ public class LoginActivity extends BaseActivity {
                 } else {
                     mCountTimer.start();
                     phoneString = et_phone_number.getText().toString();
-                    UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, 0,new NetCallback<NetWorkResultBean<CommData>>(LoginActivity.this) {
+                    UserRetrofitUtil.obtainVerifyCode(LoginActivity.this, phoneString, 0, new NetCallback<NetWorkResultBean<Object>>(LoginActivity.this) {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
-                            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                             mCountTimer.onFinish();
                             mCountTimer.cancel();
-
                         }
-
                         @Override
-                        public void success(NetWorkResultBean<CommData> submitPhoneNetWorkResultBean, Response response) {
-                            Toast.makeText(LoginActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
-                            verifyCodeStringService = submitPhoneNetWorkResultBean.getData().getVerifyCode();
+                        public void success(NetWorkResultBean<Object> submitPhoneNetWorkResultBean, Response response) {
+                            if (submitPhoneNetWorkResultBean != null) {
+                                int status = submitPhoneNetWorkResultBean.getStatus();
+                                switch (status) {
+                                    case HttpsURLConnection.HTTP_OK:
+                                        CommData bean = (CommData) submitPhoneNetWorkResultBean.getData();
+                                        Toast.makeText(LoginActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_LONG).show();
+                                        verifyCodeStringService = bean.getVerifyCode();
+                                        break;
+                                    default:
+                                        Toast.makeText(activity, submitPhoneNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        break;
+                                }
+                            }
                         }
                     });
-
-
                 }
             }
         });

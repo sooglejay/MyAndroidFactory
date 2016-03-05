@@ -33,6 +33,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -121,8 +123,6 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
 
         activity = getActivity();
         setUp(view, savedInstanceState);
-        setUpListener();
-        test();
     }
 
     private void setUp(View view, Bundle savedInstanceState) {
@@ -157,200 +157,6 @@ public class HistoryPriceDetailFragmentTab1 extends BaseFragment {
         tv_i_want_to_rebuy_insurance = (TextView) view.findViewById(R.id.tv_i_want_to_rebuy_insurance);
 
 
-    }
-
-    private void test() {
-
-        UserRetrofitUtil.getProvenceNo(activity, new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
-            @Override
-            public void onFailure(RetrofitError error, String message) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
-
-            }
-        });
-        UserRetrofitUtil.getCityNo(activity, "510000", new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
-            @Override
-            public void onFailure(RetrofitError error, String message) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
-
-            }
-        });
-        UserRetrofitUtil.getCountyNo(activity, "510100", new NetCallback<NetWorkResultBean<List<RegionBean>>>(activity) {
-            @Override
-            public void onFailure(RetrofitError error, String message) {
-
-            }
-
-            @Override
-            public void success(NetWorkResultBean<List<RegionBean>> listNetWorkResultBean, Response response) {
-
-            }
-        });
-    }
-
-
-    private void setUpListener() {
-        tv_i_want_to_rebuy_insurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isAgreeWithLicence) {
-
-                    int transfer = fazhengTimeLong > signInTimeLong ? 1 : 0;
-
-                    String item = "";
-
-                    InsuranceItemData itemData = new InsuranceItemData();
-                    itemData.setAmt(0d);
-                    itemData.setBullet_glass(-1);
-                    itemData.setC_ly15(-1);
-                    itemData.setFranchise_flag(-1);
-                    itemData.setInsrnc_cde("030103");
-                    itemData.setInsrnc_name("杀人保险");
-                    itemData.setNumber(-1);
-                    itemData.setRemark("-1");
-                    itemData.setPremium(0f);
-
-
-                    InsuranceItemData itemData1 = new InsuranceItemData();
-                    itemData1.setAmt(0d);
-                    itemData1.setBullet_glass(-1);
-                    itemData1.setC_ly15(-1);
-                    itemData1.setFranchise_flag(-1);
-                    itemData1.setInsrnc_cde("030101");
-                    itemData1.setInsrnc_name("杀人保险");
-                    itemData1.setNumber(-1);
-                    itemData1.setRemark("-1");
-                    itemData1.setPremium(0f);
-
-
-                    InsuranceItemData[] list = new InsuranceItemData[2];
-                    list[0] = itemData;
-                    list[1] = itemData1;
-
-                    item = itemData.toString();
-                    UserRetrofitUtil.saveVehicleInfo(activity, userid,
-                            carNumberString,
-                            carFaDongJiNumber,
-                            carJiaNumber,
-                            0,
-                            signInTimeLong + "",
-                            userNameString,
-                            commercialTimeLong + "",
-                            jqxTimeLong + "",
-                            fazhengTimeLong + "",
-                            "四川省", "510000", "510100", "510101",
-                            transfer + "", signInTimeLong + "", "450444199212120993", "13567654345",
-                            0, item, 0,
-                            new NetCallback<NetWorkResultBean<CommData>>(getActivity()) {
-                                @Override
-                                public void onFailure(RetrofitError error, String message) {
-
-                                }
-
-                                @Override
-                                public void success(NetWorkResultBean<CommData> commDataNetWorkResultBean, Response response) {
-
-                                }
-                            });
-
-                } else {
-                    Toast.makeText(context, "请您勾选同意保障条款！", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
-        cb_bjmpx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_bjmpx.setButtonDrawable(R.drawable.icon_choose_selected);
-                } else {
-                    cb_bjmpx.setButtonDrawable(R.drawable.icon_choose);
-                }
-            }
-        });
-
-        cb_ccx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_ccx.setButtonDrawable(R.drawable.icon_choose_selected);
-                } else {
-                    cb_ccx.setButtonDrawable(R.drawable.icon_choose);
-                }
-            }
-        });
-
-        cb_csx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_csx.setButtonDrawable(R.drawable.icon_choose_selected);
-                } else {
-                    cb_csx.setButtonDrawable(R.drawable.icon_choose);
-                }
-            }
-        });
-
-        cb_jqx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_jqx.setButtonDrawable(R.drawable.icon_choose_selected);
-                } else {
-                    cb_jqx.setButtonDrawable(R.drawable.icon_choose);
-                }
-            }
-        });
-
-        cb_szx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_szx.setButtonDrawable(R.drawable.icon_choose_selected);
-                } else {
-                    cb_szx.setButtonDrawable(R.drawable.icon_choose);
-                }
-            }
-        });
-
-        cb_zwx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_zwx.setButtonDrawable(R.drawable.icon_choose_selected);
-                } else {
-                    cb_zwx.setButtonDrawable(R.drawable.icon_choose);
-                }
-            }
-        });
-
-
-        cb_agree_license.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    isAgreeWithLicence = true;
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose_selected);
-                    tv_i_want_to_rebuy_insurance.setBackgroundResource(R.drawable.btn_select_base_shape_0);
-                    tv_i_want_to_rebuy_insurance.setTextColor(getResources().getColor(R.color.white_color));
-                } else {
-                    cb_agree_license.setButtonDrawable(R.drawable.icon_choose);
-                    isAgreeWithLicence = false;
-                    tv_i_want_to_rebuy_insurance.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));
-                    tv_i_want_to_rebuy_insurance.setTextColor(getResources().getColor(R.color.tv_gray_color_level_3));
-                }
-            }
-        });
     }
 
 

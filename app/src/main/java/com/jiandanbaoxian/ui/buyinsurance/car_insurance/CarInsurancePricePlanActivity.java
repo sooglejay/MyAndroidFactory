@@ -50,6 +50,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -500,19 +502,35 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                 UserRetrofitUtil.quotaPrice(activity, userid, licenseplate, engineNumber, frameNumber, seatingcapacity, newValue + "",
                         model_code, registrationDateString, ownerName, commercestartdate + "", compulsorystartdate + "", issueDateString, provence, provnce_no,
                         city_no, country_no, transfer, transferDate, idcardNum, phone, compulsoryAmt, insuranceItems, type,
-                        glassType, new NetCallback<NetWorkResultBean<CommPriceData>>(activity) {
+                        glassType, new NetCallback<NetWorkResultBean<Object>>(activity) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
 
                                 progressDialogUtil.hide();
-                                PriceReportActivity.startActivity(activity, null, idcardNum, city_no, compulsorystartdate, commercestartdate);
-
+                                Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
-                            public void success(NetWorkResultBean<CommPriceData> commPriceDataNetWorkResultBean, Response response) {
+                            public void success(NetWorkResultBean<Object> commPriceDataNetWorkResultBean, Response response) {
                                 progressDialogUtil.hide();
-                                PriceReportActivity.startActivity(activity, commPriceDataNetWorkResultBean.getData(), idcardNum, city_no, compulsorystartdate, commercestartdate);
+
+                                if (commPriceDataNetWorkResultBean != null) {
+                                    int status = commPriceDataNetWorkResultBean.getStatus();
+                                    switch (status) {
+                                        case HttpsURLConnection.HTTP_OK:
+                                            if(commPriceDataNetWorkResultBean.getData()!=null) {
+                                                CommPriceData bean = (CommPriceData)commPriceDataNetWorkResultBean.getData();
+                                                PriceReportActivity.startActivity(activity, bean, idcardNum, city_no, country_no, provnce_no, compulsorystartdate, commercestartdate);
+                                            }
+                                            break;
+                                        default:
+                                            Toast.makeText(activity, commPriceDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            break;
+                                    }
+                                }
+
+
+
 
                             }
                         });

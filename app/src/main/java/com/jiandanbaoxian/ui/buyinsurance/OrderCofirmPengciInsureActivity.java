@@ -30,6 +30,8 @@ import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -164,7 +166,7 @@ public class OrderCofirmPengciInsureActivity extends BaseActivity implements
                             lng,
                             et_insure_user_name.getText().toString(),
                             et_company_name.getText().toString(),
-                            new NetCallback<NetWorkResultBean<Overtimeordertable>>(context) {
+                            new NetCallback<NetWorkResultBean<Object>>(context) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
                                     progressDialogUtil.hide();
@@ -174,10 +176,29 @@ public class OrderCofirmPengciInsureActivity extends BaseActivity implements
                                 }
 
                                 @Override
-                                public void success(NetWorkResultBean<Overtimeordertable> stringNetWorkResultBean, Response response) {
+                                public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
                                     progressDialogUtil.hide();
-                                    PayJiaBanDogInsureActivity.startActivity(OrderCofirmPengciInsureActivity.this, stringNetWorkResultBean.getData());
-                                    OrderCofirmPengciInsureActivity.this.finish();
+
+
+                                    if (stringNetWorkResultBean != null) {
+                                        int status = stringNetWorkResultBean.getStatus();
+                                        switch (status) {
+                                            case HttpsURLConnection.HTTP_OK:
+                                                if (stringNetWorkResultBean.getData()!=null) {
+                                                    Overtimeordertable bean = (Overtimeordertable)stringNetWorkResultBean.getData();
+                                                    PayJiaBanDogInsureActivity.startActivity(OrderCofirmPengciInsureActivity.this, bean);
+                                                    OrderCofirmPengciInsureActivity.this.finish();
+                                                }
+                                                break;
+                                            default:
+                                                Toast.makeText(context, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                break;
+                                        }
+                                    }
+
+
+
+
                                 }
                             });
 
