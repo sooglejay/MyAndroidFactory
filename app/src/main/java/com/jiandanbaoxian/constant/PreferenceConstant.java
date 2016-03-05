@@ -38,6 +38,7 @@ public class PreferenceConstant {
     public static final String compulsorystartdate = "compulsorystartdate";
 
 
+    //填写  保单收件人等信息
     public static String insuranceUserName = "insuranceUserName";
     public static String insuranceUserPhone = "insuranceUserPhone";
     public static String insuranceReceiveUserName = "insuranceReceiveUserName";

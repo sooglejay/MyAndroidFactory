@@ -273,7 +273,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="填写车架号码"
-                        android:inputType="text"
+                        android:digits="@string/digit_upper_word"
                         android:padding="@dimen/middle_padding"
                         android:textColor="#0b0b0b"
                         android:textColorHint="@color/tv_gray_color_level_1" />
@@ -308,7 +308,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="填写发动机号"
-                        android:inputType="text"
+                        android:digits="@string/digit_upper_word"
                         android:padding="@dimen/middle_padding"
                         android:textColor="#0b0b0b"
                         android:textColorHint="@color/tv_gray_color_level_1" />

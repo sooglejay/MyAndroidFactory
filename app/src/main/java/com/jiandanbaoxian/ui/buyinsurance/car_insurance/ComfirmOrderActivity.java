@@ -272,10 +272,10 @@ public class ComfirmOrderActivity extends BaseActivity {
         etInsureUserName.addTextChangedListener(textWatcher);
         etInsureUserPhoneNumber.addTextChangedListener(textWatcher);
 
-
         try {
             tvCommercialTotalPremium.setText(commPriceData.getHuanPriceData().getCommerceAmount() + "");
             tvCompulsoryTotalPremium.setText(commPriceData.getHuanPriceData().getCompulsoryAmount() + "");
+            tvTotalPrice.setText((commPriceData.getHuanPriceData().getCommerceAmount()+commPriceData.getHuanPriceData().getCompulsoryAmount())+"");
         } catch (Exception e) {
 
         }

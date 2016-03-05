@@ -57,7 +57,7 @@
         <!-- ###################添加UmengAppkey###################### -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="566fc008e0f55a126b0030fb"></meta-data>
+            android:value="563b70ec67e58e94a4003075"></meta-data>
 
 
     </application>
