@@ -18,6 +18,7 @@ import com.jiandanbaoxian.model.HistoryPriceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Vehicleordertable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -187,7 +188,7 @@ public class MyHistoryPriceListActivity extends BaseActivity {
                             switch (status) {
                                 case HttpsURLConnection.HTTP_OK:
                                     if (historyPriceDataNetWorkResultBean.getData() != null) {
-                                        HistoryPriceData bean = (HistoryPriceData) historyPriceDataNetWorkResultBean.getData();
+                                        HistoryPriceData bean = JsonUtil.getSerializedObject(historyPriceDataNetWorkResultBean.getData(),HistoryPriceData.class);
                                         if (bean.getVehicleorderRecords() != null) {
                                             List<Vehicleordertable> datas = bean.getVehicleorderRecords();
                                             for (Vehicleordertable b : datas) {

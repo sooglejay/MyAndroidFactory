@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,12 +26,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.event.BusEvent;
+import com.jiandanbaoxian.model.ConfirmOrderBean;
 import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.FourService;
 import com.jiandanbaoxian.model.NetWorkResultBean;
@@ -44,8 +54,12 @@ import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.jiandanbaoxian.widget.jazzyviewpager.JazzyViewPager;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.tencent.weibo.sdk.android.api.util.JsonUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import net.sf.json.util.JSONUtils;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +68,7 @@ import javax.net.ssl.HttpsURLConnection;
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
 
 public class ServerConsultorFragment extends BaseFragment {
     private TextView tv_name;
@@ -273,27 +288,43 @@ public class ServerConsultorFragment extends BaseFragment {
                     int status = consultantDataNetWorkResultBean.getStatus();
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
-                            consultantData = (ConsultantData) consultantDataNetWorkResultBean.getData();
-
-                            List<Userstable> myConsultant = new ArrayList<Userstable>();
-
-                            myConsultant.addAll(consultantData.getMyConsultant());//
-                            if (myConsultant.size() > 0) {
-                                myConsult = myConsultant.get(0);
-                                myConsultId = myConsult.getId();
-                                tv_name.setText(TextUtils.isEmpty(myConsult.getName()) ? "" : myConsult.getName());
-                                tv_company_address.setText(TextUtils.isEmpty(myConsult.getContactaddress()) ? "" : myConsult.getContactaddress());
-
-                                if (myConsult.getCompany() != null) {
-                                    tv_company_name.setText(TextUtils.isEmpty(myConsult.getCompany().getCompanyname()) ? "" : myConsult.getCompany().getCompanyname());
-                                } else {
-                                    tv_company_name.setText("null");
+                            if (consultantDataNetWorkResultBean.getData() != null) {
+                                Object obj = consultantDataNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, consultantDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
                                 }
-                                tv_phone_number.setText(TextUtils.isEmpty(myConsult.getPhone()) ? "" : myConsult.getPhone());
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    Log.e("qw", json);
+                                    consultantData = com.jiandanbaoxian.util.JsonUtil.fromJson(json, ConsultantData.class);
+                                    Log.e("qw", consultantData.toString());
+                                } catch (Exception e) {
+                                    Log.e("qw", "err!");
+                                }
+                                if (consultantData==null) {
+                                    Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                List<Userstable> myConsultant = new ArrayList<Userstable>();
 
+                                myConsultant.addAll(consultantData.getMyConsultant());//
+                                if (myConsultant.size() > 0) {
+                                    myConsult = myConsultant.get(0);
+                                    myConsultId = myConsult.getId();
+                                    tv_name.setText(TextUtils.isEmpty(myConsult.getName()) ? "" : myConsult.getName());
+                                    tv_company_address.setText(TextUtils.isEmpty(myConsult.getContactaddress()) ? "" : myConsult.getContactaddress());
+
+                                    if (myConsult.getCompany() != null) {
+                                        tv_company_name.setText(TextUtils.isEmpty(myConsult.getCompany().getCompanyname()) ? "" : myConsult.getCompany().getCompanyname());
+                                    } else {
+                                        tv_company_name.setText("null");
+                                    }
+                                    tv_phone_number.setText(TextUtils.isEmpty(myConsult.getPhone()) ? "" : myConsult.getPhone());
+
+                                }
+                                setUp();
                             }
-                            setUp();
-
                             break;
                         default:
                             Toast.makeText(getActivity(), consultantDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
@@ -328,7 +359,26 @@ public class ServerConsultorFragment extends BaseFragment {
                     int status = consultantDataNetWorkResultBean.getStatus();
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
-                            ConsultantData bean = (ConsultantData) consultantDataNetWorkResultBean.getData();
+
+                            ConsultantData bean = null;
+                            Object obj = consultantDataNetWorkResultBean.getData();
+                            if (obj instanceof String) {
+                                Toast.makeText(activity, consultantDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            try {
+                                String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                Log.e("qw", json);
+                                bean = com.jiandanbaoxian.util.JsonUtil.fromJson(json, ConsultantData.class);
+                                Log.e("qw", bean.toString());
+                            } catch (Exception e) {
+                                Log.e("qw", "出错啦！！！!");
+                            }
+                            if (bean==null) {
+                                Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
 
                             List<FourService> fourServiceList = bean.getMaintainConsultant();
                             List<ConsultFragmentPerPage> fragmentPerPages = new ArrayList<ConsultFragmentPerPage>();

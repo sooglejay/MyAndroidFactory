@@ -17,6 +17,7 @@ import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.FourService;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.util.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class HistoryPriceDetailFragmentTab3 extends BaseFragment {
                     int status = commDataNetWorkResultBean.getStatus();
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
-                            CommData bean = (CommData) commDataNetWorkResultBean.getData();
+                            CommData bean = JsonUtil.getSerializedObject(commDataNetWorkResultBean.getData(),CommData.class);
                             if (bean != null && bean.getFourService() != null) {
                                 listData.clear();
                                 listData.addAll(bean.getFourService());

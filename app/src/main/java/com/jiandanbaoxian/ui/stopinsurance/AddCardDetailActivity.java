@@ -22,6 +22,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -133,7 +134,7 @@ public class AddCardDetailActivity extends BaseActivity {
                                 switch (status) {
                                     case HttpsURLConnection.HTTP_OK:
                                         if (submitPhoneNetWorkResultBean.getData() != null) {
-                                            CommData bean = (CommData) submitPhoneNetWorkResultBean.getData();
+                                            CommData bean = JsonUtil.getSerializedObject(submitPhoneNetWorkResultBean.getData(), CommData.class);
                                             Toast.makeText(AddCardDetailActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
                                             verifyCodeStringService = bean.getVerifyCode();
                                         }
@@ -143,8 +144,6 @@ public class AddCardDetailActivity extends BaseActivity {
                                         break;
                                 }
                             }
-
-
                         }
                     });
 

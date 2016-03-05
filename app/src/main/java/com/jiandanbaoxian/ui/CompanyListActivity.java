@@ -19,6 +19,7 @@ import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.InsuranceCompanyInfo;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -136,7 +137,7 @@ public class CompanyListActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
                             if (brandNetWorkResultBean.getData() != null) {
 
-                                CommData bean = (CommData) brandNetWorkResultBean.getData();
+                                CommData bean = JsonUtil.getSerializedObject(brandNetWorkResultBean.getData(),CommData.class);
                                 if (bean.getInsurancecompanyInfo() != null) {
                                     companyList.clear();
                                     companyList.addAll(bean.getInsurancecompanyInfo());

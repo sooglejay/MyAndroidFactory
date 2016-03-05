@@ -26,6 +26,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshLinearLayout;
 import com.jiandanbaoxian.R;
@@ -37,6 +38,7 @@ import com.jiandanbaoxian.constant.IntConstant;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.event.BusEvent;
+import com.jiandanbaoxian.model.Brand;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.PauseData;
 import com.jiandanbaoxian.ui.BrowserImageViewActivity;
@@ -46,6 +48,7 @@ import com.jiandanbaoxian.ui.stopinsurance.InComeDetailActivity;
 import com.jiandanbaoxian.ui.stopinsurance.PullMoneyActivity;
 import com.jiandanbaoxian.ui.stopinsurance.TimePickerActivity;
 import com.jiandanbaoxian.util.DiditUtil;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.ShareUtils;
@@ -1207,8 +1210,34 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             if (objectNetWorkResultBean.getData() != null) {
+
+                                Object obj = objectNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(context, objectNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+
+                                List<PauseData> pauseDatas = null;
+                                if (obj instanceof String) {
+                                    Toast.makeText(context, objectNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    pauseDatas = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<Brand>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (pauseDatas == null) {
+                                    Toast.makeText(context, "系统异常！", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
                                 mPauseDataList.clear();
-                                mPauseDataList.addAll((List<PauseData>) objectNetWorkResultBean.getData());
+                                mPauseDataList.addAll(pauseDatas);
+
                                 mCarNumbersStringList.clear();
                                 for (PauseData bean : mPauseDataList) {
                                     mCarNumbersStringList.add(bean.getLicenseplate());

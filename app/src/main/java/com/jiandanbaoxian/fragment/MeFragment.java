@@ -34,6 +34,7 @@ import com.jiandanbaoxian.ui.me.myteam.MyTeamForFreeActivity;
 import com.jiandanbaoxian.ui.me.myteam.MyTeamForLeaderActivity;
 import com.jiandanbaoxian.ui.me.myteam.MyTeamForMemberActivity;
 import com.jiandanbaoxian.ui.me.share.ShareActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.PopWindowUtils;
@@ -182,7 +183,7 @@ public class MeFragment extends BaseFragment {
                                     int status = userstableNetWorkResultBean.getStatus();
                                     switch (status) {
                                         case HttpsURLConnection.HTTP_OK:
-                                            userBean = (Userstable) userstableNetWorkResultBean.getData();
+                                            userBean = JsonUtil.getSerializedObject(userstableNetWorkResultBean.getData(),Userstable.class);
                                             //进入我的 团队之前先获取用户的信息
                                             if (userBean != null) {
                                                 if (userBean.getType() != null) {

@@ -21,6 +21,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -110,7 +111,7 @@ public class MyModifyPasswordActivity extends BaseActivity {
                             switch (status) {
                                 case HttpsURLConnection.HTTP_OK:
                                     if (submitPhoneNetWorkResultBean.getData() != null) {
-                                        CommData bean = (CommData) submitPhoneNetWorkResultBean.getData();
+                                        CommData bean = JsonUtil.getSerializedObject(submitPhoneNetWorkResultBean.getData(),CommData.class);
                                         Toast.makeText(MyModifyPasswordActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_SHORT).show();
                                         verifyCodeStringService = bean.getVerifyCode();
                                     }

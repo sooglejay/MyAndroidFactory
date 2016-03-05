@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.SearchMemberAdapter;
 import com.jiandanbaoxian.adapter.MyTeamForMemberAdapter;
@@ -36,10 +38,13 @@ import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.ui.ModifyUserInfoActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.AutoListView;
 import com.jiandanbaoxian.widget.PopWindowUtils;
+
+import net.sf.json.JSON;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -304,9 +309,9 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                         switch (status) {
                             case HttpsURLConnection.HTTP_OK:
 
-                                if (rangeDataNetWorkResultBean.getData()!=null) {
+                                if (rangeDataNetWorkResultBean.getData() != null) {
                                     mDatas.clear();
-                                    RangeData data = (RangeData) rangeDataNetWorkResultBean.getData();
+                                    RangeData data = JsonUtil.getSerializedObject(rangeDataNetWorkResultBean.getData(), RangeData.class);
                                     if (data.getRangeOfMonth() != null) {
                                         List<RangeRecord> monthDataList = data.getRangeOfMonth();
                                         if (monthDataList.size() > 0) {
@@ -331,9 +336,8 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                                 break;
                         }
                     }
-                    
-                    
-                  
+
+
                 }
             });
         } else {
@@ -358,8 +362,8 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
 
-                            if (teamDataNetWorkResultBean.getData()!=null) {
-                                teamData = (TeamData) teamDataNetWorkResultBean.getData();
+                            if (teamDataNetWorkResultBean.getData() != null) {
+                                teamData = JsonUtil.getSerializedObject(teamDataNetWorkResultBean.getData(), TeamData.class);
 
                                 if (teamData != null) {
 
@@ -392,7 +396,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                             break;
                     }
                 }
-               
+
             }
         });
     }
@@ -418,12 +422,25 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                             mDatas_Search.clear();
 
                             if (selfRecordNetWorkResultBean.getData() != null) {
-                                List<SelfRecord> datas = (List<SelfRecord>) selfRecordNetWorkResultBean.getData();
-                                if (datas != null) {
-                                    mDatas_Search.addAll(datas);
-                                } else {
-                                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+                                List<SelfRecord> datas = null;
+                                Object obj = selfRecordNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
                                 }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    datas = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<SelfRecord>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (datas == null) {
+                                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                mDatas_Search.addAll(datas);
                                 searchMemberAdapter.notifyDataSetChanged();
                             }
                             break;
@@ -463,7 +480,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
                             userstableList.clear();
                             if (stringNetWorkResultBean.getData() != null) {
-                                TeamData bean = (TeamData) stringNetWorkResultBean.getData();
+                                TeamData bean = JsonUtil.getSerializedObject(stringNetWorkResultBean.getData(), TeamData.class);
                                 if (bean != null && bean.getNewMembers() != null) {
                                     userstableList.addAll(bean.getNewMembers());
                                     popWindowUtilsLeaderConsiderRequest.showPopWindowInMyTeamForLeaderConsiderRequest(container, activity, userstableList, teamData);

@@ -18,6 +18,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.model.MyWalletData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -118,7 +119,7 @@ public class MyMoneyPocketActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
 
                             if (myWalletDataNetWorkResultBean.getData() != null) {
-                                MyWalletData bean = (MyWalletData) myWalletDataNetWorkResultBean.getData();
+                                MyWalletData bean = JsonUtil.getSerializedObject(myWalletDataNetWorkResultBean.getData(),MyWalletData.class);
                                 mListDatas.clear();
 
                                 aaa_MyMoneyPocketBean b1 = new aaa_MyMoneyPocketBean();

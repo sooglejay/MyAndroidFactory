@@ -28,6 +28,7 @@ import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.VehicleTypeInfo;
 import com.jiandanbaoxian.test.API_Test;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.UpdateVersionUtil;
 import com.jiandanbaoxian.widget.ScrollableViewPager;
 import com.jiandanbaoxian.widget.TabBar;
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             if (commDataNetWorkResultBean.getData() != null) {
-                                CommData bean = (CommData) commDataNetWorkResultBean.getData();
+                                CommData bean = JsonUtil.getSerializedObject(commDataNetWorkResultBean.getData(),CommData.class);
                                 String versionCode = bean.getVersion();
                                 String downLoadURL = bean.getDownLoadUrl();
                                 updateVersionUtil = new UpdateVersionUtil(MainActivity.this, downLoadURL, versionCode);

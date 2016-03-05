@@ -25,6 +25,7 @@ import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.model.ReportData;
 import com.jiandanbaoxian.model.ReportableInsurance;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -174,7 +175,7 @@ public class MyCallPoliceActivity extends BaseActivity implements
                         case HttpsURLConnection.HTTP_OK:
                             if (reportDataNetWorkResultBean.getData() != null) {
                                 mListDatas.clear();
-                                ReportData data = (ReportData) reportDataNetWorkResultBean.getData();
+                                ReportData data = JsonUtil.getSerializedObject(reportDataNetWorkResultBean.getData(),ReportData.class);
                                 if (data.getReportableInsurance() != null) {
                                     ReportableInsurance reportableInsurance = data.getReportableInsurance();
                                     if (reportableInsurance.getOvertimeReportableData() != null) {

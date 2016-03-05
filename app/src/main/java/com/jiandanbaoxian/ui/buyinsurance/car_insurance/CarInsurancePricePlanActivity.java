@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -24,6 +25,7 @@ import com.jiandanbaoxian.adapter.SpinnerDropDownAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.InsuranceItemData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
@@ -518,8 +520,26 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                                     int status = commPriceDataNetWorkResultBean.getStatus();
                                     switch (status) {
                                         case HttpsURLConnection.HTTP_OK:
-                                            if(commPriceDataNetWorkResultBean.getData()!=null) {
-                                                CommPriceData bean = (CommPriceData)commPriceDataNetWorkResultBean.getData();
+                                            if (commPriceDataNetWorkResultBean.getData() != null) {
+
+                                                CommPriceData bean = null;
+                                                Object obj = commPriceDataNetWorkResultBean.getData();
+                                                if (obj instanceof String) {
+                                                    Toast.makeText(activity, commPriceDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                    return;
+                                                }
+                                                try {
+                                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                                    bean = com.jiandanbaoxian.util.JsonUtil.fromJson(json, CommPriceData.class);
+                                                } catch (Exception e) {
+                                                    Log.e("qw", "出错啦！！！!");
+                                                }
+                                                if (bean == null) {
+                                                    Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                                    return;
+                                                }
+
+
                                                 PriceReportActivity.startActivity(activity, bean, idcardNum, city_no, country_no, provnce_no, compulsorystartdate, commercestartdate);
                                             }
                                             break;
@@ -528,8 +548,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                                             break;
                                     }
                                 }
-
-
 
 
                             }

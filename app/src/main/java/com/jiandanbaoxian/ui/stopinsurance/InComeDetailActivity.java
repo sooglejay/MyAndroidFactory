@@ -20,6 +20,7 @@ import com.jiandanbaoxian.model.PauseData;
 import com.jiandanbaoxian.model.PauseHistory;
 import com.jiandanbaoxian.model.Reservepausetable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.SpannableStringUtil;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -257,7 +258,7 @@ public class InComeDetailActivity extends BaseActivity {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             if (pauseHistoryNetWorkResultBean.getData() != null) {
-                                PauseHistory bean = (PauseHistory) pauseHistoryNetWorkResultBean.getData();
+                                PauseHistory bean = JsonUtil.getSerializedObject(pauseHistoryNetWorkResultBean.getData(),PauseHistory.class);
 
                                 reservehistory.clear();
                                 limithistory.clear();

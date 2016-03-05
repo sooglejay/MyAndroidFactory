@@ -23,6 +23,7 @@ import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.ui.BrowserWebViewActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -208,7 +209,7 @@ public class InsureJiaBanDogActivity extends BaseActivity {
                             switch (status) {
                                 case HttpsURLConnection.HTTP_OK:
                                     if (overtimeinsuranceNetWorkResultBean.getData() != null) {
-                                        overtimeData = (OvertimeData) overtimeinsuranceNetWorkResultBean.getData();
+                                        overtimeData = JsonUtil.getSerializedObject(overtimeinsuranceNetWorkResultBean.getData(),OvertimeData.class);
                                     }
                                     Overtimeinsurance bean = overtimeData.getOvertimeInsurance();
                                     if (bean != null && bean.getReleasetime() != null) {

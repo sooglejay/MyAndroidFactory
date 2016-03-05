@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.BrandListAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.Brand;
+import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -122,7 +125,24 @@ public class BrandListActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
                             if (brandNetWorkResultBean.getData() != null) {
                                 brandList.clear();
-                                brandList.addAll((List<Brand>) brandNetWorkResultBean.getData());
+                                List<Brand> brandList = null;
+                                Object obj = brandNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, brandNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    brandList = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<Brand>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (brandList == null) {
+                                    Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                brandList.addAll(brandList);
                             }
                             for (Brand brand : brandList) {
                                 if (brand.getBrand_name().equals(default_name)) {

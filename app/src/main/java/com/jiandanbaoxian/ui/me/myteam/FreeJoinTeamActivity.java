@@ -10,19 +10,23 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.TeamListAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.FreedomData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.AutoListView;
@@ -132,7 +136,24 @@ public class FreeJoinTeamActivity extends BaseActivity {
 
                             if (listNetWorkResultBean.getData() != null) {
                                 swipeLayout.setRefreshing(false);
-                                List<FreedomData> datas = (List<FreedomData>) listNetWorkResultBean.getData();
+
+                                List<FreedomData> datas = null;
+                                Object obj = listNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    datas = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<FreedomData>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (datas == null) {
+                                    Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
                                 if (datas != null) {
                                     mDatas.clear();
                                     mDatas.addAll(datas);
@@ -173,11 +194,28 @@ public class FreeJoinTeamActivity extends BaseActivity {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             if (listNetWorkResultBean.getData() != null) {
-                                List<FreedomData> datas = (List<FreedomData>) listNetWorkResultBean.getData();
-                                mDatas.clear();
-                                if (datas != null) {
-                                    mDatas.addAll(datas);
+
+                                List<FreedomData> datas = null;
+                                Object obj = listNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
                                 }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    datas = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<FreedomData>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (datas == null) {
+                                    Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                mDatas.clear();
+
+                                mDatas.addAll(datas);
+
                                 adapter.notifyDataSetChanged();
                             }
                             break;

@@ -20,11 +20,13 @@ import com.jiandanbaoxian.constant.InsuranceType;
 import com.jiandanbaoxian.constant.PaymentChannel;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
+import com.jiandanbaoxian.model.Charge;
 import com.jiandanbaoxian.model.ChargeBean;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.util.IpUtil;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -136,6 +138,17 @@ public class PayJiaBanDogInsureActivity extends BaseActivity implements View.OnC
                 break;
             case R.id.tv_confirm_pay:
                 progressDialogUtil.show("正在处理...");
+                if (overtimeordertable == null) {
+                    progressDialogUtil.hide();
+                    Toast.makeText(this, "订单为空！无法支付", Toast.LENGTH_LONG).show();
+                    return;
+
+                }
+                if (overtimeordertable.getId() == null) {
+                    progressDialogUtil.hide();
+                    Toast.makeText(this, "订单id为空！无法支付", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 int overtimeInsuranceId = overtimeordertable.getId();
                 float fee = 1.00f;
                 String phone = PreferenceUtil.load(this, PreferenceConstant.phone, "");
@@ -186,7 +199,7 @@ public class PayJiaBanDogInsureActivity extends BaseActivity implements View.OnC
                                                 return;
                                             }
                                             if (chargeNetWorkResultBean.getData() != null) {
-                                                ChargeBean bean = (ChargeBean) chargeNetWorkResultBean.getData();
+                                                ChargeBean bean = JsonUtil.getSerializedObject(chargeNetWorkResultBean.getData(), ChargeBean.class);
                                                 Intent intent = new Intent();
                                                 String packageName = getPackageName();
                                                 ComponentName componentName = new ComponentName(packageName, packageName + ".wxapi.WXPayEntryActivity");

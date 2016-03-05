@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.SpinnerDropDownAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
@@ -31,6 +32,7 @@ import com.jiandanbaoxian.model.RegionBean;
 import com.jiandanbaoxian.test.API_Test;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -332,8 +334,27 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                             switch (status) {
                                 case HttpsURLConnection.HTTP_OK:
                                     if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+
+                                        List<RegionBean> regionBeans = null;
+                                        Object obj = listNetWorkResultBean.getData();
+                                        if (obj instanceof String) {
+                                            Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        try {
+                                            String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                            regionBeans = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<RegionBean>>() {
+                                            }.getType());
+                                        } catch (Exception e) {
+                                            Log.e("qw", "出错啦！！！!");
+                                        }
+                                        if (regionBeans == null) {
+                                            Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+
                                         provinceRegionList.clear();
-                                        provinceRegionList.addAll((List<RegionBean>) listNetWorkResultBean.getData());
+                                        provinceRegionList.addAll(regionBeans);
                                     }
                                     flag_choose_region_counter = 1;
                                     dialogFragmentCreater.setData(provinceRegionList, "");
@@ -395,8 +416,30 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                                         switch (status) {
                                             case HttpsURLConnection.HTTP_OK:
                                                 if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+
+
+
+                                                    List<RegionBean> regionBeans = null;
+                                                    Object obj = listNetWorkResultBean.getData();
+                                                    if (obj instanceof String) {
+                                                        Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    }
+                                                    try {
+                                                        String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                                        regionBeans = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<RegionBean>>() {
+                                                        }.getType());
+                                                    } catch (Exception e) {
+                                                        Log.e("qw", "出错啦！！！!");
+                                                    }
+                                                    if (regionBeans == null) {
+                                                        Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    }
+
                                                     cityRegionList.clear();
-                                                    cityRegionList.addAll((List<RegionBean>) listNetWorkResultBean.getData());
+                                                    cityRegionList.addAll(regionBeans);
+
                                                     dialogFragmentCreater.updateData(cityRegionList, province_name);
                                                 }
                                                 progressDialogUtil.hide();
@@ -435,8 +478,27 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                                         switch (status) {
                                             case HttpsURLConnection.HTTP_OK:
                                                 if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
+
+                                                    List<RegionBean> regionBeans = null;
+                                                    Object obj = listNetWorkResultBean.getData();
+                                                    if (obj instanceof String) {
+                                                        Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    }
+                                                    try {
+                                                        String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                                        regionBeans = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<RegionBean>>() {
+                                                        }.getType());
+                                                    } catch (Exception e) {
+                                                        Log.e("qw", "出错啦！！！!");
+                                                    }
+                                                    if (regionBeans == null) {
+                                                        Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    }
                                                     countryRegionList.clear();
-                                                    countryRegionList.addAll((List<RegionBean>)listNetWorkResultBean.getData());
+                                                    countryRegionList.addAll(regionBeans);
+
                                                     dialogFragmentCreater.updateData(countryRegionList, city_name);
                                                 }
                                                 progressDialogUtil.hide();

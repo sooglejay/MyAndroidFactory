@@ -10,12 +10,14 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.CardListAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
@@ -23,10 +25,12 @@ import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.FinancialAccount;
+import com.jiandanbaoxian.model.InviteInfo;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.util.FilterUtil;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -410,8 +414,27 @@ public class PullMoneyActivity extends BaseActivity {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             if (financialAccountNetWorkResultBean != null && financialAccountNetWorkResultBean.getData() != null) {
+
+                                List<FinancialAccount> financialAccounts = null;
+                                Object obj = financialAccountNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, financialAccountNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    financialAccounts = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<FinancialAccount>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (financialAccounts == null) {
+                                    Toast.makeText(activity, financialAccountNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
                                 mDatas.clear();
-                                mDatas.addAll((List<FinancialAccount>) financialAccountNetWorkResultBean.getData());
+                                mDatas.addAll(financialAccounts);
                                 cardListAdapter.notifyDataSetChanged();
                             }
                             break;

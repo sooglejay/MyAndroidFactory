@@ -20,6 +20,7 @@ import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.model.Vehicleordertable;
 import com.jiandanbaoxian.model.Vehicletable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -180,7 +181,7 @@ public class MyInsureActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
 
                             if (myInsuranceDataNetWorkResultBean.getData() != null) {
-                                MyInsuranceData bean = (MyInsuranceData) myInsuranceDataNetWorkResultBean.getData();
+                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(),MyInsuranceData.class);
                                 vehicleordertables.addAll(bean.getVehicleorderRecords());
                                 pageNum_vehicleordertables++;
                                 getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
@@ -238,7 +239,7 @@ public class MyInsureActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
 
                             if (myInsuranceDataNetWorkResultBean.getData() != null) {
-                                MyInsuranceData bean = (MyInsuranceData) myInsuranceDataNetWorkResultBean.getData();
+                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(),MyInsuranceData.class);
                                 if (bean.getDriverorderRecords() != null) {
                                     driverordertables.addAll(bean.getDriverorderRecords());
                                     pageNum_driverordertables++;
@@ -296,7 +297,7 @@ public class MyInsureActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
 
                             if (myInsuranceDataNetWorkResultBean.getData() != null) {
-                                MyInsuranceData bean = (MyInsuranceData) myInsuranceDataNetWorkResultBean.getData();
+                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(),MyInsuranceData.class);
                                 if (bean.getOvertimeorderRecords() != null) {
                                     overtimeordertables.addAll(bean.getOvertimeorderRecords());
                                     pageNum_overtimeordertables++;

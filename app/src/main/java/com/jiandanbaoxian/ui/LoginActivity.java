@@ -11,6 +11,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.event.BusEvent;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
+import com.jiandanbaoxian.model.OvertimeData;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -185,7 +187,25 @@ public class LoginActivity extends BaseActivity {
                                 int status = commDataNetWorkResultBean.getStatus();
                                 switch (status) {
                                     case HttpsURLConnection.HTTP_OK:
-                                        CommData bean = (CommData) commDataNetWorkResultBean.getData();
+                                        CommData bean = null;
+
+                                        Object obj = commDataNetWorkResultBean.getData();
+                                        if (obj instanceof String) {
+                                            Toast.makeText(activity, commDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        try {
+                                            String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                            bean = com.jiandanbaoxian.util.JsonUtil.fromJson(json, CommData.class);
+                                        } catch (Exception e) {
+                                            Log.e("qw", "出错啦！！！!");
+                                        }
+                                        if (bean == null) {
+                                            Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+
+
                                         //保存用户信息
                                         PreferenceUtil.save(LoginActivity.this, PreferenceConstant.userid, bean.getUserid());
                                         PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserInfo().getName());
@@ -225,13 +245,31 @@ public class LoginActivity extends BaseActivity {
                             mCountTimer.onFinish();
                             mCountTimer.cancel();
                         }
+
                         @Override
                         public void success(NetWorkResultBean<Object> submitPhoneNetWorkResultBean, Response response) {
                             if (submitPhoneNetWorkResultBean != null) {
                                 int status = submitPhoneNetWorkResultBean.getStatus();
                                 switch (status) {
                                     case HttpsURLConnection.HTTP_OK:
-                                        CommData bean = (CommData) submitPhoneNetWorkResultBean.getData();
+                                        CommData bean = null;
+                                        Object obj = submitPhoneNetWorkResultBean.getData();
+                                        if (obj instanceof String) {
+                                            Toast.makeText(activity, submitPhoneNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        try {
+                                            String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                            bean = com.jiandanbaoxian.util.JsonUtil.fromJson(json, CommData.class);
+                                        } catch (Exception e) {
+                                            Log.e("qw", "出错啦！！！!");
+                                        }
+                                        if (bean == null) {
+                                            Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+
+
                                         Toast.makeText(LoginActivity.this, "获取验证码成功！短信已经下发至您的手机上", Toast.LENGTH_LONG).show();
                                         verifyCodeStringService = bean.getVerifyCode();
                                         break;

@@ -25,6 +25,7 @@ import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.OvertimeData;
 import com.jiandanbaoxian.model.Overtimeordertable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -194,9 +195,13 @@ public class OrderCofirmJiaBanDogInsureActivity extends BaseActivity implements
                                         switch (status) {
                                             case HttpsURLConnection.HTTP_OK:
                                                 if (stringNetWorkResultBean.getData() != null) {
-                                                    Overtimeordertable bean = (Overtimeordertable) stringNetWorkResultBean.getData();
-                                                    PayJiaBanDogInsureActivity.startActivity(context, bean);
-                                                    finish();
+                                                    Overtimeordertable bean = JsonUtil.getSerializedObject(stringNetWorkResultBean.getData(), Overtimeordertable.class);
+                                                    if (bean == null) {
+                                                        Toast.makeText(context, "订单为空！无法支付！", Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        PayJiaBanDogInsureActivity.startActivity(context, bean);
+                                                        finish();
+                                                    }
                                                 }
                                                 break;
                                             default:

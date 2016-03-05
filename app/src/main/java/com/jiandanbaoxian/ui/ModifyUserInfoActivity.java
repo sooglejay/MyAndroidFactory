@@ -28,6 +28,7 @@ import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.util.ImageUtils;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.RoundImageView;
@@ -188,7 +189,7 @@ public class ModifyUserInfoActivity extends BaseActivity implements
                             switch (status) {
                                 case HttpsURLConnection.HTTP_OK:
                                     if (userstableNetWorkResultBean.getData() != null) {
-                                        userstable = (Userstable) userstableNetWorkResultBean.getData();
+                                        userstable = JsonUtil.getSerializedObject(userstableNetWorkResultBean.getData(),Userstable.class);
                                         setUpViews();
                                     }
                                     break;

@@ -4,20 +4,24 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.CreateTeamAdapter;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
 import com.jiandanbaoxian.fragment.DialogFragmentCreater;
+import com.jiandanbaoxian.model.FreedomData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -204,7 +208,25 @@ public class LeaderAddNewMemberActivity extends BaseActivity {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             if (listNetWorkResultBean != null && listNetWorkResultBean.getData() != null) {
-                                List<Userstable> userstableList = (List<Userstable>) listNetWorkResultBean.getData();
+
+                                List<Userstable> userstableList = null;
+                                Object obj = listNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    userstableList = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<Userstable>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (userstableList == null) {
+                                    Toast.makeText(activity, "系统异常！", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
                                 if (pageNum == 1) {
                                     if (userstableList.size() > 0) {
                                         mDatas.add("选择团员");

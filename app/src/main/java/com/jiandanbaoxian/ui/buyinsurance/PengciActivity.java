@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,11 +15,13 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.model.ConsultantData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.OvertimeData;
 import com.jiandanbaoxian.model.Overtimeinsurance;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.LoginActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
@@ -159,7 +162,27 @@ public class PengciActivity extends BaseActivity {
                                 case HttpsURLConnection.HTTP_OK:
 
                                     if (overtimeinsuranceNetWorkResultBean.getData() != null) {
-                                        overtimeData = (OvertimeData) overtimeinsuranceNetWorkResultBean.getData();
+
+
+
+                                        Object obj = overtimeinsuranceNetWorkResultBean.getData();
+                                        if (obj instanceof String) {
+                                            Toast.makeText(context, overtimeinsuranceNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        try {
+                                            String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                            overtimeData = com.jiandanbaoxian.util.JsonUtil.fromJson(json, OvertimeData.class);
+                                        } catch (Exception e) {
+                                            Log.e("qw", "出错啦！！！!");
+                                        }
+                                        if (overtimeData==null) {
+                                            Toast.makeText(context, "系统异常！", Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+
+
+
                                         Overtimeinsurance bean = overtimeData.getOvertimeInsurance();
                                         if (bean != null && bean.getReleasetime() != null) {
                                             //生效时间

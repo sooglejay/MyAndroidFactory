@@ -27,9 +27,12 @@ import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.BrowserWebViewActivity;
 import com.jiandanbaoxian.util.CarNetCrashHandler;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
+
+import net.sf.json.JSON;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -169,7 +172,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                                     switch (status) {
                                         case 200://请求成功！
                                             if (objectNetWorkResultBean.getData() instanceof ConfirmOrderBean) {
-                                                final ConfirmOrderBean bean = (ConfirmOrderBean) objectNetWorkResultBean.getData();
+                                                final ConfirmOrderBean bean = JsonUtil.getSerializedObject(objectNetWorkResultBean.getData(),ConfirmOrderBean.class);
 
                                                 PreferenceUtil.save(activity, PreferenceConstant.confirmCommercialNo, bean.getCommerceNo());
                                                 PreferenceUtil.save(activity, PreferenceConstant.ConfirmCompulsoryNo, bean.getCompulsoryNo());
@@ -220,7 +223,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                             switch (status) {
                                                                 case 200://请求成功！
                                                                     if (stringNetWorkResultBean.getData() instanceof ApplyPayBean) {
-                                                                        ApplyPayBean bean = (ApplyPayBean) stringNetWorkResultBean.getData();
+                                                                        ApplyPayBean bean = JsonUtil.getSerializedObject(stringNetWorkResultBean.getData(),ApplyPayBean.class);
                                                                         String ply_app_no = bean.getPly_app_no();
                                                                         BrowserWebViewActivity.startActivity(activity, "http://agenttest.sinosafe.com.cn/tstpayonline/recvMerchantAction.do?orderId=" + ply_app_no, "申请支付");
                                                                     }
@@ -394,7 +397,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                             case 200: {
 
                                 if (huanQueryStatusDataNetWorkResultBean.getData() instanceof HuanInsuranceBaseInfoData) {
-                                    HuanQueryStatusData bean = (HuanQueryStatusData) huanQueryStatusDataNetWorkResultBean.getData();
+                                    HuanQueryStatusData bean = JsonUtil.getSerializedObject(huanQueryStatusDataNetWorkResultBean.getData(),HuanQueryStatusData.class);
                                     int status = bean.getPay_status();
                                     String des = "";
                                     switch (status) {

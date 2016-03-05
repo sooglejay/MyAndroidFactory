@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.adapter.MyTeamForMemberAdapter;
 import com.jiandanbaoxian.adapter.SearchMemberAdapter;
@@ -36,6 +38,7 @@ import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.BrowserImageViewActivity;
 import com.jiandanbaoxian.ui.ModifyUserInfoActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.UIUtils;
 import com.jiandanbaoxian.widget.AutoListView;
@@ -283,7 +286,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
 
                             if (teamDataNetWorkResultBean.getData() != null) {
-                                TeamData teamData = (TeamData) teamDataNetWorkResultBean.getData();
+                                TeamData teamData = JsonUtil.getSerializedObject(teamDataNetWorkResultBean.getData(), TeamData.class);
 
                                 if (teamData != null) {
 
@@ -393,14 +396,26 @@ public class MyTeamForMemberActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
                             inviteInfoList.clear();
                             if (listNetWorkResultBean.getData() != null) {
-                                List<InviteInfo> inviteInfos = (List<InviteInfo>) listNetWorkResultBean.getData();
+
+                                List<InviteInfo> inviteInfos = null;
+                                Object obj = listNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, listNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    inviteInfos = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<InviteInfo>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
                                 if (inviteInfos != null) {
                                     inviteInfoList.addAll(inviteInfos);
                                     popWindowUtilsMemberConsiderRequest.showPopWindowInMyTeamForMemberConsiderRequest(container, activity, inviteInfoList);
                                     iv_notification.setImageResource(R.drawable.icon_has_notification);
                                 } else {
                                     iv_notification.setImageResource(R.drawable.icon_no_notification);
-
                                 }
                             }
                             break;
@@ -409,8 +424,6 @@ public class MyTeamForMemberActivity extends BaseActivity {
                             break;
                     }
                 }
-
-
             }
         });
     }
@@ -422,25 +435,37 @@ public class MyTeamForMemberActivity extends BaseActivity {
             public void onFailure(RetrofitError error, String message) {
                 swipeLayout.setRefreshing(false);
                 Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
             public void success(NetWorkResultBean<Object> selfRecordNetWorkResultBean, Response response) {
                 swipeLayout.setRefreshing(false);
-
                 if (selfRecordNetWorkResultBean != null) {
                     int status = selfRecordNetWorkResultBean.getStatus();
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             if (selfRecordNetWorkResultBean.getData() != null) {
                                 mDatas_Search.clear();
-                                List<SelfRecord> datas = (List<SelfRecord>) selfRecordNetWorkResultBean.getData();
-                                if (datas != null) {
-                                    mDatas_Search.addAll(datas);
-                                } else {
-                                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+                                List<SelfRecord> datas = null;
+                                Object obj = selfRecordNetWorkResultBean.getData();
+                                if (obj instanceof String) {
+                                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    return;
                                 }
+                                try {
+                                    String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
+                                    datas = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<SelfRecord>>() {
+                                    }.getType());
+                                } catch (Exception e) {
+                                    Log.e("qw", "出错啦！！！!");
+                                }
+                                if (datas == null) {
+                                    Toast.makeText(activity, selfRecordNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                mDatas_Search.addAll(datas);
+
                                 searchMemberAdapter.notifyDataSetChanged();
                                 break;
                             }
@@ -449,8 +474,6 @@ public class MyTeamForMemberActivity extends BaseActivity {
                             break;
                     }
                 }
-
-
             }
         });
     }

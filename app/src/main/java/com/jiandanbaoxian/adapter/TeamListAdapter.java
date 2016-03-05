@@ -21,6 +21,7 @@ import com.jiandanbaoxian.model.FreedomData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Userstable;
 import com.jiandanbaoxian.ui.me.myteam.CertificationActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 
@@ -102,7 +103,7 @@ public class TeamListAdapter extends BaseAdapter {
                                                 int httpStatus = userstableNetWorkResultBean.getStatus();
                                                 switch (httpStatus) {
                                                     case HttpsURLConnection.HTTP_OK:
-                                                        Userstable userBean = (Userstable) userstableNetWorkResultBean.getData();
+                                                        Userstable userBean = JsonUtil.getSerializedObject(userstableNetWorkResultBean.getData(),Userstable.class);
                                                         //进入我的 团队之前先获取用户的信息
                                                         if (userBean != null) {
                                                             if (userBean.getType() != null) {
