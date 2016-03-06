@@ -1061,6 +1061,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                                String idcardnum,
                                                String cal_app_no,
                                                int type,
+                                               int orderId,
                                                NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -1068,6 +1069,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
                 "&idcardnum=" + idcardnum +
                 "&phone=" + phone +
                 "&type=" + type +
+                "&orderId=" + orderId +
                 "&cal_app_no=" + cal_app_no;
         String s = Base64Util.encode(k.getBytes());
         Log.e("jw", "original:" + k + "\nbase64:" + s);

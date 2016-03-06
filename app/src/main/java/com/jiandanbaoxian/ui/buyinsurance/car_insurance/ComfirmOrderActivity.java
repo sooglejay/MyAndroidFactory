@@ -26,13 +26,10 @@ import com.jiandanbaoxian.model.HuanQueryStatusData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.ui.BrowserWebViewActivity;
-import com.jiandanbaoxian.util.CarNetCrashHandler;
 import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
-
-import net.sf.json.JSON;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -57,7 +54,7 @@ public class ComfirmOrderActivity extends BaseActivity {
 
     private boolean isPayed = false;
     private String idcard_number = "";
-    private String orderid = "";
+    private String orderidString = "";
     private String cal_app_no = "";
     private TitleBar titleBar;
     private EditText etInsureUserName;
@@ -141,7 +138,8 @@ public class ComfirmOrderActivity extends BaseActivity {
                     if (huanPriceData != null) {
                         HuanInsuranceBaseInfoData huanInsuranceBaseInfoData = huanPriceData.getCommerceBaseInfo();
                         cal_app_no = huanInsuranceBaseInfoData.getCal_app_no();
-                        orderid = huanPriceData.getOrderId() + "";
+                        int orderId = huanPriceData.getOrderId();
+                        orderidString = orderId+ "";
                         final int type = 0;
 
                         final String insuranceUserName = etInsureUserName.getText().toString();
@@ -158,7 +156,8 @@ public class ComfirmOrderActivity extends BaseActivity {
 
                         isPayed = false;
 
-                        UserRetrofitUtil.huanAuditInsuranceOrder(activity, insuranceUserName, insuranceUserPhone, idcard_number, cal_app_no, type, new NetCallback<NetWorkResultBean<Object>>(activity) {
+                        //3核保
+                        UserRetrofitUtil.huanAuditInsuranceOrder(activity, insuranceUserName, insuranceUserPhone, idcard_number, cal_app_no, type, orderId, new NetCallback<NetWorkResultBean<Object>>(activity) {
                             @Override
                             public void onFailure(RetrofitError error, String message) {
                                 progressDialogUtil.hide();
@@ -204,8 +203,9 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                 PreferenceUtil.save(activity, PreferenceConstant.insuranceOperationUserPhone, insuranceOperationUserPhone);
 
 
+                                                //申请支付
                                                 isPayed = false;
-                                                UserRetrofitUtil.huanApplyPay(activity, insuranceUserName, bean.getCompulsoryNo(), huanPriceData.getCompulsoryAmount() + "", bean.getCommerceNo(), huanPriceData.getCommerceAmount() + "", city_no, compulsorystartdate + "", commercestartdate + "", type + "", new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                                UserRetrofitUtil.huanApplyPay(activity, insuranceUserName, bean.getCompulsoryNo(), huanPriceData.getCompulsoryAmount()*100+"", bean.getCommerceNo(), huanPriceData.getCommerceAmount() *100+ "", city_no, compulsorystartdate + "", commercestartdate + "", type + "", new NetCallback<NetWorkResultBean<Object>>(activity) {
                                                     @Override
                                                     public void onFailure(RetrofitError error, String message) {
                                                         progressDialogUtil.hide();
@@ -419,7 +419,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                                         case 5:
                                             des = "已确认已收款";
 
-                                            UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderid, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceOperationUserPhone, city_no, type, cal_app_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                            UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderidString, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceOperationUserPhone, city_no, type, cal_app_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
                                                 @Override
                                                 public void onFailure(RetrofitError error, String message) {
 
@@ -441,7 +441,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                         }
                                                     }
 
-                                                    UserRetrofitUtil.selectPlan(activity, commPriceData.getHuanPriceData().getPriceId() + "", orderid + "", new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                                    UserRetrofitUtil.selectPlan(activity, commPriceData.getHuanPriceData().getPriceId() + "", orderidString + "", new NetCallback<NetWorkResultBean<Object>>(activity) {
                                                         @Override
                                                         public void onFailure(RetrofitError error, String message) {
 

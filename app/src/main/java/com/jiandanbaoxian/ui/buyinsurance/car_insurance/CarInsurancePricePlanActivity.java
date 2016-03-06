@@ -501,6 +501,7 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
 
                 insuranceItems = gson.toJson(insuranceItemDatas);
                 progressDialogUtil.show("正在获取保险信息...");
+                //2报价
                 UserRetrofitUtil.quotaPrice(activity, userid, licenseplate, engineNumber, frameNumber, seatingcapacity, newValue + "",
                         model_code, registrationDateString, ownerName, commercestartdate + "", compulsorystartdate + "", issueDateString, provence, provnce_no,
                         city_no, country_no, transfer, transferDate, idcardNum, phone, compulsoryAmt, insuranceItems, type,

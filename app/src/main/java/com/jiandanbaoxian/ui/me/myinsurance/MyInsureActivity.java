@@ -165,7 +165,6 @@ public class MyInsureActivity extends BaseActivity {
                 mInsureList.setLoading(false);
                 Toast.makeText(MyInsureActivity.this, "请检查网络设置", Toast.LENGTH_SHORT).show();
 
-
             }
 
             @Override
@@ -174,33 +173,31 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
+                progressDialogUtil.hide();
 
                 if (myInsuranceDataNetWorkResultBean != null) {
                     int status = myInsuranceDataNetWorkResultBean.getStatus();
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
-
                             if (myInsuranceDataNetWorkResultBean.getData() != null) {
-                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(),MyInsuranceData.class);
-                                vehicleordertables.addAll(bean.getVehicleorderRecords());
-                                pageNum_vehicleordertables++;
-                                getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
+                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(), MyInsuranceData.class);
+                                if (bean != null && bean.getVehicleorderRecords() != null) {
+                                    vehicleordertables.addAll(bean.getVehicleorderRecords());
+                                    pageNum_vehicleordertables++;
+                                    getVehicleOrderByPage(userid, pageSize, pageNum_vehicleordertables);
+                                }
                             } else {
                                 success_count_v = 1;
                                 if (success_count_d + success_count_o + success_count_v == 3) {
-                                    progressDialogUtil.hide();
                                     myInsuresListAdapter.notifyDataSetChanged();
                                 }
                             }
-
                             break;
                         default:
                             Toast.makeText(MyInsureActivity.this, myInsuranceDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
                             break;
                     }
                 }
-
-
             }
         });
     }
@@ -233,13 +230,14 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
+                progressDialogUtil.hide();
                 if (myInsuranceDataNetWorkResultBean != null) {
                     int status = myInsuranceDataNetWorkResultBean.getStatus();
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
 
                             if (myInsuranceDataNetWorkResultBean.getData() != null) {
-                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(),MyInsuranceData.class);
+                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(), MyInsuranceData.class);
                                 if (bean.getDriverorderRecords() != null) {
                                     driverordertables.addAll(bean.getDriverorderRecords());
                                     pageNum_driverordertables++;
@@ -247,7 +245,6 @@ public class MyInsureActivity extends BaseActivity {
                                 } else {
                                     success_count_d = 1;
                                     if (success_count_d + success_count_o + success_count_v == 3) {
-                                        progressDialogUtil.hide();
                                         myInsuresListAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -290,6 +287,7 @@ public class MyInsureActivity extends BaseActivity {
                 swipeLayout.setRefreshing(false);
                 swipeLayout.setEnabled(true);
                 mInsureList.setLoading(false);
+                progressDialogUtil.hide();
 
                 if (myInsuranceDataNetWorkResultBean != null) {
                     int status = myInsuranceDataNetWorkResultBean.getStatus();
@@ -297,7 +295,7 @@ public class MyInsureActivity extends BaseActivity {
                         case HttpsURLConnection.HTTP_OK:
 
                             if (myInsuranceDataNetWorkResultBean.getData() != null) {
-                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(),MyInsuranceData.class);
+                                MyInsuranceData bean = JsonUtil.getSerializedObject(myInsuranceDataNetWorkResultBean.getData(), MyInsuranceData.class);
                                 if (bean.getOvertimeorderRecords() != null) {
                                     overtimeordertables.addAll(bean.getOvertimeorderRecords());
                                     pageNum_overtimeordertables++;
@@ -305,7 +303,6 @@ public class MyInsureActivity extends BaseActivity {
                                 } else {
                                     success_count_o = 1;
                                     if (success_count_d + success_count_o + success_count_v == 3) {
-                                        progressDialogUtil.hide();
                                         myInsuresListAdapter.notifyDataSetChanged();
                                     }
                                 }

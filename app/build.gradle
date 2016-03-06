@@ -18,7 +18,6 @@ android {
         versionCode 32
         versionName "0.0.8"
         multiDexEnabled true
-
     }
     buildTypes {
         release {

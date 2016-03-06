@@ -86,9 +86,7 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                         @Override
                         public void onFailure(RetrofitError error, String message) {
                             progressDialogUtil.hide();
-                            if (bean.getInsuranceDetail() != null) {
-                                Toast.makeText(mContext, "请检查网络设置", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(mContext, "请检查网络设置", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

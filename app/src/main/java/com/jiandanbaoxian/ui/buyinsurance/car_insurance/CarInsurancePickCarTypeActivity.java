@@ -197,6 +197,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
 
     public void getVehicleTypeInfo() {
         progressDialogUtil.show("正在查询...");
+        //1查询车型
         UserRetrofitUtil.vehcileTypeInfo(this, province_no, licenseplate, frameNumber, type, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
