@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.model.FourService;
+import com.jiandanbaoxian.model.InsuranceCompanyInfo;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
     private static final int Header = 1;
     private static final int ViewTypeCount = 2;
 
-    private List<FourService> mData = null;
+    private List<InsuranceCompanyInfo> mData = null;
     private Context mContext = null;
 
-    public DetailCarInsureTab3ServiceStationAdapter(Context mContext, List<FourService> mData) {
+    public DetailCarInsureTab3ServiceStationAdapter(Context mContext, List<InsuranceCompanyInfo> mData) {
         this.mData = mData;
         this.mContext = mContext;
     }
@@ -37,7 +38,7 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
     }
 
     @Override
-    public FourService getItem(int position) {
+    public InsuranceCompanyInfo getItem(int position) {
         return mData.get(position);
     }
 
@@ -53,7 +54,7 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return (mData.get(position) instanceof FourService) ? Data
+        return (mData.get(position) instanceof InsuranceCompanyInfo) ? Data
                 : Header;
     }
 
@@ -98,9 +99,9 @@ public class DetailCarInsureTab3ServiceStationAdapter extends BaseAdapter {
             }
 
         } else {//如果是数据
-            if (mData.get(position) instanceof FourService) {
-                FourService bean = mData.get(position);
-                holder.tv_shop_name.setText(bean.getName());
+            if (mData.get(position) instanceof InsuranceCompanyInfo) {
+                InsuranceCompanyInfo bean = mData.get(position);
+                holder.tv_shop_name.setText(bean.getCompanyname());
                 holder.tv_shop_address.setText(bean.getAddress());
             }
         }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jiandanbaoxian.R;
@@ -106,7 +105,7 @@ public class PriceReportActivity extends BaseActivity {
         layoutHuaanInsuranceAgent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PriceReportDetailsActivity.startActivity(activity, commPriceData, idcard_number, country_no, city_no, province_no, compulsorystartdate, commercestartdate);
+                PriceReportDetailTabHostActivity.startActivity(activity, commPriceData, idcard_number, country_no, city_no, province_no, compulsorystartdate, commercestartdate);
             }
         });
     }

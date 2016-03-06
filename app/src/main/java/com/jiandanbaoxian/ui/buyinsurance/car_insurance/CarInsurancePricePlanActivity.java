@@ -819,6 +819,16 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
         switchTabViewMotorVehicleLossInsurance.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                //不勾选 车损险  附加险 也不选  盗抢险也不选
+                if (!isChecked) {
+                    switchTabViewRob.setChecked(false);
+                    switchTabViewRiskOfSpontaneousCombustion.setChecked(false);
+                    switchTabViewRiskOfScratches.setChecked(false);
+                    switchTabViewRiskOfEngineWading.setChecked(false);
+                    switchTabViewShadeLining.setChecked(false);
+                }
+
                 flag_switch_SDEWMotorVehicleLossInsurance = isChecked;
 
                 motor_vehicle_loss_insurance.setFranchise_flag(isChecked ? 1 : -1);

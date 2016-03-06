@@ -12,7 +12,6 @@ import android.view.View;
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.fragment.CarInsureDetailClaimPolicyFragmentTab2;
 import com.jiandanbaoxian.fragment.CarInsureDetailContentFragmentTab1;
-import com.jiandanbaoxian.fragment.CarInsureDetailServiceStationFragmentTab3;
 import com.jiandanbaoxian.model.Vehicleordertable;
 import com.jiandanbaoxian.ui.BaseActivity;
 import com.jiandanbaoxian.widget.PagerSlidingTabStrip;
@@ -121,7 +120,7 @@ public class MyInsuresListCarInsureDetailActivity extends BaseActivity {
                     fragment = new CarInsureDetailClaimPolicyFragmentTab2();
                     break;
                 case 2:
-                    fragment = new CarInsureDetailServiceStationFragmentTab3();
+                    fragment = new CarInsureDetailClaimPolicyFragmentTab2();
                     break;
                 default:
                     break;

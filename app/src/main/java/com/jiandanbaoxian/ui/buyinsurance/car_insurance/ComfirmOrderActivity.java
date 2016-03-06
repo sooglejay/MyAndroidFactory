@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.PreferenceUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.widget.TitleBar;
+import com.jiandanbaoxian.widget.customswitch.SwitchButton;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -53,12 +55,15 @@ public class ComfirmOrderActivity extends BaseActivity {
     private ProgressDialogUtil progressDialogUtil;
 
     private boolean isPayed = false;
+    private boolean isNeedDistribute = false;
     private String idcard_number = "";
     private String orderidString = "";
     private String cal_app_no = "";
     private TitleBar titleBar;
     private EditText etInsureUserName;
     private EditText etInsureUserPhoneNumber;
+    private SwitchButton switchTabViewDistribute;
+    private LinearLayout layoutReceiveInfo;
     private EditText etInsureOrderReceiveUserName;
     private EditText etInsureOrderReceiveUserPhoneNumber;
     private EditText etInsureOrderReceiveUserAddress;
@@ -68,19 +73,23 @@ public class ComfirmOrderActivity extends BaseActivity {
     /**
      * Find the Views in the layout<br />
      * <br />
-     * Auto-created on 2016-03-06 16:01:59 by Android Layout Finder
+     * Auto-created on 2016-03-06 16:25:50 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        titleBar = (TitleBar)findViewById( R.id.title_bar );
-        etInsureUserName = (EditText)findViewById( R.id.et_insure_user_name );
-        etInsureUserPhoneNumber = (EditText)findViewById( R.id.et_insure_user_phone_number );
-        etInsureOrderReceiveUserName = (EditText)findViewById( R.id.et_insure_order_receive_user_name );
-        etInsureOrderReceiveUserPhoneNumber = (EditText)findViewById( R.id.et_insure_order_receive_user_phone_number );
-        etInsureOrderReceiveUserAddress = (EditText)findViewById( R.id.et_insure_order_receive_user_address );
-        etInsureRecommendUserPhone = (EditText)findViewById( R.id.et_insure_recommend_user_phone );
-        tvPay = (TextView)findViewById( R.id.tv_pay );
+        titleBar = (TitleBar) findViewById(R.id.title_bar);
+        etInsureUserName = (EditText) findViewById(R.id.et_insure_user_name);
+        etInsureUserPhoneNumber = (EditText) findViewById(R.id.et_insure_user_phone_number);
+        switchTabViewDistribute = (SwitchButton) findViewById(R.id.switch_tab_view_distribute);
+        layoutReceiveInfo = (LinearLayout) findViewById(R.id.layout_receive_info);
+        etInsureOrderReceiveUserName = (EditText) findViewById(R.id.et_insure_order_receive_user_name);
+        etInsureOrderReceiveUserPhoneNumber = (EditText) findViewById(R.id.et_insure_order_receive_user_phone_number);
+        etInsureOrderReceiveUserAddress = (EditText) findViewById(R.id.et_insure_order_receive_user_address);
+        etInsureRecommendUserPhone = (EditText) findViewById(R.id.et_insure_recommend_user_phone);
+        tvPay = (TextView) findViewById(R.id.tv_pay);
+
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +128,15 @@ public class ComfirmOrderActivity extends BaseActivity {
             }
         });
 
+        switchTabViewDistribute.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layoutReceiveInfo.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                isNeedDistribute = isChecked;
+
+            }
+        });
+
         tvPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,18 +145,12 @@ public class ComfirmOrderActivity extends BaseActivity {
                     if (huanPriceData != null) {
                         HuanInsuranceBaseInfoData huanInsuranceBaseInfoData = huanPriceData.getCommerceBaseInfo();
                         cal_app_no = huanInsuranceBaseInfoData.getCal_app_no();
-                        int orderId = huanPriceData.getOrderId();
-                        orderidString = orderId+ "";
+                        final int orderId = huanPriceData.getOrderId();
+                        orderidString = orderId + "";
                         final int type = 0;
 
                         final String insuranceUserName = etInsureUserName.getText().toString();
                         final String insuranceUserPhone = etInsureUserPhoneNumber.getText().toString();
-
-                        final String insuranceReceiveUserName = etInsureOrderReceiveUserName.getText().toString();
-                        final String insuranceReceivePhone = etInsureOrderReceiveUserPhoneNumber.getText().toString();
-                        final String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
-
-                        final String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
 
                         progressDialogUtil.show("正在生成订单号...");
 
@@ -159,7 +171,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                                     switch (status) {
                                         case 200://请求成功！
                                             if (objectNetWorkResultBean.getData() instanceof ConfirmOrderBean) {
-                                                final ConfirmOrderBean bean = JsonUtil.getSerializedObject(objectNetWorkResultBean.getData(),ConfirmOrderBean.class);
+                                                final ConfirmOrderBean bean = JsonUtil.getSerializedObject(objectNetWorkResultBean.getData(), ConfirmOrderBean.class);
 
                                                 PreferenceUtil.save(activity, PreferenceConstant.confirmCommercialNo, bean.getCommerceNo());
                                                 PreferenceUtil.save(activity, PreferenceConstant.ConfirmCompulsoryNo, bean.getCompulsoryNo());
@@ -189,9 +201,37 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                 PreferenceUtil.save(activity, PreferenceConstant.insuranceRecommendUserPhone, insuranceRecommendUserPhone);
 
 
+                                                //修改我们服务器的报价
+                                                UserRetrofitUtil.selectPlan(activity, commPriceData.getHuanPriceData().getPriceId() + "", orderidString, new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                                    @Override
+                                                    public void onFailure(RetrofitError error, String message) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+
+                                                        if (stringNetWorkResultBean != null) {
+                                                            int httpStatus = stringNetWorkResultBean.getStatus();
+                                                            switch (httpStatus) {
+                                                                case 200: {
+                                                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+                                                                }
+                                                                break;
+                                                                default:
+                                                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                                    break;
+                                                            }
+                                                        }
+
+                                                    }
+                                                });
+
+
                                                 //申请支付
                                                 isPayed = false;
-                                                UserRetrofitUtil.huanApplyPay(activity, insuranceUserName, bean.getCompulsoryNo(), huanPriceData.getCompulsoryAmount()*100+"", bean.getCommerceNo(), huanPriceData.getCommerceAmount() *100+ "", city_no, compulsorystartdate + "", commercestartdate + "", type + "", new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                                UserRetrofitUtil.huanApplyPay(activity, insuranceUserName, bean.getCompulsoryNo(), huanPriceData.getCompulsoryAmount() * 100 + "", bean.getCommerceNo(), huanPriceData.getCommerceAmount() * 100 + "", city_no, compulsorystartdate + "", commercestartdate + "", type + "", new NetCallback<NetWorkResultBean<Object>>(activity) {
                                                     @Override
                                                     public void onFailure(RetrofitError error, String message) {
                                                         progressDialogUtil.hide();
@@ -209,7 +249,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                             switch (status) {
                                                                 case 200://请求成功！
                                                                     if (stringNetWorkResultBean.getData() instanceof ApplyPayBean) {
-                                                                        ApplyPayBean bean = JsonUtil.getSerializedObject(stringNetWorkResultBean.getData(),ApplyPayBean.class);
+                                                                        ApplyPayBean bean = JsonUtil.getSerializedObject(stringNetWorkResultBean.getData(), ApplyPayBean.class);
                                                                         String ply_app_no = bean.getPly_app_no();
                                                                         BrowserWebViewActivity.startActivity(activity, "http://agenttest.sinosafe.com.cn/tstpayonline/recvMerchantAction.do?orderId=" + ply_app_no, "申请支付");
                                                                     }
@@ -257,10 +297,14 @@ public class ComfirmOrderActivity extends BaseActivity {
         etInsureUserName.addTextChangedListener(textWatcher);
         etInsureUserPhoneNumber.addTextChangedListener(textWatcher);
 
+        switchTabViewDistribute.setChecked(false);
+        layoutReceiveInfo.setVisibility(View.GONE);
+
+
     }
 
 
-    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number, String city_no, String country_no,String province_no, long commercestartdate, long compulsorystartdate) {
+    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number, String city_no, String country_no, String province_no, long commercestartdate, long compulsorystartdate) {
         Intent intent = new Intent(activity, ComfirmOrderActivity.class);
         intent.putExtra("CommPriceData", commPriceData);
         intent.putExtra("idcard_number", idcard_number);
@@ -370,7 +414,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                             case 200: {
 
                                 if (huanQueryStatusDataNetWorkResultBean.getData() instanceof HuanInsuranceBaseInfoData) {
-                                    HuanQueryStatusData bean = JsonUtil.getSerializedObject(huanQueryStatusDataNetWorkResultBean.getData(),HuanQueryStatusData.class);
+                                    HuanQueryStatusData bean = JsonUtil.getSerializedObject(huanQueryStatusDataNetWorkResultBean.getData(), HuanQueryStatusData.class);
                                     int status = bean.getPay_status();
                                     String des = "";
                                     switch (status) {
@@ -392,78 +436,53 @@ public class ComfirmOrderActivity extends BaseActivity {
                                         case 5:
                                             des = "已确认已收款";
 
-                                            UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderidString, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceUserPhone, city_no, type, cal_app_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
-                                                @Override
-                                                public void onFailure(RetrofitError error, String message) {
+                                            if (isNeedDistribute) {
+                                                UserRetrofitUtil.huanDistribution(activity, compulsoryNo, commercialNo, insuranceReceiveAddress, insuranceReceivePhone, insuranceReceiveUserName, province_no, city_no, country_no, insuranceUserName, new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                                    @Override
+                                                    public void onFailure(RetrofitError error, String message) {
+                                                        Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
 
-                                                }
-
-                                                @Override
-                                                public void success(NetWorkResultBean<Object> confirmOrderBeanNetWorkResultBean, Response response) {
-
-                                                    if (confirmOrderBeanNetWorkResultBean != null) {
-                                                        int httpStatus = confirmOrderBeanNetWorkResultBean.getStatus();
-                                                        switch (httpStatus) {
-                                                            case 200: {
-                                                                Toast.makeText(activity, confirmOrderBeanNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                                            }
-                                                            break;
-                                                            default:
-                                                                Toast.makeText(activity, confirmOrderBeanNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                                                break;
-                                                        }
                                                     }
 
-                                                    UserRetrofitUtil.selectPlan(activity, commPriceData.getHuanPriceData().getPriceId() + "", orderidString + "", new NetCallback<NetWorkResultBean<Object>>(activity) {
-                                                        @Override
-                                                        public void onFailure(RetrofitError error, String message) {
+                                                    @Override
+                                                    public void success(NetWorkResultBean<Object> huanQueryStatusDataNetWorkResultBean, Response response) {
+                                                        if (huanQueryStatusDataNetWorkResultBean != null) {
+                                                            int status = huanQueryStatusDataNetWorkResultBean.getStatus();
+                                                            switch (status) {
+                                                                case HttpsURLConnection.HTTP_OK:
+                                                                    UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderidString, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceUserPhone, city_no, type, cal_app_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                                                        @Override
+                                                                        public void onFailure(RetrofitError error, String message) {
 
-                                                        }
+                                                                        }
 
-                                                        @Override
-                                                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                                                                        @Override
+                                                                        public void success(NetWorkResultBean<Object> confirmOrderBeanNetWorkResultBean, Response response) {
 
-                                                            if (stringNetWorkResultBean != null) {
-                                                                int httpStatus = stringNetWorkResultBean.getStatus();
-                                                                switch (httpStatus) {
-                                                                    case 200: {
-                                                                        Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                                                    }
+                                                                            if (confirmOrderBeanNetWorkResultBean != null) {
+                                                                                int httpStatus = confirmOrderBeanNetWorkResultBean.getStatus();
+                                                                                switch (httpStatus) {
+                                                                                    case 200: {
+                                                                                        Toast.makeText(activity, confirmOrderBeanNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                                                    }
+                                                                                    break;
+                                                                                    default:
+                                                                                        Toast.makeText(activity, confirmOrderBeanNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                                                        break;
+                                                                                }
+                                                                            }
+
+                                                                        }
+                                                                    });
                                                                     break;
-                                                                    default:
-                                                                        Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                                                        break;
-                                                                }
+                                                                default:
+                                                                    Toast.makeText(activity, huanQueryStatusDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                                    break;
                                                             }
-
-                                                        }
-                                                    });
-                                                }
-                                            });
-
-                                            UserRetrofitUtil.huanDistribution(activity, compulsoryNo, commercialNo, insuranceReceiveAddress, insuranceReceivePhone, insuranceReceiveUserName, province_no, city_no, country_no, insuranceUserName, new NetCallback<NetWorkResultBean<Object>>(activity) {
-                                                @Override
-                                                public void onFailure(RetrofitError error, String message) {
-                                                    Toast.makeText(activity, "请检查网络设置", Toast.LENGTH_SHORT).show();
-
-                                                }
-
-                                                @Override
-                                                public void success(NetWorkResultBean<Object> huanQueryStatusDataNetWorkResultBean, Response response) {
-                                                    if (huanQueryStatusDataNetWorkResultBean != null) {
-                                                        int status = huanQueryStatusDataNetWorkResultBean.getStatus();
-                                                        switch (status) {
-                                                            case HttpsURLConnection.HTTP_OK:
-                                                                Toast.makeText(activity, huanQueryStatusDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                                                break;
-                                                            default:
-                                                                Toast.makeText(activity, huanQueryStatusDataNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                                                break;
                                                         }
                                                     }
-                                                }
-                                            });
-
+                                                });
+                                            }
                                     }
                                     if (!TextUtils.isEmpty(des)) {
                                         Toast.makeText(activity, des, Toast.LENGTH_LONG).show();

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jiandanbaoxian.R;
+import com.jiandanbaoxian.constant.StringConstant;
 import com.jiandanbaoxian.model.InsuranceItemData;
 import com.jiandanbaoxian.model.InsuranceItemData;
 
@@ -107,7 +108,7 @@ public class HuaanInsuranceItemAdapter extends BaseAdapter {
             amt = new StringBuilder(InsuranceItemData.getAmt() + "");
         }
         holder.tvInsuranceAmt.setText(amt.toString());
-        holder.tvInsurancePremium.setText(InsuranceItemData.getPremium() + "");
+        holder.tvInsurancePremium.setText(StringConstant.RMB + "" + InsuranceItemData.getPremium() + "");
         return view;
     }
 
@@ -115,7 +116,6 @@ public class HuaanInsuranceItemAdapter extends BaseAdapter {
         private TextView tvInsuranceName;
         private TextView tvInsuranceAmt;
         private TextView tvInsurancePremium;
-
         private LinearLayout header;
     }
 }

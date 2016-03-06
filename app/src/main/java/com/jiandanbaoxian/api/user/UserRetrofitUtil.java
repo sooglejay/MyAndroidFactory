@@ -1078,6 +1078,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
     }
 
 
+
     /**
      * 发送时机	启动页面，后台发送检测版本更新情况（用于比对本地和服务的版本）
      *

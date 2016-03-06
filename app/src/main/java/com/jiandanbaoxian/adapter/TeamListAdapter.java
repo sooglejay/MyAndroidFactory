@@ -117,7 +117,8 @@ public class TeamListAdapter extends BaseAdapter {
                                                                             //   3未通过
                                                                             case 0:
                                                                                 Toast.makeText(mContext, "请先提交实名认证！", Toast.LENGTH_SHORT).show();
-                                                                                mContext.startActivity(new Intent(mContext, CertificationActivity.class));
+
+                                                                               CertificationActivity.startActivity(mContext, userid, data.getTeamid());
                                                                                 break;
                                                                             case 1:
                                                                                 Toast.makeText(mContext, "加团失败！您提交了实名认证，请等待审核！", Toast.LENGTH_SHORT).show();

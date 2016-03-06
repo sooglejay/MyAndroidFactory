@@ -86,6 +86,9 @@ public class CertificationActivity extends BaseActivity implements
     private ImageView ivCard;
     private TextView tvSubmit;
 
+    private int team_id = 0;
+    private int user_id = 0;
+
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -104,10 +107,19 @@ public class CertificationActivity extends BaseActivity implements
     }
 
 
+    public static void startActivity(Activity activity,int user_id,int team_id) {
+        Intent intent = new Intent(activity, CertificationActivity.class);
+        intent.putExtra("team_id", team_id);
+        intent.putExtra("user_id", user_id);
+        activity.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certification);
+        team_id = getIntent().getIntExtra("team_id", 0);
+        user_id = getIntent().getIntExtra("user_id", 0);
         cityUtil = new CityUtil(this);
         popWindowUtils = new PopWindowUtils(this);
         context = this;
@@ -224,21 +236,36 @@ public class CertificationActivity extends BaseActivity implements
 
                                     @Override
                                     public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
-                                        progressDialogUtil.hide();
 
 
                                         if (stringNetWorkResultBean != null) {
                                             int status = stringNetWorkResultBean.getStatus();
                                             switch (status) {
                                                 case HttpsURLConnection.HTTP_OK:
+                                                    UserRetrofitUtil.submitJoinRequest(context, userid, team_id, new NetCallback<NetWorkResultBean<Object>>(context) {
+                                                        @Override
+                                                        public void onFailure(RetrofitError error, String message) {
+                                                            progressDialogUtil.hide();
+                                                            Toast.makeText(context, "提交失败！", Toast.LENGTH_SHORT).show();
 
-                                                    Toast.makeText(context, "认证申请已经提交！", Toast.LENGTH_SHORT).show();
-                                                    context.finish();
+                                                        }
+
+                                                        @Override
+                                                        public void success(NetWorkResultBean<Object> stringNetWorkResultBean, Response response) {
+                                                            progressDialogUtil.hide();
+                                                            Toast.makeText(context, "人团申请已经提交！请等待团长审核！", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+
                                                     break;
                                                 default:
+                                                    progressDialogUtil.hide();
                                                     Toast.makeText(context, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
                                                     break;
                                             }
+                                        } else {
+                                            progressDialogUtil.hide();
+
                                         }
 
 

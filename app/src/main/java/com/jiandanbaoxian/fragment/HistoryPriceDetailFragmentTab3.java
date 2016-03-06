@@ -16,6 +16,7 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.model.CommData;
 import com.jiandanbaoxian.model.FourService;
+import com.jiandanbaoxian.model.InsuranceCompanyInfo;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.util.JsonUtil;
 
@@ -34,7 +35,7 @@ public class HistoryPriceDetailFragmentTab3 extends BaseFragment {
 
 
     private ListView listView;
-    private List<FourService> listData = new ArrayList<>();
+    private List<InsuranceCompanyInfo> listData = new ArrayList<>();
     private DetailCarInsureTab3ServiceStationAdapter mAdapter;
 
     @Override
@@ -79,9 +80,9 @@ public class HistoryPriceDetailFragmentTab3 extends BaseFragment {
                     switch (status) {
                         case HttpsURLConnection.HTTP_OK:
                             CommData bean = JsonUtil.getSerializedObject(commDataNetWorkResultBean.getData(),CommData.class);
-                            if (bean != null && bean.getFourService() != null) {
+                            if (bean != null && bean.getInsurancecompanyInfo() != null) {
                                 listData.clear();
-                                listData.addAll(bean.getFourService());
+                                listData.addAll(bean.getInsurancecompanyInfo());
                                 mAdapter.notifyDataSetChanged();
                             }
                             break;

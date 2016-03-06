@@ -342,7 +342,7 @@ public class MyTeamForMemberActivity extends BaseActivity {
                         int status = rangeDataNetWorkResultBean.getStatus();
                         switch (status) {
                             case HttpsURLConnection.HTTP_OK:
-                                RangeData data = (RangeData) rangeDataNetWorkResultBean.getData();
+                                RangeData data = JsonUtil.getSerializedObject(rangeDataNetWorkResultBean.getData(),RangeData.class);
                                 if (data.getRangeOfMonth() != null) {
                                     List<RangeRecord> monthDataList = data.getRangeOfMonth();
                                     if (monthDataList.size() > 0) {

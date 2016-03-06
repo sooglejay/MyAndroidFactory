@@ -38,7 +38,7 @@ public class ShareActivity extends BaseActivity {
         setContentView(R.layout.activity_share);
         activity = this;
         setUp();
-        qrCodeImagePath =  UIUtils.generaterQRCode(this, "设置二维码的文字内容",iv_qrcode,(int)UIUtils.dp2px(this,180),(int)UIUtils.dp2px(this,180));
+        qrCodeImagePath =  UIUtils.generaterQRCode(this, "http://www.wanbaoe.com/",iv_qrcode,(int)UIUtils.dp2px(this,180),(int)UIUtils.dp2px(this,180));
 
     }
 
