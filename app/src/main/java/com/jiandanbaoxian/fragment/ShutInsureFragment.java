@@ -1204,7 +1204,7 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
 
             @Override
             public void success(NetWorkResultBean<Object> objectNetWorkResultBean, Response response) {
-
+                mPullRefreshLinearLayout.onRefreshComplete();
                 if (objectNetWorkResultBean != null) {
                     int status = objectNetWorkResultBean.getStatus();
                     switch (status) {
@@ -1247,7 +1247,6 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                                     outerPauseBean = mPauseDataList.get(0);
                                     refreshData(outerPauseBean);
                                 }
-                                mPullRefreshLinearLayout.onRefreshComplete();
                             }
                             break;
                         default:

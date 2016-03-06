@@ -182,6 +182,7 @@ public class LoginActivity extends BaseActivity {
 
                         @Override
                         public void success(NetWorkResultBean<Object> commDataNetWorkResultBean, Response response) {
+                            mProgressUtil.hide();
 
                             if (commDataNetWorkResultBean != null) {
                                 int status = commDataNetWorkResultBean.getStatus();
@@ -211,7 +212,6 @@ public class LoginActivity extends BaseActivity {
                                         PreferenceUtil.save(LoginActivity.this, PreferenceConstant.name, bean.getUserInfo().getName());
                                         PreferenceUtil.save(LoginActivity.this, PreferenceConstant.phone, bean.getUserInfo().getPhone());
                                         PreferenceUtil.save(LoginActivity.this, PreferenceConstant.pwd, bean.getUserInfo().getPwd());
-                                        mProgressUtil.hide();
                                         EventBus.getDefault().post(new BusEvent(BusEvent.MSG_Login_Success));
                                         LoginActivity.this.finish();
                                         break;

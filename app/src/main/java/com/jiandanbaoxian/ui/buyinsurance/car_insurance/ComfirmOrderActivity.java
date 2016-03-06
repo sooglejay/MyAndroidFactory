@@ -63,35 +63,23 @@ public class ComfirmOrderActivity extends BaseActivity {
     private EditText etInsureOrderReceiveUserPhoneNumber;
     private EditText etInsureOrderReceiveUserAddress;
     private EditText etInsureRecommendUserPhone;
-    private EditText etInsureOperationUserPhone;
-    private LinearLayout layoutCommercialDatePicker;
-    private TextView tvCommercialTotalPremium;
-    private LinearLayout layoutCompulsoryDatePicker;
-    private TextView tvCompulsoryTotalPremium;
-    private TextView tvTotalPrice;
     private TextView tvPay;
 
     /**
      * Find the Views in the layout<br />
      * <br />
-     * Auto-created on 2016-03-04 16:28:37 by Android Layout Finder
+     * Auto-created on 2016-03-06 16:01:59 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        titleBar = (TitleBar) findViewById(R.id.title_bar);
-        etInsureUserName = (EditText) findViewById(R.id.et_insure_user_name);
-        etInsureUserPhoneNumber = (EditText) findViewById(R.id.et_insure_user_phone_number);
-        etInsureOrderReceiveUserName = (EditText) findViewById(R.id.et_insure_order_receive_user_name);
-        etInsureOrderReceiveUserPhoneNumber = (EditText) findViewById(R.id.et_insure_order_receive_user_phone_number);
-        etInsureOrderReceiveUserAddress = (EditText) findViewById(R.id.et_insure_order_receive_user_address);
-        etInsureRecommendUserPhone = (EditText) findViewById(R.id.et_insure_recommend_user_phone);
-        etInsureOperationUserPhone = (EditText) findViewById(R.id.et_insure_operation_user_phone);
-        layoutCommercialDatePicker = (LinearLayout) findViewById(R.id.layout_commercial_date_picker);
-        tvCommercialTotalPremium = (TextView) findViewById(R.id.tv_commercial_total_premium);
-        layoutCompulsoryDatePicker = (LinearLayout) findViewById(R.id.layout_compulsory_date_picker);
-        tvCompulsoryTotalPremium = (TextView) findViewById(R.id.tv_compulsory_total_premium);
-        tvTotalPrice = (TextView) findViewById(R.id.tv_total_price);
-        tvPay = (TextView) findViewById(R.id.tv_pay);
+        titleBar = (TitleBar)findViewById( R.id.title_bar );
+        etInsureUserName = (EditText)findViewById( R.id.et_insure_user_name );
+        etInsureUserPhoneNumber = (EditText)findViewById( R.id.et_insure_user_phone_number );
+        etInsureOrderReceiveUserName = (EditText)findViewById( R.id.et_insure_order_receive_user_name );
+        etInsureOrderReceiveUserPhoneNumber = (EditText)findViewById( R.id.et_insure_order_receive_user_phone_number );
+        etInsureOrderReceiveUserAddress = (EditText)findViewById( R.id.et_insure_order_receive_user_address );
+        etInsureRecommendUserPhone = (EditText)findViewById( R.id.et_insure_recommend_user_phone );
+        tvPay = (TextView)findViewById( R.id.tv_pay );
     }
 
     @Override
@@ -105,6 +93,7 @@ public class ComfirmOrderActivity extends BaseActivity {
 
         idcard_number = getIntent().getStringExtra("idcard_number");
         city_no = getIntent().getStringExtra("city_no");
+        country_no = getIntent().getStringExtra("country_no");
         province_no = getIntent().getStringExtra("province_no");
         commercestartdate = getIntent().getLongExtra("commercestartdate", 0L);
         compulsorystartdate = getIntent().getLongExtra("compulsorystartdate", 0l);
@@ -150,7 +139,6 @@ public class ComfirmOrderActivity extends BaseActivity {
                         final String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
 
                         final String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
-                        final String insuranceOperationUserPhone = etInsureOperationUserPhone.getText().toString();
 
                         progressDialogUtil.show("正在生成订单号...");
 
@@ -192,7 +180,6 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                 String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
 
                                                 String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
-                                                String insuranceOperationUserPhone = etInsureOperationUserPhone.getText().toString();
 
                                                 PreferenceUtil.save(activity, PreferenceConstant.insuranceUserName, insuranceUserName);
                                                 PreferenceUtil.save(activity, PreferenceConstant.insuranceUserPhone, insuranceUserPhone);
@@ -200,7 +187,6 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                 PreferenceUtil.save(activity, PreferenceConstant.insuranceReceivePhone, insuranceReceivePhone);
                                                 PreferenceUtil.save(activity, PreferenceConstant.insuranceReceiveAddress, insuranceReceiveAddress);
                                                 PreferenceUtil.save(activity, PreferenceConstant.insuranceRecommendUserPhone, insuranceRecommendUserPhone);
-                                                PreferenceUtil.save(activity, PreferenceConstant.insuranceOperationUserPhone, insuranceOperationUserPhone);
 
 
                                                 //申请支付
@@ -266,28 +252,20 @@ public class ComfirmOrderActivity extends BaseActivity {
         etInsureOrderReceiveUserName.addTextChangedListener(textWatcher);
         etInsureOrderReceiveUserPhoneNumber.addTextChangedListener(textWatcher);
 
-        etInsureOperationUserPhone.addTextChangedListener(textWatcher);
         etInsureRecommendUserPhone.addTextChangedListener(textWatcher);
 
         etInsureUserName.addTextChangedListener(textWatcher);
         etInsureUserPhoneNumber.addTextChangedListener(textWatcher);
 
-        try {
-            tvCommercialTotalPremium.setText(commPriceData.getHuanPriceData().getCommerceAmount() + "元");
-            tvCompulsoryTotalPremium.setText(commPriceData.getHuanPriceData().getCompulsoryAmount() + "元");
-            tvTotalPrice.setText((commPriceData.getHuanPriceData().getCommerceAmount()+commPriceData.getHuanPriceData().getCompulsoryAmount())+"元");
-        } catch (Exception e) {
-
-        }
-
     }
 
 
-    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number, String city_no, String province_no, long commercestartdate, long compulsorystartdate) {
+    public static void startActivity(Activity activity, CommPriceData commPriceData, String idcard_number, String city_no, String country_no,String province_no, long commercestartdate, long compulsorystartdate) {
         Intent intent = new Intent(activity, ComfirmOrderActivity.class);
         intent.putExtra("CommPriceData", commPriceData);
         intent.putExtra("idcard_number", idcard_number);
         intent.putExtra("city_no", city_no);
+        intent.putExtra("country_no", country_no);
         intent.putExtra("province_no", province_no);
         intent.putExtra("compulsorystartdate", compulsorystartdate);
         intent.putExtra("commercestartdate", commercestartdate);
@@ -309,7 +287,6 @@ public class ComfirmOrderActivity extends BaseActivity {
                     TextUtils.isEmpty(etInsureOrderReceiveUserPhoneNumber.getText().toString()) ||
 
                     TextUtils.isEmpty(etInsureRecommendUserPhone.getText().toString()) ||
-                    TextUtils.isEmpty(etInsureOperationUserPhone.getText().toString()) ||
                     TextUtils.isEmpty(etInsureUserName.getText().toString()) ||
                     TextUtils.isEmpty(etInsureUserPhoneNumber.getText().toString())) {
 
@@ -341,7 +318,6 @@ public class ComfirmOrderActivity extends BaseActivity {
         String insuranceReceiveAddress = etInsureOrderReceiveUserAddress.getText().toString();
 
         String insuranceRecommendUserPhone = etInsureRecommendUserPhone.getText().toString();
-        String insuranceOperationUserPhone = etInsureOperationUserPhone.getText().toString();
 
         PreferenceUtil.save(this, PreferenceConstant.insuranceUserName, insuranceUserName);
         PreferenceUtil.save(this, PreferenceConstant.insuranceUserPhone, insuranceUserPhone);
@@ -349,7 +325,6 @@ public class ComfirmOrderActivity extends BaseActivity {
         PreferenceUtil.save(this, PreferenceConstant.insuranceReceivePhone, insuranceReceivePhone);
         PreferenceUtil.save(this, PreferenceConstant.insuranceReceiveAddress, insuranceReceiveAddress);
         PreferenceUtil.save(this, PreferenceConstant.insuranceRecommendUserPhone, insuranceRecommendUserPhone);
-        PreferenceUtil.save(this, PreferenceConstant.insuranceOperationUserPhone, insuranceOperationUserPhone);
     }
 
     @Override
@@ -365,13 +340,11 @@ public class ComfirmOrderActivity extends BaseActivity {
         final String insuranceReceiveAddress = PreferenceUtil.load(this, PreferenceConstant.insuranceReceiveAddress, "");
 
         final String insuranceRecommendUserPhone = PreferenceUtil.load(this, PreferenceConstant.insuranceRecommendUserPhone, "");
-        final String insuranceOperationUserPhone = PreferenceUtil.load(this, PreferenceConstant.insuranceOperationUserPhone, "");
 
 
         etInsureOrderReceiveUserAddress.setText(insuranceReceiveAddress);
         etInsureOrderReceiveUserName.setText(insuranceUserName);
         etInsureOrderReceiveUserPhoneNumber.setText(insuranceReceivePhone);
-        etInsureOperationUserPhone.setText(insuranceOperationUserPhone);
         etInsureRecommendUserPhone.setText(insuranceRecommendUserPhone);
         etInsureUserName.setText(insuranceReceiveUserName);
         etInsureUserPhoneNumber.setText(insuranceUserPhone);
@@ -419,7 +392,7 @@ public class ComfirmOrderActivity extends BaseActivity {
                                         case 5:
                                             des = "已确认已收款";
 
-                                            UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderidString, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceOperationUserPhone, city_no, type, cal_app_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
+                                            UserRetrofitUtil.confirmVehicleOrder(activity, insuranceUserName, orderidString, insuranceUserPhone, idcard_number, insuranceReceiveUserName, insuranceReceivePhone, insuranceReceiveAddress, insuranceRecommendUserPhone, insuranceUserPhone, city_no, type, cal_app_no, new NetCallback<NetWorkResultBean<Object>>(activity) {
                                                 @Override
                                                 public void onFailure(RetrofitError error, String message) {
 

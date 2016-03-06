@@ -13,41 +13,52 @@
         android:layout_marginRight="@dimen/middle_padding"
         android:background="@color/white_color"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/middle_padding">
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingLeft="@dimen/middle_padding"
-            android:text="险种"
-            android:textColor="#3d3d3d"
-            android:textSize="@dimen/big_textsize" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:gravity="left|center"
+                android:text="险种"
+                android:textColor="#0b0b0b"
+                android:textSize="@dimen/big_textsize" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="保额（元）"
-            android:textColor="#3d3d3d" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="保额（元）"
+                android:textColor="#0b0b0b" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            android:paddingBottom="@dimen/middle_padding"
-            android:paddingRight="@dimen/middle_padding"
-            android:paddingTop="@dimen/middle_padding"
-            android:text="保费（元）"
-            android:textColor="#0b0b0b" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_weight="1"
+                android:gravity="right|center"
+                android:text="保费（元）"
+                android:textColor="#0b0b0b" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
@@ -58,44 +69,57 @@
         android:layout_marginRight="@dimen/middle_padding"
         android:background="@color/white_color"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/middle_padding">
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_insurance_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:gravity="left|center"
+                android:text="车辆损失险"
+                android:textColor="#0b0b0b"
+                android:textSize="@dimen/big_textsize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_insurance_amt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="5万"
+                android:textColor="#0b0b0b" />
+        </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/tv_insurance_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingLeft="@dimen/middle_padding"
-            android:text="车辆损失险"
-            android:textColor="#3d3d3d"
-            android:textSize="@dimen/big_textsize" />
-
-        <TextView
-            android:id="@+id/tv_insurance_amt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="5万"
-            android:textColor="#3d3d3d" />
-
-
-        <TextView
-            android:id="@+id/tv_insurance_premium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingBottom="@dimen/middle_padding"
-            android:paddingRight="@dimen/middle_padding"
-            android:paddingTop="@dimen/middle_padding"
-            android:text="2000.0元"
-            android:textColor="#0b0b0b" />
-
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_insurance_premium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_weight="1"
+                android:gravity="right|center"
+                android:paddingBottom="@dimen/middle_padding"
+                android:paddingRight="@dimen/middle_padding"
+                android:paddingTop="@dimen/middle_padding"
+                android:text="2000.0元"
+                android:textColor="#0b0b0b" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
