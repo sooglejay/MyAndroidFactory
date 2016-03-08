@@ -19,10 +19,13 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.IntConstant;
 import com.jiandanbaoxian.event.BusEvent;
+import com.jiandanbaoxian.model.HistoryPriceData;
+import com.jiandanbaoxian.model.HuanPriceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
 import com.jiandanbaoxian.model.Vehicleordertable;
 
 import com.jiandanbaoxian.ui.me.historyprice.MyHistoryPriceItemActivity;
+import com.jiandanbaoxian.util.JsonUtil;
 import com.jiandanbaoxian.util.ProgressDialogUtil;
 import com.jiandanbaoxian.util.TimeUtil;
 import com.jiandanbaoxian.util.UIUtils;
@@ -239,7 +242,37 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 Vehicleordertable tagBean = (Vehicleordertable) v.getTag();
                 switch (tagBean.getSuper_status()) {
                     case GONE_UNSELECTED:
-                        MyHistoryPriceItemActivity.startActivity(mContext, tagBean);
+                        UserRetrofitUtil.getHistoryPriceDetail(mContext, Integer.valueOf(tagBean.getOrdernum()), new NetCallback<NetWorkResultBean<Object>>(mContext) {
+                            @Override
+                            public void onFailure(RetrofitError error, String message) {
+
+                            }
+
+                            @Override
+                            public void success(NetWorkResultBean<Object> objectNetWorkResultBean, Response response) {
+                                if (objectNetWorkResultBean != null) {
+                                    int status = objectNetWorkResultBean.getStatus();
+                                    switch (status) {
+                                        case 200://请求成功！
+                                            HistoryPriceData bean = JsonUtil.getSerializedObject(objectNetWorkResultBean.getData(), HistoryPriceData.class);
+                                            if (bean!=null) {
+                                              Vehicleordertable vehicleordertable =   bean.getVehicleorderDetail();
+
+                                                Toast.makeText(mContext,"success:"+objectNetWorkResultBean.getMessage().toString(),Toast.LENGTH_LONG).show();
+
+
+                                            }
+                                            break;
+                                        default:
+                                            Toast.makeText(mContext,objectNetWorkResultBean.getMessage().toString(),Toast.LENGTH_LONG).show();
+
+                                            break;
+
+                                    }
+                                }
+
+                            }
+                        });
                         break;
                     case VISIBLE_UNSELECTED:
                         tagBean.setSuper_status(VISIBLE_SELECTED);
