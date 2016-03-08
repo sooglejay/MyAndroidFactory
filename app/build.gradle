@@ -15,7 +15,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 32
+        versionCode 34
         versionName "0.0.8"
         multiDexEnabled true
     }
@@ -23,13 +23,11 @@ android {
         release {
             minifyEnabled false
             shrinkResources true
-            debuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
             proguardFile 'proguard-rules.pro'
         }
         debug {
-            debuggable = true
             minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

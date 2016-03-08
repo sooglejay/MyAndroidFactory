@@ -32,6 +32,36 @@ public class HuanPriceData implements Parcelable {
     private Integer orderId;
     private HuanInsuranceBaseInfoData compulsoryBaseInfo;
     private HuanInsuranceBaseInfoData commerceBaseInfo;
+    private VhlTax tax;
+
+    @Override
+    public String toString() {
+        return "HuanPriceData{" +
+                "commerceAmount=" + commerceAmount +
+                ", compulsoryAmount=" + compulsoryAmount +
+                ", companyName='" + companyName + '\'' +
+                ", companyId=" + companyId +
+                ", priceId=" + priceId +
+                ", orderId=" + orderId +
+                ", compulsoryBaseInfo=" + compulsoryBaseInfo +
+                ", commerceBaseInfo=" + commerceBaseInfo +
+                ", tax=" + tax +
+                ", insuranceItem=" + insuranceItem +
+                '}';
+    }
+
+    public VhlTax getTax() {
+        return tax;
+    }
+
+    public void setTax(VhlTax tax) {
+        this.tax = tax;
+    }
+
+    public static Creator<HuanPriceData> getCREATOR() {
+        return CREATOR;
+    }
+
     private List<InsuranceItemData> insuranceItem;
 
     public Float getCommerceAmount() {
@@ -106,6 +136,9 @@ public class HuanPriceData implements Parcelable {
         this.insuranceItem = insuranceItem;
     }
 
+    public HuanPriceData() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -121,10 +154,8 @@ public class HuanPriceData implements Parcelable {
         dest.writeValue(this.orderId);
         dest.writeParcelable(this.compulsoryBaseInfo, 0);
         dest.writeParcelable(this.commerceBaseInfo, 0);
+        dest.writeParcelable(this.tax, 0);
         dest.writeTypedList(insuranceItem);
-    }
-
-    public HuanPriceData() {
     }
 
     protected HuanPriceData(Parcel in) {
@@ -136,10 +167,11 @@ public class HuanPriceData implements Parcelable {
         this.orderId = (Integer) in.readValue(Integer.class.getClassLoader());
         this.compulsoryBaseInfo = in.readParcelable(HuanInsuranceBaseInfoData.class.getClassLoader());
         this.commerceBaseInfo = in.readParcelable(HuanInsuranceBaseInfoData.class.getClassLoader());
+        this.tax = in.readParcelable(VhlTax.class.getClassLoader());
         this.insuranceItem = in.createTypedArrayList(InsuranceItemData.CREATOR);
     }
 
-    public static final Parcelable.Creator<HuanPriceData> CREATOR = new Parcelable.Creator<HuanPriceData>() {
+    public static final Creator<HuanPriceData> CREATOR = new Creator<HuanPriceData>() {
         public HuanPriceData createFromParcel(Parcel source) {
             return new HuanPriceData(source);
         }

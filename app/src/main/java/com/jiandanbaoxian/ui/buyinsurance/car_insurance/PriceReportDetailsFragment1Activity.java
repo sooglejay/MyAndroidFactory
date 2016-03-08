@@ -19,6 +19,7 @@ import com.jiandanbaoxian.fragment.BaseFragment;
 import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.HuanPriceData;
 import com.jiandanbaoxian.model.InsuranceItemData;
+import com.jiandanbaoxian.model.VhlTax;
 import com.jiandanbaoxian.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class PriceReportDetailsFragment1Activity extends BaseFragment {
     private Activity activity;
     private String idcard_number;
     private CommPriceData commPriceData;
+    private VhlTax vhlTax;
 
     private String city_no;
     private String province_no;
@@ -67,6 +69,7 @@ public class PriceReportDetailsFragment1Activity extends BaseFragment {
     private TextView tvCommercialTotalPremium;
     private LinearLayout layoutCompulsoryDatePicker;
     private TextView tvCompulsoryTotalPremium;
+    private TextView tvTaxTotalPremium;
     private ListView listView;
     private TextView tvQuotaPrice;
     private HuaanInsuranceItemAdapter adapter;
@@ -84,12 +87,12 @@ public class PriceReportDetailsFragment1Activity extends BaseFragment {
         tvCommercialTotalPremium = (TextView) headerView.findViewById(R.id.tv_commercial_total_premium);
         layoutCompulsoryDatePicker = (LinearLayout) headerView.findViewById(R.id.layout_compulsory_date_picker);
         tvCompulsoryTotalPremium = (TextView) headerView.findViewById(R.id.tv_compulsory_total_premium);
+        tvTaxTotalPremium = (TextView) headerView.findViewById(R.id.tv_tax_total_premium);
         listView = (ListView) view.findViewById(R.id.list_view);
         tvQuotaPrice = (TextView) footerView.findViewById(R.id.tv_quota_price);
         listView.addFooterView(footerView);
         listView.addHeaderView(headerView);
     }
-
 
 
     private void setUpViews() {
@@ -102,9 +105,6 @@ public class PriceReportDetailsFragment1Activity extends BaseFragment {
         tvQuotaPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Toast.makeText(activity, "hello world ", Toast.LENGTH_LONG).show();
                 ComfirmOrderActivity.startActivity(activity, commPriceData, idcard_number, city_no, country_no, province_no, commercestartdate, compulsorystartdate);
 //                UserRetrofitUtil.confirmVehicleOrder(activity,);
             }
@@ -122,8 +122,11 @@ public class PriceReportDetailsFragment1Activity extends BaseFragment {
         if (commPriceData != null) {
             HuanPriceData bean = commPriceData.getHuanPriceData();
             if (bean != null) {
-                tvCommercialTotalPremium.setText(StringConstant.RMB+""+bean.getCommerceAmount() + "");
-                tvCompulsoryTotalPremium.setText(StringConstant.RMB+""+bean.getCompulsoryAmount() + "");
+                vhlTax = bean.getTax();
+
+                tvCommercialTotalPremium.setText(StringConstant.RMB + "" + bean.getCommerceAmount() + "");
+                tvCompulsoryTotalPremium.setText(StringConstant.RMB + "" + bean.getCompulsoryAmount() + "");
+                tvTaxTotalPremium.setText(StringConstant.RMB + "" + vhlTax.getSum_up_tax() + "");
 
                 List<InsuranceItemData> insuranceItemDataList = new ArrayList<>();
                 for (InsuranceItemData itemData : bean.getInsuranceItem()) {
