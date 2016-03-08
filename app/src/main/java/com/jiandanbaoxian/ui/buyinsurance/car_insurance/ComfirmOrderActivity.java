@@ -18,6 +18,7 @@ import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.PreferenceConstant;
+import com.jiandanbaoxian.fragment.DialogFragmentCreater;
 import com.jiandanbaoxian.model.ApplyPayBean;
 import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.ConfirmOrderBean;
@@ -53,9 +54,11 @@ public class ComfirmOrderActivity extends BaseActivity {
     long compulsorystartdate = 0;
 
     private ProgressDialogUtil progressDialogUtil;
+    private DialogFragmentCreater dialogFragmentCreater;
 
     private boolean isPayed = false;
     private boolean isNeedDistribute = false;
+    private boolean isReadLicense = false;
     private String idcard_number = "";
     private String orderidString = "";
     private String cal_app_no = "";
@@ -97,6 +100,29 @@ public class ComfirmOrderActivity extends BaseActivity {
         setContentView(R.layout.activity_confirm_order);
         activity = this;
         progressDialogUtil = new ProgressDialogUtil(activity);
+
+
+        dialogFragmentCreater = new DialogFragmentCreater();//涉及到权限操作时，需要临时输入密码并验证
+        dialogFragmentCreater.setDialogContext(activity, getSupportFragmentManager());
+        dialogFragmentCreater.setWebViewURL("http://www.wanbaoe.com/1.html");
+        dialogFragmentCreater.setOnLicenseDialogClickListener(new DialogFragmentCreater.OnLicenseDialogClickListener() {
+            @Override
+            public void onClick(View view, boolean isAgree) {
+                switch (view.getId()) {
+                    case R.id.layout_confirm:
+                        if (!isAgree) {
+                            Toast.makeText(activity, "请同意服务协议！", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        isReadLicense = true;
+                        tvPay.performClick();
+                        dialogFragmentCreater.dismiss();
+                        break;
+                }
+
+            }
+        });
+
 
         commPriceData = getIntent().getParcelableExtra("CommPriceData");
 
@@ -140,6 +166,13 @@ public class ComfirmOrderActivity extends BaseActivity {
         tvPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //如果没有阅读协议
+                if (!isReadLicense) {
+                    dialogFragmentCreater.showDialog(activity, DialogFragmentCreater.DialogShowLicenseDialog);
+                    return;
+                }
+
                 if (commPriceData != null) {
                     final HuanPriceData huanPriceData = commPriceData.getHuanPriceData();
                     if (huanPriceData != null) {
@@ -249,8 +282,11 @@ public class ComfirmOrderActivity extends BaseActivity {
                                                             switch (status) {
                                                                 case 200://请求成功！
                                                                     if (stringNetWorkResultBean.getData() instanceof ApplyPayBean) {
+
+
                                                                         ApplyPayBean bean = JsonUtil.getSerializedObject(stringNetWorkResultBean.getData(), ApplyPayBean.class);
                                                                         String ply_app_no = bean.getPly_app_no();
+//                                                                        在支付前需要用户同意协议
                                                                         BrowserWebViewActivity.startActivity(activity, "http://agenttest.sinosafe.com.cn/tstpayonline/recvMerchantAction.do?orderId=" + ply_app_no, "申请支付");
                                                                     }
                                                                     break;

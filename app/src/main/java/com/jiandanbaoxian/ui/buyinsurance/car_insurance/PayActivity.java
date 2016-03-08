@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jiandanbaoxian.R;
 import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
+import com.jiandanbaoxian.fragment.DialogFragmentCreater;
 import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.ConfirmOrderBean;
 import com.jiandanbaoxian.model.HuanInsuranceBaseInfoData;
@@ -38,6 +40,7 @@ public class PayActivity extends BaseActivity {
     private String country_no;
     long commercestartdate = 0;
     long compulsorystartdate = 0;
+    private DialogFragmentCreater dialogFragmentCreater;
 
     private TitleBar titleBar;
     private LinearLayout layoutCommercialDatePicker;
@@ -68,6 +71,11 @@ public class PayActivity extends BaseActivity {
         setContentView(R.layout.activity_pay_huaan);
         activity = this;
         progressDialogUtil = new ProgressDialogUtil(activity);
+        dialogFragmentCreater = new DialogFragmentCreater();//涉及到权限操作时，需要临时输入密码并验证
+
+        dialogFragmentCreater.setDialogContext(activity,getSupportFragmentManager());
+
+
 //        commPriceData = getIntent().getParcelableExtra("CommPriceData");
 //        confirmOrderBean = getIntent().getParcelableExtra("ConfirmOrderBean");
 //
@@ -85,6 +93,23 @@ public class PayActivity extends BaseActivity {
 
     private void setUpListener() {
 
+        dialogFragmentCreater.setWebViewURL("http://www.wanbaoe.com/1.html");
+        dialogFragmentCreater.setOnLicenseDialogClickListener(new DialogFragmentCreater.OnLicenseDialogClickListener() {
+            @Override
+            public void onClick(View view, boolean isAgree) {
+                switch (view.getId())
+                {
+                    case R.id.layout_confirm:
+                        if(!isAgree){
+                            Toast.makeText(activity,"请同意服务协议！",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        dialogFragmentCreater.dismiss();
+                        break;
+                }
+
+            }
+        });
         titleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftButtonClick(View v) {
@@ -100,6 +125,7 @@ public class PayActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
+                dialogFragmentCreater.showDialog(activity,DialogFragmentCreater.DialogShowLicenseDialog);
 //
 //                UserRetrofitUtil.huanApplyPay(activity, "陈传渠", "WX5309903602016000034",  "950",
 //                        "WX5309903802016000034","2261.65", "370200", "1456824490000", "1456824490000", "0", new NetCallback<NetWorkResultBean<String>>(activity) {
@@ -113,7 +139,7 @@ public class PayActivity extends BaseActivity {
 //
 //                            }
 //                        });
-                BrowserWebViewActivity.startActivity(activity,"http://agenttest.sinosafe.com.cn/tstpayonline/recvMerchantAction.do?orderId=166000434996","申请支付");
+//                BrowserWebViewActivity.startActivity(activity,"http://agenttest.sinosafe.com.cn/tstpayonline/recvMerchantAction.do?orderId=166000434996","申请支付");
             }
 
 

@@ -102,6 +102,8 @@ public class PriceReportDetailsFragment1Activity extends BaseFragment {
         tvQuotaPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Toast.makeText(activity, "hello world ", Toast.LENGTH_LONG).show();
                 ComfirmOrderActivity.startActivity(activity, commPriceData, idcard_number, city_no, country_no, province_no, commercestartdate, compulsorystartdate);
 //                UserRetrofitUtil.confirmVehicleOrder(activity,);

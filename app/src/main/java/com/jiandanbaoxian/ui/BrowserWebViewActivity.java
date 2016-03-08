@@ -73,9 +73,9 @@ public class BrowserWebViewActivity extends BaseActivity {
 //        titleBar.initTitleBarInfo(title, R.drawable.arrow_left, -1, "", "");
 
         isShowRule = getIntent().getBooleanExtra("rule", false);
-        WebChromeClient client = new XjbChromeWebClient(titleBar, progressBar, swipeLayout);
+        WebChromeClient client = new AppChromeWebClient(titleBar, progressBar, swipeLayout);
         webView.setWebChromeClient(client);
-        webView.setWebViewClient(new XjbWebClient());
+        webView.setWebViewClient(new AppWebClient());
         webView.getSettings().setJavaScriptEnabled(true);
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
@@ -107,12 +107,12 @@ public class BrowserWebViewActivity extends BaseActivity {
         });
     }
 
-    private static final class XjbChromeWebClient extends WebChromeClient {
+    private static final class AppChromeWebClient extends WebChromeClient {
         private ProgressBar bar;
         private SwipeRefreshLayout swipeRefreshLayout;
         private TitleBar titleBar;
 
-        public XjbChromeWebClient(TitleBar titleBar, ProgressBar bar, SwipeRefreshLayout swipeRefreshLayout) {
+        public AppChromeWebClient(TitleBar titleBar, ProgressBar bar, SwipeRefreshLayout swipeRefreshLayout) {
             this.bar = bar;
             this.swipeRefreshLayout = swipeRefreshLayout;
             this.titleBar = titleBar;
@@ -138,7 +138,7 @@ public class BrowserWebViewActivity extends BaseActivity {
         }
     }
 
-    private static final class XjbWebClient extends WebViewClient {
+    private static final class AppWebClient extends WebViewClient {
 
     }
 
