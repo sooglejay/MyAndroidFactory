@@ -74,6 +74,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
     private String frameNumber = "";
     private String userName = "";
     private String idCardNumber = "";
+    private String model_name = "";
     private int userId = -1;
     private int transfer = 0;
     private long transferDateLong = 0;
@@ -262,6 +263,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                 frameNumber = etVehicleFrameNumber.getText().toString();
                 userName = etOwnerName.getText().toString();
                 idCardNumber = etIdNumber.getText().toString();
+                model_name = etVehicleType.getText().toString();
                 licenseplate = etLicensePlateNumber.getText().toString();
                 Log.e("qq", "province_no:" + province_no + "");
                 Log.e("qq", "province_name:" + province_name + "");
@@ -269,7 +271,7 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                 Log.e("qq", "county_no:" + country_no + "");
                 if (isValidToNextActivity) {
                     CarInsurancePickCarTypeActivity.startActivity(activity, licenseplate, engineNumber, frameNumber, userName
-                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber);
+                            , province_no, province_name, city_no, city_name, country_no, country_name, transfer + "", transferDateLong + "", registrationDateLong + "", issueDateLong + "", idCardNumber,model_name);
                 } else {
                     Toast.makeText(activity, "请完善以上信息！", Toast.LENGTH_LONG).show();
                 }
@@ -567,8 +569,8 @@ public class CarInsuranceBaseInfoActivity extends BaseActivity {
                             TextUtils.isEmpty(etEngineNumber.getText()) ||
                             TextUtils.isEmpty(etIdNumber.getText()) ||
                             TextUtils.isEmpty(etLicensePlateNumber.getText()) ||
-                            TextUtils.isEmpty(etVehicleFrameNumber.getText())
-//                            TextUtils.isEmpty(etVehicleType.getText())
+                            TextUtils.isEmpty(etVehicleFrameNumber.getText())||
+                            TextUtils.isEmpty(etVehicleType.getText())
                     ) {
                 isValidToNextActivity = false;
                 tvConfirm.setBackgroundColor(getResources().getColor(R.color.bg_gray_color_level_0));

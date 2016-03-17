@@ -57,7 +57,7 @@ public class SearchMemberAdapter extends BaseAdapter {
                     Object object = v.getTag();
                     if (object instanceof SelfRecord) {
                         SelfRecord bean = (SelfRecord) object;
-                        Toast.makeText(activity, bean.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity, bean.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             };

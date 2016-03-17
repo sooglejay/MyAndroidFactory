@@ -341,14 +341,10 @@ public class ServerConsultorFragment extends BaseFragment {
      * 获取其他保险顾问，然后刷新ViewPager
      */
     private void getOtherConsultant(final boolean isDialog) {
-        final ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(activity);
-        if (isDialog) {
-            progressDialogUtil.show("正在获取数据...");
-        }
+
         UserRetrofitUtil.getOtherConsultant(activity, userid, 20, 1, new NetCallback<NetWorkResultBean<Object>>(activity) {
             @Override
             public void onFailure(RetrofitError error, String message) {
-                progressDialogUtil.hide();
                 Toast.makeText(getActivity(), "请检查网络设置", Toast.LENGTH_SHORT).show();
             }
 
@@ -414,7 +410,6 @@ public class ServerConsultorFragment extends BaseFragment {
                             } else {
                                 layout_circle_dot.setVisibility(View.VISIBLE);
                             }
-                            progressDialogUtil.hide();
                             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(activity, getChildFragmentManager(), viewPager, fragmentPerPages);
                             viewPager.setAdapter(viewPagerAdapter);
                             if (oldPosition >= 0 && fragmentPerPages.size() > oldPosition) {

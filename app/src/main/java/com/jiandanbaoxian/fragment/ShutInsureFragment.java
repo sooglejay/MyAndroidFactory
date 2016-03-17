@@ -1212,17 +1212,15 @@ public class ShutInsureFragment extends DecoViewBaseFragment {
                             if (objectNetWorkResultBean.getData() != null) {
 
                                 Object obj = objectNetWorkResultBean.getData();
+                                String message;
                                 if (obj instanceof String) {
-                                    Toast.makeText(context, objectNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    //没有保单可停时，就不显示信息，其实可以服务端配置
+//                                    if (TextUtils.isEmpty(message = objectNetWorkResultBean.getMessage().toString())) {
+//                                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+//                                    }
                                     return;
                                 }
-
-
                                 List<PauseData> pauseDatas = null;
-                                if (obj instanceof String) {
-                                    Toast.makeText(context, objectNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                    return;
-                                }
                                 try {
                                     String json = com.jiandanbaoxian.util.JsonUtil.toJson(obj);
                                     pauseDatas = com.jiandanbaoxian.util.JsonUtil.fromJson(json, new TypeToken<List<Brand>>() {

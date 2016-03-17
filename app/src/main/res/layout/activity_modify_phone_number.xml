@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:padding="@dimen/middle_padding"
         android:background="@null"
+        android:inputType="phone"
         android:focusable="true"
         android:hint="请输入手机号码"
         android:id="@+id/et_phone_number"

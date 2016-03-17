@@ -112,6 +112,7 @@ public class MyMoneyPocketActivity extends BaseActivity {
             @Override
             public void success(NetWorkResultBean<Object> myWalletDataNetWorkResultBean, Response response) {
 
+                progressDialogUtil.hide();
 
                 if (myWalletDataNetWorkResultBean != null) {
                     int status = myWalletDataNetWorkResultBean.getStatus();
@@ -178,7 +179,6 @@ public class MyMoneyPocketActivity extends BaseActivity {
 
                                 myCallPoliceListAdapter.notifyDataSetChanged();
                                 swipeLayout.setRefreshing(false);
-                                progressDialogUtil.hide();
                             }
                             break;
                         default:

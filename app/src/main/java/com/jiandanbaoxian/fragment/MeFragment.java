@@ -41,6 +41,8 @@ import com.jiandanbaoxian.widget.PopWindowUtils;
 import com.jiandanbaoxian.widget.TitleBar;
 import com.umeng.analytics.MobclickAgent;
 
+import java.net.HttpURLConnection;
+
 import javax.net.ssl.HttpsURLConnection;
 
 import de.greenrobot.event.EventBus;
@@ -183,7 +185,7 @@ public class MeFragment extends BaseFragment {
                                     int status = userstableNetWorkResultBean.getStatus();
                                     switch (status) {
                                         case HttpsURLConnection.HTTP_OK:
-                                            userBean = JsonUtil.getSerializedObject(userstableNetWorkResultBean.getData(),Userstable.class);
+                                            userBean = JsonUtil.getSerializedObject(userstableNetWorkResultBean.getData(), Userstable.class);
                                             //进入我的 团队之前先获取用户的信息
                                             if (userBean != null) {
                                                 if (userBean.getType() != null) {
@@ -203,6 +205,9 @@ public class MeFragment extends BaseFragment {
                                                     }
                                                 }
                                             }
+                                            break;
+                                        case HttpURLConnection.HTTP_NOT_FOUND:
+                                            Toast.makeText(getActivity(), userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
                                             break;
                                         default:
                                             Toast.makeText(context, userstableNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();

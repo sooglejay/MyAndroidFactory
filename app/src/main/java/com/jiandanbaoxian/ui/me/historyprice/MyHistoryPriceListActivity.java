@@ -188,8 +188,8 @@ public class MyHistoryPriceListActivity extends BaseActivity {
                             switch (status) {
                                 case HttpsURLConnection.HTTP_OK:
                                     if (historyPriceDataNetWorkResultBean.getData() != null) {
-                                        HistoryPriceData bean = JsonUtil.getSerializedObject(historyPriceDataNetWorkResultBean.getData(),HistoryPriceData.class);
-                                        if (bean.getVehicleorderRecords() != null) {
+                                        HistoryPriceData bean = JsonUtil.getSerializedObject(historyPriceDataNetWorkResultBean.getData(), HistoryPriceData.class);
+                                        if (bean != null && bean.getVehicleorderRecords() != null) {
                                             List<Vehicleordertable> datas = bean.getVehicleorderRecords();
                                             for (Vehicleordertable b : datas) {
                                                 b.setSuper_status(MyHistorySaleAdapter.GONE_UNSELECTED);

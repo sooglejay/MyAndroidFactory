@@ -35,9 +35,11 @@ import java.util.List;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Headers;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 
 /**
@@ -364,13 +366,13 @@ public interface UserApi {
      * 发送时机	用户点击加入团队时，调用此接口获取默认信息，有则用户可以不重新填写
      * 参数说明	1、int userid ; //用户编号
      * 限制条件	参数1为必填。
+     * get use query
      *
      * @param params
      * @param NetCallback
      */
-    @FormUrlEncoded
-    @POST("/getSelfInfo/")
-    public void getSelfInfo(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
+    @GET("/getSelfInfo")
+    public void getSelfInfo(@Query("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
     /**

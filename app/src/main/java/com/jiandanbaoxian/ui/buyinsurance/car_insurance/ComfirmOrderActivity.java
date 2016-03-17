@@ -273,9 +273,9 @@ public class ComfirmOrderActivity extends BaseActivity {
 
                                                     @Override
                                                     public void success(NetWorkResultBean<Object> stringNetWorkResultBean, final Response response) {
+                                                        progressDialogUtil.hide();
 
                                                         if (stringNetWorkResultBean != null) {
-                                                            progressDialogUtil.hide();
                                                             isPayed = true;
 
                                                             int status = stringNetWorkResultBean.getStatus();

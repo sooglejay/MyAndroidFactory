@@ -1078,7 +1078,6 @@ public class UserRetrofitUtil extends RetrofitUtil {
     }
 
 
-
     /**
      * 发送时机	启动页面，后台发送检测版本更新情况（用于比对本地和服务的版本）
      *
@@ -1735,7 +1734,6 @@ public class UserRetrofitUtil extends RetrofitUtil {
     }
 
 
-
     /**
      * 接口名称	markPay
      * 发送时机	用户支付成功后，手机端调用此接口，修改我们本地数据库订单的支付结果。
@@ -1907,14 +1905,16 @@ public class UserRetrofitUtil extends RetrofitUtil {
                                        String provenceNo,
                                        String licenseplate,
                                        String framenumber,
+                                       String model_name,
                                        String type,
                                        NetCallback<NetWorkResultBean<Object>> callback) {
-        RestAdapter restAdapter = getRestAdapter(mContext);
+        RestAdapter restAdapter = getRestAdapterWithLongTimeOut(mContext);
         UserApi git = restAdapter.create(UserApi.class);
         String k =
                 "provence_no=" + provenceNo +
                         "&licenseplate=" + licenseplate +
                         "&framenumber=" + framenumber +
+                        "&model_name=" + model_name +
                         "&type=" + type;
 
         String s = Base64Util.encode(k.getBytes());

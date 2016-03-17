@@ -1,6 +1,7 @@
 package com.jiandanbaoxian.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.jiandanbaoxian.api.callback.NetCallback;
 import com.jiandanbaoxian.api.user.UserRetrofitUtil;
 import com.jiandanbaoxian.constant.IntConstant;
 import com.jiandanbaoxian.event.BusEvent;
+import com.jiandanbaoxian.model.CommPriceData;
 import com.jiandanbaoxian.model.HistoryPriceData;
 import com.jiandanbaoxian.model.HuanPriceData;
 import com.jiandanbaoxian.model.NetWorkResultBean;
@@ -236,43 +238,88 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 holder.iv_choose.setVisibility(View.GONE);
                 break;
         }
+//        qwqw
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Vehicleordertable tagBean = (Vehicleordertable) v.getTag();
                 switch (tagBean.getSuper_status()) {
                     case GONE_UNSELECTED:
-                        UserRetrofitUtil.getHistoryPriceDetail(mContext, Integer.valueOf(tagBean.getOrdernum()), new NetCallback<NetWorkResultBean<Object>>(mContext) {
-                            @Override
-                            public void onFailure(RetrofitError error, String message) {
+                        if (tagBean.getOrdernum() != null) {
+                            UserRetrofitUtil.getHistoryPriceDetail(mContext, Integer.valueOf(tagBean.getOrdernum()), new NetCallback<NetWorkResultBean<Object>>(mContext) {
+                                @Override
+                                public void onFailure(RetrofitError error, String message) {
 
-                            }
-
-                            @Override
-                            public void success(NetWorkResultBean<Object> objectNetWorkResultBean, Response response) {
-                                if (objectNetWorkResultBean != null) {
-                                    int status = objectNetWorkResultBean.getStatus();
-                                    switch (status) {
-                                        case 200://请求成功！
-                                            HistoryPriceData bean = JsonUtil.getSerializedObject(objectNetWorkResultBean.getData(), HistoryPriceData.class);
-                                            if (bean!=null) {
-                                              Vehicleordertable vehicleordertable =   bean.getVehicleorderDetail();
-
-                                                Toast.makeText(mContext,"success:"+objectNetWorkResultBean.getMessage().toString(),Toast.LENGTH_LONG).show();
-
-
-                                            }
-                                            break;
-                                        default:
-                                            Toast.makeText(mContext,objectNetWorkResultBean.getMessage().toString(),Toast.LENGTH_LONG).show();
-
-                                            break;
-
-                                    }
                                 }
 
-                            }
-                        });
+                                @Override
+                                public void success(NetWorkResultBean<Object> objectNetWorkResultBean, Response response) {
+                                    if (objectNetWorkResultBean != null) {
+                                        int status = objectNetWorkResultBean.getStatus();
+                                        switch (status) {
+                                            case 200://请求成功！
+                                                HistoryPriceData bean = JsonUtil.getSerializedObject(objectNetWorkResultBean.getData(), HistoryPriceData.class);
+                                                if (bean != null && bean.getVehicleorderDetail() != null) {
+                                                    Vehicleordertable vehicleordertable = bean.getVehicleorderDetail();
+
+
+
+
+
+                                                    if (vehicleordertable.getPayed() != null) {
+                                                        int payed = vehicleordertable.getPayed();
+                                                        if (vehicleordertable.getInsurancetype() != null) {
+                                                            int insurancetype = vehicleordertable.getInsurancetype();
+                                                            CommPriceData commPriceData;
+                                                            HuanPriceData huanPriceData=new HuanPriceData();
+                                                            String  idcard_number;
+                                                            String  city_no;
+                                                            String  country_no;
+                                                            String  province_no;
+                                                            long  compulsorystartdate;
+                                                            long  commercestartdate;
+                                                            try {
+                                                                idcard_number = vehicleordertable.getIdcardnum();
+                                                                if (insurancetype==1){
+                                                                    compulsorystartdate = vehicleordertable.getStartdate();
+                                                                    commercestartdate = 0 ;
+//                                                                    huanPriceData.setCompulsoryAmount(vehicleordertable.get);
+                                                                }else {
+                                                                    commercestartdate = vehicleordertable.getStartdate();
+                                                                    compulsorystartdate = 0 ;
+                                                                }
+                                                            }catch (Exception e){
+
+                                                            }
+                                                            switch (payed) {
+                                                                case 0://未支付
+
+
+                                                                    break;
+                                                                case 1://已支付
+                                                                    break;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    Toast.makeText(mContext, "success:" + objectNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+
+                                                }
+                                                break;
+                                            default:
+                                                Toast.makeText(mContext, objectNetWorkResultBean.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+                                                break;
+
+                                        }
+                                    }
+
+                                }
+                            });
+                        } else {
+
+                        }
                         break;
                     case VISIBLE_UNSELECTED:
                         tagBean.setSuper_status(VISIBLE_SELECTED);
@@ -281,7 +328,9 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                         tagBean.setSuper_status(VISIBLE_UNSELECTED);
                         break;
                 }
+
                 notifyDataSetChanged();
+
             }
         });
         holder.item.setOnLongClickListener(new View.OnLongClickListener() {

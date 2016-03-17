@@ -61,6 +61,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
 
     private String licenseplate = "";
     private String frameNumber = "";
+    private String model_name = "";
     private String engineNumber = "";
     private String userName = "";
     private String idcardNum = "";
@@ -88,11 +89,12 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
 
     public static void startActivity(Activity activity, String licenseplate, String engineNumber, String frameNumber, String userName,
                                      String province_no, String province_name, String city_no, String city_name, String country_no, String country_name,
-                                     String transfer, String transferDate, String registrationDateString, String issueDateString, String idcardNum) {
+                                     String transfer, String transferDate, String registrationDateString, String issueDateString, String idcardNum,String model_name) {
         Intent intent = new Intent(activity, CarInsurancePickCarTypeActivity.class);
         intent.putExtra("licenseplate", licenseplate);
         intent.putExtra("engineNumber", engineNumber);
         intent.putExtra("frameNumber", frameNumber);
+        intent.putExtra("model_name", model_name);
         intent.putExtra("userName", userName);
         intent.putExtra("province_no", province_no);
         intent.putExtra("province_name", province_name);
@@ -198,7 +200,7 @@ public class CarInsurancePickCarTypeActivity extends BaseActivity {
     public void getVehicleTypeInfo() {
         progressDialogUtil.show("正在查询...");
         //1查询车型
-        UserRetrofitUtil.vehcileTypeInfo(this, province_no, licenseplate, frameNumber, type, new NetCallback<NetWorkResultBean<Object>>(this) {
+        UserRetrofitUtil.vehcileTypeInfo(this, province_no, licenseplate, frameNumber,model_name, type, new NetCallback<NetWorkResultBean<Object>>(this) {
             @Override
             public void onFailure(RetrofitError error, String message) {
                 progressDialogUtil.hide();

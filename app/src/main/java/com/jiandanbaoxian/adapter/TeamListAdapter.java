@@ -196,7 +196,7 @@ public class TeamListAdapter extends BaseAdapter {
                                 }
                                 break;
                             case R.id.item:
-                                Toast.makeText(mContext, "点击一条记录！", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(mContext, "点击一条记录！", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
