@@ -226,6 +226,7 @@ public class MyTeamForLeaderActivity extends BaseActivity {
             public void onRefresh() {
                 mDatas.clear();
                 getTeamRangeInfo();
+                getJoinRequest();
             }
         });
 

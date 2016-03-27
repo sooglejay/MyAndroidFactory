@@ -246,7 +246,8 @@ public class MyHistorySaleAdapter extends BaseAdapter {
                 switch (tagBean.getSuper_status()) {
                     case GONE_UNSELECTED:
                         if (tagBean.getOrdernum() != null) {
-                            UserRetrofitUtil.getHistoryPriceDetail(mContext, Integer.valueOf(tagBean.getOrdernum()), new NetCallback<NetWorkResultBean<Object>>(mContext) {
+
+                            UserRetrofitUtil.getHistoryPriceDetail(mContext, tagBean.getOrdernum(), new NetCallback<NetWorkResultBean<Object>>(mContext) {
                                 @Override
                                 public void onFailure(RetrofitError error, String message) {
 

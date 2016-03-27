@@ -242,6 +242,7 @@ public class CertificationActivity extends BaseActivity implements
                                             int status = stringNetWorkResultBean.getStatus();
                                             switch (status) {
                                                 case HttpsURLConnection.HTTP_OK:
+
                                                     UserRetrofitUtil.submitJoinRequest(context, userid, team_id, new NetCallback<NetWorkResultBean<Object>>(context) {
                                                         @Override
                                                         public void onFailure(RetrofitError error, String message) {

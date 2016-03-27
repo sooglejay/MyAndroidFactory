@@ -166,12 +166,18 @@ public class MemberConsiderInviteAdapter extends BaseAdapter {
                         progressDialogUtil.hide();
                         if (stringNetWorkResultBean != null) {
                             int httpStatus = stringNetWorkResultBean.getStatus();
+                            String message = stringNetWorkResultBean.getMessage().toString();
+
                             switch (httpStatus) {
                                 case HttpURLConnection.HTTP_OK:
-                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    if (!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 default:
-                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    if (!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                                    }
                             }
                         }
                     }

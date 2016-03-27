@@ -581,7 +581,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                             e.printStackTrace();
                             Toast.makeText(activity, "Error in convert time !", Toast.LENGTH_LONG).show();
                         } finally {
-                            Toast.makeText(activity, commercestartdate + "", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -614,7 +613,6 @@ public class CarInsurancePricePlanActivity extends BaseActivity {
                             e.printStackTrace();
                             Toast.makeText(activity, "Error in convert time !", Toast.LENGTH_LONG).show();
                         } finally {
-                            Toast.makeText(activity, compulsorystartdate + "", Toast.LENGTH_LONG).show();
                         }
 
                     }

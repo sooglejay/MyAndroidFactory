@@ -87,7 +87,7 @@ public class MyTeamForMemberAdapter extends BaseAdapter {
                         Object obj = v.getTag();
                         if (obj instanceof RangeRecord) {
                             RangeRecord bean = (RangeRecord) obj;
-                            Toast.makeText(mContext, bean != null ? bean.toString() : "", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext, bean != null ? bean.toString() : "", Toast.LENGTH_SHORT).show();
                         }
                     }
                 };

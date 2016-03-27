@@ -103,7 +103,7 @@ public class TeamListAdapter extends BaseAdapter {
                                                 int httpStatus = userstableNetWorkResultBean.getStatus();
                                                 switch (httpStatus) {
                                                     case HttpsURLConnection.HTTP_OK:
-                                                        Userstable userBean = JsonUtil.getSerializedObject(userstableNetWorkResultBean.getData(),Userstable.class);
+                                                        Userstable userBean = JsonUtil.getSerializedObject(userstableNetWorkResultBean.getData(), Userstable.class);
                                                         //进入我的 团队之前先获取用户的信息
                                                         if (userBean != null) {
                                                             if (userBean.getType() != null) {
@@ -118,7 +118,7 @@ public class TeamListAdapter extends BaseAdapter {
                                                                             case 0:
                                                                                 Toast.makeText(mContext, "请先提交实名认证！", Toast.LENGTH_SHORT).show();
 
-                                                                               CertificationActivity.startActivity(mContext, userid, data.getTeamid());
+                                                                                CertificationActivity.startActivity(mContext, userid, data.getTeamid());
                                                                                 break;
                                                                             case 1:
                                                                                 Toast.makeText(mContext, "加团失败！您提交了实名认证，请等待审核！", Toast.LENGTH_SHORT).show();
@@ -145,8 +145,6 @@ public class TeamListAdapter extends BaseAdapter {
                                                                                             switch (httpStatus) {
                                                                                                 case 200:
 
-                                                                                                    if (integer.getData() instanceof Integer)//未提交任何加团请求
-                                                                                                    {
 
                                                                                                         UserRetrofitUtil.submitJoinRequest(mContext, userid, data.getTeamid(), new NetCallback<NetWorkResultBean<Object>>(mContext) {
                                                                                                             @Override
@@ -159,9 +157,7 @@ public class TeamListAdapter extends BaseAdapter {
                                                                                                                 Toast.makeText(mContext, "人团申请已经提交！请等待团长审核！", Toast.LENGTH_SHORT).show();
                                                                                                             }
                                                                                                         });
-                                                                                                    } else {
-                                                                                                        Toast.makeText(mContext, integer.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                                                                    }
+
 
 
                                                                                                     break;

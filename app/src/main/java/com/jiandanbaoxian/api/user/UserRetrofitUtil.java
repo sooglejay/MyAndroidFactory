@@ -1492,7 +1492,7 @@ public class UserRetrofitUtil extends RetrofitUtil {
      * @param callback
      */
     public static void getHistoryPriceDetail(Context mContext,
-                                             int orderid,
+                                             String orderid,
                                              NetCallback<NetWorkResultBean<Object>> callback) {
         RestAdapter restAdapter = getRestAdapter(mContext);
         UserApi git = restAdapter.create(UserApi.class);
@@ -2103,6 +2103,47 @@ public class UserRetrofitUtil extends RetrofitUtil {
         Log.e("qq", k2);
         git.huanDistribution(s, callback);
     }
+
+
+
+
+
+
+    /**
+     发送时机	审核用户（后台手机端均可调用）
+     参数说明	"int userid;//用户编号
+     int result ;//审核结果  0未通过  1通过"
+     限制条件	参数1、2为必填。
+     返回结果	"审核成功：
+     {
+     "status": 200,
+     "message": "审核成功！",
+     "data": ""
+     }"
+     *
+     * @param mContext
+     * @param callback
+     */
+    public static void auditUser(Context mContext,
+                                        int userid,
+                                        int result,
+                                        NetCallback<NetWorkResultBean<Object>> callback) {
+        RestAdapter restAdapter = getRestAdapter(mContext);
+        UserApi git = restAdapter.create(UserApi.class);
+
+        String k2 =
+                "userid=" + userid +
+                        "&result=" + result +
+                        "";
+        String s = Base64Util.encode(k2.getBytes());
+        Log.e("Retrofit", "\n 加密前参数:" + k2 + "\n加密后参数:" + s);
+        Log.e("qq", k2);
+        git.auditUser(s, callback);
+    }
+
+
+
+
 
 
 }

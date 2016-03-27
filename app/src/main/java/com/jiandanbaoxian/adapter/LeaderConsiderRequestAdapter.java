@@ -88,7 +88,7 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
                                 Log.e("jwjw", teamData.toString() + "\n teamId;" + teamId);
                                 if (teamId != 0) {
 
-                                    showConfirmOrCancelDialog(activity, bean.getName(), requestUserId, teamId).show();
+                                    showConfirmOrCancelDialog(activity, bean.getName(), requestUserId, teamId, bean.getId()).show();
                                 }
                             }
                             break;
@@ -145,7 +145,7 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
      * @param mContext
      * @return
      */
-    private Dialog showConfirmOrCancelDialog(final Context mContext, final String name, final int memberId, final int teamId) {
+    private Dialog showConfirmOrCancelDialog(final Context mContext, final String name, final int memberId, final int teamId, final int userid) {
         View convertView = LayoutInflater.from(mContext).inflate(R.layout.dialog_double_choice, null);
         final Dialog dialog = new Dialog(mContext, R.style.mystyle);
         View.OnClickListener listener = new View.OnClickListener() {
@@ -186,14 +186,32 @@ public class LeaderConsiderRequestAdapter extends BaseAdapter {
                         }
                         if (stringNetWorkResultBean != null) {
                             int httpStatus = stringNetWorkResultBean.getStatus();
+                            String message = stringNetWorkResultBean.getMessage().toString();
                             switch (httpStatus) {
                                 case HttpURLConnection.HTTP_OK:
-                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    if (!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 default:
-                                    Toast.makeText(activity, stringNetWorkResultBean.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    if (!TextUtils.isEmpty(message)) {
+                                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                                    }
+                                    break;
                             }
                         }
+                    }
+                });
+
+                UserRetrofitUtil.auditUser(activity, userid, auditResult, new NetCallback<NetWorkResultBean<Object>>(activity) {
+                    @Override
+                    public void onFailure(RetrofitError error, String message) {
+
+                    }
+
+                    @Override
+                    public void success(NetWorkResultBean<Object> objectNetWorkResultBean, Response response) {
+
                     }
                 });
             }

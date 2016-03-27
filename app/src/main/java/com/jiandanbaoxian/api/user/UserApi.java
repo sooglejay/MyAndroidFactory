@@ -988,4 +988,12 @@ public interface UserApi {
     public void huanDistribution(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
 
 
+
+    //审核用户的实名认证
+    @FormUrlEncoded
+    @POST("/auditUser/")
+    public void auditUser(@Field("param") String params, NetCallback<NetWorkResultBean<Object>> NetCallback);
+
+
+
 }

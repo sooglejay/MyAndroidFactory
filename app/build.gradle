@@ -15,7 +15,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 40
+        versionCode 43
         versionName "0.0.8"
         multiDexEnabled true
     }
@@ -36,10 +36,8 @@ android {
         }
 
     }
-    //批量打包--声明
     productFlavors {
         _360市场_ {
-            //这里可以配置不同的包名
             manifestPlaceholders = [CHANNEL_NAME: "360市场"]
         }
         _友盟_ {
